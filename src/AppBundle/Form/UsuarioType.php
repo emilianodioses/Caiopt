@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 class UsuarioType extends AbstractType
 {
     /**
@@ -13,7 +15,12 @@ class UsuarioType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre')->add('apellido')->add('usuario')->add('password')->add('activo')->add('email')->add('ultimoLogin')->add('cantidadLogin')->add('createdBy')->add('createdAt')->add('updatedBy')->add('updatedAt');
+        $builder->add('nombre',null,array('attr' => array('size' => 40)))
+                ->add('apellido',null,array('attr' => array('size' => 40)))
+                ->add('usuario')
+                ->add('password', PasswordType::class,array('label' => 'Contraseña'))
+                ->add('activo')
+                ->add('email');
     }/**
      * {@inheritdoc}
      */

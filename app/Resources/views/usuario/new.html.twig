@@ -1,16 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+Nuevo Usuario
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
 {% block body %}
-    <h1>Usuario creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <div class="row-fluid"> 
+            <div class="col-xs-6 input-sm">
+                {{ form_row(form.nombre) }}
+                {{ form_row(form.apellido) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.usuario) }}
+                {{ form_row(form.password) }}
+                {{ form_row(form.activo) }}
+                <button class="btn btn-primary btn-md" type="submit">Guardar</button>
+                <a href="{{ path('usuario_index') }}" class="btn btn-default btn-md" role="button">Cancelar</a>
+            </div>            
+        </div>
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('usuario_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}
