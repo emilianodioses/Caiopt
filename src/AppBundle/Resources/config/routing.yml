@@ -1,4 +1,16 @@
+login:
+    path:  /
+    defaults: { _controller: AppBundle:Load:login }   
+
 app_usuario:
     resource: "@AppBundle/Resources/config/routing/usuario.yml"
     prefix:   /usuario
+
+app_load:
+    resource: "@AppBundle/Resources/config/routing/load.yml"
+    prefix:   /acceso
+
+homepage:
+    resource: "@AppBundle/Resources/config/routing/default.yml"  
+    prefix:   /
 

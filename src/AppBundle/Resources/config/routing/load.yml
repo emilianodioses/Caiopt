@@ -1,0 +1,11 @@
+load_login:
+    path:     /login
+    defaults: { _controller: "AppBundle:Load:login" }
+
+load_logout:
+    path:     /logout
+    defaults: { _controller: "AppBundle:Load:logout" }
+
+load_loading:
+    path:     /loading
+    defaults: { _controller: "AppBundle:Load:loading" }
