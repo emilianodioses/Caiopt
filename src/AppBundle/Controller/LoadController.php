@@ -10,13 +10,14 @@ class LoadController extends Controller
 {
 
     public function loadingAction(Request $request) {
+        
         $session = $request->getSession();
 
         $user = $this->getUser();
 
-       $redirect = 'bs_admin_usuario_listado'; 
+        $redirect = 'homepage'; 
 
-       return $this->redirect($this->generateUrl($redirect));
+        return $this->redirect($this->generateUrl($redirect));
     } 
 
 
@@ -31,7 +32,7 @@ class LoadController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
 
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $lastUsername = $authenticationUtils->getLastUsername();  
 
         return $this->render('load/login.html.twig', array(
             'last_username' => $lastUsername,
