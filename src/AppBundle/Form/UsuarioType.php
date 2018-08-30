@@ -32,7 +32,7 @@ class UsuarioType extends AbstractType
         $builder->add('password', RepeatedType::class, array(
             'type' => PasswordType::class,
             'invalid_message' => 'Las contraseñas no coinciden.',
-            'required' => false,
+            'required' => true,
             'first_options'  => array('label' => 'Contraseña'),
             'second_options' => array('label' => 'Repita contraseña'),
         )); 

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Usuario controller.
@@ -39,6 +40,24 @@ class UsuarioController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            //$factory = $this->get('security.encoder_factory');
+            //$encoder = $factory->getEncoder($usuario);
+            //$password = $encoder->encodePassword($this->getPassword(), $usuario->getSalt());
+            
+            //$plainPassword = $usuario->getPassword();
+            //$encoder = $this->container->get('security.password_encoder');
+            //$encoded = $encoder->encodePassword($usuario, $plainPassword);
+            //$usuario->setPassword($encoded);
+            
+            $usuario->setUltimoLogin(new \DateTime("now"));
+            $usuario->setCantidadLogin(0);
+            $usuario->setActivo(true);
+            $usuario->setCreatedBy(1);
+            $usuario->setCreatedAt(new \DateTime("now"));
+            $usuario->setUpdatedBy(1);
+            $usuario->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($usuario);
             $em->flush();
 
