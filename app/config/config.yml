@@ -33,8 +33,18 @@ framework:
 
 # Twig Configuration
 twig:
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
+    date:
+        format: d-m-Y
+        interval_format: '%%d days'
+    number_format:
+        decimals: 2
+        decimal_point: ','
+        thousands_separator: '.'
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form_themes:
+        - 'bootstrap_3_layout_custom.html.twig'
+#        - '@BsTypes/Form/fields.html.twig'
 
 # Doctrine Configuration
 doctrine:
