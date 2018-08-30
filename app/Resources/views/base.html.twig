@@ -241,7 +241,6 @@ desired effect
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
         <li><a href="{{path('usuario_index')}}"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Articulos</span>
@@ -254,6 +253,11 @@ desired effect
             <li><a href="#">Cristales</a></li>
             <li><a href="#">Contacto</a></li>
           </ul>
+        </li>
+        <li>
+          <a href="{{path('load_logout')}}">
+            <i class="fa fa-sign-out"></i> <span>CERRAR SESIÓN</span>
+          </a>
         </li>
       </ul>
       <!-- /.sidebar-menu -->

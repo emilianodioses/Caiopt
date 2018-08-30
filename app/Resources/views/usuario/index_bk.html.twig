@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Usuarios
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive col-xs-12" style="float:left">
+        <table class="table table-bordered table-condensed input-sm">
+            <thead>
+                <tr class="btn-primary btn-small">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td><a href="{{ path('usuario_show', { 'id': usuario.id }) }}">{{ usuario.id }}</a></td>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.apellido }}</td>
+                    <td>{{ usuario.usuario }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{% if usuario.activo %}Si{% else %}No{% endif %}</td>  
+                    <td>
+                        <a href="{{ path('usuario_show', { 'id': usuario.Id }) }}"><image src="{{ asset('img/ver.gif') }}" border="0"/>
+                        </a>
+                        <a href="{{ path('usuario_edit', { 'id': usuario.Id }) }}"><image src="{{ asset('img/edit.png') }}" border="0"/>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ path('usuario_new') }}" class="btn btn-primary btn-md" role="button">Nuevo Usuario</a>
+{% endblock %}
