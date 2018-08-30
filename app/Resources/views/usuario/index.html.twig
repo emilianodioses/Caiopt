@@ -47,12 +47,21 @@ Usuarios
                             <span class="label label-success">Activo</span>
                         {% else %}
                             <span class="label label-danger">Inactivo</span>
-                        {% endif %}</td>  
+                        {% endif %}
+                        </td>  
                         <td>
-                            <a href="{{ path('usuario_show', { 'id': usuario.Id }) }}"><image src="{{ asset('img/ver.gif') }}" border="0"/>
+                            <a href="{{ path('usuario_show', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                             </a>
-                            <a href="{{ path('usuario_edit', { 'id': usuario.Id }) }}"><image src="{{ asset('img/edit.png') }}" border="0"/>
+                            <a href="{{ path('usuario_edit', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                             </a>
+                            {% if usuario.activo %}
+                              <a href="{{ path('usuario_edit', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                              </a>
+                            {% else %}
+                              <a href="{{ path('usuario_edit', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
