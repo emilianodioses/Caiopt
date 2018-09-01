@@ -36,25 +36,31 @@ class Cliente
     private $documentoTipo;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="documento_numero", type="integer", unique=true)
+     * @ORM\Column(name="documento_numero", type="string", unique=true, length=255)
      */
     private $documentoNumero;
 
     /**
-     * @var string
+     * @var \AfipIvaCondicion
      *
-     * @ORM\Column(name="iva_condicion", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipIvaCondicion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="iva_condicion_id", referencedColumnName="id")
+     * })
      */
     private $ivaCondicion;
 
     /**
-     * @var int
+     * @var \Localidad
      *
-     * @ORM\Column(name="localidad_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Localidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="localidad_id", referencedColumnName="id")
+     * })
      */
-    private $localidadId;
+    private $localidad;
 
     /**
      * @var string
@@ -64,9 +70,9 @@ class Cliente
     private $direccion;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="telefono", type="integer")
+     * @ORM\Column(name="telefono", type="string", length=255)
      */
     private $telefono;
 
@@ -181,7 +187,7 @@ class Cliente
     /**
      * Set documentoNumero
      *
-     * @param integer $documentoNumero
+     * @param string $documentoNumero
      *
      * @return Cliente
      */
@@ -195,7 +201,7 @@ class Cliente
     /**
      * Get documentoNumero
      *
-     * @return int
+     * @return string
      */
     public function getDocumentoNumero()
     {
@@ -241,16 +247,6 @@ class Cliente
     }
 
     /**
-     * Get localidadId
-     *
-     * @return int
-     */
-    public function getLocalidadId()
-    {
-        return $this->localidadId;
-    }
-
-    /**
      * Set direccion
      *
      * @param string $direccion
@@ -277,7 +273,7 @@ class Cliente
     /**
      * Set telefono
      *
-     * @param integer $telefono
+     * @param string $telefono
      *
      * @return Cliente
      */
@@ -291,7 +287,7 @@ class Cliente
     /**
      * Get telefono
      *
-     * @return int
+     * @return string
      */
     public function getTelefono()
     {
@@ -464,5 +460,29 @@ class Cliente
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set localidad
+     *
+     * @param \AppBundle\Entity\Localidad $localidad
+     *
+     * @return Cliente
+     */
+    public function setLocalidad(\AppBundle\Entity\Localidad $localidad = null)
+    {
+        $this->localidad = $localidad;
+
+        return $this;
+    }
+
+    /**
+     * Get localidad
+     *
+     * @return \AppBundle\Entity\Localidad
+     */
+    public function getLocalidad()
+    {
+        return $this->localidad;
     }
 }

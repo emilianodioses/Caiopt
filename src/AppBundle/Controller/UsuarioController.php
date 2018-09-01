@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Usuario controller.
@@ -115,10 +114,10 @@ class UsuarioController extends AppController
     }
 
     /**
-     * Change the User status to active or inactive
+     * Deletes a usuario entity.
      *
      */
-    public function statusAction($id)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -127,33 +126,12 @@ class UsuarioController extends AppController
             $usuario->setActivo(0);
         else
             $usuario->setActivo(1);  
+
+        $usuario->updatedBy($this->getUser()->getId()); 
+        $usuario->updatedAt(new \DateTime("now")); 
         
         $em->flush($usuario);
-
-        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
         
-        return $this->render('usuario/index.html.twig', array(
-            'usuarios' => $usuarios,
-        ));
-    }
-
-
-
-    /**
-     * Deletes a usuario entity.
-     *
-     */
-    public function deleteAction(Request $request, Usuario $usuario)
-    {
-        $form = $this->createDeleteForm($usuario);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($usuario);
-            $em->flush();
-        }
-
         return $this->redirectToRoute('usuario_index');
     }
 

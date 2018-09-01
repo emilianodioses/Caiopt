@@ -18,12 +18,7 @@ usuario_edit:
     defaults: { _controller: "AppBundle:Usuario:edit" }
     methods:  [GET, POST]
 
-usuario_status:
-    path:     /{id}/deactivate
-    defaults: { _controller: "AppBundle:Usuario:status" }
-    methods:  [GET, POST]  
-
 usuario_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Usuario:delete" }
-    methods:  DELETE
+    methods:  [GET, POST] 
