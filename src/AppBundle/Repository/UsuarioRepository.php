@@ -10,4 +10,18 @@ namespace AppBundle\Repository;
  */
 class UsuarioRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findByTexto($texto) {
+        $query = 'SELECT u  FROM AppBundle:Usuario u ';
+
+        if ($texto != '')
+            $query .= ' WHERE u.nombre LIKE :texto OR u.apellido LIKE :texto OR u.usuario LIKE :texto ';
+
+        $query .= ' ORDER BY u.usuario ASC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+        return $em;
+    }
 }

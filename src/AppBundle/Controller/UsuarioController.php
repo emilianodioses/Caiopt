@@ -16,14 +16,27 @@ class UsuarioController extends AppController
      * Lists all usuario entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+        //$usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+
+        $texto = $request->get('texto','');
+
+        $query = $em->getRepository('AppBundle:Usuario')->findByTexto($texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );  
         
         return $this->render('usuario/index.html.twig', array(
             'usuarios' => $usuarios,
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 
