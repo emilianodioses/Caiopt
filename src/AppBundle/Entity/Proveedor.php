@@ -36,9 +36,9 @@ class Proveedor
     private $documentoTipo;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="documento_numero", type="integer", unique=true)
+     * @ORM\Column(name="documento_numero", type="string", length=255)
      */
     private $documentoNumero;
 
@@ -70,9 +70,9 @@ class Proveedor
     private $direccion;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="telefono", type="integer")
+     * @ORM\Column(name="telefono", type="string", length=255)
      */
     private $telefono;
 
@@ -187,7 +187,7 @@ class Proveedor
     /**
      * Set documentoNumero
      *
-     * @param integer $documentoNumero
+     * @param string $documentoNumero
      *
      * @return Proveedor
      */
@@ -201,7 +201,7 @@ class Proveedor
     /**
      * Get documentoNumero
      *
-     * @return int
+     * @return string
      */
     public function getDocumentoNumero()
     {
@@ -235,7 +235,7 @@ class Proveedor
     /**
      * Set telefono
      *
-     * @param integer $telefono
+     * @param string $telefono
      *
      * @return Proveedor
      */
@@ -249,7 +249,7 @@ class Proveedor
     /**
      * Get telefono
      *
-     * @return int
+     * @return string
      */
     public function getTelefono()
     {

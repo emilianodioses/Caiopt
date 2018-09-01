@@ -20,7 +20,7 @@ class ProveedorController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $proveedors = $em->getRepository('AppBundle:Proveedor')->findAll();
+        $proveedors = $em->getRepository('AppBundle:Proveedor')->findBy(array('activo'=> true));
 
         return $this->render('proveedor/index.html.twig', array(
             'proveedors' => $proveedors,
@@ -39,6 +39,13 @@ class ProveedorController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $proveedor->setActivo(true);
+            $proveedor->setCreatedBy($this->getUser()->getId());
+            $proveedor->setCreatedAt(new \DateTime("now"));
+            $proveedor->setUpdatedBy($this->getUser()->getId());
+            $proveedor->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($proveedor);
             $em->flush();
 
@@ -76,9 +83,12 @@ class ProveedorController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $proveedor->setUpdatedBy($this->getUser()->getId());
+            $proveedor->setUpdatedAt(new \DateTime("now"));
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('proveedor_edit', array('id' => $proveedor->getId()));
+            return $this->redirectToRoute('proveedor_index');
         }
 
         return $this->render('proveedor/edit.html.twig', array(
@@ -92,16 +102,20 @@ class ProveedorController extends Controller
      * Deletes a proveedor entity.
      *
      */
-    public function deleteAction(Request $request, Proveedor $proveedor)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($proveedor);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($proveedor);
-            $em->flush();
-        }
+        $proveedor = $em->getRepository('AppBundle:Proveedor')->find($id);
+        if ($proveedor->getActivo() > 0)
+            $proveedor->setActivo(0);
+        else
+            $proveedor->setActivo(1);  
+        
+        $proveedor->setUpdatedBy($this->getUser()->getId());
+        $proveedor->setUpdatedAt(new \DateTime("now"));
+
+        $em->flush($proveedor);
 
         return $this->redirectToRoute('proveedor_index');
     }

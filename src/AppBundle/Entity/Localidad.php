@@ -252,4 +252,9 @@ class Localidad
     {
         return $this->provincia;
     }
+
+    public function __toString()
+    {
+        return $this->nombre;
+    }
 }

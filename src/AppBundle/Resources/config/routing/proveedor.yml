@@ -21,4 +21,4 @@ proveedor_edit:
 proveedor_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Proveedor:delete" }
-    methods:  DELETE
+    methods:  [GET, POST]

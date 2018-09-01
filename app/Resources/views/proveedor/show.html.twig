@@ -1,84 +1,75 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+Proveedor
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
 {% block body %}
-    <h1>Proveedor</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ proveedor.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ proveedor.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Documentotipo</th>
-                <td>{{ proveedor.documentoTipo }}</td>
-            </tr>
-            <tr>
-                <th>Documentonumero</th>
-                <td>{{ proveedor.documentoNumero }}</td>
-            </tr>
-            <tr>
-                <th>Ivacondicion</th>
-                <td>{{ proveedor.ivaCondicion }}</td>
-            </tr>
-            <tr>
-                <th>Localidadid</th>
-                <td>{{ proveedor.localidadId }}</td>
-            </tr>
-            <tr>
-                <th>Direccion</th>
-                <td>{{ proveedor.direccion }}</td>
-            </tr>
-            <tr>
-                <th>Telefono</th>
-                <td>{{ proveedor.telefono }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ proveedor.email }}</td>
-            </tr>
-            <tr>
-                <th>Contacto</th>
-                <td>{{ proveedor.contacto }}</td>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <td>{% if proveedor.activo %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Createdby</th>
-                <td>{{ proveedor.createdBy }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if proveedor.createdAt %}{{ proveedor.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Updatedby</th>
-                <td>{{ proveedor.updatedBy }}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if proveedor.updatedAt %}{{ proveedor.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('proveedor_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('proveedor_edit', { 'id': proveedor.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Proveedor</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Nombre</th>
+                                <td>{{ proveedor.nombre }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tipo Documento</th>
+                                <td>{{ proveedor.documentoTipo }}</td>
+                            </tr>
+                            <tr>
+                                <th>Número Documento</th>
+                                <td>{{ proveedor.documentoNumero }}</td>
+                            </tr>
+                            <tr>
+                                <th>Condición IVA</th>
+                                <td>{{ proveedor.ivaCondicion }}</td>
+                            </tr>
+                            <tr>
+                                <th>Localidad</th>
+                                <td>{{ proveedor.localidadId }}</td>
+                            </tr>
+                            <tr>
+                                <th>Dirección</th>
+                                <td>{{ proveedor.direccion }}</td>
+                            </tr>
+                            <tr>
+                                <th>Teléfono</th>
+                                <td>{{ proveedor.telefono }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ proveedor.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Contacto</th>
+                                <td>{{ proveedor.contacto }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('proveedor_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div>
 {% endblock %}
