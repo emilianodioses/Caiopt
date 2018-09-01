@@ -253,6 +253,5 @@ class AfipIvaCondicion
     {
         return $this->descripcion;
     }
-
 }
 

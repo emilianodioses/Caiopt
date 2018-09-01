@@ -1,65 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Proveedors list</h1>
+{% block header %}
+Proveedores
+{% endblock %}
 
-    <table>
-        <thead>
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row"> 
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title"></h3>
+
+        <div class="box-tools">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
             <tr>
-                <th>Id</th>
                 <th>Nombre</th>
-                <th>Documentotipo</th>
-                <th>Documentonumero</th>
-                <th>Ivacondicion</th>
-                <th>Localidadid</th>
-                <th>Direccion</th>
-                <th>Telefono</th>
+                <th>Tipo Documento</th>
+                <th>Número Documento</th>
+                <th>Condición Iva</th>
+                <th>Localidad</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
                 <th>Email</th>
                 <th>Contacto</th>
-                <th>Activo</th>
-                <th>Createdby</th>
-                <th>Createdat</th>
-                <th>Updatedby</th>
-                <th>Updatedat</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for proveedor in proveedors %}
-            <tr>
-                <td><a href="{{ path('proveedor_show', { 'id': proveedor.id }) }}">{{ proveedor.id }}</a></td>
+          <tbody>
+          {% for proveedor in proveedors %}
+              <tr>
                 <td>{{ proveedor.nombre }}</td>
                 <td>{{ proveedor.documentoTipo }}</td>
                 <td>{{ proveedor.documentoNumero }}</td>
                 <td>{{ proveedor.ivaCondicion }}</td>
-                <td>{{ proveedor.localidadId }}</td>
+                <td>{{ proveedor.localidad }}</td>
                 <td>{{ proveedor.direccion }}</td>
                 <td>{{ proveedor.telefono }}</td>
                 <td>{{ proveedor.email }}</td>
-                <td>{{ proveedor.contacto }}</td>
-                <td>{% if proveedor.activo %}Yes{% else %}No{% endif %}</td>
-                <td>{{ proveedor.createdBy }}</td>
-                <td>{% if proveedor.createdAt %}{{ proveedor.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ proveedor.updatedBy }}</td>
-                <td>{% if proveedor.updatedAt %}{{ proveedor.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ proveedor.contacto }}</td>  
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('proveedor_show', { 'id': proveedor.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('proveedor_edit', { 'id': proveedor.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <a href="{{ path('proveedor_show', { 'id': proveedor.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                    <a href="{{ path('proveedor_edit', { 'id': proveedor.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <a href="{{ path('proveedor_delete', { 'id': proveedor.Id }) }}" onclick="return confirm('¿Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                    </a>
                 </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('proveedor_new') }}">Create a new proveedor</a>
-        </li>
-    </ul>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
+  <a href="{{ path('proveedor_new') }}" class="btn btn-primary btn-md" role="button">Nuevo Proveedor</a>
 {% endblock %}

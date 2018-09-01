@@ -23,7 +23,7 @@ class ProveedorType extends AbstractType
         ));
 
         $builder->add('documentoTipo',ChoiceType::class,array(
-            'label' => 'Tipo de Documento',
+            'label' => 'Documento Tipo',
             'choices_as_values' => true,
             'choices' => array(
                 'CUIT/CUIL' => 'CUIT/CUIL',
@@ -34,11 +34,11 @@ class ProveedorType extends AbstractType
 
 
         $builder->add('documentoNumero', null, array(
-            'label' => 'Numero Documento',
+            'label' => 'Documento Número',
         ));
 
         $builder->add('ivaCondicion', EntityType::class, array(
-            'label' => 'Condición de IVA',
+            'label' => 'Condición IVA',
             'class' => 'AppBundle:AfipIvaCondicion',
             'required' => true,
             'choice_label' => 'descripcion',
