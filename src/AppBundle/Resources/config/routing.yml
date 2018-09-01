@@ -13,3 +13,7 @@ app_usuario:
 app_load:
     resource: "@AppBundle/Resources/config/routing/load.yml"
     prefix:   /acceso
+
+app_proveedor:
+    resource: "@AppBundle/Resources/config/routing/proveedor.yml"
+    prefix:   /proveedor
