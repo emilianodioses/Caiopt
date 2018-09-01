@@ -8,100 +8,6 @@ Cliente
 {% endblock %}
 
 {% block body %}
-    
-    <h1>Cliente</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cliente.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ cliente.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Documentotipo</th>
-                <td>{{ cliente.documentoTipo }}</td>
-            </tr>
-            <tr>
-                <th>Documentonumero</th>
-                <td>{{ cliente.documentoNumero }}</td>
-            </tr>
-            <tr>
-                <th>ivaCondicion</th>
-                <td>{{ cliente.ivaCondicion }}</td>
-            </tr>
-            <tr>
-                <th>Localidadid</th>
-                <td>{{ cliente.localidadId }}</td>
-            </tr>
-            <tr>
-                <th>Direccion</th>
-                <td>{{ cliente.direccion }}</td>
-            </tr>
-            <tr>
-                <th>Telefono</th>
-                <td>{{ cliente.telefono }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ cliente.email }}</td>
-            </tr>
-            <tr>
-                <th>Contacto</th>
-                <td>{{ cliente.contacto }}</td>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <td>{% if cliente.activo %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Createdby</th>
-                <td>{{ cliente.createdBy }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if cliente.createdAt %}{{ cliente.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Updatedby</th>
-                <td>{{ cliente.updatedBy }}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if cliente.updatedAt %}{{ cliente.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('cliente_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
-{% endblock %}
-
-
-{% extends 'base.html.twig' %}
-
-{% block header %}
-
-{% endblock %}
-
-{% block header_description %}
-{% endblock %}
-
-{% block body %}
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -118,27 +24,27 @@ Cliente
                                 <td>{{ cliente.nombre }}</td>
                             </tr>
                             <tr>
-                                <th>Tipo Documento </th>
+                                <th>Tipo Documento</th>
                                 <td>{{ cliente.documentoTipo }}</td>
                             </tr>
                             <tr>
-                                <th>Numero Documento</th>
+                                <th>Número Documento</th>
                                 <td>{{ cliente.documentoNumero }}</td>
                             </tr>
                             <tr>
-                                <th>condicion Iva</th>
+                                <th>Condición Iva</th>
                                 <td>{{ cliente.ivaCondicion }}</td>
                             </tr>
                             <tr>
                                 <th>Localidad</th>
-                                <td>{{ cliente.localidadId }}</td>
+                                <td>{{ cliente.localidad }}</td>
                             </tr>
                             <tr>
-                                <th>Direccion</th>
+                                <th>Dirección</th>
                                 <td>{{ cliente.direccion }}</td>
                             </tr>
                             <tr>
-                                <th>Telefono</th>
+                                <th>Teléfono</th>
                                 <td>{{ cliente.telefono }}</td>
                             </tr>
                             <tr>
@@ -157,7 +63,7 @@ Cliente
                 <div class="box-footer">
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <a href="{{ path('usuario_index') }}" class="btn btn-app">
+                            <a href="{{ path('cliente_index') }}" class="btn btn-app">
                                 <i class="fa fa-arrow-left"></i> Volver
                             </a>
                         </div>

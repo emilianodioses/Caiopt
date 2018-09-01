@@ -31,11 +31,11 @@ Clientes
             <tr>
                 <th>Nombre</th>
                 <th>Tipo Documento</th>
-                <th>Numero Documento</th>
-                <th>condicion Iva</th>
+                <th>Número Documento</th>
+                <th>Condición Iva</th>
                 <th>Localidad</th>
-                <th>Direccion</th>
-                <th>Telefono</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
                 <th>Email</th>
                 <th>Contacto</th>
                 <th>Acciones</th>
@@ -47,7 +47,7 @@ Clientes
                 <td>{{ cliente.documentoTipo }}</td>
                 <td>{{ cliente.documentoNumero }}</td>
                 <td>{{ cliente.ivaCondicion }}</td>
-                <td>{{ cliente.localidadId }}</td>
+                <td>{{ cliente.localidad }}</td>
                 <td>{{ cliente.direccion }}</td>
                 <td>{{ cliente.telefono }}</td>
                 <td>{{ cliente.email }}</td>
@@ -58,10 +58,10 @@ Clientes
                     <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                     </a>
                     {% if cliente.activo %}
-                        <a href="{{ path('cliente_status', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                        <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                         </a>
                     {% else %}
-                        <a href="{{ path('cliente_status', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                        <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                         </a>
                     {% endif %}
                 </td>

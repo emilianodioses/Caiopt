@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Usuario controller.
@@ -17,14 +16,27 @@ class UsuarioController extends AppController
      * Lists all usuario entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+        //$usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+
+        $texto = $request->get('texto','');
+
+        $query = $em->getRepository('AppBundle:Usuario')->findByTexto($texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );  
         
         return $this->render('usuario/index.html.twig', array(
             'usuarios' => $usuarios,
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 
@@ -115,10 +127,10 @@ class UsuarioController extends AppController
     }
 
     /**
-     * Change the User status to active or inactive
+     * Deletes a usuario entity.
      *
      */
-    public function statusAction($id)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -127,33 +139,12 @@ class UsuarioController extends AppController
             $usuario->setActivo(0);
         else
             $usuario->setActivo(1);  
+
+        $usuario->updatedBy($this->getUser()->getId()); 
+        $usuario->updatedAt(new \DateTime("now")); 
         
         $em->flush($usuario);
-
-        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
         
-        return $this->render('usuario/index.html.twig', array(
-            'usuarios' => $usuarios,
-        ));
-    }
-
-
-
-    /**
-     * Deletes a usuario entity.
-     *
-     */
-    public function deleteAction(Request $request, Usuario $usuario)
-    {
-        $form = $this->createDeleteForm($usuario);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($usuario);
-            $em->flush();
-        }
-
         return $this->redirectToRoute('usuario_index');
     }
 

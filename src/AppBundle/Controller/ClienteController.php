@@ -39,6 +39,13 @@ class ClienteController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $cliente->setActivo(true);
+            $cliente->setCreatedBy($this->getUser()->getId());
+            $cliente->setCreatedAt(new \DateTime("now"));
+            $cliente->setUpdatedBy($this->getUser()->getId());
+            $cliente->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($cliente);
             $em->flush();
 
@@ -76,9 +83,14 @@ class ClienteController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
 
-            return $this->redirectToRoute('cliente_edit', array('id' => $cliente->getId()));
+            $cliente->setUpdatedBy($this->getUser()->getId());
+            $cliente->setUpdatedAt(new \DateTime("now"));
+
+            $em->flush();
+
+            return $this->redirectToRoute('cliente_index');
         }
 
         return $this->render('cliente/edit.html.twig', array(
@@ -92,17 +104,21 @@ class ClienteController extends Controller
      * Deletes a cliente entity.
      *
      */
-    public function deleteAction(Request $request, Cliente $cliente)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($cliente);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($cliente);
-            $em->flush();
-        }
+        $cliente = $em->getRepository('AppBundle:Cliente')->find($id);
+        if ($cliente->getActivo() > 0)
+            $cliente->setActivo(0);
+        else
+            $cliente->setActivo(1);  
 
+        $cliente->setUpdatedBy($this->getUser()->getId()); 
+        $cliente->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($cliente);
+        
         return $this->redirectToRoute('cliente_index');
     }
 
