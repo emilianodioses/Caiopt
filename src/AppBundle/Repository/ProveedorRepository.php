@@ -10,4 +10,23 @@ namespace AppBundle\Repository;
  */
 class ProveedorRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findByTexto($texto) {
+        $query = 'SELECT p  FROM AppBundle:Proveedor p ';
+
+        $query .= 'WHERE p.activo = 1';
+
+        if ($texto != '')
+            $query .= ' AND p.nombre LIKE :texto 
+        				OR p.documentoNumero LIKE :texto 
+        				OR p.email LIKE :texto 
+        				OR p.contacto LIKE :texto ';
+
+        $query .= ' ORDER BY p.nombre ASC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+        return $em;
+    }
 }

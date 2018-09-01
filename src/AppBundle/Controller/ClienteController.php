@@ -16,14 +16,24 @@ class ClienteController extends Controller
      * Lists all cliente entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $clientes = $em->getRepository('AppBundle:Cliente')->findAll();
+        $texto = $request->get('texto','');
 
+        $query = $em->getRepository('AppBundle:Cliente')->findByTexto($texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+        
         return $this->render('cliente/index.html.twig', array(
-            'clientes' => $clientes,
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 

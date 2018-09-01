@@ -10,4 +10,23 @@ namespace AppBundle\Repository;
  */
 class ClienteRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findByTexto($texto) {
+        $query = 'SELECT c  FROM AppBundle:Cliente c ';
+
+        $query .= 'WHERE c.activo = 1';
+        
+        if ($texto != '')
+            $query .= ' AND c.nombre LIKE :texto 
+        				OR c.documentoNumero LIKE :texto 
+        				OR c.email LIKE :texto 
+        				OR c.contacto LIKE :texto ';
+
+        $query .= ' ORDER BY c.nombre ASC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+        return $em;
+    }
 }

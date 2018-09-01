@@ -20,8 +20,6 @@ class UsuarioController extends AppController
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
-
         $texto = $request->get('texto','');
 
         $query = $em->getRepository('AppBundle:Usuario')->findByTexto($texto);
@@ -31,10 +29,9 @@ class UsuarioController extends AppController
             $query,
             $request->query->get('page', 1)/*page number*/,
             10/*limit per page*/
-        );  
+        );
         
         return $this->render('usuario/index.html.twig', array(
-            'usuarios' => $usuarios,
             'pagination' => $pagination,
             'texto' => $texto
         ));
@@ -140,8 +137,8 @@ class UsuarioController extends AppController
         else
             $usuario->setActivo(1);  
 
-        $usuario->updatedBy($this->getUser()->getId()); 
-        $usuario->updatedAt(new \DateTime("now")); 
+        $usuario->setUpdatedBy($this->getUser()->getId()); 
+        $usuario->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($usuario);
         

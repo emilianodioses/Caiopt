@@ -9,69 +9,75 @@ Clientes
 
 {% block body %}
 
-<div class="row"> 
-  <div class="col-xs-12">
-    <div class="box">
-      <div class="box-header">
-        <h3 class="box-title"></h3>
+<form class="form-horizontal" action="{{path('cliente_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value="{{texto}}"/>
 
-        <div class="box-tools">
-          <div class="input-group input-group-sm" style="width: 150px;">
-            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-            <div class="input-group-btn">
-              <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('cliente_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
             </div>
           </div>
         </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body table-responsive no-padding">
-        <table class="table table-hover">
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo Documento</th>
-                <th>Número Documento</th>
-                <th>Condición Iva</th>
-                <th>Localidad</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Contacto</th>
-                <th>Acciones</th>
-            </tr>
-          <tbody>
-          {% for cliente in clientes %}
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
               <tr>
-                <td>{{ cliente.nombre }}</td>
-                <td>{{ cliente.documentoTipo }}</td>
-                <td>{{ cliente.documentoNumero }}</td>
-                <td>{{ cliente.ivaCondicion }}</td>
-                <td>{{ cliente.localidad }}</td>
-                <td>{{ cliente.direccion }}</td>
-                <td>{{ cliente.telefono }}</td>
-                <td>{{ cliente.email }}</td>
-                <td>{{ cliente.contacto }}</td>  
-                <td>
-                    <a href="{{ path('cliente_show', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
-                    </a>
-                    <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    {% if cliente.activo %}
-                        <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
-                        </a>
-                    {% else %}
-                        <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
-                        </a>
-                    {% endif %}
-                </td>
+                  <th>Nombre</th>
+                  <th>Tipo Documento</th>
+                  <th>Número Documento</th>
+                  <th>Condición Iva</th>
+                  <th>Localidad</th>
+                  <th>Dirección</th>
+                  <th>Teléfono</th>
+                  <th>Email</th>
+                  <th>Contacto</th>
+                  <th>Acciones</th>
               </tr>
-          {% endfor %}
-          </tbody>
-        </table>
+            <tbody>
+            {% for cliente in pagination %}
+                <tr>
+                  <td>{{ cliente.nombre }}</td>
+                  <td>{{ cliente.documentoTipo }}</td>
+                  <td>{{ cliente.documentoNumero }}</td>
+                  <td>{{ cliente.ivaCondicion }}</td>
+                  <td>{{ cliente.localidad }}</td>
+                  <td>{{ cliente.direccion }}</td>
+                  <td>{{ cliente.telefono }}</td>
+                  <td>{{ cliente.email }}</td>
+                  <td>{{ cliente.contacto }}</td>  
+                  <td>
+                      <a href="{{ path('cliente_show', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      {% if cliente.activo %}
+                          <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                  </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-  </div>
-  <a href="{{ path('cliente_new') }}" class="btn btn-primary btn-md" role="button">Nuevo Cliente</a>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}

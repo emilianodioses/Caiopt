@@ -16,14 +16,24 @@ class ProveedorController extends Controller
      * Lists all proveedor entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $proveedors = $em->getRepository('AppBundle:Proveedor')->findBy(array('activo'=> true));
+        $texto = $request->get('texto','');
 
+        $query = $em->getRepository('AppBundle:Proveedor')->findByTexto($texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+        
         return $this->render('proveedor/index.html.twig', array(
-            'proveedors' => $proveedors,
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 
@@ -49,7 +59,7 @@ class ProveedorController extends Controller
             $em->persist($proveedor);
             $em->flush();
 
-            return $this->redirectToRoute('proveedor_show', array('id' => $proveedor->getId()));
+            return $this->redirectToRoute('proveedor_index');
         }
 
         return $this->render('proveedor/new.html.twig', array(
