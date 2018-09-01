@@ -17,3 +17,7 @@ app_load:
 app_cliente:
     resource: "@AppBundle/Resources/config/routing/cliente.yml"
     prefix:   /cliente       
+
+app_proveedor:
+    resource: "@AppBundle/Resources/config/routing/proveedor.yml"
+    prefix:   /proveedor
