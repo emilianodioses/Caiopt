@@ -125,7 +125,19 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li><a href="{{path('dashboard')}}"><i class="glyphicon glyphicon-usd"></i> <span>Panel General</span></a></li>
-        <li><a href="{{path('usuario_index')}}"><i class="glyphicon glyphicon-user"></i> <span>Usuarios</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="glyphicon glyphicon-user"></i> <span>Personas</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{path('usuario_index')}}">Usuarios</a></li>
+            <li><a href="{{path('cliente_index')}}">Clientes</a></li>
+            <li><a href="#">Proveedores</a></li>
+          </ul>
+        </li>
+        <li>
         <li class="treeview">
           <a href="#"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span>
             <span class="pull-right-container">

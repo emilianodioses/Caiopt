@@ -8,8 +8,12 @@ dashboard:
 
 app_usuario:
     resource: "@AppBundle/Resources/config/routing/usuario.yml"
-    prefix:   /usuario
+    prefix:   /usuario 
 
 app_load:
     resource: "@AppBundle/Resources/config/routing/load.yml"
     prefix:   /acceso
+
+app_cliente:
+    resource: "@AppBundle/Resources/config/routing/cliente.yml"
+    prefix:   /cliente       

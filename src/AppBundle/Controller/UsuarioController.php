@@ -46,8 +46,8 @@ class UsuarioController extends AppController
             $password = $encoder->encodePassword($usuario->getPassword(), $usuario->getSalt());
             $usuario->setPassword($password);
             
-            $usuario->setUltimoLogin(new \DateTime("now"));
-            $usuario->setCantidadLogin(0);
+            $usuario->setLoginUltimo(new \DateTime("now"));
+            $usuario->setLoginCantidad(0);
             $usuario->setActivo(true);
             $usuario->setCreatedBy($this->getUser()->getId());
             $usuario->setCreatedAt(new \DateTime("now"));

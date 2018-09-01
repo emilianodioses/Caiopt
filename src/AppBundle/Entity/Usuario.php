@@ -163,16 +163,16 @@ class Usuario implements AdvancedUserInterface , \Serializable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ultimo_login", type="datetime")
+     * @ORM\Column(name="login_ultimo", type="datetime")
      */
-    private $ultimoLogin;
+    private $loginUltimo;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="cantidad_login", type="integer")
+     * @ORM\Column(name="login_cantidad", type="integer")
      */
-    private $cantidadLogin;
+    private $loginCantidad;
 
     /**
      * @var int
@@ -499,5 +499,53 @@ class Usuario implements AdvancedUserInterface , \Serializable
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set loginUltimo
+     *
+     * @param \DateTime $loginUltimo
+     *
+     * @return Usuario
+     */
+    public function setLoginUltimo($loginUltimo)
+    {
+        $this->loginUltimo = $loginUltimo;
+
+        return $this;
+    }
+
+    /**
+     * Get loginUltimo
+     *
+     * @return \DateTime
+     */
+    public function getLoginUltimo()
+    {
+        return $this->loginUltimo;
+    }
+
+    /**
+     * Set loginCantidad
+     *
+     * @param integer $loginCantidad
+     *
+     * @return Usuario
+     */
+    public function setLoginCantidad($loginCantidad)
+    {
+        $this->loginCantidad = $loginCantidad;
+
+        return $this;
+    }
+
+    /**
+     * Get loginCantidad
+     *
+     * @return integer
+     */
+    public function getLoginCantidad()
+    {
+        return $this->loginCantidad;
     }
 }

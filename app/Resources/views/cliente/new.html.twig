@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Usuario
+Cliente
 {% endblock %}
 
 {% block header_description %}
@@ -11,7 +11,6 @@ Usuario
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
         {{ form_start(form) }}
             <div class="box box-success">
                 <div class="box-header with-border">
@@ -21,24 +20,35 @@ Usuario
                     {{ form_errors(form) }}
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(form.usuario) }}                            
+                            {{ form_row(form.nombre) }}                            
                         </div>  
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(form.nombre) }}
-                        </div>  
+                            {{ form_row(form.ivaCondicion) }}
+                        </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(form.apellido) }}
+                            {{ form_row(form.direccion) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.documentoTipo) }}
+                        </div> 
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
+                            {{ form_row(form.contacto) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.telefono) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.documentoNumero) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.localidadId) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             {{ form_row(form.email) }}
-                        </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(form.password.first) }}
-                        </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(form.password.second) }}
                         </div>
                     </div>
                 </div>
@@ -48,7 +58,7 @@ Usuario
                 <div class="box-footer">
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <a href="{{ path('usuario_index') }}" class="btn btn-app">
+                            <a href="{{ path('cliente_index') }}" class="btn btn-app">
                                 <i class="fa fa-arrow-left"></i> Volver
                             </a>
                         </div>
@@ -62,3 +72,4 @@ Usuario
     </div>
 </div>
 {% endblock %}
+
