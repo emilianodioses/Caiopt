@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * Usuario controller.
  *
  */
-class UsuarioController extends Controller
+class UsuarioController extends AppController
 {
     /**
      * Lists all usuario entities.
@@ -41,14 +41,10 @@ class UsuarioController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            //$factory = $this->get('security.encoder_factory');
-            //$encoder = $factory->getEncoder($usuario);
-            //$password = $encoder->encodePassword($this->getPassword(), $usuario->getSalt());
-            
-            //$plainPassword = $usuario->getPassword();
-            //$encoder = $this->container->get('security.password_encoder');
-            //$encoded = $encoder->encodePassword($usuario, $plainPassword);
-            //$usuario->setPassword($encoded);
+            $factory = $this->container->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($usuario);
+            $password = $encoder->encodePassword($usuario->getPassword(), $usuario->getSalt());
+            $usuario->setPassword($password);
             
             $usuario->setUltimoLogin(new \DateTime("now"));
             $usuario->setCantidadLogin(0);
@@ -95,11 +91,19 @@ class UsuarioController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            $factory = $this->container->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($usuario);
+            $password = $encoder->encodePassword($usuario->getPassword(), $usuario->getSalt());
+            $usuario->setPassword($password);
+            
             $usuario->setUpdatedBy($this->getUser()->getId());
             $usuario->setUpdatedAt(new \DateTime("now"));
-            $this->getDoctrine()->getManager()->flush();
 
-            //return $this->redirectToRoute('usuario_show', array('id' => $usuario->getId()));
+            $em->flush();
+
             return $this->redirectToRoute('usuario_index');
         }
 
