@@ -53,9 +53,9 @@ class UsuarioController extends Controller
             $usuario->setUltimoLogin(new \DateTime("now"));
             $usuario->setCantidadLogin(0);
             $usuario->setActivo(true);
-            $usuario->setCreatedBy(1);
+            $usuario->setCreatedBy($this->getUser()->getId());
             $usuario->setCreatedAt(new \DateTime("now"));
-            $usuario->setUpdatedBy(1);
+            $usuario->setUpdatedBy($this->getUser()->getId());
             $usuario->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($usuario);
@@ -95,9 +95,12 @@ class UsuarioController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $usuario->setUpdatedBy($this->getUser()->getId());
+            $usuario->setUpdatedAt(new \DateTime("now"));
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('usuario_edit', array('id' => $usuario->getId()));
+            //return $this->redirectToRoute('usuario_show', array('id' => $usuario->getId()));
+            return $this->redirectToRoute('usuario_index');
         }
 
         return $this->render('usuario/edit.html.twig', array(
@@ -106,6 +109,31 @@ class UsuarioController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
+    /**
+     * Change the User status to active or inactive
+     *
+     */
+    public function statusAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $usuario = $em->getRepository('AppBundle:Usuario')->find($id);
+        if ($usuario->getActivo() > 0)
+            $usuario->setActivo(0);
+        else
+            $usuario->setActivo(1);  
+        
+        $em->flush($usuario);
+
+        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+        
+        return $this->render('usuario/index.html.twig', array(
+            'usuarios' => $usuarios,
+        ));
+    }
+
+
 
     /**
      * Deletes a usuario entity.
