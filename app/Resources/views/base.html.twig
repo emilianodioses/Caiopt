@@ -138,18 +138,22 @@ desired effect
           </ul>
         </li>
         <li>
+        <li><a href="{{path('producto_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Productos</span></a></li>
+        {#
         <li class="treeview">
-          <a href="#"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span>
+          <a href="{{path('producto_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
+            <li><a href="{{path('producto_index')}}">Productos</a></li>
             <li><a href="#">Marcos</a></li>
             <li><a href="#">Cristales</a></li>
             <li><a href="#">Contacto</a></li>
           </ul>
         </li>
+        #}
         <li>
           <a href="{{path('load_logout')}}">
             <i class="fa fa-sign-out"></i> <span>CERRAR SESIÓN</span>

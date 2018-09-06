@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Producto
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos de Producto</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th style="width:10%">Categoria</th>
+                                <td>{{ producto.categoria }}</td>
+                            </tr>
+                            <tr>
+                                <th>Modelo</th>
+                                <td>{{ producto.modelo }}</td>
+                            </tr>
+                            <tr>
+                                <th>Descripcion</th>
+                                <td>{{ producto.descripcion }}</td>
+                            </tr>
+                            <tr>
+                                <th>Precio</th>
+                                <td>{{ producto.precio }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('producto_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div>
+{% endblock %}
