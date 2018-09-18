@@ -7,6 +7,14 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: es_AR
+    afip_parameters:
+        CUIT: 20313311938
+        production: false
+        res_folder: 'src/afip_res/'
+        ta_folder: 'src/afip_res/'
+        cert: 'cert'
+        key: 'key'
+        passphrase: ''
 
 framework:
     #esi: ~
@@ -94,3 +102,13 @@ knp_paginator:
         pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v3_pagination.html.twig'     # sliding pagination controls template                                    
         sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template                                
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
+
+#afip:
+#    parameters:
+#        CUIT: 20313311938
+#        production: false
+#        res_folder: 'src/afip_res/'
+#        ta_folder: 'src/afip_res/'
+#        cert: 'cert'
+#        key: 'key'
+#        passphrase: ''

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b214475599a085016dfb0c455ef011e0",
+    "content-hash": "743a33edefed0e0666ca522863c4be64",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1102,6 +1102,53 @@
                 "parameters management"
             ],
             "time": "2018-02-13T18:05:56+00:00"
+        },
+        {
+            "name": "ivanalemunioz/afip.php",
+            "version": "0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ivanalemunioz/afip.php.git",
+                "reference": "1b7f4c843b9f6a77e55fb48fefce0bbbddf4d3c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ivanalemunioz/afip.php/zipball/1b7f4c843b9f6a77e55fb48fefce0bbbddf4d3c7",
+                "reference": "1b7f4c843b9f6a77e55fb48fefce0bbbddf4d3c7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Afip.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Muñoz",
+                    "email": "ivanalemunioz@gmail.com"
+                }
+            ],
+            "description": "Libreria para usar los Web Services de AFIP (Argentina) ",
+            "homepage": "https://github.com/ivanalemunioz/afip.php",
+            "keywords": [
+                "afip",
+                "cae",
+                "contribuyente",
+                "facturacion-electronica",
+                "gratis",
+                "libreria",
+                "padron",
+                "soap"
+            ],
+            "time": "2018-09-13T17:43:14+00:00"
         },
         {
             "name": "jdorn/sql-formatter",

@@ -26,3 +26,6 @@ app_producto:
         resource: "@AppBundle/Resources/config/routing/producto.yml"
         prefix:   /producto
     
+afip_test:
+    path:     /afipTest
+    defaults: { _controller: "AppBundle:AfipTest:index" }  
