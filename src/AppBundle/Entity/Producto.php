@@ -33,7 +33,7 @@ class Producto
      *
      * @ORM\ManyToOne(targetEntity="ProductoCategoria")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      * })
      */
     private $categoria;
@@ -139,7 +139,7 @@ class Producto
     /**
      * Get categoria
      *
-     * @return string
+     * @return \AppBundle\Entity\ProductoCategoria
      */
     public function getCategoria()
     {
