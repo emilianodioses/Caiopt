@@ -137,7 +137,7 @@ class Producto
     }
 
     /**
-     * Get categoria
+     * Get localidad
      *
      * @return \AppBundle\Entity\ProductoCategoria
      */

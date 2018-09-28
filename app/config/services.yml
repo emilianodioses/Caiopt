@@ -33,3 +33,7 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    AfipFE:
+        class: AppBundle\Services\AfipFE
+        public: true
+        arguments: [%afip_parameters%, %kernel.project_dir%]
