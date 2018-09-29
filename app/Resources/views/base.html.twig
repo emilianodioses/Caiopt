@@ -34,6 +34,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <!-- REQUIRED JS SCRIPTS -->
+
+  <!-- jQuery 3 -->
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/jquery/dist/jquery.min.js')}}"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>
+
+  <!-- Optionally, you can add Slimscroll and FastClick plugins.
+       Both of these plugins are recommended to enhance the
+       user experience. -->      
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -138,7 +151,22 @@ desired effect
           </ul>
         </li>
         <li>
-        <li><a href="{{path('producto_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Productos</span></a></li>
+
+        <li class="treeview">
+          <a href="#"><i class="glyphicon glyphicon glyphicon-file"></i> <span>Comprobantes</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{path('comprobantecompra_index')}}">Compra</a></li>
+            <li><a href="{{path('usuario_index')}}">Venta</a></li>
+          </ul>
+        </li>
+        <li>  
+
+
+        <li><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a></li>
         {#
         <li class="treeview">
           <a href="{{path('producto_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span>
@@ -280,18 +308,5 @@ desired effect
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
-<!-- REQUIRED JS SCRIPTS -->
-
-<!-- jQuery 3 -->
-<script src="{{ asset('AdminLTE_Vendor/bower_components/jquery/dist/jquery.min.js')}}"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
 </body>
 </html>

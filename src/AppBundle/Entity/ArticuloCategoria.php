@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductoCategoria
+ * ArticuloCategoria
  *
- * @ORM\Table(name="producto_categoria")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductoCategoriaRepository")
+ * @ORM\Table(name="articulo_categoria")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticuloCategoriaRepository")
  */
-class ProductoCategoria
+class ArticuloCategoria
 {
     /**
      * @var int
@@ -79,7 +79,7 @@ class ProductoCategoria
      *
      * @param string $descripcion
      *
-     * @return ProductoCategoria
+     * @return ArticuloCategoria
      */
     public function setDescripcion($descripcion)
     {
@@ -108,7 +108,7 @@ class ProductoCategoria
      *
      * @param boolean $activo
      *
-     * @return ProductoCategoria
+     * @return ArticuloCategoria
      */
     public function setActivo($activo)
     {
@@ -132,7 +132,7 @@ class ProductoCategoria
      *
      * @param integer $createdBy
      *
-     * @return ProductoCategoria
+     * @return ArticuloCategoria
      */
     public function setCreatedBy($createdBy)
     {
@@ -156,7 +156,7 @@ class ProductoCategoria
      *
      * @param \DateTime $createdAt
      *
-     * @return ProductoCategoria
+     * @return ArticuloCategoria
      */
     public function setCreatedAt($createdAt)
     {
@@ -180,7 +180,7 @@ class ProductoCategoria
      *
      * @param integer $updatedBy
      *
-     * @return ProductoCategoria
+     * @return ArticuloCategoria
      */
     public function setUpdatedBy($updatedBy)
     {
@@ -204,7 +204,7 @@ class ProductoCategoria
      *
      * @param \DateTime $updatedAt
      *
-     * @return ProductoCategoria
+     * @return ArticuloCategoria
      */
     public function setUpdatedAt($updatedAt)
     {

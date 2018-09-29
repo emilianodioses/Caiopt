@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Articulos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Preciocosto</th>
+                <th>Gananciaporcentaje</th>
+                <th>Precioventa</th>
+                <th>Iva</th>
+                <th>Cantidad</th>
+                <th>Cantidadminima</th>
+                <th>Preciomodifica</th>
+                <th>Genero</th>
+                <th>Material</th>
+                <th>Forma</th>
+                <th>Estilo</th>
+                <th>Color_marco</th>
+                <th>Color_cristal</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for articulo in articulos %}
+            <tr>
+                <td><a href="{{ path('articulo_show', { 'id': articulo.id }) }}">{{ articulo.id }}</a></td>
+                <td>{{ articulo.codigo }}</td>
+                <td>{{ articulo.descripcion }}</td>
+                <td>{{ articulo.precioCosto }}</td>
+                <td>{{ articulo.gananciaPorcentaje }}</td>
+                <td>{{ articulo.precioVenta }}</td>
+                <td>{{ articulo.iva }}</td>
+                <td>{{ articulo.cantidad }}</td>
+                <td>{{ articulo.cantidadMinima }}</td>
+                <td>{% if articulo.precioModifica %}Yes{% else %}No{% endif %}</td>
+                <td>{{ articulo.genero }}</td>
+                <td>{{ articulo.material }}</td>
+                <td>{{ articulo.forma }}</td>
+                <td>{{ articulo.estilo }}</td>
+                <td>{{ articulo.colormarco }}</td>
+                <td>{{ articulo.colorcristal }}</td>
+                <td>{% if articulo.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ articulo.createdBy }}</td>
+                <td>{% if articulo.createdAt %}{{ articulo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ articulo.updatedBy }}</td>
+                <td>{% if articulo.updatedAt %}{{ articulo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('articulo_show', { 'id': articulo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('articulo_edit', { 'id': articulo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('articulo_new') }}">Create a new articulo</a>
+        </li>
+    </ul>
+{% endblock %}

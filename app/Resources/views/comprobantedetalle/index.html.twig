@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Comprobantedetalles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cantidad</th>
+                <th>Bonificacion</th>
+                <th>Preciounitario</th>
+                <th>Total</th>
+                <th>Totalnogravado</th>
+                <th>Totalneto</th>
+                <th>Importeivaexento</th>
+                <th>Importeiva</th>
+                <th>Importetributos</th>
+                <th>Observaciones</th>
+                <th>Preciocosto</th>
+                <th>Ganancia</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comprobanteDetalle in comprobanteDetalles %}
+            <tr>
+                <td><a href="{{ path('comprobantedetalle_show', { 'id': comprobanteDetalle.id }) }}">{{ comprobanteDetalle.id }}</a></td>
+                <td>{{ comprobanteDetalle.cantidad }}</td>
+                <td>{{ comprobanteDetalle.bonificacion }}</td>
+                <td>{{ comprobanteDetalle.precioUnitario }}</td>
+                <td>{{ comprobanteDetalle.total }}</td>
+                <td>{{ comprobanteDetalle.totalNoGravado }}</td>
+                <td>{{ comprobanteDetalle.totalNeto }}</td>
+                <td>{{ comprobanteDetalle.importeIvaExento }}</td>
+                <td>{{ comprobanteDetalle.importeIva }}</td>
+                <td>{{ comprobanteDetalle.importeTributos }}</td>
+                <td>{{ comprobanteDetalle.observaciones }}</td>
+                <td>{{ comprobanteDetalle.precioCosto }}</td>
+                <td>{{ comprobanteDetalle.ganancia }}</td>
+                <td>{% if comprobanteDetalle.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ comprobanteDetalle.createdBy }}</td>
+                <td>{% if comprobanteDetalle.createdAt %}{{ comprobanteDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ comprobanteDetalle.updatedBy }}</td>
+                <td>{% if comprobanteDetalle.updatedAt %}{{ comprobanteDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('comprobantedetalle_show', { 'id': comprobanteDetalle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('comprobantedetalle_edit', { 'id': comprobanteDetalle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('comprobantedetalle_new') }}">Create a new comprobanteDetalle</a>
+        </li>
+    </ul>
+{% endblock %}

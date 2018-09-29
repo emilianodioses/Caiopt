@@ -1,0 +1,24 @@
+articulo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Articulo:index" }
+    methods:  GET
+
+articulo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Articulo:show" }
+    methods:  GET
+
+articulo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Articulo:new" }
+    methods:  [GET, POST]
+
+articulo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Articulo:edit" }
+    methods:  [GET, POST]
+
+articulo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Articulo:delete" }
+    methods:  DELETE

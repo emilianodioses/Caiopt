@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Producto
+ * ArticuloMarca
  *
- * @ORM\Table(name="producto")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductoRepository")
+ * @ORM\Table(name="articulo_marca")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticuloMarcaRepository")
  */
-class Producto
+class ArticuloMarca
 {
     /**
      * @var int
@@ -24,36 +24,12 @@ class Producto
     /**
      * @var string
      *
-     * @ORM\Column(name="modelo", type="string", length=255)
-     */
-    private $modelo;
-
-    /**
-     * @var \ProductoCategoria
-     *
-     * @ORM\ManyToOne(targetEntity="ProductoCategoria")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
-     * })
-     */
-    private $categoria;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="descripcion", type="string", length=255)
      */
     private $descripcion;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="precio", type="float")
-     */
-    private $precio;
-
-    /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
      */
@@ -99,59 +75,11 @@ class Producto
     }
 
     /**
-     * Set modelo
-     *
-     * @param string $modelo
-     *
-     * @return Producto
-     */
-    public function setModelo($modelo)
-    {
-        $this->modelo = $modelo;
-
-        return $this;
-    }
-
-    /**
-     * Get modelo
-     *
-     * @return string
-     */
-    public function getModelo()
-    {
-        return $this->modelo;
-    }
-
-    /**
-     * Set categoria
-     *
-     * @param \AppBundle\Entity\ProductoCategoria $categoria
-     *
-     * @return ProductoCategoria
-     */
-    public function setCategoria(\AppBundle\Entity\ProductoCategoria $categoria = null)
-    {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    /**
-     * Get localidad
-     *
-     * @return \AppBundle\Entity\ProductoCategoria
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
      * Set descripcion
      *
      * @param string $descripcion
      *
-     * @return Producto
+     * @return ArticuloMarca
      */
     public function setDescripcion($descripcion)
     {
@@ -171,36 +99,11 @@ class Producto
     }
 
     /**
-     * Set precio
-     *
-     * @param float $precio
-     *
-     * @return Producto
-     */
-    public function setPrecio($precio)
-    {
-        $this->precio = $precio;
-
-        return $this;
-    }
-
-    /**
-     * Get precio
-     *
-     * @return float
-     */
-    public function getPrecio()
-    {
-        return $this->precio;
-    }
-
-
-    /**
      * Set activo
      *
      * @param boolean $activo
      *
-     * @return Producto
+     * @return ArticuloMarca
      */
     public function setActivo($activo)
     {
@@ -212,7 +115,7 @@ class Producto
     /**
      * Get activo
      *
-     * @return boolean
+     * @return bool
      */
     public function getActivo()
     {
@@ -224,7 +127,7 @@ class Producto
      *
      * @param integer $createdBy
      *
-     * @return Producto
+     * @return ArticuloMarca
      */
     public function setCreatedBy($createdBy)
     {
@@ -236,7 +139,7 @@ class Producto
     /**
      * Get createdBy
      *
-     * @return integer
+     * @return int
      */
     public function getCreatedBy()
     {
@@ -248,7 +151,7 @@ class Producto
      *
      * @param \DateTime $createdAt
      *
-     * @return Producto
+     * @return ArticuloMarca
      */
     public function setCreatedAt($createdAt)
     {
@@ -272,7 +175,7 @@ class Producto
      *
      * @param integer $updatedBy
      *
-     * @return Producto
+     * @return ArticuloMarca
      */
     public function setUpdatedBy($updatedBy)
     {
@@ -284,7 +187,7 @@ class Producto
     /**
      * Get updatedBy
      *
-     * @return integer
+     * @return int
      */
     public function getUpdatedBy()
     {
@@ -296,7 +199,7 @@ class Producto
      *
      * @param \DateTime $updatedAt
      *
-     * @return Producto
+     * @return ArticuloMarca
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -313,5 +216,10 @@ class Producto
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function __toString()
+    {
+        return $this->descripcion;
     }
 }

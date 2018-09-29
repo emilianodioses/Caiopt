@@ -485,4 +485,9 @@ class Cliente
     {
         return $this->localidad;
     }
+
+    public function __toString()
+    {
+        return $this->nombre;
+    }
 }

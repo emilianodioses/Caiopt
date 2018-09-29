@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Articulo</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ articulo.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ articulo.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ articulo.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Preciocosto</th>
+                <td>{{ articulo.precioCosto }}</td>
+            </tr>
+            <tr>
+                <th>Gananciaporcentaje</th>
+                <td>{{ articulo.gananciaPorcentaje }}</td>
+            </tr>
+            <tr>
+                <th>Precioventa</th>
+                <td>{{ articulo.precioVenta }}</td>
+            </tr>
+            <tr>
+                <th>Iva</th>
+                <td>{{ articulo.iva }}</td>
+            </tr>
+            <tr>
+                <th>Cantidad</th>
+                <td>{{ articulo.cantidad }}</td>
+            </tr>
+            <tr>
+                <th>Cantidadminima</th>
+                <td>{{ articulo.cantidadMinima }}</td>
+            </tr>
+            <tr>
+                <th>Preciomodifica</th>
+                <td>{% if articulo.precioModifica %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Genero</th>
+                <td>{{ articulo.genero }}</td>
+            </tr>
+            <tr>
+                <th>Material</th>
+                <td>{{ articulo.material }}</td>
+            </tr>
+            <tr>
+                <th>Forma</th>
+                <td>{{ articulo.forma }}</td>
+            </tr>
+            <tr>
+                <th>Estilo</th>
+                <td>{{ articulo.estilo }}</td>
+            </tr>
+            <tr>
+                <th>Color_marco</th>
+                <td>{{ articulo.colormarco }}</td>
+            </tr>
+            <tr>
+                <th>Color_cristal</th>
+                <td>{{ articulo.colorcristal }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if articulo.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ articulo.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if articulo.createdAt %}{{ articulo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ articulo.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if articulo.updatedAt %}{{ articulo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('articulo_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('articulo_edit', { 'id': articulo.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

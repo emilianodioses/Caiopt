@@ -22,9 +22,17 @@ app_proveedor:
     resource: "@AppBundle/Resources/config/routing/proveedor.yml"
     prefix:   /proveedor
 
-app_producto:
-        resource: "@AppBundle/Resources/config/routing/producto.yml"
-        prefix:   /producto
+app_articulo:
+    resource: "@AppBundle/Resources/config/routing/articulo.yml"
+    prefix:   /articulo    
+
+app_comprobantecompra:
+    resource: "@AppBundle/Resources/config/routing/comprobantecompra.yml"
+    prefix:   /comprobantecompra
+    
+app_comprobante_detalle:
+    resource: "@AppBundle/Resources/config/routing/comprobantedetalle.yml"
+    prefix:   /comprobantedetalle         
     
 afip_test:
     path:     /afipTest
