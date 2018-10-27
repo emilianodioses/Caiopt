@@ -1,77 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Articulos list</h1>
+{% block header %}
+Articulos
+{% endblock %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('articulo_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 {#name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value="{{texto}}"/>#}
+                name="texto" placeholder="Buscar por Codigo/Descripcion" value=""/>
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('articulo_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>  
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
                 <th>Codigo</th>
-                <th>Descripcion</th>
-                <th>Preciocosto</th>
-                <th>Gananciaporcentaje</th>
-                <th>Precioventa</th>
+                <th style="width: 25%">Descripcion</th>
+                <th>Precio Costo</th>
+                <th>Ganancia %</th>
+                <th>Precio Venta</th>
                 <th>Iva</th>
                 <th>Cantidad</th>
-                <th>Cantidadminima</th>
-                <th>Preciomodifica</th>
-                <th>Genero</th>
-                <th>Material</th>
-                <th>Forma</th>
-                <th>Estilo</th>
-                <th>Color_marco</th>
-                <th>Color_cristal</th>
-                <th>Activo</th>
-                <th>Createdby</th>
-                <th>Createdat</th>
-                <th>Updatedby</th>
-                <th>Updatedat</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for articulo in articulos %}
-            <tr>
-                <td><a href="{{ path('articulo_show', { 'id': articulo.id }) }}">{{ articulo.id }}</a></td>
-                <td>{{ articulo.codigo }}</td>
-                <td>{{ articulo.descripcion }}</td>
-                <td>{{ articulo.precioCosto }}</td>
-                <td>{{ articulo.gananciaPorcentaje }}</td>
-                <td>{{ articulo.precioVenta }}</td>
-                <td>{{ articulo.iva }}</td>
-                <td>{{ articulo.cantidad }}</td>
-                <td>{{ articulo.cantidadMinima }}</td>
-                <td>{% if articulo.precioModifica %}Yes{% else %}No{% endif %}</td>
-                <td>{{ articulo.genero }}</td>
-                <td>{{ articulo.material }}</td>
-                <td>{{ articulo.forma }}</td>
-                <td>{{ articulo.estilo }}</td>
-                <td>{{ articulo.colormarco }}</td>
-                <td>{{ articulo.colorcristal }}</td>
-                <td>{% if articulo.activo %}Yes{% else %}No{% endif %}</td>
-                <td>{{ articulo.createdBy }}</td>
-                <td>{% if articulo.createdAt %}{{ articulo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ articulo.updatedBy }}</td>
-                <td>{% if articulo.updatedAt %}{{ articulo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('articulo_show', { 'id': articulo.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('articulo_edit', { 'id': articulo.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <th>Cantidad Minima</th>
+                <th>Precio Modificable</th>
+                <th>Acciones</th>
+              </tr>
+            <tbody>
+            {% for articulo in pagination %}
+                <tr>
+                    <td>{{ articulo.codigo }}</td>
+                    <td>{{ articulo.descripcion }}</td>
+                    <td>{{ articulo.precioCosto }}</td>
+                    <td>{{ articulo.gananciaPorcentaje }}</td>
+                    <td>{{ articulo.precioVenta }}</td>
+                    <td>{{ articulo.iva }}</td>
+                    <td>{{ articulo.cantidad }}</td>
+                    <td>{{ articulo.cantidadMinima }}</td>
+                    <td>{% if articulo.precioModifica %}Yes{% else %}No{% endif %}</td>
+                    <td>{% if articulo.precioModifica %}
+                          <a><span class="glyphicon glyphicon-remove-sign"></span></a>
+                        {% else %}
+                          <a><span class="glyphicon glyphicon-ok-circle"></span></a>
+                        {% endif %}  
+                    </td>                          
+                    <td>
+                      <a href="{{ path('articulo_show', { 'id': articulo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('articulo_edit', { 'id': articulo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('articulo_new') }}">Create a new articulo</a>
-        </li>
-    </ul>
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}
