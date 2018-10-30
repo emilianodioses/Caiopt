@@ -20,11 +20,11 @@ class ArticuloController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$texto = $request->get('texto','');
+        $texto = $request->get('texto','');
 
-        //$query = $em->getRepository('AppBundle:Articulo')->findByTexto($texto);
+        $query = $em->getRepository('AppBundle:Articulo')->findByTexto($texto);
 
-        $query = $em->getRepository('AppBundle:Articulo')->findAll();
+        //$query = $em->getRepository('AppBundle:Articulo')->findAll();
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -34,7 +34,8 @@ class ArticuloController extends Controller
         );
 
         return $this->render('articulo/index.html.twig', array(
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 
@@ -109,17 +110,21 @@ class ArticuloController extends Controller
      * Deletes a articulo entity.
      *
      */
-    public function deleteAction(Request $request, Articulo $articulo)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($articulo);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($articulo);
-            $em->flush();
-        }
+        $articulo = $em->getRepository('AppBundle:Articulo')->find($id);
+        if ($articulo->getActivo() > 0)
+            $articulo->setActivo(0);
+        else
+            $articulo->setActivo(1);  
 
+        $articulo->setUpdatedBy($this->getUser()->getId()); 
+        $articulo->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($articulo);
+        
         return $this->redirectToRoute('articulo_index');
     }
 

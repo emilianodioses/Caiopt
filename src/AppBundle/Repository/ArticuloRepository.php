@@ -2,8 +2,6 @@
 
 namespace AppBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
 /**
  * ArticuloRepository
  *
@@ -15,10 +13,12 @@ class ArticuloRepository extends \Doctrine\ORM\EntityRepository
 	public function findByTexto($texto) {
         $query = 'SELECT a  FROM AppBundle:Articulo a ';
 
-        if ($texto != '')
-            $query .= ' WHERE a.nombre LIKE :texto OR a.apellido LIKE :texto OR a.username LIKE :texto ';
+        $query .= 'WHERE a.activo = 1';
 
-        $query .= ' ORDER BY a.username ASC ';
+        if ($texto != '')
+            $query .= ' AND a.codigo LIKE :texto OR a.descripcion LIKE :texto';
+
+        $query .= ' ORDER BY a.codigo ASC ';
 
         $qb = $this->getEntityManager()->createQuery($query);
 

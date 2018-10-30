@@ -18,8 +18,7 @@ Articulos
           <div class="box-tools">
             <div class="input-group input-group-sm" style="width: 500px;">
               <input id="btn-input" type="text" class="form-control input-sm" 
-                 {#name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value="{{texto}}"/>#}
-                name="texto" placeholder="Buscar por Codigo/Descripcion" value=""/>
+                 name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value="{{texto}}"/>
               <span class="input-group-btn">
                   <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   <a type="button" class="btn btn-primary btn-md" href="{{ path('articulo_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
@@ -53,17 +52,18 @@ Articulos
                     <td>{{ articulo.iva }}</td>
                     <td>{{ articulo.cantidad }}</td>
                     <td>{{ articulo.cantidadMinima }}</td>
-                    <td>{% if articulo.precioModifica %}Yes{% else %}No{% endif %}</td>
                     <td>{% if articulo.precioModifica %}
-                          <a><span class="glyphicon glyphicon-remove-sign"></span></a>
-                        {% else %}
-                          <a><span class="glyphicon glyphicon-ok-circle"></span></a>
-                        {% endif %}  
+                          <span class="label label-success">Si</span>
+                            {% else %}
+                          <span class="label label-danger">No</span>
+                        {% endif %}
                     </td>                          
                     <td>
                       <a href="{{ path('articulo_show', { 'id': articulo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                       </a>
                       <a href="{{ path('articulo_edit', { 'id': articulo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      <a href="{{ path('articulo_delete', { 'id': articulo.Id }) }}" onclick="return confirm('¿Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                       </a>
                     </td>
                 </tr>
