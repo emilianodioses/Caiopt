@@ -29,8 +29,28 @@ class ComprobanteDetalleType extends AbstractType
                                    ->orderBy('l.descripcion', 'ASC')
                                    ;
                            }
-                ))
-                ->add('cantidad',NumberType::class,array(
+                ));
+/*
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+
+                // this would be your entity, i.e. SportMeetup
+                $data = $event->getData();
+
+                $articulo = $data->getArticulo();
+                $precio = null === $articulo ? array() : $sport->getAvailablePositions();
+
+                $form->add('position', EntityType::class, array(
+                    'class' => 'AppBundle:Position',
+                    'placeholder' => '',
+                    'choices' => $positions,
+                ));
+            }
+        );
+*/
+        $builder->add('cantidad',NumberType::class,array(
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad')))
                 ->add('bonificacion',null,array(

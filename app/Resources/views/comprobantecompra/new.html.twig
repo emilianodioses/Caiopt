@@ -178,12 +178,33 @@ Nuevo Comprobante de Compra
             return false;
         });
 
+        // Agrego la función para buscar los precios del articulo
+        $newFormLi.on('change', function(){
+          fnArticuloChange(index);
+        });
+
         // add a delete link to the new form
         addArticuloFormDeleteLink($newFormLi);
     }
 
+    function fnArticuloChange($index) {
+        var data = { articuloId: $('#appbundle_comprobante_articulos_'+$index+'_articulo').val() };
+        
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                $("#appbundle_comprobante_articulos_"+$index+"_precioUnitario").val(articulo.precioCosto);
+            }
+        });
+    }
+
     function addArticuloFormDeleteLink($articuloFormLi) {
         var $removeFormA = $('<a href="#">Eliminar </a>');
+
         $articuloFormLi.append($removeFormA);
 
         $removeFormA.on('click', function (e) {
@@ -195,5 +216,27 @@ Nuevo Comprobante de Compra
         });
     }
 
+    /*
+    $(document).on('change', '#appbundle_comprobante_articulos_0_articulo', function(){
+            alert('lala');
+        });
+    /*
+    $(document).ready(function(){
+        var $form = $(this).closest('form');
+        $(".articulo-input").change(function(){
+            var data = { articuloId: $(this).val() };
+            $.ajax({
+                type: 'POST',
+                url: $form.attr('action'),
+                data: data,
+                success: function(data) {
+                    for (var i=0, total = data.length; i < total; i++) {
+                        $('.municipio-input').append('<option value="' + data[i].id + '">' + data[i].municipio + '</option>');
+                    }
+                }
+            });
+        });
+    });
+    */
 </script>          
 {% endblock %}

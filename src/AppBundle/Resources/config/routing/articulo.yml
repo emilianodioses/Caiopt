@@ -22,3 +22,7 @@ articulo_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Articulo:delete" }
     methods:  DELETE
+
+articulo_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:Articulo:find" }

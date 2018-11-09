@@ -5,6 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Articulo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Articulo controller.
@@ -120,5 +124,16 @@ class ArticuloController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function findAction(Request $req) {
+        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+        $articulo = $this->getDoctrine()->getManager('default')->getRepository('AppBundle:Articulo')
+                ->find($req->get('articuloId'));
+        
+        $j_articulo = $serializer->serialize($articulo, 'json');
+        
+        return JsonResponse::create(array('articulo' => $j_articulo
+                ));
     }
 }
