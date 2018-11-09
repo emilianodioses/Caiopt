@@ -10,4 +10,22 @@ namespace AppBundle\Repository;
  */
 class ArticuloRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findByTexto($texto) {
+        $query = 'SELECT a  FROM AppBundle:Articulo a ';
+
+        $query .= 'WHERE a.activo = 1';
+
+        if ($texto != '')
+            $query .= ' AND a.codigo LIKE :texto OR a.descripcion LIKE :texto';
+
+        $query .= ' ORDER BY a.codigo ASC ';
+
+        $qb = $this->getEntityManager()->createQuery($query);
+
+        if ($texto != '')
+            $qb->setParameter('texto','%' . $texto . '%');
+
+
+        return $qb;
+    }
 }

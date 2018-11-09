@@ -20,14 +20,26 @@ class ArticuloController extends Controller
      * Lists all articulo entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $articulos = $em->getRepository('AppBundle:Articulo')->findAll();
+        $texto = $request->get('texto','');
+
+        $query = $em->getRepository('AppBundle:Articulo')->findByTexto($texto);
+
+        //$query = $em->getRepository('AppBundle:Articulo')->findAll();
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
 
         return $this->render('articulo/index.html.twig', array(
-            'articulos' => $articulos,
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 
@@ -43,6 +55,12 @@ class ArticuloController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            
+            $articulo->setCreatedBy($this->getUser()->getId());
+            $articulo->setCreatedAt(new \DateTime("now"));
+            $articulo->setUpdatedBy($this->getUser()->getId());
+            $articulo->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($articulo);
             $em->flush();
 
@@ -96,17 +114,21 @@ class ArticuloController extends Controller
      * Deletes a articulo entity.
      *
      */
-    public function deleteAction(Request $request, Articulo $articulo)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($articulo);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($articulo);
-            $em->flush();
-        }
+        $articulo = $em->getRepository('AppBundle:Articulo')->find($id);
+        if ($articulo->getActivo() > 0)
+            $articulo->setActivo(0);
+        else
+            $articulo->setActivo(1);  
 
+        $articulo->setUpdatedBy($this->getUser()->getId()); 
+        $articulo->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($articulo);
+        
         return $this->redirectToRoute('articulo_index');
     }
 
