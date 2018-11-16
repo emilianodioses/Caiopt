@@ -99,12 +99,23 @@ class ComprobanteType extends AbstractType
                            }
                 ))
                 ->add('articulos', CollectionType::class, array(
-                        'entry_type' => ComprobanteDetalleType::class,
+                        'entry_type'   => ComprobanteDetalleType::class,
+                        'entry_options' => [
+                            'attr' => [
+                                'class' => 'item', // we want to use 'tr.item' as collection elements' selector
+                            ],
+                        ],
                         'allow_add' => true,
                         'allow_delete' => true,
-                        'by_reference' => false,
-                        'label' => 'Articulos'))
-                ;
+                        'prototype'    => true,
+                        'required'     => false,
+                        'by_reference' => true,
+                        'delete_empty' => true,
+                        'attr' => [
+                            'class' => 'table articulo-collection',
+                        ],
+                    )
+                );
     }/**
      * {@inheritdoc}
      */
@@ -120,7 +131,7 @@ class ComprobanteType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_comprobante';
+        return 'ComprobanteType';
     }
 
 

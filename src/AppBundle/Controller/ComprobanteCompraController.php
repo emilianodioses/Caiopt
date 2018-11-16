@@ -34,7 +34,13 @@ class ComprobanteCompraController extends Controller
     public function newAction(Request $request)
     {
         $comprobante = new Comprobante();
+        //$detalle = new \AppBundle\Entity\ComprobanteDetalle();
+        //$comprobante->addArticulo($detalle);
+
         $form = $this->createForm('AppBundle\Form\ComprobanteType', $comprobante);
+        
+        
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

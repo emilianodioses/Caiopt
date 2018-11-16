@@ -7,6 +7,10 @@ Nuevo Comprobante de Compra
 {% block header_description %}
 {% endblock %}
 
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 
 <div class="row">
@@ -42,20 +46,7 @@ Nuevo Comprobante de Compra
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-user"></i> Detalles</h3>
-            </div>
-            <div class="form-group form-group-sm">
-                <ul class="articulos form-inline"
-                    data-prototype="{{ form_widget(form.articulos.vars.prototype)|e('html_attr') }}">
-                </ul>
-            </div>
-        </div>
-    </div> 
-</div>
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
@@ -97,6 +88,19 @@ Nuevo Comprobante de Compra
             </div>
         </div>
     </div>
+
+    
+                    {#}
+                    <ul class="articulos form-inline"
+                        data-prototype="{{ form_widget(form.articulos.vars.prototype)|e('html_attr') }}">
+                    </ul>
+                    #}
+
+                    {% form_theme form 'comprobantecompra/formCollection.html.twig' %}
+                    {{ form(form) }}
+                    
+
+
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
             <div class="box-footer">
@@ -115,11 +119,97 @@ Nuevo Comprobante de Compra
     </div>
 </div>    
 
+
+{#}
 {{ form_widget(form.articulos, { 'attr': {'class': 'hide'} }) }}
 {{ form_end(form) }}
+#}
+
 
 <script type="text/javascript">
+    $('.articulo-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 3,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            //alert(articulo_select.prop('outerHTML'));
+            
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
 
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+        var precio_unitario = renglon.find("input.precioUnitario");
+        
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                precio_unitario.val(articulo.precioCosto);
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var cantidad = renglon.find("input.cantidad");
+        var bonificacion = renglon.find("input.bonificacion");
+        var precioUnitario = renglon.find("input.precioUnitario");
+        var importeIva = renglon.find("input.importeIva");
+        var total = renglon.find("input.total");
+
+        /*
+        if (cantidad == '' ||
+            bonificacion == '' ||
+            precioUnitario == '' ||
+            importeIva == '' ||
+            total == '') {
+            //Si los campos están vacíos, no hago nada
+            return true;
+        }
+        */
+
+        var total_f = (cantidad.val() * precioUnitario.val()).toFixed(3);
+        total.val(total_f);
+        
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        //Acá deberían estar los cálculos para cargar los datos
+        //de la sección "TOTALES"
+    }
+
+{#}
     var $collectionHolder;
 
     // setup an "add a tag" link
@@ -238,5 +328,7 @@ Nuevo Comprobante de Compra
         });
     });
     */
+    #}
 </script>          
+
 {% endblock %}
