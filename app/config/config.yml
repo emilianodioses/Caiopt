@@ -53,6 +53,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - 'bootstrap_3_layout_custom.html.twig'
+        - 'tetranz_fields.html.twig'
 #        - '@BsTypes/Form/fields.html.twig'
 
 # Doctrine Configuration

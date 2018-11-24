@@ -26,3 +26,7 @@ articulo_delete:
 articulo_find:
     path:     /find
     defaults: { _controller: "AppBundle:Articulo:find" }
+
+articulo_find_all_json:
+    path:     /findAllJson
+    defaults: { _controller: "AppBundle:Articulo:findAllJson" }

@@ -158,4 +158,24 @@ class ArticuloController extends Controller
         return JsonResponse::create(array('articulo' => $j_articulo
                 ));
     }
+
+    public function findAllJsonAction() {
+        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+        $entidad = $this->getDoctrine()->getManager('default')->getRepository('AppBundle:Articulo')
+                ->findBy(array('activo' => true), array('descripcion' => 'ASC'));
+
+        $arr = array();
+        foreach ($entidad as $e) {
+            $arr_elem['id'] = $e->getId();
+            $arr_elem['text'] = $e->getDescripcion();
+
+            $arr[] = $arr_elem;
+        }
+        
+        return $arr;
+
+        //$j_list = $serializer->serialize($arr, 'json');
+        
+        //return JsonResponse::create(array('articulo' => $j_articulo));
+    }
 }

@@ -27,8 +27,7 @@ class ComprobanteType extends AbstractType
                             'Nota Credito A' => 'Nota Credito A',
                             'Nota Credito B' => 'Nota Credito B',
                             'Nota Debito A' => 'Nota Debito A',
-                            'Nota Debito B' => 'Nota Debito B'),
-                            'choices_as_values' => true)) 
+                            'Nota Debito B' => 'Nota Debito B'))) 
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',
