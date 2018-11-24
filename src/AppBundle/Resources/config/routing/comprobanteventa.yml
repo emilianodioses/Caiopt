@@ -1,0 +1,24 @@
+comprobanteventa_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ComprobanteVenta:index" }
+    methods:  GET
+
+comprobanteventa_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ComprobanteVenta:show" }
+    methods:  GET
+
+comprobanteventa_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ComprobanteVenta:new" }
+    methods:  [GET, POST]
+
+comprobanteventa_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ComprobanteVenta:edit" }
+    methods:  [GET, POST]
+
+comprobanteventa_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ComprobanteVenta:delete" }
+    methods:  DELETE

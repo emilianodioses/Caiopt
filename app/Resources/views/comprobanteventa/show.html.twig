@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Comprobante</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ comprobante.id }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ comprobante.tipo }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Puntoventa</th>
+                <td>{{ comprobante.puntoVenta }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ comprobante.numero }}</td>
+            </tr>
+            <tr>
+                <th>Totalbonificacion</th>
+                <td>{{ comprobante.totalBonificacion }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ comprobante.total }}</td>
+            </tr>
+            <tr>
+                <th>Totalnogravado</th>
+                <td>{{ comprobante.totalNoGravado }}</td>
+            </tr>
+            <tr>
+                <th>Totalneto</th>
+                <td>{{ comprobante.totalNeto }}</td>
+            </tr>
+            <tr>
+                <th>Importeivaexento</th>
+                <td>{{ comprobante.importeIvaExento }}</td>
+            </tr>
+            <tr>
+                <th>Importeiva</th>
+                <td>{{ comprobante.importeIva }}</td>
+            </tr>
+            <tr>
+                <th>Importetributos</th>
+                <td>{{ comprobante.importeTributos }}</td>
+            </tr>
+            <tr>
+                <th>Observaciones</th>
+                <td>{{ comprobante.observaciones }}</td>
+            </tr>
+            <tr>
+                <th>Obrasocialid</th>
+                <td>{{ comprobante.obraSocialId }}</td>
+            </tr>
+            <tr>
+                <th>Obrasocialplanid</th>
+                <td>{{ comprobante.obraSocialPlanId }}</td>
+            </tr>
+            <tr>
+                <th>Totalcosto</th>
+                <td>{{ comprobante.totalCosto }}</td>
+            </tr>
+            <tr>
+                <th>Totalganancia</th>
+                <td>{{ comprobante.totalGanancia }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if comprobante.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ comprobante.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if comprobante.createdAt %}{{ comprobante.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ comprobante.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if comprobante.updatedAt %}{{ comprobante.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('comprobante_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('comprobante_edit', { 'id': comprobante.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

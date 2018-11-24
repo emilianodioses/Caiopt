@@ -41,13 +41,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ asset('AdminLTE_Vendor/bower_components/jquery/dist/jquery.min.js')}}"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+   <!-- daterange picker -->
+  <link rel="stylesheet" href="AdminLTE_Vendor/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- AdminLTE App -->
-  <script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>
-
+  <script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>  
   <!-- Optionally, you can add Slimscroll and FastClick plugins.
        Both of these plugins are recommended to enhance the
        user experience. -->      
-
   {% block extra_js %}{% endblock %}
 </head>
 <!--
@@ -162,11 +164,10 @@ desired effect
           </a>
           <ul class="treeview-menu">
             <li><a href="{{path('comprobantecompra_index')}}">Compra</a></li>
-            <li><a href="{{path('usuario_index')}}">Venta</a></li>
+            <li><a href="{{path('comprobanteventa_index')}}">Venta</a></li>
           </ul>
         </li>
         <li>  
-
 
         <li><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a></li>
         {#

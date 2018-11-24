@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,8 +37,11 @@ class ComprobanteType extends AbstractType
                     'format' => 'dd-MM-yyyy',
                     'required' => true,
                     'attr' => ['class' => 'js-datepicker']))
-                ->add('puntoVenta', null, array('label' => 'Punto de Venta'))
-                ->add('numero', null, array('label' => 'N de Comprobante'))
+                ->add('puntoVenta', null, array(
+                    'label' => 'Punto de Venta',
+                    'data' => 1,
+                    'disabled' => true))
+                ->add('numero', NumberType::class, array('label' => 'N de Comprobante'))
                 ->add('totalBonificacion',null, array('label' => 'Bonificación'))
                 ->add('total',MoneyType::class, array(
                     'divisor' => 1,
@@ -58,7 +62,7 @@ class ComprobanteType extends AbstractType
                 ->add('importeIva',MoneyType::class, array(
                     'divisor' => 1,
                     'currency' => 'ARS',
-                    'label' => 'Importe Iva'))
+                    'label' => 'Total Iva'))
                 ->add('importeTributos',MoneyType::class, array(
                     'divisor' => 1,
                     'currency' => 'ARS',

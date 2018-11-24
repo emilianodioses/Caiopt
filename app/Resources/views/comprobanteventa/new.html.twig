@@ -1,0 +1,306 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Nuevo Comprobante de Venta
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_start(form) }}
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+            </div>
+            <div class="box-body">
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.cliente)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.tipo)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.fecha)}}
+                    </div>
+
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.puntoVenta)}}
+                    </div>  
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+            </div>
+            <div class="box-body">                
+                <div class="row">   
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.totalBonificacion)}}
+                    </div>   
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.totalNeto)}}
+                    </div>   
+                    <div class="collection-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.importeIva)}}
+                    </div> 
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.totalGanancia)}}
+                    </div>    
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.total)}}
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    {% form_theme form 'comprobanteventa/formCollection.html.twig' %}
+    {{ form(form) }}
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+
+
+{#}
+{{ form_widget(form.articulos, { 'attr': {'class': 'hide'} }) }}
+{{ form_end(form) }}
+#}
+
+
+<script type="text/javascript">
+    $('.articulo-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 3,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            //alert(articulo_select.prop('outerHTML'));
+            
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
+
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+        var precio_unitario = renglon.find("input.precioUnitario");
+        
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                precio_unitario.val(articulo.precioCosto);
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var cantidad = renglon.find("input.cantidad");
+        var bonificacion = renglon.find("input.bonificacion");
+        var precioUnitario = renglon.find("input.precioUnitario");
+        var importeIva = renglon.find("input.importeIva");
+        var total = renglon.find("input.total");
+
+        /*
+        if (cantidad == '' ||
+            bonificacion == '' ||
+            precioUnitario == '' ||
+            importeIva == '' ||
+            total == '') {
+            //Si los campos están vacíos, no hago nada
+            return true;
+        }
+        */
+
+        var total_f = (cantidad.val() * precioUnitario.val()).toFixed(3);
+        total.val(total_f);
+        
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        //Acá deberían estar los cálculos para cargar los datos
+        //de la sección "TOTALES"
+    }
+
+{#}
+    var $collectionHolder;
+
+    // setup an "add a tag" link
+    var $addArticuloLink = $('<a href="#" class="add_articulo_link"> Agregar </a>') ;
+    var $newLinkLi = $('<div></div>').append($addArticuloLink);
+
+    jQuery(document).ready(function () {          
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.articulos');
+
+        // add a delete link to all of the existing tag form li elements
+        $collectionHolder.find('li').each(function () {
+            addTagFormDeleteLink($(this));
+        });
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addArticuloLink.on('click', function (e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addArticuloForm($collectionHolder, $newLinkLi);
+        });
+    });
+
+    function addArticuloForm($collectionHolder, $newLinkLi) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+
+        // get the new index
+        var index = $collectionHolder.data('index');
+
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var newForm = prototype.replace(/__name__/g, index);
+
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+
+        // Display the form in the page in an li, before the "Add a tag" link li
+        var $newFormLi = $('<div></div>').append(newForm);
+        $newLinkLi.before($newFormLi);
+
+        // handle the removal, just for this example
+        $('.remove-tag').click(function (e) {
+            e.preventDefault();
+
+            $(this).parent().remove();
+
+            return false;
+        });
+
+        // Agrego la función para buscar los precios del articulo
+        $newFormLi.on('change', function(){
+          fnArticuloChange(index);
+        });
+
+        // add a delete link to the new form
+        addArticuloFormDeleteLink($newFormLi);
+    }
+
+    function fnArticuloChange($index) {
+        var data = { articuloId: $('#appbundle_comprobante_articulos_'+$index+'_articulo').val() };
+        
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                $("#appbundle_comprobante_articulos_"+$index+"_precioUnitario").val(articulo.precioCosto);
+            }
+        });
+    }
+
+    function addArticuloFormDeleteLink($articuloFormLi) {
+        var $removeFormA = $('<a href="#">Eliminar </a>');
+
+        $articuloFormLi.append($removeFormA);
+
+        $removeFormA.on('click', function (e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // remove the li for the articulo form
+            $articuloFormLi.remove();
+        });
+    }
+
+    /*
+    $(document).on('change', '#appbundle_comprobante_articulos_0_articulo', function(){
+            alert('lala');
+        });
+    /*
+    $(document).ready(function(){
+        var $form = $(this).closest('form');
+        $(".articulo-input").change(function(){
+            var data = { articuloId: $(this).val() };
+            $.ajax({
+                type: 'POST',
+                url: $form.attr('action'),
+                data: data,
+                success: function(data) {
+                    for (var i=0, total = data.length; i < total; i++) {
+                        $('.municipio-input').append('<option value="' + data[i].id + '">' + data[i].municipio + '</option>');
+                    }
+                }
+            });
+        });
+    });
+    */
+    #}
+</script>          
+
+{% endblock %}
