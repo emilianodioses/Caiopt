@@ -44,15 +44,9 @@
                             <th>&nbsp;</th>
                         </thead>
                         <tbody>
-
-                            {#
-                             # we can't form_widget(form) as it would render parent markup for a collection, so
-                             # we iterate manually on children
-                             #}
                             {% for item in form %}
                                 {{ form_widget(item) }}
                             {% endfor %}
-
                         </tbody>
                     </table>
                 </div>
@@ -72,6 +66,7 @@
         <td>{{ form_widget(form.importeIva) }}</td>
         <td>{{ form_widget(form.bonificacion) }}</td>
         <td>{{ form_widget(form.total) }}</td>
+
         <td class="text-center">
             <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
             <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>

@@ -22,7 +22,13 @@ Nuevo Comprobante de Venta
             </div>
             <div class="box-body">
                 {{ form_errors(form) }}
-                <div class="row">
+                <div class="row">           
+                    {{ form_widget(form.proveedor, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.numero, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.totalNoGravado, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.importeIvaExento, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.importeTributos, { 'attr': {'class': 'hide'} })}}         
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.cliente)}}
                     </div>
@@ -49,10 +55,7 @@ Nuevo Comprobante de Venta
                 <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
             </div>
             <div class="box-body">                
-                <div class="row">   
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.totalBonificacion)}}
-                    </div>   
+                <div class="row">      
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                         {{ form_row(form.totalNeto)}}
                     </div>   
@@ -60,19 +63,26 @@ Nuevo Comprobante de Venta
                         {{ form_row(form.importeIva)}}
                     </div> 
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.totalGanancia)}}
-                    </div>    
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                         {{ form_row(form.total)}}
                     </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.totalBonificacion)}}
+                    </div> 
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                        {{ form_row(form.totalGanancia)}}
+                    </div>    
                 </div>  
             </div>
         </div>
     </div>
+</div>
 
-    {% form_theme form 'comprobanteventa/formCollection.html.twig' %}
-    {{ form(form) }}
+{% form_theme form 'comprobanteventa/formCollection.html.twig' %}
+{{ form(form) }}
 
+<div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
             <div class="box-footer">
@@ -92,18 +102,13 @@ Nuevo Comprobante de Venta
 </div>    
 
 
-{#}
-{{ form_widget(form.articulos, { 'attr': {'class': 'hide'} }) }}
-{{ form_end(form) }}
-#}
-
 
 <script type="text/javascript">
     $('.articulo-collection').collection({
         allow_duplicate: false,
         allow_up: false,
         allow_down: false,
-        init_with_n_elements: 3,
+        init_with_n_elements: 1,
         add_at_the_end: true,
         add: '<a href="#" class="btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>',
         elements_selector: 'tr.item',
@@ -134,6 +139,7 @@ Nuevo Comprobante de Venta
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
         var precio_unitario = renglon.find("input.precioUnitario");
+        var importe_iva = renglon.find("input.importeIva");
         
         $.ajax({
             type: 'POST',
@@ -143,6 +149,7 @@ Nuevo Comprobante de Venta
                 var articulo = $.parseJSON(resp.articulo);
                 
                 precio_unitario.val(articulo.precioCosto);
+                importe_iva.val(articulo.iva);
                 fnRenglonChange(renglon);
             }
         });
@@ -157,19 +164,8 @@ Nuevo Comprobante de Venta
         var importeIva = renglon.find("input.importeIva");
         var total = renglon.find("input.total");
 
-        /*
-        if (cantidad == '' ||
-            bonificacion == '' ||
-            precioUnitario == '' ||
-            importeIva == '' ||
-            total == '') {
-            //Si los campos están vacíos, no hago nada
-            return true;
-        }
-        */
-
-        var total_f = (cantidad.val() * precioUnitario.val()).toFixed(3);
-        total.val(total_f);
+        var total_f = (cantidad.val() * precioUnitario.val() * (1+importeIva.val()/100)- bonificacion.val()).toFixed(3);
+        total.val(total_f);   
         
         fnCalcularTotales();
 

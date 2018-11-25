@@ -28,8 +28,7 @@ class ComprobanteType extends AbstractType
                             'Nota Credito A' => 'Nota Credito A',
                             'Nota Credito B' => 'Nota Credito B',
                             'Nota Debito A' => 'Nota Debito A',
-                            'Nota Debito B' => 'Nota Debito B'),
-                            'choices_as_values' => true)) 
+                            'Nota Debito B' => 'Nota Debito B'))) 
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',
@@ -42,41 +41,47 @@ class ComprobanteType extends AbstractType
                     'data' => 1,
                     'disabled' => true))
                 ->add('numero', NumberType::class, array('label' => 'N de Comprobante'))
-                ->add('totalBonificacion',null, array('label' => 'Bonificación'))
-                ->add('total',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalBonificacion',null, array(
+                    'disabled' => true,
+                    'label' => 'Bonificación'))
+                ->add('total',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true,
                     'label' => 'Total'))
-                ->add('totalNoGravado',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalNoGravado',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Total no Gravado',))
-                ->add('totalNeto',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalNeto',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true,
                     'label' => 'Total Neto',))
-                ->add('importeIvaExento',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('importeIvaExento',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Importe Exento',))
-                ->add('importeIva',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('importeIva',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true, 
                     'label' => 'Total Iva'))
-                ->add('importeTributos',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('importeTributos',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('obraSocialId',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('obraSocialPlanId',HiddenType::class,array('label'=>'Plan Obra Social'))
-                ->add('totalCosto',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalCosto',NumbeRtype::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Total Costo'))
-                ->add('totalGanancia',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalGanancia',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true,
                     'label' => 'Total Ganancia'))
                 ->add('proveedor', EntityType::class, array(
                     'label' => 'Proveedor',

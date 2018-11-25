@@ -59,28 +59,14 @@ Nuevo Comprobante de Compra
                         {{ form_row(form.totalBonificacion)}}
                     </div>   
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.importeIvaExento)}}
-                    </div>  
+                        {{ form_row(form.totalNeto)}}
+                    </div>
                     <div class="collection-xs-2 col-sm-2 col-md-2 col-lg-2">    
                         {{ form_row(form.importeIva)}}
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                         {{ form_row(form.importeTributos)}}
                     </div>            
-                </div>  
-                <div class="row">     
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">            
-                        {{ form_row(form.totalNoGravado)}}
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.totalNeto)}}
-                    </div>   
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">     
-                        {{ form_row(form.totalCosto)}}
-                    </div> 
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.totalGanancia)}}
-                    </div>    
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                         {{ form_row(form.total)}}
                     </div>
@@ -89,15 +75,16 @@ Nuevo Comprobante de Compra
         </div>
     </div>
 
-    
-                    {#}
+    {#}
                     <ul class="articulos form-inline"
                         data-prototype="{{ form_widget(form.articulos.vars.prototype)|e('html_attr') }}">
                     </ul>
                     #}
+{% form_theme form 'comprobantecompra/formCollection.html.twig' %}
+{{ form(form) }}
+                    
 
-                    {% form_theme form 'comprobantecompra/formCollection.html.twig' %}
-                    {{ form(form) }}
+                    
                     
 
 
@@ -179,25 +166,27 @@ Nuevo Comprobante de Compra
     }
 
     function fnRenglonChange(renglon) {
-        var cantidad = renglon.find("input.cantidad");
-        var bonificacion = renglon.find("input.bonificacion");
-        var precioUnitario = renglon.find("input.precioUnitario");
-        var importeIva = renglon.find("input.importeIva");
-        var total = renglon.find("input.total");
+        var r_cantidad = renglon.find("input.cantidad");
+        var r_bonificacion = renglon.find("input.bonificacion");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
+        var r_importeIva = renglon.find("input.importeIva");
+        var r_total = renglon.find("input.total");
 
-        /*
-        if (cantidad == '' ||
-            bonificacion == '' ||
-            precioUnitario == '' ||
-            importeIva == '' ||
-            total == '') {
+        
+        if (r_cantidad == '' ||
+            r_bonificacion == '' ||
+            r_precioUnitario == '' ||
+            r_importeIva == '' ||
+            r_total == '') {
             //Si los campos están vacíos, no hago nada
             return true;
         }
-        */
 
-        var total_f = (cantidad.val() * precioUnitario.val()).toFixed(3);
-        total.val(total_f);
+        var total_iva = parseFloat(r_precioUnitario.val()) + parseFloat(r_importeIva.val());
+        var bonificacion_importe = parseFloat(r_bonificacion.val()) * total_iva / 100;
+        var total_bonificacion = parseFloat(total_iva) - parseFloat(bonificacion_importe);
+        var total = parseFloat(r_cantidad.val() * total_bonificacion).toFixed(3);
+        r_total.val(total);
         
         fnCalcularTotales();
 
@@ -205,8 +194,30 @@ Nuevo Comprobante de Compra
     }
 
     function fnCalcularTotales() {
-        //Acá deberían estar los cálculos para cargar los datos
-        //de la sección "TOTALES"
+        var bonificacion = 0;
+        var total_neto = 0;
+        var importe_iva = 0;
+        var total = 0;
+
+        $("#ComprobanteType_articulos tr.item").each(function() {
+            var r_cantidad = $(this).find("input.cantidad")
+            var r_bonificacion = $(this).find("input.bonificacion");
+            var r_precioUnitario = $(this).find("input.precioUnitario");
+            var r_importeIva = $(this).find("input.importeIva");
+            var r_total = $(this).find("input.total");
+            
+            bonificacion += parseFloat(r_bonificacion.val());
+            total_neto += parseFloat(r_cantidad.val()) * parseFloat(r_precioUnitario.val());
+            importe_iva += parseFloat(r_importeIva.val());
+            total += parseFloat(r_total.val());
+        });
+
+        $("#ComprobanteType_totalBonificacion").val(bonificacion);
+        $("#ComprobanteType_totalNeto").val(total_neto);
+        $("#ComprobanteType_importeIva").val(importe_iva);
+        $("#ComprobanteType_total").val(total);
+
+        return true;
     }
 
 {#}
