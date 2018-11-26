@@ -25,6 +25,7 @@ class ComprobanteDetalleType extends AbstractType
                     'class' => 'AppBundle:Articulo',
                     'required' => true,
                     'choice_label' => 'descripcion',
+                    'placeholder' => ' ',
                     'attr' => [
                             'class' => 'articulo',
                         ],
@@ -86,50 +87,58 @@ class ComprobanteDetalleType extends AbstractType
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion')))
-                ->add('precioUnitario',MoneyType::class, array(
+                ->add('precioUnitario',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Unitario', 'class' => 'precioUnitario'),
-                    'divisor' => 1,
-                    'currency' => 'ARS',))
-                ->add('total',MoneyType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    ))
+                ->add('total',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
-                    'divisor' => 1,
+                    //'divisor' => 1,
                     'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total'),
-                    'currency' => 'ARS'))
-                ->add('totalNoGravado',MoneyType::class, array(
+                    //'currency' => 'ARS'
+                    ))
+                ->add('totalNoGravado',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Total no Gravado', 'class' => 'totalNoGravado'),
-                    'divisor' => 1,
-                    'currency' => 'ARS'))
-                ->add('totalNeto',MoneyType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
+                ->add('totalNeto',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto'),
-                    'divisor' => 1,
-                    'currency' => 'ARS'))
-                ->add('importeIvaExento',MoneyType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
+                ->add('importeIvaExento',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Importe Iva Exento', 'class' => 'importeIvaExento'),
-                    'divisor' => 1,
-                    'currency' => 'ARS'))
-                ->add('importeIva',MoneyType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
+                ->add('importeIva',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
+                    'disabled' => true,
                     'attr' => array('size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva'),
-                    'divisor' => 1,
-                    'currency' => 'ARS'))
-                ->add('importeTributos',MoneyType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
+                ->add('importeTributos',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Importe Tributos', 'class' => 'importeTributos'),
-                    'divisor' => 1,
-                    'currency' => 'ARS'))
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
-                ->add('precioCosto',MoneyType::class, array(
+                ->add('precioCosto',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto'),
@@ -139,6 +148,9 @@ class ComprobanteDetalleType extends AbstractType
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Ganancia', 'class' => 'ganancia')))
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
                 ->add('comprobante',HiddenType::class,array('label'=>'Comprobante'));
     }/**
      * {@inheritdoc}

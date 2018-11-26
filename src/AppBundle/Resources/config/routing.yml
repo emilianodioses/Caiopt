@@ -29,6 +29,10 @@ app_articulo:
 app_comprobantecompra:
     resource: "@AppBundle/Resources/config/routing/comprobantecompra.yml"
     prefix:   /comprobantecompra
+
+app_comprobanteventa:
+    resource: "@AppBundle/Resources/config/routing/comprobanteventa.yml"
+    prefix:   /comprobanteventa    
     
 app_comprobante_detalle:
     resource: "@AppBundle/Resources/config/routing/comprobantedetalle.yml"

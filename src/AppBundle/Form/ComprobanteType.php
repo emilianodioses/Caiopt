@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -35,43 +36,53 @@ class ComprobanteType extends AbstractType
                     'format' => 'dd-MM-yyyy',
                     'required' => true,
                     'attr' => ['class' => 'js-datepicker']))
-                ->add('puntoVenta', null, array('label' => 'Punto de Venta'))
-                ->add('numero', null, array('label' => 'N de Comprobante'))
-                ->add('totalBonificacion',null, array('label' => 'Bonificación'))
-                ->add('total',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('puntoVenta', null, array(
+                    'label' => 'Punto de Venta',
+                    'data' => 1,
+                    'disabled' => true))
+                ->add('numero', NumberType::class, array('label' => 'N de Comprobante'))
+                ->add('totalBonificacion',null, array(
+                    'disabled' => true,
+                    'attr' => array('class' => 'bonificacion'),
+                    'label' => 'Bonificación'))
+                ->add('total',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true,
                     'label' => 'Total'))
-                ->add('totalNoGravado',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalNoGravado',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Total no Gravado',))
-                ->add('totalNeto',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalNeto',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true,
                     'label' => 'Total Neto',))
-                ->add('importeIvaExento',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('importeIvaExento',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Importe Exento',))
-                ->add('importeIva',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
-                    'label' => 'Importe Iva'))
-                ->add('importeTributos',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('importeIva',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true, 
+                    'label' => 'Total Iva'))
+                ->add('importeTributos',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('obraSocialId',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('obraSocialPlanId',HiddenType::class,array('label'=>'Plan Obra Social'))
-                ->add('totalCosto',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalCosto',NumbeRtype::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
                     'label' => 'Total Costo'))
-                ->add('totalGanancia',MoneyType::class, array(
-                    'divisor' => 1,
-                    'currency' => 'ARS',
+                ->add('totalGanancia',NumberType::class, array(
+                    //'divisor' => 1,
+                    //'currency' => 'ARS',
+                    'disabled' => true,
                     'label' => 'Total Ganancia'))
                 ->add('proveedor', EntityType::class, array(
                     'label' => 'Proveedor',
