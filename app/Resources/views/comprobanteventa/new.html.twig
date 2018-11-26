@@ -173,8 +173,26 @@ Nuevo Comprobante de Venta
     }
 
     function fnCalcularTotales() {
-        //Acá deberían estar los cálculos para cargar los datos
-        //de la sección "TOTALES"
+        var table = document.getElementById("tablaArticulos");
+
+        var totalneto = 0;
+        var totaliva = 0;
+        var total = 0;
+        var totalganancia = 0;
+        var bonificacion = 0;
+
+        for (var i = 1, row; row = table.rows[i]; i++) {
+           bonificacion = parseInt(parseInt(bonificacion) + parseInt(table.rows[i].cells[4].firstChild.value));
+           total = parseInt(parseInt(total) + parseInt(table.rows[i].cells[5].firstChild.value));
+        }
+
+        //document.getElementById("ComprobanteType_totalNeto").value = bonificacion;
+        //document.getElementById("ComprobanteType_totalIva").value = bonificacion;
+        //document.getElementById("ComprobanteType_total").value = bonificacion;
+        document.getElementById("ComprobanteType_totalBonificacion").value = bonificacion;
+        //document.getElementById("ComprobanteType_totalGanancia").value = bonificacion;
+
+        return;
     }
 
 {#}

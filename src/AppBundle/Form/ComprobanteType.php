@@ -43,6 +43,7 @@ class ComprobanteType extends AbstractType
                 ->add('numero', NumberType::class, array('label' => 'N de Comprobante'))
                 ->add('totalBonificacion',null, array(
                     'disabled' => true,
+                    'attr' => array('class' => 'bonificacion'),
                     'label' => 'Bonificación'))
                 ->add('total',NumberType::class, array(
                     //'divisor' => 1,
