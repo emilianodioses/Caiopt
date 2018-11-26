@@ -149,6 +149,7 @@ Nuevo Comprobante de Compra
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
         var precio_unitario = renglon.find("input.precioUnitario");
+        var ganancia = renglon.find("input.ganancia");
         
         $.ajax({
             type: 'POST',
@@ -158,6 +159,7 @@ Nuevo Comprobante de Compra
                 var articulo = $.parseJSON(resp.articulo);
                 
                 precio_unitario.val(articulo.precioCosto);
+                ganancia.val(articulo.gananciaPorcentaje);
                 fnRenglonChange(renglon);
             }
         });
@@ -176,8 +178,7 @@ Nuevo Comprobante de Compra
         if (r_cantidad == '' ||
             r_bonificacion == '' ||
             r_precioUnitario == '' ||
-            r_importeIva == '' ||
-            r_total == '') {
+            r_importeIva == '') {
             //Si los campos están vacíos, no hago nada
             return true;
         }
