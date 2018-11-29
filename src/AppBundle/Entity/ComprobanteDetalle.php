@@ -59,6 +59,15 @@ class ComprobanteDetalle
     /**
      * @var string
      *
+     * @ORM\Column(name="precio_unitario", type="decimal", precision=16, scale=3)
+     */
+    //precioCosto = Precio final Unitario abonado al proveedor sin iva. 
+    //NO incluye bonificacion del proveedor hacia carlos
+    private $precioUnitario;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=3)
      */
     //precioCosto = Precio final Unitario abonado al proveedor sin iva. 
@@ -636,5 +645,29 @@ class ComprobanteDetalle
     public function getArticulo()
     {
         return $this->articulo;
+    }
+
+    /**
+     * Set precioUnitario
+     *
+     * @param string $precioUnitario
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setPrecioUnitario($precioUnitario)
+    {
+        $this->precioUnitario = $precioUnitario;
+
+        return $this;
+    }
+
+    /**
+     * Get precioUnitario
+     *
+     * @return string
+     */
+    public function getPrecioUnitario()
+    {
+        return $this->precioUnitario;
     }
 }

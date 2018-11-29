@@ -55,7 +55,7 @@ class ComprobanteType extends AbstractType
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Exento'))
                 ->add('importeIva',NumberType::class, array(
                     'disabled' => true, 
-                    'label' => 'Total Iva'))
+                    'label' => 'Total IVA'))
                 ->add('importeTributos',NumberType::class, array(
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))

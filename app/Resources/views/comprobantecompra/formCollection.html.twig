@@ -40,11 +40,13 @@
                         <thead>
                             <th>Artículo</th>
                             <th>Cantidad</th>
+                            <th>P. Unitario</th>
+                            <th>Bonificación %</th>
                             <th>P. Costo</th>
                             <th>IVA %</th>
-                            <th>Bonificación $</th>
                             <th>Total</th>
                             <th>Ganancia %</th>
+                            <th>P. Venta</th>
                             <th>&nbsp;</th>
                         </thead>
                         <tbody>
@@ -73,10 +75,12 @@
         <td>{{ form_widget(form.articulo) }}</td>
         <td>{{ form_widget(form.cantidad) }}</td>
         <td>{{ form_widget(form.precioUnitario) }}</td>
-        <td>{{ form_widget(form.importeIva) }}</td>
         <td>{{ form_widget(form.bonificacion) }}</td>
+        <td>{{ form_widget(form.precioCosto) }}</td>
+        <td>{{ form_widget(form.importeIva) }}</td>
         <td>{{ form_widget(form.total) }}</td>
         <td>{{ form_widget(form.ganancia) }}</td>
+        <td>{{ form_widget(form.precioVenta) }}</td>
         <td class="text-center">
             <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
             <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>

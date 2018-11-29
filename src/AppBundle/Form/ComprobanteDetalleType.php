@@ -87,6 +87,11 @@ class ComprobanteDetalleType extends AbstractType
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion')))
+                ->add('precioUnitario',NumberType::class, array(
+                    'label' => false,
+                    'data' => 0,
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioUnitario'),
+                    ))
                 ->add('precioCosto',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
@@ -111,6 +116,7 @@ class ComprobanteDetalleType extends AbstractType
                 ->add('total',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
+                    'disabled' => true,
                     'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total'),
                     ))
                 ->add('ganancia',NumberType::class, array(
