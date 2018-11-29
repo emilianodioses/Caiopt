@@ -87,71 +87,40 @@ class ComprobanteDetalleType extends AbstractType
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion')))
-                ->add('precioUnitario',NumberType::class, array(
+                ->add('precioCosto',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Unitario', 'class' => 'precioUnitario'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto'),
                     ))
-                ->add('total',NumberType::class, array(
+                ->add('precioVenta',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
-                    //'divisor' => 1,
-                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total'),
-                    //'currency' => 'ARS'
-                    ))
-                ->add('totalNoGravado',NumberType::class, array(
-                    'label' => false,
-                    'data' => 0,
-                    'attr' => array('size' => 3, 'placeholder' => 'Total no Gravado', 'class' => 'totalNoGravado'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta'),
                     ))
                 ->add('totalNeto',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
-                    ))
-                ->add('importeIvaExento',NumberType::class, array(
-                    'label' => false,
-                    'data' => 0,
-                    'attr' => array('size' => 3, 'placeholder' => 'Importe Iva Exento', 'class' => 'importeIvaExento'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
                     ))
                 ->add('importeIva',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'disabled' => true,
                     'attr' => array('size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
                     ))
-                ->add('importeTributos',NumberType::class, array(
+                ->add('total',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
-                    'attr' => array('size' => 3, 'placeholder' => 'Importe Tributos', 'class' => 'importeTributos'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
-                    ))
-                ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
-                ->add('precioCosto',NumberType::class, array(
-                    'label' => false,
-                    'data' => 0,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto'),
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
+                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total'),
                     ))
                 ->add('ganancia',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Ganancia', 'class' => 'ganancia')))
-                    //'divisor' => 1,
-                    //'currency' => 'ARS'
-                    //))
+                ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
+                ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Iva Exento'))
+                ->add('importeGanancia',HiddenType::class,array('label'=>'Importe Ganancia'))
+                ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('comprobante',HiddenType::class,array('label'=>'Comprobante'));
     }/**
      * {@inheritdoc}

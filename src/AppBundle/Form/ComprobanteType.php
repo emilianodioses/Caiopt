@@ -46,45 +46,24 @@ class ComprobanteType extends AbstractType
                     'attr' => array('class' => 'bonificacion'),
                     'label' => 'Bonificación $'))
                 ->add('total',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
                     'disabled' => true,
                     'label' => 'Total'))
-                ->add('totalNoGravado',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
-                    'label' => 'Total no Gravado',))
+                ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('totalNeto',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
                     'disabled' => true,
                     'label' => 'Total Neto',))
-                ->add('importeIvaExento',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
-                    'label' => 'Importe Exento',))
+                ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Exento'))
                 ->add('importeIva',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
                     'disabled' => true, 
                     'label' => 'Total Iva'))
                 ->add('importeTributos',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))
                 ->add('obraSocialId',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('obraSocialPlanId',HiddenType::class,array('label'=>'Plan Obra Social'))
-                ->add('totalCosto',NumbeRtype::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
-                    'label' => 'Total Costo'))
-                ->add('totalGanancia',NumberType::class, array(
-                    //'divisor' => 1,
-                    //'currency' => 'ARS',
-                    'disabled' => true,
-                    'label' => 'Total Ganancia'))
+                ->add('totalCosto',HiddenType::class,array('label'=>'Total Costo'))
+                ->add('totalGanancia',HiddenType::class,array('label'=>'Total Ganancia'))
                 ->add('proveedor', EntityType::class, array(
                     'label' => 'Proveedor',
                     'class' => 'AppBundle:Proveedor',
