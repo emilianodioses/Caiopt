@@ -44,7 +44,7 @@ class ComprobanteType extends AbstractType
                 ->add('totalBonificacion',null, array(
                     'disabled' => true,
                     'attr' => array('class' => 'bonificacion'),
-                    'label' => 'Bonificación'))
+                    'label' => 'Bonificación $'))
                 ->add('total',NumberType::class, array(
                     //'divisor' => 1,
                     //'currency' => 'ARS',
@@ -73,6 +73,7 @@ class ComprobanteType extends AbstractType
                     //'currency' => 'ARS',
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
+                ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))
                 ->add('obraSocialId',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('obraSocialPlanId',HiddenType::class,array('label'=>'Plan Obra Social'))
                 ->add('totalCosto',NumbeRtype::class, array(

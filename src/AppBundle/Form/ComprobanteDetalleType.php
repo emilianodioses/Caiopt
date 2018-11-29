@@ -142,15 +142,16 @@ class ComprobanteDetalleType extends AbstractType
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto'),
-                    'divisor' => 1,
-                    'currency' => 'ARS'))
+                    //'divisor' => 1,
+                    //'currency' => 'ARS'
+                    ))
                 ->add('ganancia',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Ganancia', 'class' => 'ganancia')))
                     //'divisor' => 1,
                     //'currency' => 'ARS'
-                    ))
+                    //))
                 ->add('comprobante',HiddenType::class,array('label'=>'Comprobante'));
     }/**
      * {@inheritdoc}

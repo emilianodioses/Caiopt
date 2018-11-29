@@ -23,6 +23,10 @@ Nuevo Comprobante de Compra
             <div class="box-body">
                 {{ form_errors(form) }}
                 <div class="row">
+                    {{ form_widget(form.totalNoGravado, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.importeIvaExento, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
+                    {{ form_widget(form.totalGanancia, { 'attr': {'class': 'hide'} })}}
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.proveedor)}}
                     </div>
@@ -74,20 +78,12 @@ Nuevo Comprobante de Compra
             </div>
         </div>
     </div>
+</div>
 
-    {#}
-                    <ul class="articulos form-inline"
-                        data-prototype="{{ form_widget(form.articulos.vars.prototype)|e('html_attr') }}">
-                    </ul>
-                    #}
 {% form_theme form 'comprobantecompra/formCollection.html.twig' %}
 {{ form(form) }}
-                    
 
-                    
-                    
-
-
+<div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
             <div class="box-footer">

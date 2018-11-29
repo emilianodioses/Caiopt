@@ -42,12 +42,21 @@ class Comprobante
      */
     private $cliente;
 
+    //Tipo: Tipo de factura "A, B, ..."
     /**
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=255)
      */
     private $tipo;
+
+    //Movimiento = Tipo de movimiento, "Compra" o "Venta"
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="movimiento", type="string", length=255)
+     */
+    private $movimiento;
 
     /**
      * @var \DateTime
@@ -70,6 +79,7 @@ class Comprobante
      */
     private $numero;
 
+    //TotalBonificacion  = Monto de dinero bonificado
     /**
      * @var string
      *
@@ -77,6 +87,7 @@ class Comprobante
      */
     private $totalBonificacion;
 
+    //Total = Importe con Iva + Tributos + bonificacion + precio venta/compra
     /**
      * @var string
      *
@@ -84,6 +95,7 @@ class Comprobante
      */
     private $total;
 
+    //totalNoGravado = total de los articulos que no usan IVA.
     /**
      * @var string
      *
@@ -91,6 +103,7 @@ class Comprobante
      */
     private $totalNoGravado;
 
+    // totalNeto: precio de venta o compra sin Iva
     /**
      * @var string
      *
@@ -98,6 +111,7 @@ class Comprobante
      */
     private $totalNeto;
 
+    //importeIvaExento = es el monto de iva que por ley quedan exentos
     /**
      * @var string
      *
@@ -105,6 +119,7 @@ class Comprobante
      */
     private $importeIvaExento;
 
+    //importeIva = suma de IVA en dinero
     /**
      * @var string
      *
@@ -112,6 +127,7 @@ class Comprobante
      */
     private $importeIva;
 
+    //importeTributos = es la sumatoria de otros tributos excepto IVA por ejemplo ingresos brutos (IIBB)
     /**
      * @var string
      *
@@ -140,6 +156,7 @@ class Comprobante
      */
     private $obraSocialPlanId;
 
+    //totalCosto = sumatoria de los articulos a precio costo (compra o venta)
     /**
      * @var string
      *
@@ -147,6 +164,7 @@ class Comprobante
      */
     private $totalCosto;
 
+    //totalGanancia = total - totalCosto 
     /**
      * @var string
      *
@@ -774,5 +792,29 @@ class Comprobante
     public function getCliente()
     {
         return $this->cliente;
+    }
+
+    /**
+     * Set movimiento
+     *
+     * @param string $movimiento
+     *
+     * @return Comprobante
+     */
+    public function setMovimiento($movimiento)
+    {
+        $this->movimiento = $movimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get movimiento
+     *
+     * @return string
+     */
+    public function getMovimiento()
+    {
+        return $this->movimiento;
     }
 }
