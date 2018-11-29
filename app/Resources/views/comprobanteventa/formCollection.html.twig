@@ -37,9 +37,9 @@
                         <thead>
                             <th>Artículo</th>
                             <th>Cantidad</th>
-                            <th>P. Costo</th>
+                            <th>P. Venta</th>
                             <th>IVA $</th>
-                            <th>Bonificación $</th>
+                            <th>Bonificación %</th>
                             <th>Total</th>
                             <th>&nbsp;</th>
                         </thead>
@@ -62,7 +62,7 @@
     <tr {{ block('widget_attributes') }}>
         <td>{{ form_widget(form.articulo) }}</td>
         <td>{{ form_widget(form.cantidad) }}</td>
-        <td>{{ form_widget(form.precioUnitario) }}</td>
+        <td>{{ form_widget(form.precioVenta) }}</td>
         <td>{{ form_widget(form.importeIva) }}</td>
         <td>{{ form_widget(form.bonificacion) }}</td>
         <td>{{ form_widget(form.total) }}</td>

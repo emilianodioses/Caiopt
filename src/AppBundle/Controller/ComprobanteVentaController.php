@@ -38,8 +38,6 @@ class ComprobanteVentaController extends Controller
         //$comprobante->addArticulo($detalle);
 
         $form = $this->createForm('AppBundle\Form\ComprobanteType', $comprobante);
-        
-        
 
         $form->handleRequest($request);
 
