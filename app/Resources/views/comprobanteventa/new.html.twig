@@ -198,6 +198,12 @@ Nuevo Comprobante de Venta
 
         return true;
     }
+    
+    function submitform() {
+            alert('test');
+            document.forms[0].submit();
+            //document.getElementById('jsform').submit();
+    }
 
 {#}
     var $collectionHolder;
@@ -319,11 +325,6 @@ Nuevo Comprobante de Venta
     });
     */
     #}
-    function submitform(){
-            alert('test');
-            document.forms[this].submit();
-            //document.getElementById('jsform').submit();
-        }
 </script>          
 
 {% endblock %}

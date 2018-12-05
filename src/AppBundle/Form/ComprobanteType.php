@@ -24,7 +24,7 @@ class ComprobanteType extends AbstractType
         $builder->add('tipo',ChoiceType::class,array(
                         'label'=>'Tipo',
                         'choices' => array(
-                            'Factura A' => 'Factura A', 
+                            'Factura A' => 'Factura A',     
                             'Factura B' => 'Factura B',
                             'Nota Credito A' => 'Nota Credito A',
                             'Nota Credito B' => 'Nota Credito B',
@@ -35,7 +35,7 @@ class ComprobanteType extends AbstractType
                     'widget' => 'single_text',
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'js-datepicker']))
                 ->add('puntoVenta', null, array(
                     'label' => 'Punto de Venta',

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Comprobante;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ComprobanteType;
 
 /**
  * Comprobante controller.
@@ -22,7 +23,7 @@ class ComprobanteVentaController extends Controller
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('tipo' => 'venta'));
 
-        return $this->render('comprobanteventa/index.html.twig', array(
+        return $this->render('AppBundle:ComprobanteVenta:index.html.twig', array(
             'comprobantes' => $comprobantes,
         ));
     }
@@ -37,14 +38,13 @@ class ComprobanteVentaController extends Controller
         //$detalle = new \AppBundle\Entity\ComprobanteDetalle();
         //$comprobante->addArticulo($detalle);
 
-        $form = $this->createForm('AppBundle\Form\ComprobanteType', $comprobante);
+        $form = $this->createForm(ComprobanteType::Class, $comprobante);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
             echo '<pre>';
-            var_export($request);
+            var_export($form->getData());
             die;
 
             $em = $this->getDoctrine()->getManager();
@@ -69,7 +69,7 @@ class ComprobanteVentaController extends Controller
     {
         $deleteForm = $this->createDeleteForm($comprobante);
 
-        return $this->render('comprobanteventa/show.html.twig', array(
+        return $this->render('AppBundle:ComprobanteVenta:show.html.twig', array(
             'comprobante' => $comprobante,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -82,7 +82,7 @@ class ComprobanteVentaController extends Controller
     public function editAction(Request $request, Comprobante $comprobante)
     {
         $deleteForm = $this->createDeleteForm($comprobante);
-        $editForm = $this->createForm('AppBundle\Form\ComprobanteType', $comprobante);
+        $editForm = $this->createForm(ComprobanteType::class, $comprobante);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -91,7 +91,7 @@ class ComprobanteVentaController extends Controller
             return $this->redirectToRoute('comprobanteventa_edit', array('id' => $comprobante->getId()));
         }
 
-        return $this->render('comprobanteventa/edit.html.twig', array(
+        return $this->render('AppBundle:ComprobanteVenta:edit.html.twig', array(
             'comprobante' => $comprobante,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
