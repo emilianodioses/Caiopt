@@ -92,6 +92,7 @@ class ComprobanteType extends AbstractType
                                    ;
                            }
                 ))
+                
                 ->add('articulos', CollectionType::class, array(
                         'entry_type'   => ComprobanteDetalleType::class,
                         'entry_options' => [

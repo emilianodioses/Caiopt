@@ -23,7 +23,7 @@ class ComprobanteVentaController extends Controller
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('tipo' => 'venta'));
 
-        return $this->render('AppBundle:ComprobanteVenta:index.html.twig', array(
+        return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,
         ));
     }
@@ -35,9 +35,6 @@ class ComprobanteVentaController extends Controller
     public function newAction(Request $request)
     {
         $comprobante = new Comprobante();
-        //$detalle = new \AppBundle\Entity\ComprobanteDetalle();
-        //$comprobante->addArticulo($detalle);
-
         $form = $this->createForm(ComprobanteType::Class, $comprobante);
 
         $form->handleRequest($request);
@@ -46,7 +43,6 @@ class ComprobanteVentaController extends Controller
             echo '<pre>';
             var_export($form->getData());
             die;
-
             $em = $this->getDoctrine()->getManager();
             $comprobante->setMovimiento('Venta');
             $em->persist($comprobante);
@@ -69,7 +65,7 @@ class ComprobanteVentaController extends Controller
     {
         $deleteForm = $this->createDeleteForm($comprobante);
 
-        return $this->render('AppBundle:ComprobanteVenta:show.html.twig', array(
+        return $this->render('comprobanteventa/show.html.twig', array(
             'comprobante' => $comprobante,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,7 +87,7 @@ class ComprobanteVentaController extends Controller
             return $this->redirectToRoute('comprobanteventa_edit', array('id' => $comprobante->getId()));
         }
 
-        return $this->render('AppBundle:ComprobanteVenta:edit.html.twig', array(
+        return $this->render('comprobanteventa/edit.html.twig', array(
             'comprobante' => $comprobante,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
