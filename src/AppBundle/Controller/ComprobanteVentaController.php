@@ -41,7 +41,12 @@ class ComprobanteVentaController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+
+            echo '<pre>';
+            var_export($request);
+            die;
+
             $em = $this->getDoctrine()->getManager();
             $comprobante->setMovimiento('Venta');
             $em->persist($comprobante);

@@ -35,13 +35,15 @@ class ComprobanteType extends AbstractType
                     'widget' => 'single_text',
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'js-datepicker']))
                 ->add('puntoVenta', null, array(
                     'label' => 'Punto de Venta',
                     'data' => 1,
                     'disabled' => true))
-                ->add('numero', NumberType::class, array('label' => 'N de Comprobante'))
+                ->add('numero', NumberType::class, array(
+                    'required' => false,
+                    'label' => 'N de Comprobante'))
                 ->add('totalBonificacion',null, array(
                     'disabled' => true,
                     'attr' => array('class' => 'bonificacion'),
@@ -58,6 +60,7 @@ class ComprobanteType extends AbstractType
                     'disabled' => true, 
                     'label' => 'Total IVA'))
                 ->add('importeTributos',IntegerType::class, array(
+                    'required' => false,
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))
