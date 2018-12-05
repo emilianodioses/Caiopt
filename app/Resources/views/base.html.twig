@@ -56,19 +56,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
        Both of these plugins are recommended to enhance the
        user experience. -->
        <script>
-                $(document).ready(function() {
-                    // you may need to change this code if you are not using Bootstrap Datepicker
-                    $('.js-datepicker').datepicker({
-                        format: 'dd/mm/yyyy',
-                        language: 'es',
-                        autoclose: true
-                    });
-                    //$(".js-select").select2({
-                    //    minimumInputLength: '0',
-                    //});
-
+            $(document).ready(function() {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    format: 'dd/mm/yyyy',
+                    language: 'es',
+                    autoclose: true
                 });
-            </script>      
+                //$(".js-select").select2({
+                //    minimumInputLength: '0',
+                //});
+
+            });
+        </script>      
   {% block extra_js %}{% endblock %}
 </head>
 <!--
