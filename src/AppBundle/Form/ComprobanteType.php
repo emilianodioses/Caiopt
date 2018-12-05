@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -45,7 +46,7 @@ class ComprobanteType extends AbstractType
                     'disabled' => true,
                     'attr' => array('class' => 'bonificacion'),
                     'label' => 'Bonificación $'))
-                ->add('total',NumberType::class, array(
+                ->add('total',IntegerType::class, array(
                     'disabled' => true,
                     'label' => 'Total'))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
@@ -56,7 +57,7 @@ class ComprobanteType extends AbstractType
                 ->add('importeIva',NumberType::class, array(
                     'disabled' => true, 
                     'label' => 'Total IVA'))
-                ->add('importeTributos',NumberType::class, array(
+                ->add('importeTributos',IntegerType::class, array(
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))

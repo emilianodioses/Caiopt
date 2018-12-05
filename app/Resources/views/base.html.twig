@@ -13,6 +13,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/css/bootstrap.min.css') }}"/>        
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/font-awesome/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
@@ -41,6 +42,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ asset('AdminLTE_Vendor/bower_components/jquery/dist/jquery.min.js')}}"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js')}}"></script>
+
+
   <script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>
 
   <link href="{{ asset('select2/css/select2.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
@@ -49,7 +54,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Optionally, you can add Slimscroll and FastClick plugins.
        Both of these plugins are recommended to enhance the
-       user experience. -->      
+       user experience. -->
+       <script>
+                $(document).ready(function() {
+                    // you may need to change this code if you are not using Bootstrap Datepicker
+                    $('.js-datepicker').datepicker({
+                        format: 'dd/mm/yyyy',
+                        language: 'es',
+                        autoclose: true
+                    });
+                    $(".js-select").select2({
+                        minimumInputLength: '0',
+                    });
+
+                });
+            </script>      
   {% block extra_js %}{% endblock %}
 </head>
 <!--
