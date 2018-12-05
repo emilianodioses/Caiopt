@@ -99,7 +99,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3, nullable=true)
      */
     private $totalNoGravado;
 
@@ -115,7 +115,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3, nullable=true)
      */
     private $importeIvaExento;
 
@@ -131,28 +131,28 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_tributos", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_tributos", type="decimal", precision=16, scale=3, nullable=true)
      */
     private $importeTributos;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
      */
     private $observaciones;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="obra_social_id", type="integer")
+     * @ORM\Column(name="obra_social_id", type="integer", nullable=true)
      */
     private $obraSocialId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="obra_social_plan_id", type="integer")
+     * @ORM\Column(name="obra_social_plan_id", type="integer", nullable=true)
      */
     private $obraSocialPlanId;
 

@@ -32,35 +32,48 @@ class ComprobanteType extends AbstractType
                             'Nota Debito B' => 'Nota Debito B'))) 
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
-                    'widget' => 'single_text',
-                    'html5' => false,
+                    //'widget' => 'single_text',
+                    //'html5' => false,
                     'format' => 'dd-MM-yyyy',
-                    'required' => true,
-                    'attr' => ['class' => 'js-datepicker']))
+                    'required' => true,))
+                    //'attr' => ['class' => 'js-datepicker']))
                 ->add('puntoVenta', null, array(
                     'label' => 'Punto de Venta',
                     'data' => 1,
-                    'disabled' => true))
+                    'attr' => array(
+                        'readonly' => true,
+                    )))
                 ->add('numero', NumberType::class, array(
                     'required' => false,
                     'label' => 'N de Comprobante'))
                 ->add('totalBonificacion',null, array(
-                    //'disabled' => true,
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'attr' => array('class' => 'bonificacion'),
                     'label' => 'Bonificación $'))
                 ->add('total',IntegerType::class, array(
-                    'disabled' => true,
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'label' => 'Total'))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('totalNeto',NumberType::class, array(
-                    'disabled' => true,
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'label' => 'Total Neto',))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Exento'))
                 ->add('importeIva',NumberType::class, array(
-                    'disabled' => true, 
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'label' => 'Total IVA'))
                 ->add('importeTributos',IntegerType::class, array(
                     'required' => false,
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))

@@ -110,13 +110,17 @@ class ComprobanteDetalleType extends AbstractType
                 ->add('importeIva',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
-                    'disabled' => true,
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'attr' => array('size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva'),
                     ))
                 ->add('total',NumberType::class, array(
                     'label' => false,
                     'data' => 0,
-                    'disabled' => true,
+                    'attr' => array(
+                        'readonly' => true,
+                    ),
                     'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total'),
                     ))
                 ->add('ganancia',NumberType::class, array(

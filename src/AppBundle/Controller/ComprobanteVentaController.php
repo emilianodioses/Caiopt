@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comprobante;
+use AppBundle\Entity\ComprobanteDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ComprobanteType;
+use AppBundle\Form\ComprobanteDetalleType;
 
 /**
  * Comprobante controller.
@@ -21,7 +23,7 @@ class ComprobanteVentaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('tipo' => 'venta'));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta'));
 
         return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,
@@ -40,13 +42,41 @@ class ComprobanteVentaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            echo '<pre>';
-            var_export($form->getData());
-            die;
+
+            //echo '<pre>';
+            //var_export($form->getData());
+            //die;
+
             $em = $this->getDoctrine()->getManager();
             $comprobante->setMovimiento('Venta');
+
+            $comprobante->setTotalGanancia(1);
+            $comprobante->setTotalCosto(1);
+            $comprobante->setImporteTributos(0);
+            
+            $comprobante->setNumero(1);
+            $comprobante->setActivo(1);
+            $comprobante->setCreatedBy($this->getUser()->getId());
+            $comprobante->setCreatedAt(new \DateTime("now"));
+            $comprobante->setUpdatedBy($this->getUser()->getId());
+            $comprobante->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($comprobante);
             $em->flush();
+
+            $articulo = new ComprobanteDetalle();
+            $articulos  = $comprobante->getArticulos()->toArray();
+
+            foreach($articulos as $articulo):  
+                $articulo->setActivo(1);
+                $articulo->setCreatedBy($this->getUser()->getId());
+                $articulo->setCreatedAt(new \DateTime("now"));
+                $articulo->setUpdatedBy($this->getUser()->getId());
+                $articulo->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($articulo);
+                $em->flush(); 
+            endforeach;    
 
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
