@@ -49,6 +49,9 @@ Nuevo Comprobante de Compra
     </div>
 </div>
 
+{% form_theme form 'comprobantecompra/formCollection.html.twig' %}
+{{ form(form.articulos) }}
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
@@ -78,8 +81,7 @@ Nuevo Comprobante de Compra
     </div>
 </div>
 
-{% form_theme form 'comprobantecompra/formCollection.html.twig' %}
-{{ form(form) }}
+{{ form_end(form) }}
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

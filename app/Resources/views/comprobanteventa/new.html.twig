@@ -48,6 +48,9 @@ Nuevo Comprobante de Venta
     </div>
 </div>
 
+{% form_theme form 'comprobanteventa/formCollection.html.twig' %}
+{{ form(form.articulos) }}
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
@@ -74,9 +77,6 @@ Nuevo Comprobante de Venta
     </div>
 </div>
 
-{% form_theme form 'comprobanteventa/formCollection.html.twig' %}
-{{ form(form) }}
-
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
@@ -88,7 +88,7 @@ Nuevo Comprobante de Venta
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@ Nuevo Comprobante de Venta
     </div>
 </div>    
 
-
+{{ form_end(form) }}
 
 <script type="text/javascript">
     $('.articulo-collection').collection({
@@ -319,6 +319,11 @@ Nuevo Comprobante de Venta
     });
     */
     #}
+    function submitform(){
+            alert('test');
+            document.forms[this].submit();
+            //document.getElementById('jsform').submit();
+        }
 </script>          
 
 {% endblock %}
