@@ -252,11 +252,11 @@ Nuevo Comprobante de Compra
 
     function fnRenglonChange(renglon) {
         var r_cantidad = renglon.find("input.cantidad");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
         var r_bonificacion = renglon.find("input.bonificacion");
         var r_precioCosto = renglon.find("input.precioCosto");
         var r_importeIva = renglon.find("input.importeIva");
         var r_total = renglon.find("input.total");
-
         
         if (r_cantidad == '' ||
             r_bonificacion == '' ||
@@ -266,10 +266,8 @@ Nuevo Comprobante de Compra
             return true;
         }
 
-        var total_iva = parseFloat(r_precioCosto.val()) + parseFloat(r_importeIva.val());
-        var bonificacion_importe = parseFloat(r_bonificacion.val()) * total_iva / 100;
-        var total_bonificacion = parseFloat(total_iva) - parseFloat(bonificacion_importe);
-        var total = parseFloat(r_cantidad.val() * total_bonificacion).toFixed(3);
+        var total_iva = parseFloat(r_precioCosto.val() * r_importeIva.val() / 100);
+        var total = parseFloat(parseFloat(r_cantidad.val() * r_precioCosto.val()) + parseFloat(r_cantidad.val() * total_iva)).toFixed(3);
         r_total.val(total);
         
         fnCalcularTotales();
@@ -278,154 +276,44 @@ Nuevo Comprobante de Compra
     }
 
     function fnCalcularTotales() {
-        var bonificacion = 0;
-        var total_neto = 0;
-        var total_neto_sin_iva = 0;
-        var importe_iva = 0;
+        var total_bonificacion = 0;
+        var total_precio_unitario = 0;
+        var total_precio_costo = 0;
+        var total_iva = 0;
         var total = 0;
 
         $("#ComprobanteType_articulos tr.item").each(function() {
             var r_cantidad = $(this).find("input.cantidad")
+            var r_precioUnitario = $(this).find("input.precioUnitario");
             var r_bonificacion = $(this).find("input.bonificacion");
-            var r_precioUnitario = $(this).find("input.precioVenta");
+            var r_precioCosto = $(this).find("input.precioCosto");
             var r_importeIva = $(this).find("input.importeIva");
             var r_total = $(this).find("input.total");
 
-            total_neto_sin_iva += parseFloat(r_cantidad.val()) * parseFloat(r_precioUnitario.val());
-            total_neto_sin_bonificacion += total_neto_sin_iva * parseFloat(1+r_importeIva.val()/100);
-            bonificacion += parseFloat(r_bonificacion.val()/100*total_neto);
-            importe_iva += parseFloat(r_importeIva.val()/100*total_neto);
+            var precioUnitario = 0;
+            var bonificacion = 0;
+            var precioCosto = 0;
+            var iva = 0;
+
+            precioUnitario = parseFloat(r_cantidad.val()) * parseFloat(r_precioUnitario.val());
+            bonificacion = parseFloat(r_bonificacion.val()/100*precioUnitario);
+            precioCosto = parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
+            iva = parseFloat(r_importeIva.val()/100*precioCosto);
+
+            total_precio_unitario += precioUnitario;
+            total_bonificacion += bonificacion;
+            total_precio_costo += precioCosto;
+            total_iva += iva;
             total += parseFloat(r_total.val());
         });
 
-        $("#ComprobanteType_totalNeto").val(total_neto.toFixed(3));
-        $("#ComprobanteType_importeIva").val(importe_iva.toFixed(3));
-        $("#ComprobanteType_totalBonificacion").val(bonificacion.toFixed(3));
+        $("#ComprobanteType_totalNeto").val(total_precio_unitario.toFixed(3));
+        $("#ComprobanteType_importeIva").val(total_iva.toFixed(3));
+        $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(3));
         $("#ComprobanteType_total").val(total.toFixed(3));
 
         return true;
     }
-
-{#}
-    var $collectionHolder;
-
-    // setup an "add a tag" link
-    var $addArticuloLink = $('<a href="#" class="add_articulo_link"> Agregar </a>') ;
-    var $newLinkLi = $('<div></div>').append($addArticuloLink);
-
-    jQuery(document).ready(function () {          
-        // Get the ul that holds the collection of tags
-        $collectionHolder = $('ul.articulos');
-
-        // add a delete link to all of the existing tag form li elements
-        $collectionHolder.find('li').each(function () {
-            addTagFormDeleteLink($(this));
-        });
-
-        // add the "add a tag" anchor and li to the tags ul
-        $collectionHolder.append($newLinkLi);
-
-        // count the current form inputs we have (e.g. 2), use that as the new
-        // index when inserting a new item (e.g. 2)
-        $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-        $addArticuloLink.on('click', function (e) {
-            // prevent the link from creating a "#" on the URL
-            e.preventDefault();
-
-            // add a new tag form (see next code block)
-            addArticuloForm($collectionHolder, $newLinkLi);
-        });
-    });
-
-    function addArticuloForm($collectionHolder, $newLinkLi) {
-        // Get the data-prototype explained earlier
-        var prototype = $collectionHolder.data('prototype');
-
-        // get the new index
-        var index = $collectionHolder.data('index');
-
-        // Replace '__name__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        var newForm = prototype.replace(/__name__/g, index);
-
-        // increase the index with one for the next item
-        $collectionHolder.data('index', index + 1);
-
-        // Display the form in the page in an li, before the "Add a tag" link li
-        var $newFormLi = $('<div></div>').append(newForm);
-        $newLinkLi.before($newFormLi);
-
-        // handle the removal, just for this example
-        $('.remove-tag').click(function (e) {
-            e.preventDefault();
-
-            $(this).parent().remove();
-
-            return false;
-        });
-
-        // Agrego la función para buscar los precios del articulo
-        $newFormLi.on('change', function(){
-          fnArticuloChange(index);
-        });
-
-        // add a delete link to the new form
-        addArticuloFormDeleteLink($newFormLi);
-    }
-
-    function fnArticuloChange($index) {
-        var data = { articuloId: $('#appbundle_comprobante_articulos_'+$index+'_articulo').val() };
-        
-        $.ajax({
-            type: 'POST',
-            url: "{{ url('articulo_find') }}" ,
-            data: data,
-            success: function(resp){
-                var articulo = $.parseJSON(resp.articulo);
-                
-                $("#appbundle_comprobante_articulos_"+$index+"_precioCosto").val(articulo.precioCosto);
-            }
-        });
-    }
-
-    function addArticuloFormDeleteLink($articuloFormLi) {
-        var $removeFormA = $('<a href="#">Eliminar </a>');
-
-        $articuloFormLi.append($removeFormA);
-
-        $removeFormA.on('click', function (e) {
-            // prevent the link from creating a "#" on the URL
-            e.preventDefault();
-
-            // remove the li for the articulo form
-            $articuloFormLi.remove();
-        });
-    }
-
-    /*
-    $(document).on('change', '#appbundle_comprobante_articulos_0_articulo', function(){
-            alert('lala');
-        });
-    /*
-    $(document).ready(function(){
-        var $form = $(this).closest('form');
-        $(".articulo-input").change(function(){
-            var data = { articuloId: $(this).val() };
-            $.ajax({
-                type: 'POST',
-                url: $form.attr('action'),
-                data: data,
-                success: function(data) {
-                    for (var i=0, total = data.length; i < total; i++) {
-                        $('.municipio-input').append('<option value="' + data[i].id + '">' + data[i].municipio + '</option>');
-                    }
-                }
-            });
-        });
-    });
-    */
-    #}
-</script>          
+</script>
 
 {% endblock %}
