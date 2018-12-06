@@ -51,7 +51,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="bonificacion", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="bonificacion", type="decimal", precision=16, scale=3, nullable=true)
      */
     //bonificacion = porcentaje de bonificacion del articulo
     private $bonificacion;
@@ -109,7 +109,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3, nullable=true)
      */
     //totalNoGravado = 0
     private $totalNoGravado;
@@ -117,7 +117,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3, nullable=true)
      */
     //importeIvaExento = 0
     private $importeIvaExento;
@@ -141,7 +141,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
      */
     private $observaciones;
 

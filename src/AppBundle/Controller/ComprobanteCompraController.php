@@ -3,8 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comprobante;
+use AppBundle\Entity\ComprobanteDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+
+use AppBundle\Form\ComprobanteType;
+use AppBundle\Form\ComprobanteDetalleType;
 
 /**
  * Comprobante controller.
@@ -38,15 +42,36 @@ class ComprobanteCompraController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            echo 'lala12';
-            die;
-        }
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
+            $comprobante->setActivo(1);
+            $comprobante->setCreatedBy($this->getUser()->getId());
+            $comprobante->setCreatedAt(new \DateTime("now"));
+            $comprobante->setUpdatedBy($this->getUser()->getId());
+            $comprobante->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($comprobante);
             $em->flush();
+
+            $articulo = new ComprobanteDetalle();
+            $articulos  = $comprobante->getArticulos()->toArray();
+
+            foreach($articulos as $articulo):  
+                $articulo->setTotalNeto($articulo->getPrecioCosto()*$articulo->getCantidad());
+                $articulo->setImporteGanancia(0);
+
+                $articulo->setComprobante($comprobante);
+                $articulo->setActivo(1);
+                $articulo->setCreatedBy($this->getUser()->getId());
+                $articulo->setCreatedAt(new \DateTime("now"));
+                $articulo->setUpdatedBy($this->getUser()->getId());
+                $articulo->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($articulo);
+                $em->flush(); 
+            endforeach;  
 
             return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }

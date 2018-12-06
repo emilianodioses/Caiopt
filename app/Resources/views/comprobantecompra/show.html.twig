@@ -1,112 +1,139 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Comprobante</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ comprobante.id }}</td>
-            </tr>
-            <tr>
-                <th>Tipo</th>
-                <td>{{ comprobante.tipo }}</td>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Puntoventa</th>
-                <td>{{ comprobante.puntoVenta }}</td>
-            </tr>
-            <tr>
-                <th>Numero</th>
-                <td>{{ comprobante.numero }}</td>
-            </tr>
-            <tr>
-                <th>Totalbonificacion</th>
-                <td>{{ comprobante.totalBonificacion }}</td>
-            </tr>
-            <tr>
-                <th>Total</th>
-                <td>{{ comprobante.total }}</td>
-            </tr>
-            <tr>
-                <th>Totalnogravado</th>
-                <td>{{ comprobante.totalNoGravado }}</td>
-            </tr>
-            <tr>
-                <th>Totalneto</th>
-                <td>{{ comprobante.totalNeto }}</td>
-            </tr>
-            <tr>
-                <th>Importeivaexento</th>
-                <td>{{ comprobante.importeIvaExento }}</td>
-            </tr>
-            <tr>
-                <th>Importeiva</th>
-                <td>{{ comprobante.importeIva }}</td>
-            </tr>
-            <tr>
-                <th>Importetributos</th>
-                <td>{{ comprobante.importeTributos }}</td>
-            </tr>
-            <tr>
-                <th>Observaciones</th>
-                <td>{{ comprobante.observaciones }}</td>
-            </tr>
-            <tr>
-                <th>Obrasocialid</th>
-                <td>{{ comprobante.obraSocialId }}</td>
-            </tr>
-            <tr>
-                <th>Obrasocialplanid</th>
-                <td>{{ comprobante.obraSocialPlanId }}</td>
-            </tr>
-            <tr>
-                <th>Totalcosto</th>
-                <td>{{ comprobante.totalCosto }}</td>
-            </tr>
-            <tr>
-                <th>Totalganancia</th>
-                <td>{{ comprobante.totalGanancia }}</td>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <td>{% if comprobante.activo %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Createdby</th>
-                <td>{{ comprobante.createdBy }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if comprobante.createdAt %}{{ comprobante.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Updatedby</th>
-                <td>{{ comprobante.updatedBy }}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if comprobante.updatedAt %}{{ comprobante.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('comprobante_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('comprobante_edit', { 'id': comprobante.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block header %}
+    Comprobante:# {{ comprobante.id }}    
 {% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+        $('html,body').hover(CargarMinuta());
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Cabecera</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                    <th style="width:30%">Proveedor</th>
+                                    <td>{{ comprobante.proveedor }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <td>{{ comprobante.cliente }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipo %</th>
+                                    <td>{{ comprobante.Movimiento }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('Y-m-d') }}{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th>Punto Venta</th>
+                                    <td>{{ comprobante.puntoVenta }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Numero</th>
+                                    <td>{{ comprobante.numero }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Observaciones</th>
+                                    <td>{{ comprobante.observaciones }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Obra Social ID</th>
+                                    <td>{{ comprobante.obraSocialId }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Obra Social Plan ID</th>
+                                    <td>{{ comprobante.obraSocialPlanId }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th style="width:30%">Total Bonificación</th>
+                                    <td>{{ comprobante.totalBonificacion }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <td>{{ comprobante.total }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total No Gravado</th>
+                                    <td>{{ comprobante.totalNoGravado }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Neto</th>
+                                    <td>{{ comprobante.totalNeto }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Importe IVA Exento</th>
+                                    <td>{{ comprobante.importeIvaExento }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Importe Tributos</th>
+                                    <td>{{ comprobante.importeTributos }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Costo</th>
+                                    <td>{{ comprobante.totalCosto }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Ganancia</th>
+                                    <td>{{ comprobante.totalGanancia }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">    
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div> 
+{% endblock %}
+
+

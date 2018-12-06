@@ -13,101 +13,9 @@ Nuevo Comprobante de Compra
 
 {% block body %}
 
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        {{ form_start(form) }}
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
-            </div>
-            <div class="box-body">
-                {{ form_errors(form) }}
-                <div class="row">
-                    {{ form_widget(form.totalNoGravado, { 'attr': {'class': 'hide'} })}}
-                    {{ form_widget(form.importeIvaExento, { 'attr': {'class': 'hide'} })}}
-                    {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
-                    {{ form_widget(form.totalGanancia, { 'attr': {'class': 'hide'} })}}
-                    {{ form_widget(form.cliente, { 'attr': {'class': 'hide'} })}}
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        {{ form_row(form.proveedor)}}
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        {{ form_row(form.tipo)}}
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        {{ form_row(form.fecha)}}
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.puntoVenta)}}
-                    </div>  
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.numero)}}
-                    </div>
-                </div>  
-            </div>
-        </div>
-    </div>
-</div>
-
 {% form_theme form 'comprobantecompra/formCollection.html.twig' %}
-{{ form(form.articulos) }}
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
-            </div>
-            <div class="box-body">                
-                <div class="row">   
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.totalNeto)}}
-                    </div>
-                    <div class="collection-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.importeIva)}}
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.importeTributos)}}
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.totalBonificacion)}}
-                    </div>  
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                        {{ form_row(form.total)}}
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-</div>
-
+{{ form(form) }}
 {{ form_end(form) }}
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="box box-success">
-            <div class="box-footer">
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <a href="{{ path('comprobantecompra_index') }}" class="btn btn-app">
-                            <i class="fa fa-arrow-left"></i> Volver
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>    
-
-
-{#}
-{{ form_widget(form.articulos, { 'attr': {'class': 'hide'} }) }}
-{{ form_end(form) }}
-#}
-
 
 <script type="text/javascript">
     $('.articulo-collection').collection({
@@ -311,6 +219,7 @@ Nuevo Comprobante de Compra
         $("#ComprobanteType_importeIva").val(total_iva.toFixed(3));
         $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(3));
         $("#ComprobanteType_total").val(total.toFixed(3));
+        $("#ComprobanteType_totalCosto").val(total_precio_costo.toFixed(3));
 
         return true;
     }

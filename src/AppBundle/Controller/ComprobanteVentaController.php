@@ -48,13 +48,21 @@ class ComprobanteVentaController extends Controller
             //die;
 
             $em = $this->getDoctrine()->getManager();
-            $comprobante->setMovimiento('Venta');
 
-            $comprobante->setTotalGanancia(1);
-            $comprobante->setTotalCosto(1);
-            $comprobante->setImporteTributos(0);
-            
-            $comprobante->setNumero(1);
+            $max_numero_comprobante = $em->createQueryBuilder()
+             ->select('MAX(c.numero)')
+             ->from('AppBundle:Comprobante', 'c')
+             ->where('c.movimiento = :venta')
+             ->setParameter('venta', 'venta')
+             ->getQuery()
+             ->getSingleScalarResult();
+        
+            //$comprobante->setTotalGanancia(1);
+            //$comprobante->setTotalCosto(1);
+            //$comprobante->setImporteTributos(0);
+
+            $comprobante->setNumero($max_numero_comprobante+1);
+            $comprobante->setMovimiento('Venta');
             $comprobante->setActivo(1);
             $comprobante->setCreatedBy($this->getUser()->getId());
             $comprobante->setCreatedAt(new \DateTime("now"));
@@ -68,6 +76,27 @@ class ComprobanteVentaController extends Controller
             $articulos  = $comprobante->getArticulos()->toArray();
 
             foreach($articulos as $articulo):  
+
+                /*
+                $precio_costo = $em->createQueryBuilder()
+                 ->select('c.precioCosto')
+                 ->from('AppBundle:ComprobanteDetalle', 'c')
+                 ->getQuery()
+                 ->getSingleScalarResult();
+                */
+
+                $articuloBD = $em->getRepository('AppBundle:Articulo')->find($articulo->getArticulo());
+                //$articulo->setPrecioCosto($precio_costo-($precio_costo*(1+$articulo->getBonificacion()/100)));
+                $articulo->setPrecioCosto($articuloBD->getPrecioCosto()-($articuloBD->getPrecioCosto()*(1+$articulo->getBonificacion()/100)));
+                $articulo->setPrecioUnitario($articuloBD->getPrecioCosto());
+                //$articulo->setPrecioUnitario($precio_costo);
+                //precioVenta x cantidad - Bonificacion
+                $articulo->setTotalNeto(($articulo->getPrecioVenta()-$articulo->getBonificacion())*$articulo->getCantidad());
+                $articulo->setGanancia(0);;
+
+                $articulo->setImporteGanancia($articulo->getPrecioVenta()-$articulo->getPrecioUnitario());
+
+                $articulo->setComprobante($comprobante);
                 $articulo->setActivo(1);
                 $articulo->setCreatedBy($this->getUser()->getId());
                 $articulo->setCreatedAt(new \DateTime("now"));
@@ -128,17 +157,21 @@ class ComprobanteVentaController extends Controller
      * Deletes a comprobante entity.
      *
      */
-    public function deleteAction(Request $request, Comprobante $comprobante)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($comprobante);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($comprobante);
-            $em->flush();
-        }
+        $comprobante = $em->getRepository('AppBundle:Comprobante')->find($id);
+        if ($comprobante->getActivo() > 0)
+            $comprobante->setActivo(0);
+        else
+            $comprobante->setActivo(1);  
 
+        $comprobante->setUpdatedBy($this->getUser()->getId()); 
+        $comprobante->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($comprobante);
+        
         return $this->redirectToRoute('comprobanteventa_index');
     }
 
