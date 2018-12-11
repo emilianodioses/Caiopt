@@ -88,10 +88,14 @@ class ComprobanteCompraController extends Controller
      */
     public function showAction(Comprobante $comprobante)
     {
+        $em = $this->getDoctrine()->getManager();
+        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+
         $deleteForm = $this->createDeleteForm($comprobante);
 
         return $this->render('comprobantecompra/show.html.twig', array(
             'comprobante' => $comprobante,
+            'comprobantedetalles' => $comprobantedetalles,
             'delete_form' => $deleteForm->createView(),
         ));
     }

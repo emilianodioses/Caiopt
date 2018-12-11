@@ -11,7 +11,21 @@ Nuevo Comprobante de Venta
     <script src="{{ asset('js/jquery.collection.js') }}"></script>
 {% endblock %}
 
-{% block body %}    
+{% block body %}  
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>  
 
 {% form_theme form 'comprobanteventa/formCollection.html.twig' %}
 {{ form(form) }}
@@ -125,7 +139,6 @@ Nuevo Comprobante de Venta
     }
     
     function submitform() {
-            alert('test');
             document.forms[0].submit();
             //document.getElementById('jsform').submit();
     }

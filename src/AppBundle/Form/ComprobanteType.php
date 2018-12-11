@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -75,7 +76,10 @@ class ComprobanteType extends AbstractType
                         'readonly' => true,
                     ),
                     'label' => 'Importe Tributos'))
-                ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
+                ->add('observaciones',TextareaType::class,array(
+                    'label'=>'Observaciones',
+                    'attr' => array('rows' => '20')
+                ))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))
                 ->add('obraSocialId',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('obraSocialPlanId',HiddenType::class,array('label'=>'Plan Obra Social'))
@@ -105,7 +109,6 @@ class ComprobanteType extends AbstractType
                                    ;
                            }
                 ))
-                
                 ->add('articulos', CollectionType::class, array(
                         'entry_type'   => ComprobanteDetalleType::class,
                         'entry_options' => [

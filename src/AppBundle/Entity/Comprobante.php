@@ -221,6 +221,13 @@ class Comprobante
     {
         return $this->articulos;
     }
+
+    /*
+    public function setArticulos(ArrayCollection $articulos)
+    {
+        $this->articulos = $articulos;
+    }
+    */
     
     public function addArticulo(ComprobanteDetalle $articulo)
     {

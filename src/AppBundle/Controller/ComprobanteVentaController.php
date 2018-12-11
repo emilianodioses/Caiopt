@@ -4,10 +4,13 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
+use AppBundle\Entity\OrdenTrabajo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ComprobanteType;
 use AppBundle\Form\ComprobanteDetalleType;
+use AppBundle\Form\OrdenTrabajoType;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Comprobante controller.
@@ -37,15 +40,11 @@ class ComprobanteVentaController extends Controller
     public function newAction(Request $request)
     {
         $comprobante = new Comprobante();
-        $form = $this->createForm(ComprobanteType::Class, $comprobante);
+        $form = $this->createForm(ComprobanteType::class, $comprobante);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
-            //echo '<pre>';
-            //var_export($form->getData());
-            //die;
 
             $em = $this->getDoctrine()->getManager();
 
@@ -56,10 +55,6 @@ class ComprobanteVentaController extends Controller
              ->setParameter('venta', 'venta')
              ->getQuery()
              ->getSingleScalarResult();
-        
-            //$comprobante->setTotalGanancia(1);
-            //$comprobante->setTotalCosto(1);
-            //$comprobante->setImporteTributos(0);
 
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
@@ -76,24 +71,11 @@ class ComprobanteVentaController extends Controller
             $articulos  = $comprobante->getArticulos()->toArray();
 
             foreach($articulos as $articulo):  
-
-                /*
-                $precio_costo = $em->createQueryBuilder()
-                 ->select('c.precioCosto')
-                 ->from('AppBundle:ComprobanteDetalle', 'c')
-                 ->getQuery()
-                 ->getSingleScalarResult();
-                */
-
                 $articuloBD = $em->getRepository('AppBundle:Articulo')->find($articulo->getArticulo());
-                //$articulo->setPrecioCosto($precio_costo-($precio_costo*(1+$articulo->getBonificacion()/100)));
                 $articulo->setPrecioCosto($articuloBD->getPrecioCosto()-($articuloBD->getPrecioCosto()*(1+$articulo->getBonificacion()/100)));
                 $articulo->setPrecioUnitario($articuloBD->getPrecioCosto());
-                //$articulo->setPrecioUnitario($precio_costo);
-                //precioVenta x cantidad - Bonificacion
                 $articulo->setTotalNeto(($articulo->getPrecioVenta()-$articulo->getBonificacion())*$articulo->getCantidad());
                 $articulo->setGanancia(0);;
-
                 $articulo->setImporteGanancia($articulo->getPrecioVenta()-$articulo->getPrecioUnitario());
 
                 $articulo->setComprobante($comprobante);
@@ -122,10 +104,14 @@ class ComprobanteVentaController extends Controller
      */
     public function showAction(Comprobante $comprobante)
     {
+        $em = $this->getDoctrine()->getManager();
+        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+
         $deleteForm = $this->createDeleteForm($comprobante);
 
         return $this->render('comprobanteventa/show.html.twig', array(
             'comprobante' => $comprobante,
+            'comprobantedetalles' => $comprobantedetalles,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -140,8 +126,27 @@ class ComprobanteVentaController extends Controller
         $editForm = $this->createForm(ComprobanteType::class, $comprobante);
         $editForm->handleRequest($request);
 
+        /*
+        $em = $this->getDoctrine()->getManager();
+
+        $articulos = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+
+        $articulos_original = new ArrayCollection();
+        $articulo = new ComprobanteDetalle();
+
+        foreach($articulos as $articulo):
+            $articulos_original->add($articulo);
+        endforeach; 
+
+        $comprobante->setArticulos($articulos_original);
+
+        //echo '<pre>';
+        //var_export($comprobante->getArticulos());
+        //die;
+        */
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
             return $this->redirectToRoute('comprobanteventa_edit', array('id' => $comprobante->getId()));
         }

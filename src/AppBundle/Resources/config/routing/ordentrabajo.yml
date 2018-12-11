@@ -1,0 +1,24 @@
+ordentrabajo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:OrdenTrabajo:index" }
+    methods:  GET
+
+ordentrabajo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:OrdenTrabajo:show" }
+    methods:  GET
+
+ordentrabajo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:OrdenTrabajo:new" }
+    methods:  [GET, POST]
+
+ordentrabajo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:OrdenTrabajo:edit" }
+    methods:  [GET, POST]
+
+ordentrabajo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:OrdenTrabajo:delete" }
+    methods:  DELETE

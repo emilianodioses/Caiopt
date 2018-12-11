@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ordentrabajos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Referencia</th>
+                <th>Ojoderechoeje</th>
+                <th>Ojoderechocilindro</th>
+                <th>Ojoderechoesfera</th>
+                <th>Ojoderechoadicc</th>
+                <th>Ojoderechodnp</th>
+                <th>Ojoderechoalt</th>
+                <th>Ojoizquierdoeje</th>
+                <th>Ojoizquierdocilindro</th>
+                <th>Ojoizquierdoesfera</th>
+                <th>Ojoizquierdoadicc</th>
+                <th>Ojoizquierdodnp</th>
+                <th>Ojoizquierdoalt</th>
+                <th>Cristales</th>
+                <th>Montura</th>
+                <th>Observaciones</th>
+                <th>Dip</th>
+                <th>Otrostrabajos</th>
+                <th>Taller</th>
+                <th>Diasestimados</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Activo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ordenTrabajo in ordenTrabajos %}
+            <tr>
+                <td><a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.id }) }}">{{ ordenTrabajo.id }}</a></td>
+                <td>{{ ordenTrabajo.referencia }}</td>
+                <td>{{ ordenTrabajo.ojoDerechoEje }}</td>
+                <td>{{ ordenTrabajo.ojoDerechoCilindro }}</td>
+                <td>{{ ordenTrabajo.ojoDerechoEsfera }}</td>
+                <td>{{ ordenTrabajo.ojoDerechoAdicc }}</td>
+                <td>{{ ordenTrabajo.ojoDerechoDnp }}</td>
+                <td>{{ ordenTrabajo.ojoDerechoAlt }}</td>
+                <td>{{ ordenTrabajo.ojoIzquierdoEje }}</td>
+                <td>{{ ordenTrabajo.ojoIzquierdoCilindro }}</td>
+                <td>{{ ordenTrabajo.ojoIzquierdoEsfera }}</td>
+                <td>{{ ordenTrabajo.ojoIzquierdoAdicc }}</td>
+                <td>{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
+                <td>{{ ordenTrabajo.ojoIzquierdoAlt }}</td>
+                <td>{{ ordenTrabajo.cristales }}</td>
+                <td>{{ ordenTrabajo.montura }}</td>
+                <td>{{ ordenTrabajo.observaciones }}</td>
+                <td>{{ ordenTrabajo.dip }}</td>
+                <td>{{ ordenTrabajo.otrosTrabajos }}</td>
+                <td>{{ ordenTrabajo.taller }}</td>
+                <td>{{ ordenTrabajo.diasEstimados }}</td>
+                <td>{{ ordenTrabajo.createdBy }}</td>
+                <td>{% if ordenTrabajo.createdAt %}{{ ordenTrabajo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ ordenTrabajo.updatedBy }}</td>
+                <td>{% if ordenTrabajo.updatedAt %}{{ ordenTrabajo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if ordenTrabajo.activo %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ordentrabajo_new') }}">Create a new ordenTrabajo</a>
+        </li>
+    </ul>
+{% endblock %}

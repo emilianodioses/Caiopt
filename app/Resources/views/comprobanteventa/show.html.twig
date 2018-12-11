@@ -12,7 +12,6 @@
     $(function(){
         var hash = window.location.hash;
         hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-        $('html,body').hover(CargarMinuta());
 
         $('.nav-tabs a').click(function (e) {
           $(this).tab('show');
@@ -22,117 +21,187 @@
         });
       });
 </script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Compra</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Detalles Compra</a>
+    </li>
+</ul>
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i> Cabecera</h3>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Cabecera</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                            <th style="width:30%">Proveedor</th>
+                                            <td>{{ comprobante.proveedor }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <td>{{ comprobante.cliente }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tipo %</th>
+                                            <td>{{ comprobante.Movimiento }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('Y-m-d') }}{% endif %}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Punto Venta</th>
+                                            <td>{{ comprobante.puntoVenta }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Numero</th>
+                                            <td>{{ comprobante.numero }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Observaciones</th>
+                                            <td>{{ comprobante.observaciones }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Obra Social ID</th>
+                                            <td>{{ comprobante.obraSocialId }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Obra Social Plan ID</th>
+                                            <td>{{ comprobante.obraSocialPlanId }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                    <div class="box-body">
-                        <table class="table table-hover">
-                            <tbody>
-                                    <th style="width:30%">Proveedor</th>
-                                    <td>{{ comprobante.proveedor }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Cliente</th>
-                                    <td>{{ comprobante.cliente }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tipo %</th>
-                                    <td>{{ comprobante.Movimiento }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('Y-m-d') }}{% endif %}</td>
-                                </tr>
-                                <tr>
-                                    <th>Punto Venta</th>
-                                    <td>{{ comprobante.puntoVenta }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Numero</th>
-                                    <td>{{ comprobante.numero }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Observaciones</th>
-                                    <td>{{ comprobante.observaciones }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Obra Social ID</th>
-                                    <td>{{ comprobante.obraSocialId }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Obra Social Plan ID</th>
-                                    <td>{{ comprobante.obraSocialPlanId }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr>
-                                    <th style="width:30%">Total Bonificación</th>
-                                    <td>{{ comprobante.totalBonificacion }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total</th>
-                                    <td>{{ comprobante.total }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total No Gravado</th>
-                                    <td>{{ comprobante.totalNoGravado }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total Neto</th>
-                                    <td>{{ comprobante.totalNeto }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Importe IVA Exento</th>
-                                    <td>{{ comprobante.importeIvaExento }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Importe Tributos</th>
-                                    <td>{{ comprobante.importeTributos }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total Costo</th>
-                                    <td>{{ comprobante.totalCosto }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total Ganancia</th>
-                                    <td>{{ comprobante.totalGanancia }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">    
-            <div class="box box-success">
-                <div class="box-footer">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
-                                <i class="fa fa-arrow-left"></i> Volver
-                            </a>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width:30%">Total Bonificación</th>
+                                            <td>{{ comprobante.totalBonificacion }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td>{{ comprobante.total }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total No Gravado</th>
+                                            <td>{{ comprobante.totalNoGravado }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Neto</th>
+                                            <td>{{ comprobante.totalNeto }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Importe IVA Exento</th>
+                                            <td>{{ comprobante.importeIvaExento }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Importe Tributos</th>
+                                            <td>{{ comprobante.importeTributos }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Costo</th>
+                                            <td>{{ comprobante.totalCosto }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Ganancia</th>
+                                            <td>{{ comprobante.totalGanancia }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>            
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Volver
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>            
+                </div> 
+            </div> 
         </div> 
-    </div> 
+        <div class="tab-pane" id="tabs-2">  
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
+                                <table class="table table-condensed table-hover input-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Articulo</th>
+                                            <th>Precio Venta</th>
+                                            <th>Cantidad</th>
+                                            <th>Bonificacion</th>
+                                            <th>Importe Iva</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for comprobantedetalle in comprobantedetalles %}
+                                        <tr>
+                                            <td>{{ comprobantedetalle.articulo.descripcion }}</td>
+                                            <td>{{ comprobantedetalle.precioVenta }}</td>
+                                            <td>{{ comprobantedetalle.cantidad }}</td>
+                                            <td>{{ comprobantedetalle.bonificacion }}</td>
+                                            <td>{{ comprobantedetalle.importeIva }}</td>
+                                            <td>{{ comprobantedetalle.total }}</td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>        
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Volver
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>            
+                </div>
+            </div>
+        </div> 
+    </div>
 </div> 
 {% endblock %}
 
