@@ -31,6 +31,14 @@ class ComprobanteDetalle
      */
     private $comprobante;
 
+    //Movimiento = Tipo de movimiento, "Compra" o "Venta"
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="movimiento", type="string", length=255)
+     */
+    private $movimiento;
+
     /**
      * @var \Articulo
      *
@@ -669,5 +677,29 @@ class ComprobanteDetalle
     public function getPrecioUnitario()
     {
         return $this->precioUnitario;
+    }
+
+    /**
+     * Set movimiento
+     *
+     * @param string $movimiento
+     *
+     * @return Comprobante
+     */
+    public function setMovimiento($movimiento)
+    {
+        $this->movimiento = $movimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get movimiento
+     *
+     * @return string
+     */
+    public function getMovimiento()
+    {
+        return $this->movimiento;
     }
 }

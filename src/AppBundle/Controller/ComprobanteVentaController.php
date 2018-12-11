@@ -78,6 +78,7 @@ class ComprobanteVentaController extends Controller
                 $articulo->setGanancia(0);;
                 $articulo->setImporteGanancia($articulo->getPrecioVenta()-$articulo->getPrecioUnitario());
 
+                $articulo->setMovimiento('Venta');
                 $articulo->setComprobante($comprobante);
                 $articulo->setActivo(1);
                 $articulo->setCreatedBy($this->getUser()->getId());

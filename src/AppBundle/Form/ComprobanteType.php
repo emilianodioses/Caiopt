@@ -78,6 +78,7 @@ class ComprobanteType extends AbstractType
                     'label' => 'Importe Tributos'))
                 ->add('observaciones',TextareaType::class,array(
                     'label'=>'Observaciones',
+                    'required' => false,
                     'attr' => array('rows' => '20')
                 ))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))

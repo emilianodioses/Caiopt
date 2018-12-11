@@ -24,7 +24,7 @@ class ComprobanteCompraController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findAll();
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra'));
 
         return $this->render('comprobantecompra/index.html.twig', array(
             'comprobantes' => $comprobantes,
@@ -63,6 +63,7 @@ class ComprobanteCompraController extends Controller
                 $articulo->setImporteGanancia(0);
 
                 $articulo->setComprobante($comprobante);
+                $articulo->setMovimiento('Compra');
                 $articulo->setActivo(1);
                 $articulo->setCreatedBy($this->getUser()->getId());
                 $articulo->setCreatedAt(new \DateTime("now"));
