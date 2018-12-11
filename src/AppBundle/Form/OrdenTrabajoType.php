@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OrdenTrabajoType extends AbstractType
 {
@@ -30,72 +31,76 @@ class OrdenTrabajoType extends AbstractType
                 ->add('referencia')
                 ->add('ojoDerechoEje',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Eje Ojo Derecho'))
                 ->add('ojoDerechoCilindro',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
                 ->add('ojoDerechoEsfera',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,                        
                     ),
                     'label' => 'Esfera Ojo Derecho'))
                 ->add('ojoDerechoAdicc',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Adicc Ojo Derecho'))
                 ->add('ojoDerechoDnp',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'DNP Ojo Derecho'))
                 ->add('ojoDerechoAlt',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'ALT Ojo Derecho'))
                 ->add('ojoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('ojoDerechoCilindro',IntegerType::class, array(
+                ->add('ojoIzquierdoCilindro',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
                 ->add('ojoIzquierdoEsfera',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
                 ->add('ojoIzquierdoAdicc',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'Adicc Ojo Izquierdo'))
                 ->add('ojoIzquierdoDnp',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'DNP Ojo Izquierdo'))
                 ->add('ojoIzquierdoAlt',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'ALT Ojo Izquierdo'))
                 ->add('dip',IntegerType::class, array(
                     'attr' => array(
-                        'readonly' => true,
+                    'required' => true,
                     ),
                     'label' => 'DIP'))
                 ->add('cristales', null, array('label' => 'Cristales',))
                 ->add('montura', null, array('label' => 'Montura',))
-                ->add('observaciones', null, array('label' => 'Observaciones',))
+                ->add('observaciones',TextareaType::class,array(
+                    'label'=>'Observaciones',
+                    'required' => false,
+                    'attr' => array('rows' => '3')
+                ))
                 ->add('otrosTrabajos', null, array('label' => 'Otros Trabajos',))
                 ->add('taller', EntityType::class, array(
                     'label' => 'Taller',
@@ -113,7 +118,7 @@ class OrdenTrabajoType extends AbstractType
                     'attr' => array(
                         'readonly' => true,
                     ),
-                    'label' => 'Dias Estimados de Trabajo'))
+                    'label' => 'Tiempo EST'))
                 ;
     }/**
      * {@inheritdoc}

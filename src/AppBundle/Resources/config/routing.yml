@@ -36,7 +36,12 @@ app_comprobanteventa:
     
 app_comprobante_detalle:
     resource: "@AppBundle/Resources/config/routing/comprobantedetalle.yml"
-    prefix:   /comprobantedetalle         
+    prefix:   /comprobantedetalle    
+
+app_orden_trabajo:
+    resource: "@AppBundle/Resources/config/routing/ordentrabajo.yml"
+    prefix:   /ordentrabajo
+
     
 afip_test:
     path:     /afipTest

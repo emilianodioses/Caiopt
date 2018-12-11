@@ -49,6 +49,13 @@ class OrdenTrabajo
     private $referencia;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=255, nullable=true)
+     */
+    private $estado;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="ojo_derecho_eje", type="integer")

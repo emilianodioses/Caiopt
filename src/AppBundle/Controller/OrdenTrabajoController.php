@@ -39,6 +39,13 @@ class OrdenTrabajoController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $ordenTrabajo->setActivo(1);
+            $ordenTrabajo->setCreatedBy($this->getUser()->getId());
+            $ordenTrabajo->setCreatedAt(new \DateTime("now"));
+            $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
+            $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($ordenTrabajo);
             $em->flush();
 

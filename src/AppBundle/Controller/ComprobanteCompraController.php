@@ -14,7 +14,7 @@ use AppBundle\Form\ComprobanteDetalleType;
  * Comprobante controller.
  *
  */
-class ComprobanteCompraController extends Controller
+class ComprobanteCompraController extends controller
 {
     /**
      * Lists all comprobante entities.
