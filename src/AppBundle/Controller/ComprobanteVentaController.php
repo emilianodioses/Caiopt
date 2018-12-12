@@ -26,7 +26,7 @@ class ComprobanteVentaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta'));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1'));
 
         return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,

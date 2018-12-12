@@ -74,10 +74,15 @@ class ClienteController extends Controller
      */
     public function showAction(Cliente $cliente)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('cliente'=>$cliente, 'movimiento'=>'Venta'));
+
         $deleteForm = $this->createDeleteForm($cliente);
 
         return $this->render('cliente/show.html.twig', array(
             'cliente' => $cliente,
+            'comprobantes' => $comprobantes,
             'delete_form' => $deleteForm->createView(),
         ));
     }

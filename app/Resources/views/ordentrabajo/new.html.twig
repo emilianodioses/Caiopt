@@ -25,7 +25,7 @@ Orden de trabajo
                                 {{ form_row(form.cliente) }}                            
                             </div>  
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                {{ form_row(form.referencia) }}                            
+                                {{ form_row(form.comprobante) }}                            
                             </div>
                         </div>     
                         <div class="row">    
@@ -50,6 +50,9 @@ Orden de trabajo
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                {{ form_row(form.estado) }}
+                            </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(form.dip) }}
                             </div>
@@ -69,7 +72,6 @@ Orden de trabajo
                             <h3 class="box-title"><i class="fa fa-user"></i> EJE </h3>
                         </div>
                         <div class="box-body">
-                            {{ form_errors(form) }}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     {{ form_row(form.ojoIzquierdoEje) }}
@@ -87,14 +89,13 @@ Orden de trabajo
                             <h3 class="box-title"><i class="fa fa-user"></i> CILINDRO </h3>
                         </div>
                         <div class="box-body">
-                            {{ form_errors(form) }}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     {{ form_row(form.ojoIzquierdoCilindro) }}
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     {{ form_row(form.ojoDerechoCilindro) }}
-                             </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,7 +106,6 @@ Orden de trabajo
                             <h3 class="box-title"><i class="fa fa-user"></i> ESFERA </h3>
                         </div>
                         <div class="box-body">
-                            {{ form_errors(form) }}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     {{ form_row(form.ojoIzquierdoEsfera) }}
@@ -189,6 +189,7 @@ Orden de trabajo
                 </div>
             </div>
         </div>
+        {{ form_errors(form) }}
         {{ form_end(form) }}
     </div>
 </div>

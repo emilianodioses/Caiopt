@@ -21,4 +21,4 @@ comprobantedetalle_edit:
 comprobantedetalle_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:ComprobanteDetalle:delete" }
-    methods:  DELETE
+    methods:  [GET, POST] 

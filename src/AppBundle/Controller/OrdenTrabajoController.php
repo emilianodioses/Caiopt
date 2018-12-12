@@ -20,7 +20,9 @@ class OrdenTrabajoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ordenTrabajos = $em->getRepository('AppBundle:OrdenTrabajo')->findAll();
+        $ordenTrabajos = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(Array('activo'=> '1'));
+
+        //$comprobantes = $em->getRepository('AppBundle:comprobanteVenta')->findBy(Array('moviemiento' => 'Venta'));
 
         return $this->render('ordentrabajo/index.html.twig', array(
             'ordenTrabajos' => $ordenTrabajos,
@@ -39,6 +41,10 @@ class OrdenTrabajoController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            //echo '<pre>';
+            //var_export($ordenTrabajo);
+            //die;
 
             $ordenTrabajo->setActivo(1);
             $ordenTrabajo->setCreatedBy($this->getUser()->getId());
@@ -83,9 +89,14 @@ class OrdenTrabajoController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
 
-            return $this->redirectToRoute('ordentrabajo_edit', array('id' => $ordenTrabajo->getId()));
+            $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
+            $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
+            $em->persist($ordenTrabajo);
+            $em->flush();
+
+            return $this->redirectToRoute('ordentrabajo_show', array('id' => $ordenTrabajo->getId()));
         }
 
         return $this->render('ordentrabajo/edit.html.twig', array(
@@ -99,17 +110,21 @@ class OrdenTrabajoController extends Controller
      * Deletes a ordenTrabajo entity.
      *
      */
-    public function deleteAction(Request $request, OrdenTrabajo $ordenTrabajo)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($ordenTrabajo);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($ordenTrabajo);
-            $em->flush();
-        }
+        $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id);
+        if ($ordenTrabajo->getActivo() > 0)
+            $ordenTrabajo->setActivo(0);
+        else
+            $ordenTrabajo->setActivo(1);  
 
+        $ordenTrabajo->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajo->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($ordenTrabajo);
+        
         return $this->redirectToRoute('ordentrabajo_index');
     }
 

@@ -74,33 +74,9 @@ class Taller
         return $this->id;
     }
 
-    /**
-     * Set descripcion
-     *
-     * @param string $descripcion
-     *
-     * @return ArticuloCategoria
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
-    /**
-     * Get descripcion
-     *
-     * @return string
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
     public function __toString()
     {
-        return $this->descripcion;
+        return $this->nombre;
     }
 
     /**

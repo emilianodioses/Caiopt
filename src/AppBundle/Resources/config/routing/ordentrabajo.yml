@@ -21,4 +21,4 @@ ordentrabajo_edit:
 ordentrabajo_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:OrdenTrabajo:delete" }
-    methods:  DELETE
+    methods:  [GET, POST] 

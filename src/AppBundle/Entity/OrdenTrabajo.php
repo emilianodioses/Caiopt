@@ -175,9 +175,12 @@ class OrdenTrabajo
     private $otrosTrabajos;
 
     /**
-     * @var int
+     * @var \Taller
      *
-     * @ORM\Column(name="taller", type="integer")
+     * @ORM\ManyToOne(targetEntity="Taller")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
      */
     private $taller;
 
@@ -880,5 +883,29 @@ class OrdenTrabajo
     public function getComprobante()
     {
         return $this->comprobante;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     *
+     * @return OrdenTrabajo
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

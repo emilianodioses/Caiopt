@@ -10,66 +10,98 @@ Cliente
 {% block body %}
 
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="box box-success">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Usuario</h3>
-                </div>
-                <div class="box-body">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th style="width:10%">Nombre</th>
-                                <td>{{ cliente.nombre }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tipo Documento</th>
-                                <td>{{ cliente.documentoTipo }}</td>
-                            </tr>
-                            <tr>
-                                <th>Número Documento</th>
-                                <td>{{ cliente.documentoNumero }}</td>
-                            </tr>
-                            <tr>
-                                <th>Condición Iva</th>
-                                <td>{{ cliente.ivaCondicion }}</td>
-                            </tr>
-                            <tr>
-                                <th>Localidad</th>
-                                <td>{{ cliente.localidad }}</td>
-                            </tr>
-                            <tr>
-                                <th>Dirección</th>
-                                <td>{{ cliente.direccion }}</td>
-                            </tr>
-                            <tr>
-                                <th>Teléfono</th>
-                                <td>{{ cliente.telefono }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>{{ cliente.email }}</td>
-                            </tr>
-                            <tr>
-                                <th>Contacto</th>
-                                <td>{{ cliente.contacto }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Datos Usuario</h3>
             </div>
-            <div class="box box-success">
-                <div class="box-footer">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <a href="{{ path('cliente_index') }}" class="btn btn-app">
-                                <i class="fa fa-arrow-left"></i> Volver
-                            </a>
-                        </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th style="width:10%">Nombre</th>
+                            <td>{{ cliente.nombre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo Documento</th>
+                            <td>{{ cliente.documentoTipo }}</td>
+                        </tr>
+                        <tr>
+                            <th>Número Documento</th>
+                            <td>{{ cliente.documentoNumero }}</td>
+                        </tr>
+                        <tr>
+                            <th>Condición Iva</th>
+                            <td>{{ cliente.ivaCondicion }}</td>
+                        </tr>
+                        <tr>
+                            <th>Localidad</th>
+                            <td>{{ cliente.localidad }}</td>
+                        </tr>
+                        <tr>
+                            <th>Dirección</th>
+                            <td>{{ cliente.direccion }}</td>
+                        </tr>
+                        <tr>
+                            <th>Teléfono</th>
+                            <td>{{ cliente.telefono }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ cliente.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Contacto</th>
+                            <td>{{ cliente.contacto }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>            
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Historial Cliente </h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Comprobante N</th>
+                        <th>Fecha</th>
+                        <th>Punto de Venta</th>
+                        <th>Total</th>
+                        <th style="width: 5%">Acciones</th>
+                    </tr>
+                    <tbody>
+                        {% for comprobante in comprobantes %}
+                            <tr>
+                                <td>{{ comprobante.numero }}</td>
+                                <td>{{ comprobante.fecha|date('Y-m-d') }}</td>
+                                <td>{{ comprobante.puntoVenta }}</td>
+                                <td>{{ comprobante.total }}</td>
+                                <td><a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></td>
+                            </tr>
+                        {% endfor %}    
+                    </tbody>
+                </table>
+            </div>
+        </div>            
+    </div>  
+</div>    
+<div class="row">    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('cliente_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </a>
                     </div>
                 </div>
-            </div>            
-        </div> 
-    </div> 
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

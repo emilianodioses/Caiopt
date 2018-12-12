@@ -824,4 +824,9 @@ class Comprobante
     {
         return $this->movimiento;
     }
+
+    public function __toString()
+    {
+        return (string)$this->numero;
+    }
 }

@@ -1,128 +1,159 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Ordentrabajo</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ordenTrabajo.id }}</td>
-            </tr>
-            <tr>
-                <th>Referencia</th>
-                <td>{{ ordenTrabajo.referencia }}</td>
-            </tr>
-            <tr>
-                <th>Ojoderechoeje</th>
-                <td>{{ ordenTrabajo.ojoDerechoEje }}</td>
-            </tr>
-            <tr>
-                <th>Ojoderechocilindro</th>
-                <td>{{ ordenTrabajo.ojoDerechoCilindro }}</td>
-            </tr>
-            <tr>
-                <th>Ojoderechoesfera</th>
-                <td>{{ ordenTrabajo.ojoDerechoEsfera }}</td>
-            </tr>
-            <tr>
-                <th>Ojoderechoadicc</th>
-                <td>{{ ordenTrabajo.ojoDerechoAdicc }}</td>
-            </tr>
-            <tr>
-                <th>Ojoderechodnp</th>
-                <td>{{ ordenTrabajo.ojoDerechoDnp }}</td>
-            </tr>
-            <tr>
-                <th>Ojoderechoalt</th>
-                <td>{{ ordenTrabajo.ojoDerechoAlt }}</td>
-            </tr>
-            <tr>
-                <th>Ojoizquierdoeje</th>
-                <td>{{ ordenTrabajo.ojoIzquierdoEje }}</td>
-            </tr>
-            <tr>
-                <th>Ojoizquierdocilindro</th>
-                <td>{{ ordenTrabajo.ojoIzquierdoCilindro }}</td>
-            </tr>
-            <tr>
-                <th>Ojoizquierdoesfera</th>
-                <td>{{ ordenTrabajo.ojoIzquierdoEsfera }}</td>
-            </tr>
-            <tr>
-                <th>Ojoizquierdoadicc</th>
-                <td>{{ ordenTrabajo.ojoIzquierdoAdicc }}</td>
-            </tr>
-            <tr>
-                <th>Ojoizquierdodnp</th>
-                <td>{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
-            </tr>
-            <tr>
-                <th>Ojoizquierdoalt</th>
-                <td>{{ ordenTrabajo.ojoIzquierdoAlt }}</td>
-            </tr>
-            <tr>
-                <th>Cristales</th>
-                <td>{{ ordenTrabajo.cristales }}</td>
-            </tr>
-            <tr>
-                <th>Montura</th>
-                <td>{{ ordenTrabajo.montura }}</td>
-            </tr>
-            <tr>
-                <th>Observaciones</th>
-                <td>{{ ordenTrabajo.observaciones }}</td>
-            </tr>
-            <tr>
-                <th>Dip</th>
-                <td>{{ ordenTrabajo.dip }}</td>
-            </tr>
-            <tr>
-                <th>Otrostrabajos</th>
-                <td>{{ ordenTrabajo.otrosTrabajos }}</td>
-            </tr>
-            <tr>
-                <th>Taller</th>
-                <td>{{ ordenTrabajo.taller }}</td>
-            </tr>
-            <tr>
-                <th>Diasestimados</th>
-                <td>{{ ordenTrabajo.diasEstimados }}</td>
-            </tr>
-            <tr>
-                <th>Createdby</th>
-                <td>{{ ordenTrabajo.createdBy }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if ordenTrabajo.createdAt %}{{ ordenTrabajo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Updatedby</th>
-                <td>{{ ordenTrabajo.updatedBy }}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if ordenTrabajo.updatedAt %}{{ ordenTrabajo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <td>{% if ordenTrabajo.activo %}Yes{% else %}No{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('ordentrabajo_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block header %}
+Orden de Trabajo
 {% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Caracteristicas </h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>ID</th>
+                                    <td>{{ ordenTrabajo.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Comprobante</th>
+                                    <td>{{ ordenTrabajo.comprobante }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Taller</th>
+                                    <td>{{ ordenTrabajo.taller }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Otros Trabajos</th>
+                                    <td>{{ ordenTrabajo.otrosTrabajos }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Dias Estimados</th>
+                                    <td>{{ ordenTrabajo.diasEstimados }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Observaciones</th>
+                                    <td>{{ ordenTrabajo.observaciones }}</td>
+                                </tr>
+                                <tr>
+                                    <th>DIP</th>
+                                    <td>{{ ordenTrabajo.dip }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cristales</th>
+                                    <td>{{ ordenTrabajo.cristales }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Montura</th>
+                                    <td>{{ ordenTrabajo.montura }}</td>
+                                </tr>                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> OJO IZQUIERDO</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Eje</th>
+                                    <td>{{ ordenTrabajo.ojoIzquierdoEje }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cilindo</th>
+                                    <td>{{ ordenTrabajo.ojoIzquierdoCilindro }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Esfera</th>
+                                    <td>{{ ordenTrabajo.ojoIzquierdoEsfera }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Adicc</th>
+                                    <td>{{ ordenTrabajo.ojoIzquierdoAdicc }}</td>
+                                </tr>
+                                <tr>
+                                    <th>DNP</th>
+                                    <td>{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
+                                </tr>
+                                <tr>
+                                    <th>ALT</th>
+                                    <td>{{ ordenTrabajo.ojoIzquierdoAlt }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> OJO DERECHO</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Eje</th>
+                                    <td>{{ ordenTrabajo.ojoDerechoEje }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cilindro</th>
+                                    <td>{{ ordenTrabajo.ojoDerechoCilindro }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Esfera</th>
+                                    <td>{{ ordenTrabajo.ojoDerechoEsfera }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Adicc</th>
+                                    <td>{{ ordenTrabajo.ojoDerechoAdicc }}</td>
+                                </tr>
+                                <tr>
+                                    <th>DNP</th>
+                                    <td>{{ ordenTrabajo.ojoDerechoDnp }}</td>
+                                </tr>
+                                <tr>
+                                    <th>ALT</th>
+                                    <td>{{ ordenTrabajo.ojoDerechoAlt }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="row">    
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('ordentrabajo_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div> 
+{% endblock %}
+

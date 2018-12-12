@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Orden de Trabajo
+Ordenes de Trabajo
 {% endblock %}
 
 {% block header_description %}
@@ -27,46 +27,86 @@ Orden de Trabajo
             </div>
           </div>
         </div>
-        <!-- /.box-header -->
-        <div class="box-body table-responsive no-padding">
-          <table class="table table-hover">
-                <tr>
-                    <th>ID<th>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+      <!-- /.box-header -->
+      <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-user"></i> Ordenes en Marcha </h3>
+        </div>
+        <div class="box-body">
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                  <tr>
+                    <th>ID</th>
                     <th>Cliente</th>
-                    <th>Referencia</th>
+                    <th>Comprobante</th>
                     <th>Observaciones</th>
                     <th>Taller</th>
                     <th>Dias Estimados</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
-            <tbody>
-            {% for ordenTrabajo in ordenTrabajos %}
-                <tr>
-                    <td><a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.id }) }}">{{ ordenTrabajo.id }}</a></td>
-                    <td>{{ ordenTrabajo.cliente }}</td>
-                    <td>{{ ordenTrabajo.referencia }}</td>
-                    <td>{{ ordenTrabajo.observaciones }}</td>
-                    <td>{{ ordenTrabajo.taller }}</td>
-                    <td>{{ ordenTrabajo.diasEstimados }}</td>
-                    <td>{{ ordenTrabajo.estado }}</td>
-                    <td>
-                      <a href="{{ path('ordentrabajo_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
-                      </a>
-                      <a href="{{ path('ordentrabajo_edit', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
-                      </a>
-                      {% if comprobante.activo %}
-                          <a href="{{ path('ordentrabajo_delete', { 'id': comprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
-                          </a>
-                      {% else %}
-                          <a href="{{ path('ordentrabajo_delete', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
-                          </a>
-                      {% endif %}
-                    </td>
+              <tbody>
+              {% for ordenTrabajo in ordenTrabajos %}
+                  <tr>
+                      <td>{{ ordenTrabajo.id }}</td>
+                      <td>{{ ordenTrabajo.cliente }}</td>
+                      <td>{{ ordenTrabajo.comprobante }}</td>
+                      <td>{{ ordenTrabajo.observaciones }}</td>
+                      <td>{{ ordenTrabajo.taller }}</td>
+                      <td>{{ ordenTrabajo.diasEstimados }}</td>
+                      <td>{{ ordenTrabajo.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajo.activo %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <!-- /.box-header -->
+      <div class="box box-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-user"></i> Ordenes Pendientes </h3>
+        </div>
+        <div class="box-body">
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Comprobante</th>
+                    <th>Observaciones</th>
+                    <th style="width: 5%">Acciones</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-          </table>
+              <tbody>
+              {#}{% for ordenTrabajo in ordenTrabajos %}{#}
+              {#}{% endfor %}{#}
+                <tr>
+                  <td> Aca tenemos que buscar las comprobantes detalle que tengan productos que necesiten orden de trabajo y tengan un estado en particular</td>
+                  <td>A la table comprobante detalle tal vez tengamos que agregarle una nueva columna de estado
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

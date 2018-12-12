@@ -74,10 +74,15 @@ class ProveedorController extends Controller
      */
     public function showAction(Proveedor $proveedor)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor'=>$proveedor, 'movimiento'=>'Compra'));
+
         $deleteForm = $this->createDeleteForm($proveedor);
 
         return $this->render('proveedor/show.html.twig', array(
             'proveedor' => $proveedor,
+            'comprobantes' => $comprobantes,
             'delete_form' => $deleteForm->createView(),
         ));
     }

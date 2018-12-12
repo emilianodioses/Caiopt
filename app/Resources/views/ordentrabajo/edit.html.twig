@@ -1,21 +1,195 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Ordentrabajo edit</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('ordentrabajo_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block header %}
+Orden de trabajo
 {% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    {{ form_start(edit_form) }}
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Caracteristicas </h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(edit_form) }}
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                {{ form_row(edit_form.cliente) }}                            
+                            </div>  
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(edit_form.comprobante) }}                            
+                            </div>
+                        </div>     
+                        <div class="row">    
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                {{ form_row(edit_form.taller) }}
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(edit_form.diasEstimados) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                {{ form_row(edit_form.otrosTrabajos) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(edit_form.cristales) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(edit_form.montura) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(edit_form.dip) }}
+                            </div>
+                        </div>
+                        <div class="row">    
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                {{ form_row(edit_form.observaciones) }}
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="row">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> EJE </h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoIzquierdoEje) }}
+                                </div> 
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoDerechoEje) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> CILINDRO </h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoIzquierdoCilindro) }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoDerechoCilindro) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> ESFERA </h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoIzquierdoEsfera) }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoDerechoEsfera) }}
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="row">
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> ADICC </h3>
+                        </div>
+                        <div class="box-body">
+                            {{ form_errors(edit_form) }}
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoIzquierdoAdicc) }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoDerechoAdicc) }}
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> DNP </h3>
+                        </div>
+                        <div class="box-body">
+                            {{ form_errors(edit_form) }}
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoIzquierdoDnp) }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoDerechoDnp) }}
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> ALT </h3>
+                        </div>
+                        <div class="box-body">
+                            {{ form_errors(edit_form) }}
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoIzquierdoAlt) }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    {{ form_row(edit_form.ojoDerechoAlt) }}
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('ordentrabajo_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_errors(edit_form) }}
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+{% endblock %}
+
+
