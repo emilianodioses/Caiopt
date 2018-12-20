@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class ComprobanteDetalleType extends AbstractType
@@ -81,35 +82,28 @@ class ComprobanteDetalleType extends AbstractType
 */
         $builder->add('cantidad',NumberType::class,array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad', 'class' => 'cantidad')))
                 ->add('bonificacion',null,array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion')))
                 ->add('precioUnitario',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioUnitario'),
                     ))
                 ->add('precioCosto',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto'),
                     ))
                 ->add('precioVenta',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta'),
                     ))
                 ->add('totalNeto',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto'),
                     ))
                 ->add('importeIva',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array(
                         'readonly' => true,
                     ),
@@ -117,7 +111,6 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('total',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array(
                         'readonly' => true,
                     ),
@@ -125,7 +118,6 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('ganancia',NumberType::class, array(
                     'label' => false,
-                    'data' => 0,
                     'attr' => array('size' => 3, 'placeholder' => 'Ganancia', 'class' => 'ganancia')))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Iva Exento'))
