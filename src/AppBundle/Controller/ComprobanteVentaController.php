@@ -65,7 +65,6 @@ class ComprobanteVentaController extends Controller
             $comprobante->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($comprobante);
-            $em->flush();
 
             $articulo = new ComprobanteDetalle();
             $articulos  = $comprobante->getArticulos()->toArray();
@@ -91,9 +90,10 @@ class ComprobanteVentaController extends Controller
                 $articulo->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($articulo);
-                $em->flush(); 
+             
             endforeach;    
 
+            $em->flush();
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
@@ -127,15 +127,31 @@ class ComprobanteVentaController extends Controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        /*
+        if (is_null($comprobante->getArticulos())) {
+            echo('nulo');
+        }
+        else {
+            echo('NO nulo');
+        }
+        die;
+*/
+        $articulos = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+
+        foreach($articulos as $articulo) {
+            $comprobante->getArticulos()->add($articulo);
+        }
+
         $deleteForm = $this->createDeleteForm($comprobante);
         $editForm = $this->createForm(ComprobanteType::class, $comprobante);
         $editForm->handleRequest($request);
 
         /*
-        $em = $this->getDoctrine()->getManager();
-
-        $articulos = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
-
+        echo (count($comprobante->getArticulos()));
+        die;
+        /*
         $articulos_original = new ArrayCollection();
         $articulo = new ComprobanteDetalle();
 

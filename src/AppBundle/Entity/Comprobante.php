@@ -219,6 +219,9 @@ class Comprobante
     
     public function getArticulos()
     {
+        if (is_null($this->articulos)) {
+            $this->articulos = new ArrayCollection();
+        }
         return $this->articulos;
     }
 
