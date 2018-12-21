@@ -72,8 +72,12 @@ class ComprobanteVentaController extends Controller
 
             foreach($articulos as $articulo):  
                 $articuloBD = $em->getRepository('AppBundle:Articulo')->find($articulo->getArticulo());
-                $articulo->setPrecioCosto($articuloBD->getPrecioCosto()-($articuloBD->getPrecioCosto()*(1+$articulo->getBonificacion()/100)));
-                $articulo->setPrecioUnitario($articuloBD->getPrecioCosto());
+
+                $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
+                ->findOneBy(array('articulo' => $articuloBD));
+
+                $articulo->setPrecioCosto($articuloBD->getPrecioCosto());
+                $articulo->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
                 $articulo->setTotalNeto(($articulo->getPrecioVenta()-$articulo->getBonificacion())*$articulo->getCantidad());
                 $articulo->setGanancia(0);;
                 $articulo->setImporteGanancia($articulo->getPrecioVenta()-$articulo->getPrecioUnitario());

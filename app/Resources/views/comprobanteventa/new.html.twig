@@ -122,8 +122,8 @@ $(function(){
 
             total_neto_sin_iva += parseFloat(r_cantidad.val()) * parseFloat(r_precioVenta.val());
             total_neto += total_neto_sin_iva;
-            bonificacion += parseFloat(r_bonificacion.val()/100*total_neto);
             importe_iva += parseFloat(r_importeIva.val())/100*parseFloat(total_neto_sin_iva);
+            bonificacion += parseFloat((total_neto+importe_iva))-parseFloat(r_total.val());
             total += parseFloat(r_total.val());
         });
 
