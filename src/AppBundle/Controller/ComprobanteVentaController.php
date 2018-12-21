@@ -110,7 +110,7 @@ class ComprobanteVentaController extends Controller
     public function showAction(Comprobante $comprobante)
     {
         $em = $this->getDoctrine()->getManager();
-        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
         $deleteForm = $this->createDeleteForm($comprobante);
 
@@ -129,47 +129,67 @@ class ComprobanteVentaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        /*
-        if (is_null($comprobante->getArticulos())) {
-            echo('nulo');
-        }
-        else {
-            echo('NO nulo');
-        }
-        die;
-*/
-        $articulos = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
-        foreach($articulos as $articulo) {
-            $comprobante->getArticulos()->add($articulo);
+        foreach($comprobantedetalles as $comprobantedetalle) {
+            $comprobante->getArticulos()->add($comprobantedetalle);
         }
 
         $deleteForm = $this->createDeleteForm($comprobante);
         $editForm = $this->createForm(ComprobanteType::class, $comprobante);
         $editForm->handleRequest($request);
 
-        /*
-        echo (count($comprobante->getArticulos()));
-        die;
-        /*
-        $articulos_original = new ArrayCollection();
-        $articulo = new ComprobanteDetalle();
-
-        foreach($articulos as $articulo):
-            $articulos_original->add($articulo);
-        endforeach; 
-
-        $comprobante->setArticulos($articulos_original);
-
-        //echo '<pre>';
-        //var_export($comprobante->getArticulos());
-        //die;
-        */
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            //**********************************************************************
+            //ESTA parte es para que funcione el delete de articulos.
+            //Basicamente seteo a todos los articulos ya existen en la base de datos con 
+            //Activo = 0
+            $comprobantedetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
+                    ->findBy(array('comprobante' => $comprobante));
+
+            foreach ($comprobantedetalleDelete as $comprobantedetalle) {
+                $comprobantedetalle->setActivo(0);
+            }   
+            //**********************************************************************
+                             
+
+            foreach($editForm->getData()->getArticulos() as $comprobantedetalle) {
+                $articuloBD = $em->getRepository('AppBundle:Articulo')->find($comprobantedetalle->getArticulo());
+
+                $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
+                    ->findOneBy(array('articulo' => $articuloBD));
+
+                if (is_null($comprobantedetalle->getId())){     
+
+                    $comprobantedetalle->setMovimiento('Venta');
+                    $comprobantedetalle->setComprobante($comprobante);
+                    $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));
+                    $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                    $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($comprobantedetalle);
+                }
+                else {
+                    $comprobantedetalle->setComprobante($comprobante);
+                    $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                    $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+                }
+
+                $comprobantedetalle->setActivo(1);
+                $comprobantedetalle->setTotalNeto(($comprobantedetalle->getPrecioVenta()-$comprobantedetalle->getBonificacion())*$comprobantedetalle->getCantidad());
+                $comprobantedetalle->setPrecioCosto($articuloBD->getPrecioCosto());
+                $comprobantedetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
+                $comprobantedetalle->setGanancia(0);;
+                $comprobantedetalle->setImporteGanancia($comprobantedetalle->getPrecioVenta()-$comprobantedetalle->getPrecioUnitario());
+
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return $this->redirectToRoute('comprobanteventa_edit', array('id' => $comprobante->getId()));
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
         return $this->render('comprobanteventa/edit.html.twig', array(
