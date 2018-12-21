@@ -1,21 +1,228 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+Nuevo Comprobante de Compra
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
 {% block body %}
-    <h1>Comprobante edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+{% form_theme edit_form 'comprobantecompra/formCollection.html.twig' %}
+{{ form(edit_form) }}
+{{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('comprobante_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<script type="text/javascript">
+    $('.articulo-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 1,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            precioUnitario = element.find("input.precioUnitario");
+            bonificacion = element.find("input.bonificacion");
+            precioCosto = element.find("input.precioCosto");
+            ganancia = element.find("input.ganancia");
+            precioVenta = element.find("input.precioVenta");
+            //alert(articulo_select.prop('outerHTML'));
+            
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
+
+            precioUnitario.on('change', function(){
+                fnPrecioUnitarioBonificacionChange($(this));
+            });
+
+            bonificacion.on('change', function(){
+                fnPrecioUnitarioBonificacionChange($(this));
+            });
+
+            precioCosto.on('change', function(){
+                fnPrecioCostoChange($(this));
+            });
+
+            ganancia.on('change', function(){
+                fnGananciaChange($(this));
+            });
+
+            precioVenta.on('change', function(){
+                fnPrecioVentaChange($(this));
+            });
+
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+        var precioUnitario = renglon.find("input.precioUnitario");
+        var precioCosto = renglon.find("input.precioCosto");
+        var importeIva = renglon.find("input.importeIva");
+        var ganancia = renglon.find("input.ganancia");
+        
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                precioUnitario.val(articulo.precioCosto);
+                precioCosto.val(articulo.precioCosto);
+                importeIva.val(articulo.iva);
+                ganancia.val(articulo.gananciaPorcentaje);
+
+                fnGananciaChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnPrecioUnitarioBonificacionChange(input) {
+        var renglon = input.closest("tr");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
+        var r_bonificacion = renglon.find("input.bonificacion");
+        var r_precioCosto = renglon.find("input.precioCosto");
+
+        var bonificacion_importe = parseFloat(r_bonificacion.val() * r_precioUnitario.val() / 100);
+        var precio_costo = parseFloat(parseFloat(r_precioUnitario.val()) - parseFloat(bonificacion_importe)).toFixed(3);
+        r_precioCosto.val(precio_costo);
+
+        return true;
+    }
+
+    function fnPrecioCostoChange(input) {
+        var renglon = input.closest("tr");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
+        var r_bonificacion = renglon.find("input.bonificacion");
+        var r_precioCosto = renglon.find("input.precioCosto");
+
+        var bonificacion_importe = parseFloat(r_precioUnitario.val()) - parseFloat(r_precioCosto.val());
+        var bonificacion = parseFloat(bonificacion_importe * 100 / r_precioUnitario.val()).toFixed(2);
+        r_bonificacion.val(bonificacion);
+
+        return true;
+    }
+
+    function fnGananciaChange(input) {
+        var renglon = input.closest("tr");
+        var r_precioCosto = renglon.find("input.precioCosto");
+        var r_ganancia = renglon.find("input.ganancia");
+        var r_precioVenta = renglon.find("input.precioVenta");
+
+        if (r_ganancia.val() == 0) {
+            var precio_venta = r_precioCosto.val();
+        }
+        else {
+            var ganancia_importe = parseFloat(r_ganancia.val() * r_precioCosto.val() / 100);
+            var precio_venta = parseFloat(parseFloat(r_precioCosto.val()) + parseFloat(ganancia_importe)).toFixed(3);
+        }
+        r_precioVenta.val(precio_venta);
+
+        return true;
+    }
+
+    function fnPrecioVentaChange(input) {
+        var renglon = input.closest("tr");
+        var r_precioCosto = renglon.find("input.precioCosto");
+        var r_ganancia = renglon.find("input.ganancia");
+        var r_precioVenta = renglon.find("input.precioVenta");
+        
+        var ganancia_importe = parseFloat(r_precioVenta.val()) - parseFloat(r_precioCosto.val());
+        var ganancia = parseFloat(ganancia_importe * 100 / r_precioCosto.val()).toFixed(2);
+        r_ganancia.val(ganancia);
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var r_cantidad = renglon.find("input.cantidad");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
+        var r_bonificacion = renglon.find("input.bonificacion");
+        var r_precioCosto = renglon.find("input.precioCosto");
+        var r_importeIva = renglon.find("input.importeIva");
+        var r_total = renglon.find("input.total");
+        
+        if (r_cantidad == '' ||
+            r_bonificacion == '' ||
+            r_precioCosto == '' ||
+            r_importeIva == '') {
+            //Si los campos están vacíos, no hago nada
+            return true;
+        }
+
+        var total_iva = parseFloat(r_precioCosto.val() * r_importeIva.val() / 100);
+        var total = parseFloat(parseFloat(r_cantidad.val() * r_precioCosto.val()) + parseFloat(r_cantidad.val() * total_iva)).toFixed(3);
+        r_total.val(total);
+        
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        var total_bonificacion = 0;
+        var total_precio_unitario = 0;
+        var total_precio_costo = 0;
+        var total_iva = 0;
+        var total = 0;
+
+        $("#ComprobanteType_articulos tr.item").each(function() {
+            var r_cantidad = $(this).find("input.cantidad")
+            var r_precioUnitario = $(this).find("input.precioUnitario");
+            var r_bonificacion = $(this).find("input.bonificacion");
+            var r_precioCosto = $(this).find("input.precioCosto");
+            var r_importeIva = $(this).find("input.importeIva");
+            var r_total = $(this).find("input.total");
+
+            var precioUnitario = 0;
+            var bonificacion = 0;
+            var precioCosto = 0;
+            var iva = 0;
+
+            precioUnitario = parseFloat(r_cantidad.val()) * parseFloat(r_precioUnitario.val());
+            bonificacion = parseFloat(r_bonificacion.val()/100*precioUnitario);
+            precioCosto = parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
+            iva = parseFloat(r_importeIva.val()/100*precioCosto);
+
+            total_precio_unitario += precioUnitario;
+            total_bonificacion += bonificacion;
+            total_precio_costo += precioCosto;
+            total_iva += iva;
+            total += parseFloat(r_total.val());
+        });
+
+        $("#ComprobanteType_totalNeto").val(total_precio_unitario.toFixed(3));
+        $("#ComprobanteType_importeIva").val(total_iva.toFixed(3));
+        $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(3));
+        $("#ComprobanteType_total").val(total.toFixed(3));
+        $("#ComprobanteType_totalCosto").val(total_precio_costo.toFixed(3));
+
+        return true;
+    }
+</script>
+
 {% endblock %}

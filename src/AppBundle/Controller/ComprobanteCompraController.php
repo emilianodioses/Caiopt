@@ -90,7 +90,7 @@ class ComprobanteCompraController extends controller
     public function showAction(Comprobante $comprobante)
     {
         $em = $this->getDoctrine()->getManager();
-        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante));
+        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
         $deleteForm = $this->createDeleteForm($comprobante);
 
@@ -107,14 +107,62 @@ class ComprobanteCompraController extends controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+
+        foreach($comprobantedetalles as $comprobantedetalle) {
+            $comprobante->getArticulos()->add($comprobantedetalle);
+        }
+
         $deleteForm = $this->createDeleteForm($comprobante);
-        $editForm = $this->createForm('AppBundle\Form\ComprobanteType', $comprobante);
+        $editForm = $this->createForm(ComprobanteType::class, $comprobante);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('comprobantecompra_edit', array('id' => $comprobante->getId()));
+            //**********************************************************************
+            //ESTA parte es para que funcione el delete de articulos.
+            //Basicamente seteo a todos los articulos ya existen en la base de datos con 
+            //Activo = 0
+            $comprobantedetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
+                    ->findBy(array('comprobante' => $comprobante));
+
+            foreach ($comprobantedetalleDelete as $comprobantedetalle) {
+                $comprobantedetalle->setActivo(0);
+            }   
+            //**********************************************************************
+
+            foreach($editForm->getData()->getArticulos() as $comprobantedetalle) {
+                $articuloBD = $em->getRepository('AppBundle:Articulo')->find($comprobantedetalle->getArticulo());
+
+                $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
+                    ->findOneBy(array('articulo' => $articuloBD));
+
+                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+                $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
+                $comprobantedetalle->setImporteGanancia(0);
+                $comprobantedetalle->setMovimiento('Compra');
+                $comprobantedetalle->setComprobante($comprobante);
+                $comprobantedetalle->setActivo(1);
+                $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                $comprobantedetalle->setCreatedAt(new \DateTime("now"));
+                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+
+                if (is_null($comprobantedetalle->getId())){     
+                    $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));
+                    $em->persist($comprobantedetalle);
+                }
+
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }
 
         return $this->render('comprobantecompra/edit.html.twig', array(

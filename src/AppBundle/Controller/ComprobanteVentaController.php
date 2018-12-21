@@ -160,29 +160,22 @@ class ComprobanteVentaController extends Controller
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
                     ->findOneBy(array('articulo' => $articuloBD));
 
-                if (is_null($comprobantedetalle->getId())){     
-
-                    $comprobantedetalle->setMovimiento('Venta');
-                    $comprobantedetalle->setComprobante($comprobante);
-                    $comprobantedetalle->setCreatedBy($this->getUser()->getId());
-                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));
-                    $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
-                    $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
-
-                    $em->persist($comprobantedetalle);
-                }
-                else {
-                    $comprobantedetalle->setComprobante($comprobante);
-                    $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
-                    $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
-                }
-
+                $comprobantedetalle->setMovimiento('Venta');
+                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+                $comprobantedetalle->setComprobante($comprobante);
                 $comprobantedetalle->setActivo(1);
                 $comprobantedetalle->setTotalNeto(($comprobantedetalle->getPrecioVenta()-$comprobantedetalle->getBonificacion())*$comprobantedetalle->getCantidad());
                 $comprobantedetalle->setPrecioCosto($articuloBD->getPrecioCosto());
                 $comprobantedetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
                 $comprobantedetalle->setGanancia(0);;
                 $comprobantedetalle->setImporteGanancia($comprobantedetalle->getPrecioVenta()-$comprobantedetalle->getPrecioUnitario());
+
+                if (is_null($comprobantedetalle->getId())){     
+                    $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));
+                    $em->persist($comprobantedetalle);
+                }
 
             }
 
