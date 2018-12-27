@@ -11,3 +11,4 @@ namespace AppBundle\Repository;
 class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
 {
 }
+

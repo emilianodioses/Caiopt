@@ -107,6 +107,13 @@ class Articulo
     /**
      * @var string
      *
+     * @ORM\Column(name="orden_trabajo", type="boolean")
+     */
+    private $ordenTrabajo;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="genero", type="string", length=255)
      */
     private $genero;
@@ -114,35 +121,35 @@ class Articulo
     /**
      * @var string
      *
-     * @ORM\Column(name="material", type="string", length=255)
+     * @ORM\Column(name="material", type="string", length=255, nullable=true)
      */
     private $material;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="forma", type="string", length=255)
+     * @ORM\Column(name="forma", type="string", length=255, nullable=true)
      */
     private $forma;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="estilo", type="string", length=255)
+     * @ORM\Column(name="estilo", type="string", length=255, nullable=true)
      */
     private $estilo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="color_marco", type="string", length=255)
+     * @ORM\Column(name="color_marco", type="string", length=255, nullable=true)
      */
     private $color_marco;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="color_cristal", type="string", length=255)
+     * @ORM\Column(name="color_cristal", type="string", length=255, nullable=true)
      */
     private $color_cristal;
 
@@ -454,6 +461,30 @@ class Articulo
     public function getPrecioModifica()
     {
         return $this->precioModifica;
+    }
+
+    /**
+     * Set ordenTrabajo
+     *
+     * @param string $ordenTrabajo
+     *
+     * @return Articulo
+     */
+    public function setOrdenTrabajo($ordenTrabajo)
+    {
+        $this->ordenTrabajo = $ordenTrabajo;
+
+        return $this;
+    }
+
+    /**
+     * Get ordenTrabajo
+     *
+     * @return string
+     */
+    public function getOrdenTrabajo()
+    {
+        return $this->ordenTrabajo;
     }
 
     /**

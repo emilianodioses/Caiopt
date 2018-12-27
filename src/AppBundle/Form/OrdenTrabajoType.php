@@ -19,6 +19,7 @@ class OrdenTrabajoType extends AbstractType
     {
 
         $estados = array(
+            'Pendiente' => 'Pendiente',
             'Nuevo' => 'Nuevo',
             'Enviado' => 'Enviado',
             'Finalizado' => 'Finalizado');
@@ -39,10 +40,12 @@ class OrdenTrabajoType extends AbstractType
                     'label' => 'Comprobante',
                     'class' => 'AppBundle:Comprobante',
                     'required' => true,
-                    'choice_label' => 'id',
+                    'choice_label' => 'numero',
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
+                                   ->andWhere('l.movimiento = ?1')
+                                   ->setParameter(1, 'Venta')
                                    ->orderBy('l.id', 'ASC')
                                    ;
                            }
@@ -133,7 +136,7 @@ class OrdenTrabajoType extends AbstractType
                     'empty_data' => ''  ,
                     'attr' => array('rows' => '3')
                 ))
-                ->add('otrosTrabajos', null, array('label' => 'Otros Trabajos',))
+                ->add('otrosTrabajos', null, array('label' => 'Otros Trabajos','required' => false,))
                 ->add('taller', EntityType::class, array(
                     'label' => 'Taller',
                     'class' => 'AppBundle:Taller',

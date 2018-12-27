@@ -63,6 +63,16 @@ Articulo
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th>Orden Trabajo</th>
+                                    <td>
+                                        {% if articulo.ordenTrabajo %}
+                                          <span class="label label-success">Si</span>
+                                        {% else %}
+                                          <span class="label label-danger">No</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>Activo</th>
                                     <td>
                                         {% if articulo.activo %}
@@ -123,6 +133,10 @@ Articulo
                             <a href="{{ path('articulo_index') }}" class="btn btn-app">
                                 <i class="fa fa-arrow-left"></i> Volver
                             </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('articulo_edit', { 'id': articulo.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
                         </div>
                     </div>
                 </div>

@@ -81,6 +81,7 @@ class ComprobanteDetalleType extends AbstractType
         );
 */
         $builder->add('cantidad',NumberType::class,array(
+                    'required' => true,
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad', 'class' => 'cantidad')))
                 ->add('bonificacion',null,array(

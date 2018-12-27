@@ -51,7 +51,8 @@ Ordenes de Trabajo
                     <th style="width: 5%">Acciones</th>
                 </tr>
               <tbody>
-              {% for ordenTrabajo in ordenTrabajos %}
+              {% for ordenTrabajo in ordenesTrabajo %}
+                {% if ordenTrabajo.estado != 'Pendiente' %}
                   <tr>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
@@ -74,6 +75,7 @@ Ordenes de Trabajo
                         {% endif %}
                       </td>
                   </tr>
+                  {% endif %}
               {% endfor %}
               </tbody>
             </table>
@@ -97,13 +99,16 @@ Ordenes de Trabajo
                     <th style="width: 5%">Acciones</th>
                 </tr>
               <tbody>
-              {#}{% for ordenTrabajo in ordenTrabajos %}{#}
-              {#}{% endfor %}{#}
-                <tr>
-                  <td> Aca tenemos que buscar las comprobantes detalle que tengan productos que necesiten orden de trabajo y tengan un estado en particular</td>
-                  <td>A la table comprobante detalle tal vez tengamos que agregarle una nueva columna de estado
-                  </td>
-                </tr>
+                {% for ordenTrabajo in ordenesTrabajo %}
+                  {% if ordenTrabajo.estado == 'Pendiente' %}
+                    <tr>
+                      <td>{{ordenTrabajo.cliente}}</td>
+                      <td>{{ ordenTrabajo.comprobante }}</td>
+                      <td>{{ordenTrabajo.observaciones}}</td>
+                      <td></td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
               </tbody>
             </table>
           </div>

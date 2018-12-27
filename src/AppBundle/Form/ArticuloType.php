@@ -34,15 +34,16 @@ class ArticuloType extends AbstractType
                 ->add('cantidad', null, array('label' => 'Cantidad',))
                 ->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
                 ->add('precioModifica', null, array('label' => 'Precio Modificable',))
+                ->add('ordenTrabajo', null, array('label' => 'Orden de Trabajo',))
                 ->add('genero',ChoiceType::class,array(
                         'label'=>'Genero',
                         'choices' => $generos,
                             'choices_as_values' => true))  
-                ->add('material', null, array('label' => 'Materia',))
-                ->add('forma', null, array('label' => 'Forma',))
-                ->add('estilo', null, array('label' => 'Estilo',))
-                ->add('color_marco', null, array('label' => 'Color Marco',))
-                ->add('color_cristal', null, array('label' => 'Color Cristal',))
+                ->add('material', null, array('label' => 'Material','required'=> false,))
+                ->add('forma', null, array('label' => 'Forma','required'=> false,))
+                ->add('estilo', null, array('label' => 'Estilo','required'=> false,))
+                ->add('color_marco', null, array('label' => 'Color Marco','required'=> false,))
+                ->add('color_cristal', null, array('label' => 'Color Cristal','required'=> false,))
                 ->add('activo', null, array('label' => 'Activo',))
                 ->add('categoriaId', EntityType::class, array(
                     'label' => 'Categoria',

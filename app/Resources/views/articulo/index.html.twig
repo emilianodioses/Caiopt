@@ -39,6 +39,7 @@ Articulos
                 <th>Cantidad</th>
                 <th>Cantidad Minima</th>
                 <th>Precio Modificable</th>
+                <th>Necesita Orden de Trabajo</th>
                 <th>Acciones</th>
               </tr>
             <tbody>
@@ -53,6 +54,12 @@ Articulos
                     <td>{{ articulo.cantidad }}</td>
                     <td>{{ articulo.cantidadMinima }}</td>
                     <td>{% if articulo.precioModifica %}
+                          <span class="label label-success">Si</span>
+                            {% else %}
+                          <span class="label label-danger">No</span>
+                        {% endif %}
+                    </td>                          
+                    <td>{% if articulo.ordenTrabajo %}
                           <span class="label label-success">Si</span>
                             {% else %}
                           <span class="label label-danger">No</span>

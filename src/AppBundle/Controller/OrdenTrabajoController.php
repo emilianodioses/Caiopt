@@ -20,12 +20,10 @@ class OrdenTrabajoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ordenTrabajos = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(Array('activo'=> '1'));
-
-        //$comprobantes = $em->getRepository('AppBundle:comprobanteVenta')->findBy(Array('moviemiento' => 'Venta'));
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1));
 
         return $this->render('ordentrabajo/index.html.twig', array(
-            'ordenTrabajos' => $ordenTrabajos,
+            'ordenesTrabajo' => $ordenesTrabajo,
         ));
     }
 
@@ -41,10 +39,6 @@ class OrdenTrabajoController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            //echo '<pre>';
-            //var_export($ordenTrabajo);
-            //die;
 
             $ordenTrabajo->setActivo(1);
             $ordenTrabajo->setCreatedBy($this->getUser()->getId());

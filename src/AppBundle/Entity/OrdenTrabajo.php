@@ -142,21 +142,21 @@ class OrdenTrabajo
     /**
      * @var string
      *
-     * @ORM\Column(name="cristales", type="string", length=255)
+     * @ORM\Column(name="cristales", type="string", length=255, nullable=true)
      */
     private $cristales;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="montura", type="string", length=255)
+     * @ORM\Column(name="montura", type="string", length=255, nullable=true)
      */
     private $montura;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255)
+     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
      */
     private $observaciones;
 
@@ -170,7 +170,7 @@ class OrdenTrabajo
     /**
      * @var string
      *
-     * @ORM\Column(name="otros_trabajos", type="string", length=255)
+     * @ORM\Column(name="otros_trabajos", type="string", length=255, nullable=true)
      */
     private $otrosTrabajos;
 
@@ -179,7 +179,7 @@ class OrdenTrabajo
      *
      * @ORM\ManyToOne(targetEntity="Taller")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
      * })
      */
     private $taller;
@@ -187,7 +187,7 @@ class OrdenTrabajo
     /**
      * @var int
      *
-     * @ORM\Column(name="dias_estimados", type="integer")
+     * @ORM\Column(name="dias_estimados", type="integer", nullable=true)
      */
     private $diasEstimados;
 
