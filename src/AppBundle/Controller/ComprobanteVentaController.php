@@ -66,32 +66,31 @@ class ComprobanteVentaController extends Controller
 
             $em->persist($comprobante);
 
-            $articulo = new ComprobanteDetalle();
-            $articulos  = $comprobante->getArticulos()->toArray();
+            $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
-            foreach($articulos as $articulo):  
-                $articuloBD = $em->getRepository('AppBundle:Articulo')->find($articulo->getArticulo());
+            foreach($comprobanteDetalles as $comprobanteDetalle):  
+                $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
-                ->findOneBy(array('articulo' => $articuloBD));
+                    ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
 
-                $articulo->setPrecioCosto($articuloBD->getPrecioCosto());
-                $articulo->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
-                $articulo->setTotalNeto(($articulo->getPrecioVenta()-$articulo->getBonificacion())*$articulo->getCantidad());
-                $articulo->setGanancia(0);;
-                $articulo->setImporteGanancia($articulo->getPrecioVenta()-$articulo->getPrecioUnitario());
+                $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
+                $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getBonificacion())*$comprobanteDetalle->getCantidad());
+                $comprobanteDetalle->setGanancia(0);;
+                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario());
 
-                $articulo->setMovimiento('Venta');
-                $articulo->setComprobante($comprobante);
-                $articulo->setActivo(1);
-                $articulo->setCreatedBy($this->getUser()->getId());
-                $articulo->setCreatedAt(new \DateTime("now"));
-                $articulo->setUpdatedBy($this->getUser()->getId());
-                $articulo->setUpdatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setMovimiento('Venta');
+                $comprobanteDetalle->setComprobante($comprobante);
+                $comprobanteDetalle->setActivo(1);
+                $comprobanteDetalle->setCreatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
-                $em->persist($articulo);
+                $em->persist($comprobanteDetalle);
 
-                if ($articuloBD->getOrdenTrabajo()) {
+                if ($articulo->getOrdenTrabajo()) {
                     $ordenTrabajo = new OrdenTrabajo();
 
                     //ESTO ESTA MAL, solo lo puse para poner un valor default de taller de estado pendiente
@@ -144,13 +143,13 @@ class ComprobanteVentaController extends Controller
     public function showAction(Comprobante $comprobante)
     {
         $em = $this->getDoctrine()->getManager();
-        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
         $deleteForm = $this->createDeleteForm($comprobante);
 
         return $this->render('comprobanteventa/show.html.twig', array(
             'comprobante' => $comprobante,
-            'comprobantedetalles' => $comprobantedetalles,
+            'comprobanteDetalles' => $comprobanteDetalles,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -163,10 +162,10 @@ class ComprobanteVentaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
-        foreach($comprobantedetalles as $comprobantedetalle) {
-            $comprobante->getArticulos()->add($comprobantedetalle);
+        foreach($comprobanteDetalles as $comprobanteDetalle) {
+            $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
         }
 
         $deleteForm = $this->createDeleteForm($comprobante);
@@ -179,36 +178,36 @@ class ComprobanteVentaController extends Controller
             //ESTA parte es para que funcione el delete de articulos.
             //Basicamente seteo a todos los articulos ya existen en la base de datos con 
             //Activo = 0
-            $comprobantedetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
+            $comprobanteDetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
                     ->findBy(array('comprobante' => $comprobante));
 
-            foreach ($comprobantedetalleDelete as $comprobantedetalle) {
-                $comprobantedetalle->setActivo(0);
+            foreach ($comprobanteDetalleDelete as $comprobanteDetalle) {
+                $comprobanteDetalle->setActivo(0);
             }   
             //**********************************************************************
                              
 
-            foreach($editForm->getData()->getArticulos() as $comprobantedetalle) {
-                $articuloBD = $em->getRepository('AppBundle:Articulo')->find($comprobantedetalle->getArticulo());
+            foreach($editForm->getData()->getComprobanteDetalles() as $comprobanteDetalle) {
+                $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
-                    ->findOneBy(array('articulo' => $articuloBD));
+                    ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
 
-                $comprobantedetalle->setMovimiento('Venta');
-                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
-                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
-                $comprobantedetalle->setComprobante($comprobante);
-                $comprobantedetalle->setActivo(1);
-                $comprobantedetalle->setTotalNeto(($comprobantedetalle->getPrecioVenta()-$comprobantedetalle->getBonificacion())*$comprobantedetalle->getCantidad());
-                $comprobantedetalle->setPrecioCosto($articuloBD->getPrecioCosto());
-                $comprobantedetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
-                $comprobantedetalle->setGanancia(0);;
-                $comprobantedetalle->setImporteGanancia($comprobantedetalle->getPrecioVenta()-$comprobantedetalle->getPrecioUnitario());
+                $comprobanteDetalle->setMovimiento('Venta');
+                $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setComprobante($comprobante);
+                $comprobanteDetalle->setActivo(1);
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getBonificacion())*$comprobanteDetalle->getCantidad());
+                $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
+                $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
+                $comprobanteDetalle->setGanancia(0);;
+                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario());
 
-                if (is_null($comprobantedetalle->getId())){     
-                    $comprobantedetalle->setCreatedBy($this->getUser()->getId());
-                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));
-                    $em->persist($comprobantedetalle);
+                if (is_null($comprobanteDetalle->getId())){     
+                    $comprobanteDetalle->setCreatedBy($this->getUser()->getId());
+                    $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
+                    $em->persist($comprobanteDetalle);
                 }
 
             }

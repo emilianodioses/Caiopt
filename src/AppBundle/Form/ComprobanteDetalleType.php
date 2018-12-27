@@ -49,7 +49,7 @@ class ComprobanteDetalleType extends AbstractType
 
 
                     'primary_key' => 'id',
-                    'text_property' => 'name',
+                    'text_property' => 'descripcion',
                     'minimum_input_length' => 2,
                     'page_limit' => 10,
                     'allow_clear' => true,
@@ -80,44 +80,41 @@ class ComprobanteDetalleType extends AbstractType
             }
         );
 */
-        $builder->add('cantidad',NumberType::class,array(
+        $builder->add('cantidad',IntegerType::class,array(
                     'required' => true,
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad', 'class' => 'cantidad')))
-                ->add('bonificacion',null,array(
+                ->add('bonificacion',FloatType::class,array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion')))
-                ->add('precioUnitario',NumberType::class, array(
+                    'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion', 'step' => 0.01)))
+                ->add('precioUnitario',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioUnitario'),
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioUnitario', 'step' => 0.01),
                     ))
-                ->add('precioCosto',NumberType::class, array(
+                ->add('precioCosto',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto'),
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto', 'step' => 0.01),
                     ))
-                ->add('precioVenta',NumberType::class, array(
+                ->add('precioVenta',FloatType::class, array(
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta'),
                     ))
-                ->add('totalNeto',NumberType::class, array(
+                ->add('totalNeto',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto'),
+                    'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto', 'step' => 0.01),
                     ))
-                ->add('importeIva',NumberType::class, array(
-                    'label' => false,
-                    'attr' => array(
-                        'readonly' => true,
-                    ),
-                    'attr' => array('size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva'),
-                    ))
-                ->add('total',NumberType::class, array(
+                ->add('importeIva',FloatType::class, array(
                     'label' => false,
                     'attr' => array(
                         'readonly' => true,
                     ),
-                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total'),
+                    'attr' => array('size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva', 'step' => 0.01),
                     ))
-                ->add('ganancia',NumberType::class, array(
+                ->add('total',FloatType::class, array(
+                    'label' => false,
+                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
+                    ))
+                ->add('ganancia',FloatType::class, array(
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Ganancia', 'class' => 'ganancia')))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))

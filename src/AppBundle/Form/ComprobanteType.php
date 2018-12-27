@@ -47,30 +47,30 @@ class ComprobanteType extends AbstractType
                 ->add('numero', IntegerType::class, array(
                     'required' => false,
                     'label' => 'N de Comprobante'))
-                ->add('totalBonificacion',null, array(
+                ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true,
                     ),
                     'attr' => array('class' => 'bonificacion'),
                     'label' => 'Bonificación $'))
-                ->add('total',IntegerType::class, array(
+                ->add('total',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true,
                     ),
                     'label' => 'Total'))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
-                ->add('totalNeto',NumberType::class, array(
+                ->add('totalNeto',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true,
                     ),
                     'label' => 'Total Neto',))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Exento'))
-                ->add('importeIva',NumberType::class, array(
+                ->add('importeIva',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true,
                     ),
                     'label' => 'Total IVA'))
-                ->add('importeTributos',IntegerType::class, array(
+                ->add('importeTributos',FloatType::class, array(
                     'required' => false,
                     'attr' => array(
                         'readonly' => true,
@@ -110,7 +110,7 @@ class ComprobanteType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('articulos', CollectionType::class, array(
+                ->add('comprobanteDetalles', CollectionType::class, array(
                         'entry_type'   => ComprobanteDetalleType::class,
                         'entry_options' => [
                             'attr' => [
@@ -124,7 +124,7 @@ class ComprobanteType extends AbstractType
                         'by_reference' => true,
                         'delete_empty' => true,
                         'attr' => [
-                            'class' => 'table articulo-collection',
+                            'class' => 'table comprobanteDetalle-collection',
                         ],
                     )
                 );

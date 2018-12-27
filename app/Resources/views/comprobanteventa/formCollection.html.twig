@@ -49,13 +49,19 @@
                             </div>
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                                 {{ form_row(form.puntoVenta)}}
-                            </div>  
+                            </div>
+                            {#}
+                            <select class="js-example-basic-single" name="state">
+                              <option value="AL">Alabama</option>
+                              <option value="WY">Wyoming</option>
+                            </select>
+                            #}
                         </div>  
                     </div>
                 </div>
             </div>
         </div>
-        {{ form_widget(form.articulos) }}
+        {{ form_widget(form.comprobanteDetalles) }}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box box-success">

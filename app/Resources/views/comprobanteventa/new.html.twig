@@ -32,7 +32,12 @@ $(function(){
 {{ form_end(form) }}
 
 <script type="text/javascript">
-    $('.articulo-collection').collection({
+    /*
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+    */
+    $('.comprobanteDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
         allow_down: false,
@@ -112,7 +117,7 @@ $(function(){
         var total_costo = 0;
         var total_ganancia = 0;
 
-        $("#ComprobanteType_articulos tr.item").each(function() {   
+        $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {   
             total_neto_sin_iva = 0;
             var r_cantidad = $(this).find("input.cantidad")
             var r_bonificacion = $(this).find("input.bonificacion");

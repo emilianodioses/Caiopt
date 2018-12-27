@@ -210,36 +210,36 @@ class Comprobante
     /**
      * @var ArrayCollection ComprobanteDetalle
      */
-    protected $articulos;
+    protected $comprobanteDetalles;
 
     public function __construct()
     {
-        $this->articulos = new ArrayCollection();
+        $this->comprobanteDetalles = new ArrayCollection();
     }
     
-    public function getArticulos()
+    public function getComprobanteDetalles()
     {
-        if (is_null($this->articulos)) {
-            $this->articulos = new ArrayCollection();
+        if (is_null($this->comprobanteDetalles)) {
+            $this->comprobanteDetalles = new ArrayCollection();
         }
-        return $this->articulos;
+        return $this->comprobanteDetalles;
     }
 
     /*
-    public function setArticulos(ArrayCollection $articulos)
+    public function setComprobanteDetalles(ArrayCollection $comprobanteDetalles)
     {
-        $this->articulos = $articulos;
+        $this->comprobanteDetalles = $comprobanteDetalles;
     }
     */
     
-    public function addArticulo(ComprobanteDetalle $articulo)
+    public function addComprobanteDetalle(ComprobanteDetalle $comprobanteDetalle)
     {
-        $this->articulos->add($articulo);
+        $this->comprobanteDetalles->add($comprobanteDetalle);
     }
 
-    public function removeArticulo(ComprobanteDetalle $articulo)
+    public function removeComprobanteDetalle(ComprobanteDetalle $comprobanteDetalle)
     {
-        $this->articulos->remove($articulo);
+        $this->comprobanteDetalles->remove($comprobanteDetalle);
     }
 
     /**

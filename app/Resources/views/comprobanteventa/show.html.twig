@@ -169,14 +169,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for comprobantedetalle in comprobantedetalles %}
+                                    {% for comprobanteDetalle in comprobanteDetalles %}
                                         <tr>
-                                            <td>{{ comprobantedetalle.articulo.descripcion }}</td>
-                                            <td>{{ comprobantedetalle.precioVenta }}</td>
-                                            <td>{{ comprobantedetalle.cantidad }}</td>
-                                            <td>{{ comprobantedetalle.bonificacion }}</td>
-                                            <td>{{ comprobantedetalle.importeIva }}</td>
-                                            <td>{{ comprobantedetalle.total }}</td>
+                                            <td>{{ comprobanteDetalle.articulo.descripcion }}</td>
+                                            <td>{{ comprobanteDetalle.precioVenta }}</td>
+                                            <td>{{ comprobanteDetalle.cantidad }}</td>
+                                            <td>{{ comprobanteDetalle.bonificacion }}</td>
+                                            <td>{{ comprobanteDetalle.importeIva }}</td>
+                                            <td>{{ comprobanteDetalle.total }}</td>
                                         </tr>
                                     </tbody>
                                     {% endfor %}

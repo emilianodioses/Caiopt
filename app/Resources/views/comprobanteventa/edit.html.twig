@@ -18,7 +18,7 @@ Editar Comprobante de Venta
 {{ form_end(edit_form) }}
 
 <script type="text/javascript">
-    $('.articulo-collection').collection({
+    $('.comprobanteDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
         allow_down: false,
@@ -96,7 +96,7 @@ Editar Comprobante de Venta
         var importe_iva = 0;
         var total = 0;
 
-        $("#ComprobanteType_articulos tr.item").each(function() {
+        $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {
             var r_cantidad = $(this).find("input.cantidad")
             var r_bonificacion = $(this).find("input.bonificacion");
             var r_precioVenta = $(this).find("input.precioVenta");
