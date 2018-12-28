@@ -155,27 +155,29 @@ class ArticuloController extends Controller
         
         $j_articulo = $serializer->serialize($articulo, 'json');
         
-        return JsonResponse::create(array('articulo' => $j_articulo
-                ));
+        return JsonResponse::create(array('articulo' => $j_articulo));
     }
 
-    public function findAllJsonAction() {
-        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
-        $entidad = $this->getDoctrine()->getManager('default')->getRepository('AppBundle:Articulo')
-                ->findBy(array('activo' => true), array('descripcion' => 'ASC'));
+    public function findAllJsonAction(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+        
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
 
-        $arr = array();
-        foreach ($entidad as $e) {
-            $arr_elem['id'] = $e->getId();
-            $arr_elem['text'] = $e->getDescripcion();
-
-            $arr[] = $arr_elem;
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
         }
-        
-        return $arr;
 
-        //$j_list = $serializer->serialize($arr, 'json');
+        $result = $em->createQuery('
+                        SELECT r.id as id, r.descripcion as text
+                        FROM AppBundle:Articulo r
+                        WHERE lower(r.descripcion) LIKE :text_search
+                        ORDER BY r.descripcion ASC
+                        ')
+                    ->setParameter('text_search', '%'.$text_search.'%')
+                    ->setMaxResults($pageLimit)
+                ->getArrayResult();
         
-        //return JsonResponse::create(array('articulo' => $j_articulo));
+        return new JsonResponse($result);
     }
 }

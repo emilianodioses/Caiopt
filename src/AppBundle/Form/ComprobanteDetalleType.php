@@ -20,7 +20,7 @@ class ComprobanteDetalleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+        /*
         $builder->add('articulo', EntityType::class, array(
                     'label' => 'Articulo',
                     'class' => 'AppBundle:Articulo',
@@ -37,7 +37,7 @@ class ComprobanteDetalleType extends AbstractType
                                    ;
                            }
                 ));
-                /*
+                /**/
         $builder->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
                     'class' => 'AppBundle:Articulo',
@@ -46,8 +46,6 @@ class ComprobanteDetalleType extends AbstractType
                             'class' => 'articulo',
                         ],
                     'remote_route' => 'articulo_find_all_json',
-
-
                     'primary_key' => 'id',
                     'text_property' => 'descripcion',
                     'minimum_input_length' => 2,
@@ -56,9 +54,9 @@ class ComprobanteDetalleType extends AbstractType
                     'delay' => 250,
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
-                    'placeholder' => 'Select a country',
+                    'placeholder' => 'Seleccione un artículo',
                 ));
-                */
+                
 
 /*
         $builder->addEventListener(
