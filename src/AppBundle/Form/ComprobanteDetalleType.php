@@ -41,11 +41,12 @@ class ComprobanteDetalleType extends AbstractType
         $builder->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
                     'class' => 'AppBundle:Articulo',
+                    'remote_route' => 'articulo_find_select2',
+                    'placeholder' => 'Seleccione un artículo',
                     'required' => true,
                     'attr' => [
                             'class' => 'articulo',
                         ],
-                    'remote_route' => 'articulo_find_select2',
                     'primary_key' => 'id',
                     'text_property' => 'descripcion',
                     'minimum_input_length' => 2,
@@ -54,7 +55,7 @@ class ComprobanteDetalleType extends AbstractType
                     'delay' => 250,
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
-                    'placeholder' => 'Seleccione un artículo',
+                    'language' => 'es',
                 ));
                 
 
