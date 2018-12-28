@@ -45,7 +45,7 @@ class ComprobanteDetalleType extends AbstractType
                     'attr' => [
                             'class' => 'articulo',
                         ],
-                    'remote_route' => 'articulo_find_all_json',
+                    'remote_route' => 'articulo_find_select2',
                     'primary_key' => 'id',
                     'text_property' => 'descripcion',
                     'minimum_input_length' => 2,

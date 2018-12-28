@@ -158,7 +158,7 @@ class ArticuloController extends Controller
         return JsonResponse::create(array('articulo' => $j_articulo));
     }
 
-    public function findAllJsonAction(Request $request) {
+    public function findSelect2Action(Request $request) {
         $em = $em = $this->getDoctrine()->getManager('default');
         
         $text_search = $request->get('q');

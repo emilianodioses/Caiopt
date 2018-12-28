@@ -27,6 +27,6 @@ articulo_find:
     path:     /find
     defaults: { _controller: "AppBundle:Articulo:find" }
 
-articulo_find_all_json:
-    path:     /findAllJson
-    defaults: { _controller: "AppBundle:Articulo:findAllJson" }
+articulo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Articulo:findSelect2" }
