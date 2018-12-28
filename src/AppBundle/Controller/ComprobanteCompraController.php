@@ -44,18 +44,6 @@ class ComprobanteCompraController extends controller
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
 
-            /*
-            $max_numero_comprobante = $em->createQueryBuilder()
-             ->select('MAX(c.numero)')
-             ->from('AppBundle:Comprobante', 'c')
-             ->where('c.movimiento = :compra')
-             ->setParameter('compra', 'Compra')
-             ->getQuery()
-             ->getSingleScalarResult();
-
-            $comprobante->setNumero($max_numero_comprobante+1);
-            */
-
             $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
             $comprobante->setActivo(1);

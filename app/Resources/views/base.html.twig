@@ -18,6 +18,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/font-awesome/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/Ionicons/css/ionicons.min.css')}}">
+
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/plugins/iCheck/all.css')}}">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/plugins/timepicker/bootstrap-timepicker.min.css')}}">
+
+
+
+
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/dist/css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -62,7 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $(document).ready(function() {
                 // you may need to change this code if you are not using Bootstrap Datepicker
                 $('.js-datepicker').datepicker({
-                    format: 'dd/mm/yyyy',
+                    format: 'dd-mm-yyyy',
                     language: 'es',
                     autoclose: true
                 });

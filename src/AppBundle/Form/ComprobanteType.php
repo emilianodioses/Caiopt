@@ -33,11 +33,11 @@ class ComprobanteType extends AbstractType
                             'Nota Debito B' => 'Nota Debito B'))) 
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
-                    //'widget' => 'single_text',
-                    //'html5' => false,
-                    'format' => 'dd-MM-yyyy',
-                    'required' => true,))
-                    //'attr' => ['class' => 'js-datepicker']))
+                    'widget' => 'single_text',
+                    'format' => 'dd-mm-yyyy',
+                    'html5' => true,
+                    'required' => true,
+                    'attr' => ['class' => 'js-datepicker']))
                 ->add('puntoVenta', null, array(
                     'label' => 'Punto de Venta',
                     'data' => 1,
