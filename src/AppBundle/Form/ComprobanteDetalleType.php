@@ -51,7 +51,7 @@ class ComprobanteDetalleType extends AbstractType
                     'text_property' => 'descripcion',
                     'minimum_input_length' => 2,
                     'page_limit' => 10,
-                    'allow_clear' => true,
+                    'allow_clear' => false,
                     'delay' => 250,
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true

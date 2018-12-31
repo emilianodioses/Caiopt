@@ -58,6 +58,28 @@ $(function(){
                 fnRenglonChange($(this));
             });
 
+            //Inicializo el Select2 recién añadido
+            //Fuente: https://select2.org/data-sources/ajax
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
+
             return true;
          },
          after_remove: function(collection, element) {
