@@ -391,6 +391,7 @@ class ComprobanteVentaController extends Controller
     public function facturaImprimirAction(Request $request, Comprobante $comprobante)
     {
         // You can send the html as you want
+        /*
         $html = '
         <table border="1">
             <tr>
@@ -399,12 +400,21 @@ class ComprobanteVentaController extends Controller
                 <td>'.$comprobante->getNumero().'</td>
             </tr>
         </table>';
+        */
+
+        $html = $this->renderView('comprobanteventa/factura_imprimir.html.twig', array(
+                                    'comprobante' => $comprobante
+                                )
+        );
 
         //set_time_limit(30); uncomment this line according to your needs
         // If you are not in a controller, retrieve of some way the service container and then retrieve it
         //$pdf = $this->container->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         //if you are in a controlller use :
         $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
         //$pdf->SetAuthor('Our Code World');
         //$pdf->SetTitle(('Our Code World Title'));
         //$pdf->SetSubject('Our Code World Subject');

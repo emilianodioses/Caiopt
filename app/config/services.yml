@@ -37,7 +37,3 @@ services:
         class: AppBundle\Services\AfipFE
         public: true
         arguments: [%afip_parameters%, %kernel.project_dir%]
-
-    # the `white_october.tcpdf` service will be injected when a
-    # `WhiteOctober\TCPDFBundle\Controller\TCPDFController` type-hint is detected
-    WhiteOctober\TCPDFBundle\Controller\TCPDFController: '@white_october.tcpdf'
