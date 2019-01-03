@@ -22,3 +22,13 @@ comprobanteventa_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:ComprobanteVenta:delete" }
     methods:  [GET, POST] 
+
+comprobanteventa_facturar:
+    path:     /{id}/facturar
+    defaults: { _controller: "AppBundle:ComprobanteVenta:facturar" }
+    methods:  [GET, POST]
+
+comprobanteventa_factura_imprimir:
+    path:     /{id}/facturaImprimir
+    defaults: { _controller: "AppBundle:ComprobanteVenta:facturaImprimir" }
+    methods:  [GET, POST]

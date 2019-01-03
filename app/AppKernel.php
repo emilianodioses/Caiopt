@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Tetranz\Select2EntityBundle\TetranzSelect2EntityBundle(),
+            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

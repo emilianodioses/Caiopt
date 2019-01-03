@@ -22,7 +22,8 @@ class ClienteType extends AbstractType
                     'label' => 'Tipo Documento',
                     'choices_as_values' => true,
                     'choices' => array(
-                        'CUIT/CUIL' => 'CUIT/CUIL',
+                        'CUIT' => 'CUIT',
+                        'CUIL' => 'CUIL',
                         'DNI' => 'DNI'
                         ), 
                 ))

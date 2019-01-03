@@ -10,6 +10,9 @@ class AfipTestController extends Controller
     {
     	$afip = $this->get('AfipFE');
 
+    	dump($afip->getWS()->ElectronicBilling->GetDocumentTypes());
+    	die;
+
     	dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
     	die;
     	
@@ -58,8 +61,13 @@ class AfipTestController extends Controller
 				), 
 			);
 
-		$res = $afip->getWS()->ElectronicBilling->CreateVoucher($data);
+		$res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);
 
+		/*
+		$res['CAE']; //CAE asignado el comprobante
+		$res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)
+		$res['voucher_number']; //Número asignado al comprobante
+		*/
 
         dump($res);
         

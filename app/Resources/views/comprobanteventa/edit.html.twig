@@ -86,6 +86,7 @@ Editar Comprobante de Venta
         var renglon = articulo.closest("tr");
         var precio_venta = renglon.find("input.precioVenta");
         var importe_iva = renglon.find("input.importeIva");
+        var bonificacion = renglon.find("input.bonificacion");
         
         $.ajax({
             type: 'POST',
@@ -96,6 +97,7 @@ Editar Comprobante de Venta
                 
                 precio_venta.val(articulo.precioVenta)
                 importe_iva.val(articulo.iva);
+                bonificacion.val("0.000");
                 fnRenglonChange(renglon);
             }
         });

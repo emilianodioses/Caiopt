@@ -68,7 +68,7 @@ class ComprobanteVentaController extends Controller
 
             $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
-            foreach($comprobanteDetalles as $comprobanteDetalle):  
+            foreach($comprobanteDetalles as $comprobanteDetalle) {  
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
@@ -123,8 +123,7 @@ class ComprobanteVentaController extends Controller
 
                     $em->persist($ordenTrabajo);
                 }
-             
-            endforeach;    
+            }
 
             $em->flush();
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
@@ -185,9 +184,10 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setActivo(0);
             }   
             //**********************************************************************
-                             
 
-            foreach($editForm->getData()->getComprobanteDetalles() as $comprobanteDetalle) {
+            $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
+
+            foreach($comprobanteDetalles as $comprobanteDetalle) {
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
@@ -209,7 +209,6 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobanteDetalle);
                 }
-
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -261,5 +260,162 @@ class ComprobanteVentaController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Genera la factura electrónica por medio de WS con afip.
+     *
+     */
+    public function facturarAction(Request $request, Comprobante $comprobante)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $afip = $this->get('AfipFE');
+
+        //Lo siguiente debería modificarse para que no quede hardcodeado
+        //dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
+        switch ($comprobante->getTipo()) {
+            case 'Factura A':
+                $comprobanteTipo = 1;
+                break;
+
+            case 'Nota Debito A':
+                $comprobanteTipo = 2;
+                break;
+            
+            case 'Nota Credito A':
+                $comprobanteTipo = 3;
+                break;
+            
+            case 'Factura B':
+                $comprobanteTipo = 6;
+                break;
+
+            case 'Nota Debito B':
+                $comprobanteTipo = 7;
+                break;
+            
+            case 'Nota Credito B':
+                $comprobanteTipo = 8;
+                break;
+            
+            default:
+                echo('ComprobanteTipo desconocido.');
+                die;
+                break;
+        }
+
+        // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
+        $concepto = 1;
+
+        //dump($afip->getWS()->ElectronicBilling->GetDocumentTypes());
+        $cliente = $comprobante->getCliente();
+        switch ($cliente->getDocumentoTipo()) {
+            case 'CUIT':
+                $clienteDocumentoTipo = 80;
+                break;
+
+            case 'CUIL':
+                $clienteDocumentoTipo = 86;
+                break;
+
+            case 'DNI':
+                $clienteDocumentoTipo = 96;
+                break;
+            
+            default:
+                echo('Cliente->DocumentoTipo desconocido.');
+                die;
+                break;
+        }
+
+        if ($cliente->getIvaCondicion()->getDescripcion() == 'Consumidor Final' && $cliente->getDocumentoNumero() == 0){
+            //Si el cliente es "consumidor final" y no tiene un documento ingresado, se utiliza el nro 99
+            $clienteDocumentoNumero = 99;
+        }
+        else {
+            $clienteDocumentoNumero = $cliente->getDocumentoNumero();
+        }
+
+        $comprobanteFecha = $comprobante->getFecha()->format('Ymd');
+        $comprobanteTotal = $comprobante->getTotal();
+        $comprobanteTotalNeto = $comprobante->getTotalNeto();
+        $comprobanteImportaIva = $comprobante->getImporteIva();
+
+        // Id del tipo de IVA (5 para 21%)(ver tipos disponibles) 
+        //dump($afip->getWS()->ElectronicBilling->GetAliquotTypes());
+        $alicuota['Id'] = 5; // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
+        $alicuota['BaseImp'] = 100; // Base imponible
+        $alicuota['Importe'] = $comprobanteImportaIva; // Importe 
+        $alicuotas[] = $alicuota;
+
+        $data = array(
+                'CantReg'   => 1,  // Cantidad de comprobantes a registrar
+                'PtoVta'    => 1,  // Punto de venta
+                'CbteTipo'  => $comprobanteTipo,  // Tipo de comprobante (ver tipos disponibles) 
+                'Concepto'  => $concepto,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
+                'DocTipo'   => $clienteDocumentoTipo, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)
+                'DocNro'    => $clienteDocumentoNumero,  // Número de documento del comprador (0 consumidor final)
+                'CbteFch'   => $comprobanteFecha, // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
+                'ImpTotal'  => $comprobanteTotal, // Importe total del comprobante
+                'ImpTotConc'    => 0,   // Importe neto no gravado
+                'ImpNeto'   => $comprobanteTotalNeto, // Importe neto gravado
+                'ImpOpEx'   => 0,   // Importe exento de IVA
+                'ImpIVA'    => $comprobanteImportaIva,  //Importe total de IVA
+                'ImpTrib'   => 0,   //Importe total de tributos
+                'MonId'     => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
+                'MonCotiz'  => 1,     // Cotización de la moneda usada (1 para pesos argentinos)
+                'Iva'       => $alicuotas, 
+            );
+
+        $res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);
+        /*
+        $res['CAE']; //CAE asignado el comprobante
+        $res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)
+        $res['voucher_number']; //Número asignado al comprobante
+        */
+
+        $comprobante->setCaeNumero($res['CAE']);
+        $comprobante->setCaeFechaVencimiento(new \DateTime($res['CAEFchVto']));
+        $comprobante->setNumero($res['voucher_number']);
+
+        $em->flush();
+
+        dump($res);
+        die;
+    }
+
+    /**
+     * Imprime la factura electrónica generada por medio de WS con afip.
+     *
+     */
+    public function facturaImprimirAction(Request $request, Comprobante $comprobante)
+    {
+        // You can send the html as you want
+        $html = '
+        <table border="1">
+            <tr>
+                <td>'.$comprobante->getTipo().'</td>
+                <td>'.$comprobante->getPuntoVenta().'</td>
+                <td>'.$comprobante->getNumero().'</td>
+            </tr>
+        </table>';
+
+        //set_time_limit(30); uncomment this line according to your needs
+        // If you are not in a controller, retrieve of some way the service container and then retrieve it
+        //$pdf = $this->container->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        //if you are in a controlller use :
+        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        //$pdf->SetAuthor('Our Code World');
+        //$pdf->SetTitle(('Our Code World Title'));
+        //$pdf->SetSubject('Our Code World Subject');
+        //$pdf->setFontSubsetting(true);
+        $pdf->SetFont('helvetica', '', 11, '', true);
+        //$pdf->SetMargins(20,20,40, true);
+        $pdf->AddPage();
+        
+        $filename = $comprobante->getTipo().' '.$comprobante->getPuntoVenta().'-'.$comprobante->getNumero();
+        
+        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+        $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
     }
 }

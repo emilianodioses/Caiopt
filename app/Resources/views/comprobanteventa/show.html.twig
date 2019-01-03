@@ -135,12 +135,16 @@
                     <div class="box box-success">
                         <div class="box-footer">
                             <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
                                         <i class="fa fa-arrow-left"></i> Volver
                                     </a>
                                 </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-print"></span>Imprimir FE</a>
+                                    <a href="{{ path('comprobanteventa_facturar', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-hdd"></span> Facturar</a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
                                      </a>
                                 </div>

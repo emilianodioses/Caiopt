@@ -58,27 +58,6 @@ class ComprobanteDetalleType extends AbstractType
                     'language' => 'es',
                 ));
                 
-
-/*
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
-                $form = $event->getForm();
-
-                // this would be your entity, i.e. SportMeetup
-                $data = $event->getData();
-
-                $articulo = $data->getArticulo();
-                $precio = null === $articulo ? array() : $sport->getAvailablePositions();
-
-                $form->add('position', EntityType::class, array(
-                    'class' => 'AppBundle:Position',
-                    'placeholder' => '',
-                    'choices' => $positions,
-                ));
-            }
-        );
-*/
         $builder->add('cantidad',IntegerType::class,array(
                     'required' => true,
                     'label' => false,

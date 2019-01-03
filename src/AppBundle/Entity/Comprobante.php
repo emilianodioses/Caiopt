@@ -173,6 +173,20 @@ class Comprobante
     private $totalGanancia;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="cae_fecha_vencimiento", type="datetime", nullable=true)
+     */
+    private $caeFechaVencimiento;
+
+    /**
+     * @var bigint
+     *
+     * @ORM\Column(name="cae_numero", type="bigint", nullable=true)
+     */
+    private $caeNumero;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -831,5 +845,53 @@ class Comprobante
     public function __toString()
     {
         return (string)$this->numero;
+    }
+
+    /**
+     * Set caeFechaVencimiento
+     *
+     * @param \DateTime $caeFechaVencimiento
+     *
+     * @return Comprobante
+     */
+    public function setCaeFechaVencimiento($caeFechaVencimiento)
+    {
+        $this->caeFechaVencimiento = $caeFechaVencimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get caeFechaVencimiento
+     *
+     * @return \DateTime
+     */
+    public function getCaeFechaVencimiento()
+    {
+        return $this->caeFechaVencimiento;
+    }
+
+    /**
+     * Set caeNumero
+     *
+     * @param integer $caeNumero
+     *
+     * @return Comprobante
+     */
+    public function setCaeNumero($caeNumero)
+    {
+        $this->caeNumero = $caeNumero;
+
+        return $this;
+    }
+
+    /**
+     * Get caeNumero
+     *
+     * @return integer
+     */
+    public function getCaeNumero()
+    {
+        return $this->caeNumero;
     }
 }
