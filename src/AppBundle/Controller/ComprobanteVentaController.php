@@ -402,8 +402,13 @@ class ComprobanteVentaController extends Controller
         </table>';
         */
 
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
+
         $html = $this->renderView('comprobanteventa/factura_imprimir.html.twig', array(
-                                    'comprobante' => $comprobante
+                                    'comprobante' => $comprobante,
+                                    'comprobanteDetalles' => $comprobanteDetalles
                                 )
         );
 
