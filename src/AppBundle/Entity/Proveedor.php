@@ -29,9 +29,12 @@ class Proveedor
     private $nombre;
 
     /**
-     * @var string
+     * @var \AfipDocumentoTipo
      *
-     * @ORM\Column(name="documento_tipo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipDocumentoTipo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="documento_tipo_id", referencedColumnName="id")
+     * })
      */
     private $documentoTipo;
 
@@ -125,11 +128,10 @@ class Proveedor
      */
     private $updatedAt;
 
-
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -158,30 +160,6 @@ class Proveedor
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Set documentoTipo
-     *
-     * @param string $documentoTipo
-     *
-     * @return Proveedor
-     */
-    public function setDocumentoTipo($documentoTipo)
-    {
-        $this->documentoTipo = $documentoTipo;
-
-        return $this;
-    }
-
-    /**
-     * Get documentoTipo
-     *
-     * @return string
-     */
-    public function getDocumentoTipo()
-    {
-        return $this->documentoTipo;
     }
 
     /**
@@ -321,7 +299,7 @@ class Proveedor
     /**
      * Get activo
      *
-     * @return bool
+     * @return boolean
      */
     public function getActivo()
     {
@@ -345,7 +323,7 @@ class Proveedor
     /**
      * Get createdBy
      *
-     * @return int
+     * @return integer
      */
     public function getCreatedBy()
     {
@@ -393,7 +371,7 @@ class Proveedor
     /**
      * Get updatedBy
      *
-     * @return int
+     * @return integer
      */
     public function getUpdatedBy()
     {
@@ -425,27 +403,27 @@ class Proveedor
     }
 
     /**
-     * Set localidad
+     * Set documentoTipo
      *
-     * @param \AppBundle\Entity\Localidad $localidad
+     * @param \AppBundle\Entity\AfipDocumentoTipo $documentoTipo
      *
      * @return Proveedor
      */
-    public function setLocalidad(\AppBundle\Entity\Localidad $localidad = null)
+    public function setDocumentoTipo(\AppBundle\Entity\AfipDocumentoTipo $documentoTipo = null)
     {
-        $this->localidad = $localidad;
+        $this->documentoTipo = $documentoTipo;
 
         return $this;
     }
 
     /**
-     * Get localidad
+     * Get documentoTipo
      *
-     * @return \AppBundle\Entity\Localidad
+     * @return \AppBundle\Entity\AfipDocumentoTipo
      */
-    public function getLocalidad()
+    public function getDocumentoTipo()
     {
-        return $this->localidad;
+        return $this->documentoTipo;
     }
 
     /**
@@ -470,6 +448,30 @@ class Proveedor
     public function getIvaCondicion()
     {
         return $this->ivaCondicion;
+    }
+
+    /**
+     * Set localidad
+     *
+     * @param \AppBundle\Entity\Localidad $localidad
+     *
+     * @return Proveedor
+     */
+    public function setLocalidad(\AppBundle\Entity\Localidad $localidad = null)
+    {
+        $this->localidad = $localidad;
+
+        return $this;
+    }
+
+    /**
+     * Get localidad
+     *
+     * @return \AppBundle\Entity\Localidad
+     */
+    public function getLocalidad()
+    {
+        return $this->localidad;
     }
 
     public function __toString()

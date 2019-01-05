@@ -22,16 +22,18 @@ class ProveedorType extends AbstractType
             'label' => 'Nombre',
         ));
 
-        $builder->add('documentoTipo',ChoiceType::class,array(
-            'label' => 'Documento Tipo',
-            'choices_as_values' => true,
-            'choices' => array(
-                'CUIT/CUIL' => 'CUIT/CUIL',
-                'DNI' => 'DNI'
-                ), 
+        $builder->add('documentoTipo', EntityType::class, array(
+            'label' => 'Tipo Documento',
+            'class' => 'AppBundle:AfipDocumentoTipo',
+            'required' => true,
+            'choice_label' => 'descripcion',
+            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                       return $er->createQueryBuilder('ic')
+                           ->where('ic.activo = 1')
+                           ->orderBy('ic.descripcion', 'ASC')
+                           ;
+                   }
         ));
-
-
 
         $builder->add('documentoNumero', null, array(
             'label' => 'Documento Número',

@@ -314,4 +314,5 @@ class AfipDocumentoTipo
     {
         return $this->updatedAt;
     }
+
 }
