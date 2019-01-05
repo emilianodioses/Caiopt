@@ -29,9 +29,12 @@ class Cliente
     private $nombre;
 
     /**
-     * @var string
+     * @var \AfipDocumentoTipo
      *
-     * @ORM\Column(name="documento_tipo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipDocumentoTipo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="documento_tipo_id", referencedColumnName="id")
+     * })
      */
     private $documentoTipo;
 
@@ -158,30 +161,6 @@ class Cliente
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Set documentoTipo
-     *
-     * @param string $documentoTipo
-     *
-     * @return Cliente
-     */
-    public function setDocumentoTipo($documentoTipo)
-    {
-        $this->documentoTipo = $documentoTipo;
-
-        return $this;
-    }
-
-    /**
-     * Get documentoTipo
-     *
-     * @return string
-     */
-    public function getDocumentoTipo()
-    {
-        return $this->documentoTipo;
     }
 
     /**
@@ -489,5 +468,29 @@ class Cliente
     public function __toString()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set documentoTipo
+     *
+     * @param \AppBundle\Entity\AfipDocumentoTipo $documentoTipo
+     *
+     * @return Cliente
+     */
+    public function setDocumentoTipo(\AppBundle\Entity\AfipDocumentoTipo $documentoTipo = null)
+    {
+        $this->documentoTipo = $documentoTipo;
+
+        return $this;
+    }
+
+    /**
+     * Get documentoTipo
+     *
+     * @return \AppBundle\Entity\AfipDocumentoTipo
+     */
+    public function getDocumentoTipo()
+    {
+        return $this->documentoTipo;
     }
 }
