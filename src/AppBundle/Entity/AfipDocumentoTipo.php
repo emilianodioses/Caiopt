@@ -52,7 +52,7 @@ class AfipDocumentoTipo
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_hasta", type="datetime")
+     * @ORM\Column(name="fecha_hasta", type="datetime", nullable=true)
      */
     private $fechaHasta;
 
@@ -84,6 +84,10 @@ class AfipDocumentoTipo
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->descripcion;
+    }
 
     /**
      * Get id

@@ -18,14 +18,17 @@ class ClienteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nombre', TextType::class, array('label' => 'Nombre',))
-                ->add('documentoTipo',ChoiceType::class,array(
+                ->add('documentoTipo', EntityType::class, array(
                     'label' => 'Tipo Documento',
-                    'choices_as_values' => true,
-                    'choices' => array(
-                        'CUIT' => 'CUIT',
-                        'CUIL' => 'CUIL',
-                        'DNI' => 'DNI'
-                        ), 
+                    'class' => 'AppBundle:AfipDocumentoTipo',
+                    'required' => true,
+                    'choice_label' => 'descripcion',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('ic')
+                                   ->where('ic.activo = 1')
+                                   ->orderBy('ic.descripcion', 'ASC')
+                                   ;
+                           }
                 ))
                 ->add('documentoNumero', null, array('label' => 'Numero Documento',))
                 ->add('ivaCondicion', EntityType::class, array(
