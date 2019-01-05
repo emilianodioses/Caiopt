@@ -273,6 +273,8 @@ class ComprobanteVentaController extends Controller
 
         //Lo siguiente debería modificarse para que no quede hardcodeado
         //dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
+        dump($afip->getWS()->ElectronicBilling->GetAliquotTypes());
+        die;
         switch ($comprobante->getTipo()) {
             case 'Factura A':
                 $comprobanteTipo = 1;
