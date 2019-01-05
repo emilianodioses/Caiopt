@@ -310,4 +310,9 @@ class AfipAlicuota
     {
         return $this->activo;
     }
+
+    public function __toString()
+    {
+        return $this->descripcion;
+    }
 }

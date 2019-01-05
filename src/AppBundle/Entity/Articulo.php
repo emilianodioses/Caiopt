@@ -80,6 +80,17 @@ class Articulo
      * @var string
      *
      * @ORM\Column(name="iva", type="decimal", precision=16, scale=2)
+     
+    private $iva;
+    */
+
+    /**
+     * @var \AfipAlicuota
+     *
+     * @ORM\ManyToOne(targetEntity="AfipAlicuota")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="afip_alicuota_id", referencedColumnName="id")
+     * })
      */
     private $iva;
 

@@ -52,7 +52,7 @@ class AfipTipoDocumento
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_hasta", type="datetime")
+     * @ORM\Column(name="fecha_hasta", type="datetime", nullable=true)
      */
     private $fechaHasta;
 
