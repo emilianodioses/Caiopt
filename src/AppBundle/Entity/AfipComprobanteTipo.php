@@ -84,7 +84,6 @@ class AfipComprobanteTipo
      */
     private $updatedAt;
 
-
     /**
      * Get id
      *

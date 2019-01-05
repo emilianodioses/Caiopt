@@ -44,11 +44,15 @@ class Comprobante
 
     //Tipo: Tipo de factura "A, B, ..."
     /**
-     * @var string
+     * @var \AfipComprobanteTipo
      *
-     * @ORM\Column(name="tipo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipComprobanteTipo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
+     * })
      */
     private $tipo;
+
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
     /**
@@ -264,30 +268,6 @@ class Comprobante
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set tipo
-     *
-     * @param string $tipo
-     *
-     * @return Comprobante
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-
-        return $this;
-    }
-
-    /**
-     * Get tipo
-     *
-     * @return string
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
     }
 
     /**
@@ -893,5 +873,29 @@ class Comprobante
     public function getCaeNumero()
     {
         return $this->caeNumero;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param \AppBundle\Entity\AfipComprobanteTipo $tipo
+     *
+     * @return Comprobante
+     */
+    public function setTipo(\AppBundle\Entity\AfipComprobanteTipo $tipo = null)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return \AppBundle\Entity\AfipComprobanteTipo
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 }

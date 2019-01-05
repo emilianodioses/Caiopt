@@ -22,15 +22,18 @@ class ComprobanteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('tipo',ChoiceType::class,array(
-                        'label'=>'Tipo',
-                        'choices' => array(
-                            'Factura A' => 'Factura A',     
-                            'Factura B' => 'Factura B',
-                            'Nota Credito A' => 'Nota Credito A',
-                            'Nota Credito B' => 'Nota Credito B',
-                            'Nota Debito A' => 'Nota Debito A',
-                            'Nota Debito B' => 'Nota Debito B'))) 
+        $builder->add('tipo', EntityType::class, array(
+                    'label' => 'Tipo',
+                    'class' => 'AppBundle:AfipComprobanteTipo',
+                    'required' => true,
+                    'choice_label' => 'descripcion',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('ic')
+                                   ->where('ic.activo = 1')
+                                   ->orderBy('ic.descripcion', 'ASC')
+                                   ;
+                           }
+                ))
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',
