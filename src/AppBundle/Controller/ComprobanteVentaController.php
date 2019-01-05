@@ -272,7 +272,8 @@ class ComprobanteVentaController extends Controller
         $afip = $this->get('AfipFE');
 
         //Lo siguiente debería modificarse para que no quede hardcodeado
-        //dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
+        dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
+        die;
         switch ($comprobante->getTipo()) {
             case 'Factura A':
                 $comprobanteTipo = 1;
