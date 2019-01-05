@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AfipTipoDocumento
+ * AfipDocumentoTipo
  *
- * @ORM\Table(name="afip_tipo_documento")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\AfipTipoDocumentoRepository")
+ * @ORM\Table(name="afip_documento_tipo")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AfipDocumentoTipoRepository")
  */
-class AfipTipoDocumento
+class AfipDocumentoTipo
 {
     /**
      * @var int
@@ -100,7 +100,7 @@ class AfipTipoDocumento
      *
      * @param integer $codigo
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setCodigo($codigo)
     {
@@ -124,7 +124,7 @@ class AfipTipoDocumento
      *
      * @param string $descripcion
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setDescripcion($descripcion)
     {
@@ -148,7 +148,7 @@ class AfipTipoDocumento
      *
      * @param boolean $activo
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setActivo($activo)
     {
@@ -172,7 +172,7 @@ class AfipTipoDocumento
      *
      * @param \DateTime $fechaDesde
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setFechaDesde($fechaDesde)
     {
@@ -196,7 +196,7 @@ class AfipTipoDocumento
      *
      * @param \DateTime $fechaHasta
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setFechaHasta($fechaHasta)
     {
@@ -220,7 +220,7 @@ class AfipTipoDocumento
      *
      * @param integer $createdBy
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setCreatedBy($createdBy)
     {
@@ -244,7 +244,7 @@ class AfipTipoDocumento
      *
      * @param \DateTime $createdAt
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setCreatedAt($createdAt)
     {
@@ -268,7 +268,7 @@ class AfipTipoDocumento
      *
      * @param integer $updatedBy
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setUpdatedBy($updatedBy)
     {
@@ -292,7 +292,7 @@ class AfipTipoDocumento
      *
      * @param \DateTime $updatedAt
      *
-     * @return AfipTipoDocumento
+     * @return AfipDocumentoTipo
      */
     public function setUpdatedAt($updatedAt)
     {
