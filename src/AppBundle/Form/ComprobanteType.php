@@ -23,11 +23,7 @@ class ComprobanteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('tipo', EntityType::class, array(
-<<<<<<< HEAD
-                    'label' => 'Condición de IVA',
-=======
                     'label' => 'Tipo',
->>>>>>> 8ab967dd8aeeab2187fafcffb7e260c8c13fbbc8
                     'class' => 'AppBundle:AfipComprobanteTipo',
                     'required' => true,
                     'choice_label' => 'descripcion',

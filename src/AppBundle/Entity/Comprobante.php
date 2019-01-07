@@ -44,14 +44,12 @@ class Comprobante
 
     //Tipo: Tipo de factura "A, B, ..."
     /**
-     * @var \AfipComprobanteTipo
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AfipComprobanteTipo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="tipo", type="string", length=255)
      */
     private $tipo;
+
 
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
@@ -75,6 +73,14 @@ class Comprobante
      * @ORM\Column(name="punto_venta", type="integer")
      */
     private $puntoVenta;
+
+    //Condicion de venta: Efectivo, tarjeta de debito/credito
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="condicion_venta", type="string", length=255)
+     */
+    private $condicionVenta;
 
     /**
      * @var int
@@ -897,5 +903,29 @@ class Comprobante
     public function getTipo()
     {
         return $this->tipo;
+    }
+
+    /**
+     * Set condicionVenta
+     *
+     * @param string $condicionVenta
+     *
+     * @return Comprobante
+     */
+    public function setCondicionVenta($condicionVenta)
+    {
+        $this->condicionVenta = $condicionVenta;
+
+        return $this;
+    }
+
+    /**
+     * Get condicionVenta
+     *
+     * @return string
+     */
+    public function getCondicionVenta()
+    {
+        return $this->condicionVenta;
     }
 }
