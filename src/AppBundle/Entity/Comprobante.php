@@ -72,6 +72,14 @@ class Comprobante
      */
     private $puntoVenta;
 
+    //Condicion de venta: Efectivo, tarjeta de debito/credito
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="condicion_venta", type="string", length=255)
+     */
+    private $condicionVenta;
+
     /**
      * @var int
      *
@@ -893,5 +901,29 @@ class Comprobante
     public function getCaeNumero()
     {
         return $this->caeNumero;
+    }
+
+    /**
+     * Set condicionVenta
+     *
+     * @param string $condicionVenta
+     *
+     * @return Comprobante
+     */
+    public function setCondicionVenta($condicionVenta)
+    {
+        $this->condicionVenta = $condicionVenta;
+
+        return $this;
+    }
+
+    /**
+     * Get condicionVenta
+     *
+     * @return string
+     */
+    public function getCondicionVenta()
+    {
+        return $this->condicionVenta;
     }
 }

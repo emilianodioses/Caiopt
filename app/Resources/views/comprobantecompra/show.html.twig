@@ -59,6 +59,10 @@
                                             <td>{{ comprobante.Movimiento }}</td>
                                         </tr>
                                         <tr>
+                                            <th>Condicion de Venta</th>
+                                            <td>{{ comprobante.condicionVenta }}</td>
+                                        </tr>
+                                        <tr>
                                             <th>Fecha</th>
                                             <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('Y-m-d') }}{% endif %}</td>
                                         </tr>

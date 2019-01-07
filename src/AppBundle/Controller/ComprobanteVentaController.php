@@ -409,10 +409,38 @@ class ComprobanteVentaController extends Controller
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
-        $html = $this->renderView('comprobanteventa/factura_imprimir.html.twig', array(
-                                    'comprobante' => $comprobante,
-                                    'comprobanteDetalles' => $comprobanteDetalles
-                                )
+
+        $facturaTemplate = 'comprobanteventa/factura_imprimir_';
+
+
+
+        switch ($comprobante->getTipo()) {
+            case "FACTURA A":
+                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'A'.'.html.twig';
+                break;
+            case "FACTURA B":
+                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
+                break; 
+            case "FACTURA C": 
+                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'C'.'.html.twig';
+                break; 
+            default:
+                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
+                break; 
+        }       
+
+        $html = $this->renderView($facturaTemplate, array(
+            'comprobante' => $comprobante,
+            'comprobanteDetalles' => $comprobanteDetalles,
+            'facturaTipo' => substr($comprobante->getTipo(),8,1),
+            'empresa' => $this->container->getParameter('empresa'),
+            'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
+            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
+            'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
+            'empresaCuit' => $this->container->getParameter('empresa_cuit'),
+            'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
+            'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
+        )
         );
 
         //set_time_limit(30); uncomment this line according to your needs

@@ -69,9 +69,9 @@ class ComprobanteDetalle
      *
      * @ORM\Column(name="precio_unitario", type="decimal", precision=16, scale=3)
      */
-    //precioCosto = Precio final Unitario abonado al proveedor sin iva. 
-    //NO incluye bonificacion del proveedor hacia carlos
+    //precioCosto = Precio final Unitario + bonificacion proveedor a carlos
     private $precioUnitario;
+
 
     /**
      * @var string
@@ -96,7 +96,7 @@ class ComprobanteDetalle
      * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=3)
      */
     //totalNeto (COMPRA) = precioCosto x cantidad. (Sin IVA)
-    //totalNeto (VENTA) = precioVenta x cantidad - Bonificacion. (Sin IVA)
+    //totalNeto (VENTA) = PrecioUnitarioVenta x cantidad - Bonificacion. (Sin IVA)
     private $totalNeto;
 
     /**
@@ -105,6 +105,13 @@ class ComprobanteDetalle
      * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=3)
      */
     private $importeIva; //importeIva = totalNeto*IVA
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="porcentaje_iva", type="decimal", precision=16, scale=3)
+     */
+    private $porcentajeIva;
 
     /**
      * @var string

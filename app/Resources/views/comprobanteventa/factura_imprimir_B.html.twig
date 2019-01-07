@@ -3,32 +3,35 @@
         <table width="100%" cellspacing="0" border="0">
             <tbody>
                 <tr>
-                    <td width="54%" align="center">
-<img width="226" height="64" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
-<b>OPTICA CONTINI</b><br>
-<b>Razon Social:</b> FLORES, NORA ELINA Y NANZER, MARIA JULIA<br>
-Av. San Martín 1199, San Lorenzo, Santa Fe<br>
-IVA Responsable Inscripto
+                    <td width="40%" align="center">
+                        <img width="226" height="64" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
+                        <b>OPTICA CONTINI</b><br>
+                        <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
+                        {{empresaDireccion}}<br>
+                        {{empresaCondicion}}
                     </td>
-                    <td width="15%" align="center">
-<span style="font-size:28pt"><b>B</b></span><br>
-COD. 06
+                    <td width="20%" align=" ">
+                        <span style="font-size:28pt">
+                            <b>{{ facturaTipo }}</b>
+                        </span>
+                        <br>
+                        COD. 06
                     </td>
-                    <td width="31%" align="left">
+                    <td width="40%" align="left">
                         {% if loop.index == 1 %}
-<b>ORIGINAL</b>
+                            <b>ORIGINAL</b>
                         {% else %}
-<b>DUPLICADO</b>
+                            <b>DUPLICADO</b>
                         {% endif %}
-<br>
-<br>
-<b>{{comprobante.tipo}}</b><br>
-<b>{{"%04d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
-<b>{{comprobante.fecha | date('d-m-Y')}}</b><br>
-<br>
-<b>CUIT:</b> 30715288075<br>
-<b>Ingresos Brutos:</b> 091-051680-2<br>
-<b>Inicio Actividades:</b> 01-08-2016<br>
+                        <br>
+                        <br>
+                        <b>{{comprobante.tipo}}</b><br>
+                        <b>{{"%04d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
+                        <b>{{comprobante.fecha | date('d-m-Y')}}</b><br>
+                        <br>
+                        <b>CUIT:</b> {{ empresaCuit }}<br>
+                        <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
+                        <b>Inicio Actividades:</b> {{ empresaInicioActividades }}<br>
                     </td>
                 </tr>
             </tbody>
@@ -50,7 +53,7 @@ COD. 06
                 </tr>
                 <tr>
                     <td><b>Condición de IVA:</b> {{comprobante.cliente.ivaCondicion.descripcion}}</td>
-                    <td><b>Condición de Venta:</b> DATA</td>
+                    <td><b>Condición de Venta:</b> {{comprobante.condicionVenta}}</td>
                 </tr>
             </tbody>
         </table>
@@ -61,8 +64,8 @@ COD. 06
         <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
             <tbody>
                 <tr>
-                    <th width="10%"><b>Cod.</b></th>
-                    <th width="50%"><b>Descripción</b></th>
+                    <th width="8%"><b>Cod.</b></th>
+                    <th width="52%"><b>Descripción</b></th>
                     <th width="10%"><b>Cantidad</b></th>
                     <th width="10%"><b>Precio U.</b></th>
                     <th width="10%"><b>Bonif. %</b></th>
@@ -91,15 +94,15 @@ COD. 06
             <tbody>
                 <tr>
                     <td width="60%">
-<img width="63" height="18" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logoAFIP.jpeg')}}"><br>
-<span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
-<b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
-<b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
-                    </td>
-                    <td width="40%">
-<b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(3, '.', ',')}}<br>
-<b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
-<b>Total:</b> $ {{comprobante.total}}
+                        <img width="63" height="18" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logoAFIP.jpeg')}}"><br>
+                        <span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
+                        <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
+                        <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
+                                            </td>
+                                            <td width="40%">
+                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(3, '.', ',')}}<br>
+                        <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
+                        <b>Total:</b> $ {{comprobante.total}}
                     </td>
                 </tr>
             </tbody>

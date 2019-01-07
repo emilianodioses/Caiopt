@@ -18,7 +18,7 @@ Nuevo Comprobante de Compra
 {{ form_end(form) }}
 
 <script type="text/javascript">
-    $('.articulo-collection').collection({
+    $('.comprobanteDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
         allow_down: false,
@@ -29,6 +29,25 @@ Nuevo Comprobante de Compra
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
             articulo = element.find("select.articulo");
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
             precioUnitario = element.find("input.precioUnitario");
             bonificacion = element.find("input.bonificacion");
             precioCosto = element.find("input.precioCosto");

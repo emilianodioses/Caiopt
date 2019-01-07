@@ -33,6 +33,7 @@ Comprobantes de Ventas
                 <tr>
                     <th>Numero</th>
                     <th>Cliente</th>
+                    <th>Tipo</th>
                     <th>Fecha</th>
                     <th>Total</th>
                     <th>Observaciones</th>
@@ -43,6 +44,7 @@ Comprobantes de Ventas
                 <tr>
                     <td>{{ comprobante.numero }}</td>
                     <td>{{ comprobante.cliente }}</td>
+                    <td>{{ comprobante.tipo }}</td>
                     <td>{{ comprobante.fecha|date('Y-m-d') }}</td>
                     <td>{{ comprobante.total }}</td>
                     <td>{{ comprobante.observaciones }}</td> 
