@@ -709,4 +709,28 @@ class ComprobanteDetalle
     {
         return $this->movimiento;
     }
+
+    /**
+     * Set porcentajeIva
+     *
+     * @param string $porcentajeIva
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setPorcentajeIva($porcentajeIva)
+    {
+        $this->porcentajeIva = $porcentajeIva;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeIva
+     *
+     * @return string
+     */
+    public function getPorcentajeIva()
+    {
+        return $this->porcentajeIva;
+    }
 }

@@ -94,6 +94,7 @@ $(function(){
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
         var precio_venta = renglon.find("input.precioVenta");
+        var precio_costo = renglon.find("input.precioCosto");
         var importe_iva = renglon.find("input.importeIva");
         
         $.ajax({
@@ -104,7 +105,8 @@ $(function(){
                 var articulo = $.parseJSON(resp.articulo);
                 
                 precio_venta.val(articulo.precioVenta)
-                importe_iva.val(articulo.iva);
+                precio_costo.val(articulo.precioCosto)
+                importe_iva.val(parseFloat(articulo.iva.descripcion));
                 fnRenglonChange(renglon);
             }
         });
@@ -131,36 +133,37 @@ $(function(){
     }
 
     function fnCalcularTotales() {
-        var bonificacion = 0;
+        
         var total_neto = 0;
-        var total_neto_sin_iva = 0;
         var importe_iva = 0;
+        var bonificacion = 0;
         var total = 0;
         var total_costo = 0;
-        var total_ganancia = 0;
 
         $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {   
-            total_neto_sin_iva = 0;
-            var r_cantidad = $(this).find("input.cantidad")
+            var r_cantidad = $(this).find("input.cantidad");
             var r_bonificacion = $(this).find("input.bonificacion");
             var r_precioVenta = $(this).find("input.precioVenta");
-            var r_importeIva = $(this).find("input.importeIva");
+            var r_precioCosto = $(this).find("input.precioCosto");
+            var r_porcentajeIva = $(this).find("input.importeIva");
             var r_total = $(this).find("input.total");
 
-            total_neto_sin_iva += parseFloat(r_cantidad.val()) * parseFloat(r_precioVenta.val());
-            total_neto += total_neto_sin_iva;
-            importe_iva += parseFloat(r_importeIva.val())/100*parseFloat(total_neto_sin_iva);
-            bonificacion += parseFloat((total_neto+importe_iva))-parseFloat(r_total.val());
+            total_costo += parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val()); 
+            total_neto += parseFloat(r_cantidad.val()) * parseFloat(r_precioVenta.val());
+            bonificacion += parseFloat(total_neto*r_bonificacion.val()/100);
+            importe_iva += parseFloat((total_neto-bonificacion)*parseFloat(r_porcentajeIva.val()/100));
             total += parseFloat(r_total.val());
+            //total += parseFloat(importe_iva);
         });
 
-        $("#ComprobanteType_totalNeto").val(total_neto_sin_iva.toFixed(3));
+
+        $("#ComprobanteType_totalNeto").val(total_neto.toFixed(3));
         $("#ComprobanteType_importeIva").val(importe_iva.toFixed(3));
         $("#ComprobanteType_totalBonificacion").val(bonificacion.toFixed(3));
         $("#ComprobanteType_total").val(total.toFixed(3));
 
-        $("#ComprobanteType_totalCosto").val(total_neto_sin_iva.toFixed(3));
-        $("#ComprobanteType_totalGanancia").val(total.toFixed(3)-total_neto_sin_iva.toFixed(3));
+        $("#ComprobanteType_totalCosto").val(total_costo.toFixed(3));
+        $("#ComprobanteType_totalGanancia").val(total.toFixed(3)-total_costo.toFixed(3));
 
         return true;
     }

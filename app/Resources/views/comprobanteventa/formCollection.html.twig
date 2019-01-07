@@ -145,13 +145,14 @@
             <div class="form-group form-group-sm">
                 <table {{ block('widget_attributes') }}>
                     <thead>
-                        <th width="45%">Artículo</th>
+                        <th width="35%">Artículo</th>
                         <th>Cantidad</th>
                         <th>P. Unitario</th>
+                        <th>P. totalCosto</th>
                         <th>IVA %</th>
                         <th>Bonificación %</th>
                         <th>Total</th>
-                        <th width="5%">&nbsp;</th>
+                        <th width="12%">&nbsp;</th>
                     </thead>
                     <tbody>
                         {% for item in form %}
@@ -173,6 +174,7 @@
         <td>{{ form_widget(form.articulo) }}</td>
         <td>{{ form_widget(form.cantidad) }}</td>
         <td>{{ form_widget(form.precioVenta) }}</td>
+        <td>{{ form_widget(form.precioCosto) }}</td>
         <td>{{ form_widget(form.importeIva) }}</td>
         <td>{{ form_widget(form.bonificacion) }}</td>
         <td>{{ form_widget(form.total) }}</td>

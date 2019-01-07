@@ -71,6 +71,9 @@ class ComprobanteVentaController extends Controller
             foreach($comprobanteDetalles as $comprobanteDetalle) {  
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
+                $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobanteDetalle->getArticulo()->getIva()->getId());
+                $comprobanteDetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
+
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
                     ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
 
@@ -78,7 +81,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
                 $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getBonificacion())*$comprobanteDetalle->getCantidad());
                 $comprobanteDetalle->setGanancia(0);;
-                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario());
+                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad());
 
                 $comprobanteDetalle->setMovimiento('Venta');
                 $comprobanteDetalle->setComprobante($comprobante);
@@ -202,7 +205,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
                 $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
                 $comprobanteDetalle->setGanancia(0);;
-                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario());
+                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad());
 
                 if (is_null($comprobanteDetalle->getId())){     
                     $comprobanteDetalle->setCreatedBy($this->getUser()->getId());

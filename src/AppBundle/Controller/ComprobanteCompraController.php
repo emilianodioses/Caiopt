@@ -54,22 +54,29 @@ class ComprobanteCompraController extends controller
 
             $em->persist($comprobante);
 
-            $articulo = new ComprobanteDetalle();
-            $articulos  = $comprobante->getArticulos()->toArray();
+            $comprobantedetalle = new ComprobanteDetalle();
+            $comprobantedetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
-            foreach($articulos as $articulo):  
-                $articulo->setTotalNeto($articulo->getPrecioCosto()*$articulo->getCantidad());
-                $articulo->setImporteGanancia(0);
+            foreach($comprobantedetalles as $comprobantedetalle):  
 
-                $articulo->setComprobante($comprobante);
-                $articulo->setMovimiento('Compra');
-                $articulo->setActivo(1);
-                $articulo->setCreatedBy($this->getUser()->getId());
-                $articulo->setCreatedAt(new \DateTime("now"));
-                $articulo->setUpdatedBy($this->getUser()->getId());
-                $articulo->setUpdatedAt(new \DateTime("now"));
+                $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobantedetalle->getArticulo()->getIva()->getId());
 
-                $em->persist($articulo);
+                //dump($comprobantedetalle->getArticulo()->getIva());
+                //die;
+
+                $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
+                $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
+                $comprobantedetalle->setImporteGanancia(0);
+
+                $comprobantedetalle->setComprobante($comprobante);
+                $comprobantedetalle->setMovimiento('Compra');
+                $comprobantedetalle->setActivo(1);
+                $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                $comprobantedetalle->setCreatedAt(new \DateTime("now"));
+                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($comprobantedetalle);
             endforeach;  
 
             $em->flush(); 
@@ -111,7 +118,7 @@ class ComprobanteCompraController extends controller
         $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
         foreach($comprobantedetalles as $comprobantedetalle) {
-            $comprobante->getArticulos()->add($comprobantedetalle);
+            $comprobante->getComprobanteDetalles()->add($comprobantedetalle);
         }
 
         $deleteForm = $this->createDeleteForm($comprobante);
@@ -132,11 +139,16 @@ class ComprobanteCompraController extends controller
             }   
             //**********************************************************************
 
-            foreach($editForm->getData()->getArticulos() as $comprobantedetalle) {
+            foreach($editForm->getData()->getComprobanteDetalles() as $comprobantedetalle) {
+
                 $articuloBD = $em->getRepository('AppBundle:Articulo')->find($comprobantedetalle->getArticulo());
 
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
                     ->findOneBy(array('articulo' => $articuloBD));
+
+                $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobantedetalle->getArticulo()->getIva()->getId());
+
+                $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());                    
 
                 $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));

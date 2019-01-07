@@ -110,7 +110,7 @@ Nuevo Comprobante de Compra
                 
                 precioUnitario.val(articulo.precioCosto);
                 precioCosto.val(articulo.precioCosto);
-                importeIva.val(articulo.iva);
+                importeIva.val(parseFloat(articulo.iva.descripcion));
                 ganancia.val(articulo.gananciaPorcentaje);
 
                 fnGananciaChange(renglon);
@@ -140,7 +140,7 @@ Nuevo Comprobante de Compra
         var r_precioCosto = renglon.find("input.precioCosto");
 
         var bonificacion_importe = parseFloat(r_precioUnitario.val()) - parseFloat(r_precioCosto.val());
-        var bonificacion = parseFloat(bonificacion_importe * 100 / r_precioUnitario.val()).toFixed(2);
+        var bonificacion = parseFloat(bonificacion_importe * 100 / r_precioUnitario.val()).toFixed(3);
         r_bonificacion.val(bonificacion);
 
         return true;
@@ -157,7 +157,7 @@ Nuevo Comprobante de Compra
         }
         else {
             var ganancia_importe = parseFloat(r_ganancia.val() * r_precioCosto.val() / 100);
-            var precio_venta = parseFloat(parseFloat(r_precioCosto.val()) + parseFloat(ganancia_importe)).toFixed(3);
+            var precio_venta = parseFloat(parseFloat(r_precioCosto.val()) + parseFloat(ganancia_importe)).toFixed(2);
         }
         r_precioVenta.val(precio_venta);
 
@@ -209,7 +209,7 @@ Nuevo Comprobante de Compra
         var total_iva = 0;
         var total = 0;
 
-        $("#ComprobanteType_articulos tr.item").each(function() {
+        $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {
             var r_cantidad = $(this).find("input.cantidad")
             var r_precioUnitario = $(this).find("input.precioUnitario");
             var r_bonificacion = $(this).find("input.bonificacion");

@@ -64,33 +64,30 @@ class ComprobanteDetalleType extends AbstractType
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad', 'class' => 'cantidad')))
                 ->add('bonificacion',FloatType::class,array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion', 'step' => 0.01)))
+                    'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'bonificacion', 'step' => 0.001)))
                 ->add('precioUnitario',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioUnitario', 'step' => 0.01),
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioUnitario', 'step' => 0.001),
                     ))
                 ->add('precioCosto',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto', 'step' => 0.01),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Precio Costo', 'class' => 'precioCosto', 'step' => 0.001),
                     ))
                 ->add('precioVenta',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta'),
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.001),
                     ))
                 ->add('totalNeto',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto', 'step' => 0.01),
+                    'attr' => array('size' => 3, 'placeholder' => 'Total Neto', 'class' => 'totalNeto', 'step' => 0.001),
                     ))
                 ->add('importeIva',FloatType::class, array(
                     'label' => false,
-                    'attr' => array(
-                        'readonly' => true,
-                    ),
-                    'attr' => array('size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva', 'step' => 0.01),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Importe Iva', 'class' => 'importeIva', 'step' => 0.01),
                     ))
                 ->add('total',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
+                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.001),
                     ))
                 ->add('ganancia',FloatType::class, array(
                     'label' => false,
