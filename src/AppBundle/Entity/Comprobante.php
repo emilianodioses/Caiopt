@@ -44,11 +44,15 @@ class Comprobante
 
     //Tipo: Tipo de factura "A, B, ..."
     /**
-     * @var string
+     * @var \AfipComprobanteTipo
      *
-     * @ORM\Column(name="tipo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipComprobanteTipo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
+     * })
      */
     private $tipo;
+
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
     /**
@@ -72,14 +76,6 @@ class Comprobante
      */
     private $puntoVenta;
 
-    //Condicion de venta: Efectivo, tarjeta de debito/credito
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="condicion_venta", type="string", length=255)
-     */
-    private $condicionVenta;
-
     /**
      * @var int
      *
@@ -93,7 +89,7 @@ class Comprobante
      *
      * @ORM\Column(name="total_bonificacion", type="decimal", precision=16, scale=3)
      */
-    private $totalBonificacion;
+    private $totalBonificacion = '0';
 
     //Total = Importe con Iva + Tributos + bonificacion + precio venta/compra
     /**
@@ -101,15 +97,15 @@ class Comprobante
      *
      * @ORM\Column(name="total", type="decimal", precision=16, scale=3)
      */
-    private $total;
+    private $total = '0';
 
     //totalNoGravado = total de los articulos que no usan IVA.
     /**
      * @var string
      *
-     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3, nullable=true)
+     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3)
      */
-    private $totalNoGravado;
+    private $totalNoGravado = '0';
 
     // totalNeto: precio de venta o compra sin Iva
     /**
@@ -117,15 +113,15 @@ class Comprobante
      *
      * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=3)
      */
-    private $totalNeto;
+    private $totalNeto = '0';
 
     //importeIvaExento = es el monto de iva que por ley quedan exentos
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3, nullable=true)
+     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3)
      */
-    private $importeIvaExento;
+    private $importeIvaExento = '0';
 
     //importeIva = suma de IVA en dinero
     /**
@@ -133,22 +129,22 @@ class Comprobante
      *
      * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=3)
      */
-    private $importeIva;
+    private $importeIva = '0';
 
     //importeTributos = es la sumatoria de otros tributos excepto IVA por ejemplo ingresos brutos (IIBB)
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_tributos", type="decimal", precision=16, scale=3, nullable=true)
+     * @ORM\Column(name="importe_tributos", type="decimal", precision=16, scale=3)
      */
-    private $importeTributos;
+    private $importeTributos = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
+     * @ORM\Column(name="observaciones", type="string", length=255)
      */
-    private $observaciones;
+    private $observaciones = '';
 
     /**
      * @var int
@@ -170,7 +166,7 @@ class Comprobante
      *
      * @ORM\Column(name="total_costo", type="decimal", precision=16, scale=3)
      */
-    private $totalCosto;
+    private $totalCosto = '0';
 
     //totalGanancia = total - totalCosto 
     /**
@@ -178,7 +174,7 @@ class Comprobante
      *
      * @ORM\Column(name="total_ganancia", type="decimal", precision=16, scale=3)
      */
-    private $totalGanancia;
+    private $totalGanancia = '0';
 
     /**
      * @var \DateTime
@@ -272,30 +268,6 @@ class Comprobante
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set tipo
-     *
-     * @param string $tipo
-     *
-     * @return Comprobante
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-
-        return $this;
-    }
-
-    /**
-     * Get tipo
-     *
-     * @return string
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
     }
 
     /**
@@ -904,26 +876,26 @@ class Comprobante
     }
 
     /**
-     * Set condicionVenta
+     * Set tipo
      *
-     * @param string $condicionVenta
+     * @param \AppBundle\Entity\AfipComprobanteTipo $tipo
      *
      * @return Comprobante
      */
-    public function setCondicionVenta($condicionVenta)
+    public function setTipo(\AppBundle\Entity\AfipComprobanteTipo $tipo = null)
     {
-        $this->condicionVenta = $condicionVenta;
+        $this->tipo = $tipo;
 
         return $this;
     }
 
     /**
-     * Get condicionVenta
+     * Get tipo
      *
-     * @return string
+     * @return \AppBundle\Entity\AfipComprobanteTipo
      */
-    public function getCondicionVenta()
+    public function getTipo()
     {
-        return $this->condicionVenta;
+        return $this->tipo;
     }
 }

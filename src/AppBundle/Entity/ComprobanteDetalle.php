@@ -59,27 +59,55 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="bonificacion", type="decimal", precision=16, scale=3, nullable=true)
+     * @ORM\Column(name="precio_unitario", type="decimal", precision=16, scale=3)
      */
-    //bonificacion = porcentaje de bonificacion del articulo
-    private $bonificacion;
+    //VENTA: precio del art. sin iva sin bonificacion
+    //COMPRA: precio del art. sin iva sin bonificacion
+    private $precioUnitario;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_unitario", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="porcentaje_bonificacion", type="decimal", precision=16, scale=2)
      */
-    //precioCosto = Precio final Unitario + bonificacion proveedor a carlos
-    private $precioUnitario;
+    //VENTA: porcentaje de bonificacion del art.
+    //COMPRA: porcentaje de bonificacion del art.
+    private $porcentajeBonificacion;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="importe_bonificacion", type="decimal", precision=16, scale=2)
+     */
+    //VENTA: porcentaje de bonificacion sobre el precio unitario
+    //COMPRA: porcentaje de bonificacion sobre el precio unitario
+    private $importeBonificacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="porcentaje_iva", type="decimal", precision=16, scale=2)
+     */
+    //VENTA: porcentaje de iva del art.
+    //COMPRA: porcentaje de iva del art.
+    private $porcentajeIva;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=3)
+     */
+    //VENTA: importe del iva del art. sobre precio_unitario ¿+ importe_bonificacion?
+    //COMPRA: importe del iva del art. sobre precio_unitario ¿+ importe_bonificacion?
+    private $importeIva; //importeIva = totalNeto*IVA
 
     /**
      * @var string
      *
      * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=3)
      */
-    //precioCosto = Precio final Unitario abonado al proveedor sin iva. 
-    //incluye bonificacion del proveedor hacia carlos
+    //VENTA: precio_de_compra(obtenido del art.) + importe_iva + bonificacion
+    //COMPRA: precio_unitario + bonificacion
     private $precioCosto;
 
     /**
@@ -87,76 +115,66 @@ class ComprobanteDetalle
      *
      * @ORM\Column(name="precio_venta", type="decimal", precision=16, scale=3)
      */
-    //precioVenta = precioCosto(puede ser modificado por carlos) + Ganancia (sin IVA)
+    //VENTA: precio_unitario + importe_iva + importe_bonificacion
+    //COMPRA: precio_costo + importe_ganancia
     private $precioVenta;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=3)
-     */
-    //totalNeto (COMPRA) = precioCosto x cantidad. (Sin IVA)
-    //totalNeto (VENTA) = PrecioUnitarioVenta x cantidad - Bonificacion. (Sin IVA)
-    private $totalNeto;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=3)
-     */
-    private $importeIva; //importeIva = totalNeto*IVA
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="porcentaje_iva", type="decimal", precision=16, scale=3)
-     */
-    private $porcentajeIva;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="total", type="decimal", precision=16, scale=3)
-     */
-    //total = totalNeto + importeIva
-    private $total; 
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3, nullable=true)
-     */
-    //totalNoGravado = 0
-    private $totalNoGravado;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3, nullable=true)
-     */
-    //importeIvaExento = 0
-    private $importeIvaExento;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ganancia", type="decimal", precision=16, scale=3)
-     */
-    //ganancia (COMPRA)= % que se le aplica al precioCosto (SIN IVA)
-    private $ganancia;
 
     /**
      * @var string
      *
      * @ORM\Column(name="importe_ganancia", type="decimal", precision=16, scale=3)
      */
-    //importeGanancia = Diferencia entre precioVenta - precioCosto (SIN IVA)
+    //VENTA: precio_venta - precio_costo
+    //COMPRA: 0 (no se utiliza)
     private $importeGanancia;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
+     * @ORM\Column(name="porcentaje_ganancia", type="decimal", precision=16, scale=2)
+     */
+    //VENTA: 0 (no se utiliza)
+    //COMPRA: precio_costo + importe_ganancia
+    private $porcentajeGanancia;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=3)
+     */
+    //VENTA: cantidad * precio_unitario (sin iva)
+    //COMPRA: cantidad * precio_costo (sin iva)
+    private $totalNeto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="total", type="decimal", precision=16, scale=3)
+     */
+    //VENTA: cantidad * (precio_unitario + importe_bonificacion + importe_iva)
+    //COMPRA: cantidad * (precio_costo + importe_iva)
+    private $total; 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3)
+     */
+    //totalNoGravado = 0 (no se utiliza)
+    private $totalNoGravado = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3)
+     */
+    //importeIvaExento = 0  (no se utiliza)
+    private $importeIvaExento = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observaciones", type="string", length=255)
      */
     private $observaciones;
 
@@ -194,7 +212,7 @@ class ComprobanteDetalle
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
-
+    
 
     /**
      * Get id
@@ -204,6 +222,30 @@ class ComprobanteDetalle
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set movimiento
+     *
+     * @param string $movimiento
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setMovimiento($movimiento)
+    {
+        $this->movimiento = $movimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get movimiento
+     *
+     * @return string
+     */
+    public function getMovimiento()
+    {
+        return $this->movimiento;
     }
 
     /**
@@ -231,27 +273,123 @@ class ComprobanteDetalle
     }
 
     /**
-     * Set bonificacion
+     * Set precioUnitario
      *
-     * @param string $bonificacion
+     * @param string $precioUnitario
      *
      * @return ComprobanteDetalle
      */
-    public function setBonificacion($bonificacion)
+    public function setPrecioUnitario($precioUnitario)
     {
-        $this->bonificacion = $bonificacion;
+        $this->precioUnitario = $precioUnitario;
 
         return $this;
     }
 
     /**
-     * Get bonificacion
+     * Get precioUnitario
      *
      * @return string
      */
-    public function getBonificacion()
+    public function getPrecioUnitario()
     {
-        return $this->bonificacion;
+        return $this->precioUnitario;
+    }
+
+    /**
+     * Set porcentajeBonificacion
+     *
+     * @param string $porcentajeBonificacion
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setPorcentajeBonificacion($porcentajeBonificacion)
+    {
+        $this->porcentajeBonificacion = $porcentajeBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeBonificacion
+     *
+     * @return string
+     */
+    public function getPorcentajeBonificacion()
+    {
+        return $this->porcentajeBonificacion;
+    }
+
+    /**
+     * Set importeBonificacion
+     *
+     * @param string $importeBonificacion
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setImporteBonificacion($importeBonificacion)
+    {
+        $this->importeBonificacion = $importeBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get importeBonificacion
+     *
+     * @return string
+     */
+    public function getImporteBonificacion()
+    {
+        return $this->importeBonificacion;
+    }
+
+    /**
+     * Set porcentajeIva
+     *
+     * @param string $porcentajeIva
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setPorcentajeIva($porcentajeIva)
+    {
+        $this->porcentajeIva = $porcentajeIva;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeIva
+     *
+     * @return string
+     */
+    public function getPorcentajeIva()
+    {
+        return $this->porcentajeIva;
+    }
+
+    /**
+     * Set importeIva
+     *
+     * @param string $importeIva
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setImporteIva($importeIva)
+    {
+        $this->importeIva = $importeIva;
+
+        return $this;
+    }
+
+    /**
+     * Get importeIva
+     *
+     * @return string
+     */
+    public function getImporteIva()
+    {
+        return $this->importeIva;
     }
 
     /**
@@ -303,6 +441,54 @@ class ComprobanteDetalle
     }
 
     /**
+     * Set importeGanancia
+     *
+     * @param string $importeGanancia
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setImporteGanancia($importeGanancia)
+    {
+        $this->importeGanancia = $importeGanancia;
+
+        return $this;
+    }
+
+    /**
+     * Get importeGanancia
+     *
+     * @return string
+     */
+    public function getImporteGanancia()
+    {
+        return $this->importeGanancia;
+    }
+
+    /**
+     * Set porcentajeGanancia
+     *
+     * @param string $porcentajeGanancia
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setPorcentajeGanancia($porcentajeGanancia)
+    {
+        $this->porcentajeGanancia = $porcentajeGanancia;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeGanancia
+     *
+     * @return string
+     */
+    public function getPorcentajeGanancia()
+    {
+        return $this->porcentajeGanancia;
+    }
+
+    /**
      * Set totalNeto
      *
      * @param string $totalNeto
@@ -324,30 +510,6 @@ class ComprobanteDetalle
     public function getTotalNeto()
     {
         return $this->totalNeto;
-    }
-
-    /**
-     * Set importeIva
-     *
-     * @param string $importeIva
-     *
-     * @return ComprobanteDetalle
-     */
-    public function setImporteIva($importeIva)
-    {
-        $this->importeIva = $importeIva;
-
-        return $this;
-    }
-
-    /**
-     * Get importeIva
-     *
-     * @return string
-     */
-    public function getImporteIva()
-    {
-        return $this->importeIva;
     }
 
     /**
@@ -420,54 +582,6 @@ class ComprobanteDetalle
     public function getImporteIvaExento()
     {
         return $this->importeIvaExento;
-    }
-
-    /**
-     * Set ganancia
-     *
-     * @param string $ganancia
-     *
-     * @return ComprobanteDetalle
-     */
-    public function setGanancia($ganancia)
-    {
-        $this->ganancia = $ganancia;
-
-        return $this;
-    }
-
-    /**
-     * Get ganancia
-     *
-     * @return string
-     */
-    public function getGanancia()
-    {
-        return $this->ganancia;
-    }
-
-    /**
-     * Set importeGanancia
-     *
-     * @param string $importeGanancia
-     *
-     * @return ComprobanteDetalle
-     */
-    public function setImporteGanancia($importeGanancia)
-    {
-        $this->importeGanancia = $importeGanancia;
-
-        return $this;
-    }
-
-    /**
-     * Get importeGanancia
-     *
-     * @return string
-     */
-    public function getImporteGanancia()
-    {
-        return $this->importeGanancia;
     }
 
     /**
@@ -660,77 +774,5 @@ class ComprobanteDetalle
     public function getArticulo()
     {
         return $this->articulo;
-    }
-
-    /**
-     * Set precioUnitario
-     *
-     * @param string $precioUnitario
-     *
-     * @return ComprobanteDetalle
-     */
-    public function setPrecioUnitario($precioUnitario)
-    {
-        $this->precioUnitario = $precioUnitario;
-
-        return $this;
-    }
-
-    /**
-     * Get precioUnitario
-     *
-     * @return string
-     */
-    public function getPrecioUnitario()
-    {
-        return $this->precioUnitario;
-    }
-
-    /**
-     * Set movimiento
-     *
-     * @param string $movimiento
-     *
-     * @return Comprobante
-     */
-    public function setMovimiento($movimiento)
-    {
-        $this->movimiento = $movimiento;
-
-        return $this;
-    }
-
-    /**
-     * Get movimiento
-     *
-     * @return string
-     */
-    public function getMovimiento()
-    {
-        return $this->movimiento;
-    }
-
-    /**
-     * Set porcentajeIva
-     *
-     * @param string $porcentajeIva
-     *
-     * @return ComprobanteDetalle
-     */
-    public function setPorcentajeIva($porcentajeIva)
-    {
-        $this->porcentajeIva = $porcentajeIva;
-
-        return $this;
-    }
-
-    /**
-     * Get porcentajeIva
-     *
-     * @return string
-     */
-    public function getPorcentajeIva()
-    {
-        return $this->porcentajeIva;
     }
 }
