@@ -64,6 +64,11 @@ class ComprobanteVentaController extends Controller
             $comprobante->setUpdatedBy($this->getUser()->getId());
             $comprobante->setUpdatedAt(new \DateTime("now"));
 
+
+            if (is_null($comprobante->getObservaciones())) {
+                $comprobante->setObservaciones('');
+            }
+
             $em->persist($comprobante);
 
             $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
@@ -77,11 +82,41 @@ class ComprobanteVentaController extends Controller
                 $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
                     ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
 
+                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getPorcentajeIva()/100);
+
+                $comprobanteDetalle->setTotalNoGravado(0);
+                $comprobanteDetalle->setImporteIvaExento(0);
+                
+                if (is_null($comprobanteDetalle->getObservaciones())) {
+                $comprobanteDetalle->setObservaciones('');
+                }
+
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
-                $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
-                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getBonificacion())*$comprobanteDetalle->getCantidad());
-                $comprobanteDetalle->setGanancia(0);;
-                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad());
+                
+                switch ($comprobante->getTipo()) {
+                    case 'FACTURA A':
+                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
+                        break;
+                    
+                    case 'FACTURA B':
+                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario()*(1+$comprobanteDetalle->getPorcentajeIva()/100));
+                        break;
+                    
+                    default:
+                        echo('ComprobanteTipo desconocido.');
+                        die;
+                        break;
+                }
+
+
+
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getImporteBonificacion())*$comprobanteDetalle->getCantidad());
+
+                $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());                
+
+                $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioCosto()));
+
+                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioVenta()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 $comprobanteDetalle->setMovimiento('Venta');
                 $comprobanteDetalle->setComprobante($comprobante);
@@ -176,6 +211,10 @@ class ComprobanteVentaController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
+            if (is_null($comprobante->getObservaciones())) {
+                $comprobante->setObservaciones('');
+            }
+
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
             //Basicamente seteo a todos los articulos ya existen en la base de datos con 
@@ -201,11 +240,36 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
                 $comprobanteDetalle->setComprobante($comprobante);
                 $comprobanteDetalle->setActivo(1);
-                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getBonificacion())*$comprobanteDetalle->getCantidad());
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getImporteBonificacion())*$comprobanteDetalle->getCantidad());
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
-                $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
-                $comprobanteDetalle->setGanancia(0);;
-                $comprobanteDetalle->setImporteGanancia($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad());
+
+                switch ($comprobante->getTipo()) {
+                    case 'FACTURA A':
+                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
+                        break;
+                    
+                    case 'FACTURA B':
+                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioVenta()*(1+$comprobanteDetalle->getPorcentajeIva()/100));
+                        break;
+                    
+                    default:
+                        echo('ComprobanteTipo desconocido.');
+                        die;
+                        break;
+                }
+
+                $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
+                $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioCosto()));
+                $comprobanteDetalle->setTotalNoGravado(0);
+                $comprobanteDetalle->setImporteIvaExento(0);
+
+                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getPorcentajeIva()/100);
+
+                if (is_null($comprobanteDetalle->getObservaciones())) {
+                $comprobanteDetalle->setObservaciones('');
+                }
+
+                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioVenta()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 if (is_null($comprobanteDetalle->getId())){     
                     $comprobanteDetalle->setCreatedBy($this->getUser()->getId());
@@ -278,27 +342,27 @@ class ComprobanteVentaController extends Controller
         //dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
         //die;
         switch ($comprobante->getTipo()) {
-            case 'Factura A':
+            case 'FACTURA A':
                 $comprobanteTipo = 1;
                 break;
 
-            case 'Nota Debito A':
+            case 'NOTA DEBITO A':
                 $comprobanteTipo = 2;
                 break;
             
-            case 'Nota Credito A':
+            case 'NOTA CREDITO A':
                 $comprobanteTipo = 3;
                 break;
             
-            case 'Factura B':
+            case 'FACTURA B':
                 $comprobanteTipo = 6;
                 break;
 
-            case 'Nota Debito B':
+            case 'NOTA DEBITO B':
                 $comprobanteTipo = 7;
                 break;
             
-            case 'Nota Credito B':
+            case 'NOTA CREDITO B':
                 $comprobanteTipo = 8;
                 break;
             
@@ -429,6 +493,9 @@ class ComprobanteVentaController extends Controller
                 $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
                 break; 
         }       
+
+        //dump($comprobanteDetalles);
+        //die;
 
         $html = $this->renderView($facturaTemplate, array(
             'comprobante' => $comprobante,

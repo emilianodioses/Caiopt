@@ -47,6 +47,11 @@ class ComprobanteCompraController extends controller
             $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
             $comprobante->setActivo(1);
+
+            if (is_null($comprobante->getObservaciones())) {
+                $comprobante->setObservaciones('');
+            }
+
             $comprobante->setCreatedBy($this->getUser()->getId());
             $comprobante->setCreatedAt(new \DateTime("now"));
             $comprobante->setUpdatedBy($this->getUser()->getId());
@@ -60,14 +65,23 @@ class ComprobanteCompraController extends controller
             foreach($comprobantedetalles as $comprobantedetalle):  
 
                 $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobantedetalle->getArticulo()->getIva()->getId());
+                
+                $comprobantedetalle->setImporteIva($comprobantedetalle->getCantidad()*$comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getPorcentajeIva()/100);
+                $comprobantedetalle->setImporteGanancia(0);
+                
 
-                //dump($comprobantedetalle->getArticulo()->getIva());
-                //die;
+                $comprobantedetalle->setImporteBonificacion($comprobantedetalle->getCantidad()*($comprobantedetalle->getPrecioUnitario()-$comprobantedetalle->getPrecioCosto()));
+
+                $comprobantedetalle->setTotalNoGravado(0);
+                $comprobantedetalle->setImporteIvaExento(0);
+
+                if (is_null($comprobantedetalle->getObservaciones())) {
+                $comprobantedetalle->setObservaciones('');
+                }
 
                 $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
                 $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
-                $comprobantedetalle->setImporteGanancia(0);
-
+                
                 $comprobantedetalle->setComprobante($comprobante);
                 $comprobantedetalle->setMovimiento('Compra');
                 $comprobantedetalle->setActivo(1);
@@ -75,6 +89,8 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setCreatedAt(new \DateTime("now"));
                 $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+
+
 
                 $em->persist($comprobantedetalle);
             endforeach;  
@@ -117,6 +133,10 @@ class ComprobanteCompraController extends controller
 
         $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
+        if (is_null($comprobante->getObservaciones())) {
+            $comprobante->setObservaciones('');
+        }
+
         foreach($comprobantedetalles as $comprobantedetalle) {
             $comprobante->getComprobanteDetalles()->add($comprobantedetalle);
         }
@@ -127,6 +147,10 @@ class ComprobanteCompraController extends controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
+            if (is_null($comprobante->getObservaciones())) {
+                $comprobante->setObservaciones('');
+            }
+            
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
             //Basicamente seteo a todos los articulos ya existen en la base de datos con 
@@ -141,28 +165,41 @@ class ComprobanteCompraController extends controller
 
             foreach($editForm->getData()->getComprobanteDetalles() as $comprobantedetalle) {
 
-                $articuloBD = $em->getRepository('AppBundle:Articulo')->find($comprobantedetalle->getArticulo());
-
-                $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
-                    ->findOneBy(array('articulo' => $articuloBD));
-
                 $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobantedetalle->getArticulo()->getIva()->getId());
-
-                $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());                    
-
-                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
-                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
-                $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
+                
+                $comprobantedetalle->setImporteIva($comprobantedetalle->getCantidad()*$comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getPorcentajeIva()/100);
                 $comprobantedetalle->setImporteGanancia(0);
-                $comprobantedetalle->setMovimiento('Compra');
+                
+
+                $comprobantedetalle->setImporteBonificacion($comprobantedetalle->getCantidad()*($comprobantedetalle->getPrecioUnitario()-$comprobantedetalle->getPrecioCosto()));
+
+                $comprobantedetalle->setTotalNoGravado(0);
+                $comprobantedetalle->setImporteIvaExento(0);
+
+                if (is_null($comprobantedetalle->getObservaciones())) {
+                $comprobantedetalle->setObservaciones('');
+                }
+
+                $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
+                $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
+                
                 $comprobantedetalle->setComprobante($comprobante);
+                $comprobantedetalle->setMovimiento('Compra');
                 $comprobantedetalle->setActivo(1);
                 $comprobantedetalle->setCreatedBy($this->getUser()->getId());
                 $comprobantedetalle->setCreatedAt(new \DateTime("now"));
                 $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
+                //dump($comprobantedetalle);
+                //die;
+
                 if (is_null($comprobantedetalle->getId())){     
+
+                    if (is_null($comprobantedetalle->getObservaciones())) {
+                        $comprobantedetalle->setObservaciones('');
+                    }
+
                     $comprobantedetalle->setCreatedBy($this->getUser()->getId());
                     $comprobantedetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobantedetalle);

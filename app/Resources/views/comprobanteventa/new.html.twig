@@ -96,6 +96,7 @@ $(function(){
         var precio_venta = renglon.find("input.precioVenta");
         var precio_costo = renglon.find("input.precioCosto");
         var importe_iva = renglon.find("input.importeIva");
+        var porcentaje_iva = renglon.find("input.porcentajeIva");
         
         $.ajax({
             type: 'POST',
@@ -106,7 +107,8 @@ $(function(){
                 
                 precio_venta.val(articulo.precioVenta)
                 precio_costo.val(articulo.precioCosto)
-                importe_iva.val(parseFloat(articulo.iva.descripcion));
+                porcentaje_iva.val(parseFloat(articulo.iva.descripcion));
+                //importe_iva.val(parseFloat(articulo.iva.descripcion));
                 fnRenglonChange(renglon);
             }
         });
@@ -118,11 +120,10 @@ $(function(){
         var cantidad = renglon.find("input.cantidad");
         var bonificacion = renglon.find("input.bonificacion");
         var precioVenta = renglon.find("input.precioVenta");
-        var importeIva = renglon.find("input.importeIva");
+        var porcentajeIva = renglon.find("input.porcentajeIva");
         var total = renglon.find("input.total");
 
-        var total_neto_sin_iva = cantidad.val() * precioVenta.val();
-        var total_neto = total_neto_sin_iva * (1+importeIva.val()/100)  ;
+        var total_neto = cantidad.val() * precioVenta.val() * (1+porcentajeIva.val()/100)  ;
         var bonificacion =  total_neto * bonificacion.val()/100;
         var total_f = (total_neto - bonificacion).toFixed(3);
         total.val(total_f);   
@@ -133,25 +134,27 @@ $(function(){
     }
 
     function fnCalcularTotales() {
-        
-        var total_neto = 0;
-        var importe_iva = 0;
-        var bonificacion = 0;
-        var total = 0;
         var total_costo = 0;
+        var total_neto = 0;
+        var bonificacion = 0;
+        var importe_iva = 0;
+        var total_importe_iva = 0;
+        var total = 0;
 
         $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {   
             var r_cantidad = $(this).find("input.cantidad");
             var r_bonificacion = $(this).find("input.bonificacion");
             var r_precioVenta = $(this).find("input.precioVenta");
             var r_precioCosto = $(this).find("input.precioCosto");
-            var r_porcentajeIva = $(this).find("input.importeIva");
+            var r_porcentajeIva = $(this).find("input.porcentajeIva");
             var r_total = $(this).find("input.total");
 
             total_costo += parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val()); 
             total_neto += parseFloat(r_cantidad.val()) * parseFloat(r_precioVenta.val());
             bonificacion += parseFloat(total_neto*r_bonificacion.val()/100);
-            importe_iva += parseFloat((total_neto-bonificacion)*parseFloat(r_porcentajeIva.val()/100));
+
+            importe_iva = parseFloat((total_neto-bonificacion)*parseFloat(r_porcentajeIva.val()/100));
+            total_importe_iva += importe_iva;
             total += parseFloat(r_total.val());
             //total += parseFloat(importe_iva);
         });
@@ -167,11 +170,7 @@ $(function(){
 
         return true;
     }
-    
-    function submitform() {
-            document.forms[0].submit();
-            //document.getElementById('jsform').submit();
-    }
+
 </script>          
 
 {% endblock %}
