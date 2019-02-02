@@ -251,7 +251,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setTotalNoGravado(0);
                 $comprobanteDetalle->setImporteIvaExento(0);
 
-                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getPorcentajeIva()/100);
+                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getTotalNeto()*$comprobanteDetalle->getPorcentajeIva()/100);
 
                 if (is_null($comprobanteDetalle->getObservaciones())) {
                 $comprobanteDetalle->setObservaciones('');
@@ -402,7 +402,7 @@ class ComprobanteVentaController extends Controller
         $alicuotasIva = $em->getRepository('AppBundle:AfipAlicuota')->findAll();
 
         foreach($alicuotasIva as $alicuotaIva) {
-            $alicuota['Id'] = $alicuotaIva->getId(); // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
+            $alicuota['Id'] = $alicuotaIva->getCodigo(); // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
             $alicuota['BaseImp'] = 0; // Base imponible
             $alicuota['Importe'] = 0; // Importe 
             $alicuotas_all[$alicuotaIva->getId()] = $alicuota;
@@ -420,9 +420,12 @@ class ComprobanteVentaController extends Controller
 
         foreach ($alicuotas_all as $alicuota) {
             if ($alicuota['Importe'] > 0) {
+                $alicuota['BaseImp'] = "10.00";
+                $alicuota['Importe'] = "0.50";
                 $alicuotas[] = $alicuota;
             }
         }
+
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
@@ -452,7 +455,7 @@ class ComprobanteVentaController extends Controller
 
         $comprobante->setCaeNumero($res['CAE']);
         $comprobante->setCaeFechaVencimiento(new \DateTime($res['CAEFchVto']));
-        $comprobante->setNumero($res['voucher_number']);
+        $comprobante->setAfipNumero($res['voucher_number']);
 
         $em->flush();
 
