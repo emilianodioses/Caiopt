@@ -76,46 +76,28 @@ class ComprobanteVentaController extends Controller
             foreach($comprobanteDetalles as $comprobanteDetalle) {  
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
-                $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobanteDetalle->getArticulo()->getIva()->getId());
-                $comprobanteDetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
-
-                $comprobanteDetalleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
-                    ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
-
-                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getPorcentajeIva()/100);
-
-                $comprobanteDetalle->setTotalNoGravado(0);
-                $comprobanteDetalle->setImporteIvaExento(0);
-                
-                if (is_null($comprobanteDetalle->getObservaciones())) {
-                $comprobanteDetalle->setObservaciones('');
-                }
+                $comprobanteDetalle->setMovimiento('Venta');
+                $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setComprobante($comprobante);
+                $comprobanteDetalle->setActivo(1);
 
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
-                
-                switch ($comprobante->getTipo()) {
-                    case 'FACTURA A':
-                        //$comprobanteDetalle->setPrecioUnitario($comprobanteDetalleBD->getPrecioUnitario());
-                        $comprobanteDetalle->setPrecioUnitario($comprobanteDetalle->getArticulo()->getPrecioVenta());
-                        break;
-                    
-                    case 'FACTURA B':
-                        //$comprobanteDetalle->setPrecioUnitario($comprobanteDetalleBD->getPrecioUnitario()*(1+$comprobanteDetalle->getPorcentajeIva()/100));
-                        $comprobanteDetalle->setPrecioUnitario($comprobanteDetalle->getArticulo()->getPrecioVenta());
-                        break;
-                    
-                    default:
-                        echo('ComprobanteTipo desconocido.');
-                        die;
-                        break;
-                }
 
+                $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
+                
+                $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioUnitario()));
 
                 $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
 
-                $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());                
+                $comprobanteDetalle->setTotalNoGravado(0);
+                $comprobanteDetalle->setImporteIvaExento(0);
 
-                $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioCosto()));
+                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getTotalNeto()*$comprobanteDetalle->getPorcentajeIva()/100);
+
+                if (is_null($comprobanteDetalle->getObservaciones())) {
+                    $comprobanteDetalle->setObservaciones('');
+                }
 
                 $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioVenta()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
@@ -240,7 +222,6 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setActivo(1);
 
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
-                $comprobanteDetalle->setPrecioUnitario($articulo->getPrecioVenta());
 
                 $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
                 
@@ -254,7 +235,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setImporteIva($comprobanteDetalle->getTotalNeto()*$comprobanteDetalle->getPorcentajeIva()/100);
 
                 if (is_null($comprobanteDetalle->getObservaciones())) {
-                $comprobanteDetalle->setObservaciones('');
+                    $comprobanteDetalle->setObservaciones('');
                 }
 
                 $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioVenta()/$comprobanteDetalle->getPrecioCosto())-1)*100);
@@ -420,8 +401,6 @@ class ComprobanteVentaController extends Controller
 
         foreach ($alicuotas_all as $alicuota) {
             if ($alicuota['Importe'] > 0) {
-                $alicuota['BaseImp'] = "10.00";
-                $alicuota['Importe'] = "0.50";
                 $alicuotas[] = $alicuota;
             }
         }
@@ -458,7 +437,7 @@ class ComprobanteVentaController extends Controller
         $comprobante->setAfipNumero($res['voucher_number']);
 
         $em->flush();
-
+        return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
     }
 
     /**
