@@ -117,13 +117,13 @@ Editar Comprobante de Venta
         var r_precioVenta = renglon.find("input.precioVenta");
         var r_total = renglon.find("input.total");
 
-        var importe_bonificacion =  parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(3);
-        var precio_neto = parseFloat(r_precioUnitario.val() - parseFloat(importe_bonificacion)).toFixed(3);
+        var importe_bonificacion =  parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
+        var precio_neto = parseFloat(r_precioUnitario.val() - parseFloat(importe_bonificacion)).toFixed(2);
 
-        var importe_iva = parseFloat(parseFloat(precio_neto).toFixed(3) * r_porcentajeIva.val() / 100).toFixed(3);
+        var importe_iva = parseFloat(parseFloat(precio_neto).toFixed(2) * r_porcentajeIva.val() / 100).toFixed(2);
 
-        var precio_venta = parseFloat(parseFloat(precio_neto) + parseFloat(importe_iva)).toFixed(3);
-        var total = parseFloat(r_cantidad.val() * parseFloat(precio_venta).toFixed(3)).toFixed(3);
+        var precio_venta = parseFloat(parseFloat(precio_neto) + parseFloat(importe_iva)).toFixed(2);
+        var total = parseFloat(r_cantidad.val() * parseFloat(precio_venta).toFixed(2)).toFixed(2);
 
         r_importeBonificacion.val(importe_bonificacion);
         r_importeIva.val(importe_iva);
@@ -156,7 +156,7 @@ Editar Comprobante de Venta
 
             //total_costo += parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
             importe_neto = parseFloat(r_precioUnitario.val() - r_importeBonificacion.val());
-            total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(3);
+            total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(2);
             total_bonificacion += r_cantidad.val() * parseFloat(r_importeBonificacion.val());
             
             total_iva += r_cantidad.val() * parseFloat(r_importeIva.val());
@@ -165,13 +165,13 @@ Editar Comprobante de Venta
             //total += parseFloat(importe_iva);
         });
 
-        $("#ComprobanteType_totalNeto").val(total_neto.toFixed(3));
-        $("#ComprobanteType_importeIva").val(total_iva.toFixed(3));
-        $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(3));
-        $("#ComprobanteType_total").val(total.toFixed(3));
+        $("#ComprobanteType_totalNeto").val(total_neto.toFixed(2));
+        $("#ComprobanteType_importeIva").val(total_iva.toFixed(2));
+        $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(2));
+        $("#ComprobanteType_total").val(total.toFixed(2));
 
-        //$("#ComprobanteType_totalCosto").val(total_costo.toFixed(3));
-        //$("#ComprobanteType_totalGanancia").val(total.toFixed(3)-total_costo.toFixed(3));
+        //$("#ComprobanteType_totalCosto").val(total_costo.toFixed(2));
+        //$("#ComprobanteType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
 
         return true;
     }
