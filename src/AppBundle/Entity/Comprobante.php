@@ -93,7 +93,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total_bonificacion", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_bonificacion", type="decimal", precision=16, scale=2)
      */
     private $totalBonificacion = '0';
 
@@ -101,7 +101,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
      */
     private $total = '0';
 
@@ -109,7 +109,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=2)
      */
     private $totalNoGravado = '0';
 
@@ -117,7 +117,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=2)
      */
     private $totalNeto = '0';
 
@@ -125,7 +125,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=2)
      */
     private $importeIvaExento = '0';
 
@@ -133,7 +133,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=2)
      */
     private $importeIva = '0';
 
@@ -141,7 +141,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_tributos", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_tributos", type="decimal", precision=16, scale=2)
      */
     private $importeTributos = '0';
 
@@ -170,7 +170,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total_costo", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_costo", type="decimal", precision=16, scale=2)
      */
     private $totalCosto = '0';
 
@@ -178,7 +178,7 @@ class Comprobante
     /**
      * @var string
      *
-     * @ORM\Column(name="total_ganancia", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_ganancia", type="decimal", precision=16, scale=2)
      */
     private $totalGanancia = '0';
 

@@ -59,7 +59,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_unitario", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="precio_unitario", type="decimal", precision=16, scale=2)
      */
     //VENTA: precio del art. sin iva sin bonificacion
     //COMPRA: precio del art. sin iva sin bonificacion
@@ -95,7 +95,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_iva", type="decimal", precision=16, scale=2)
      */
     //VENTA: importe del iva del art. sobre precio_unitario ¿+ importe_bonificacion?
     //COMPRA: importe del iva del art. sobre precio_unitario ¿+ importe_bonificacion?
@@ -104,7 +104,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=2)
      */
     //VENTA: precio_de_compra(obtenido del art.) + importe_iva + bonificacion (¿¿¿va importe_iva???)
     //COMPRA: precio_unitario + bonificacion
@@ -113,7 +113,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_venta", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="precio_venta", type="decimal", precision=16, scale=2)
      */
     //VENTA: precio_unitario + importe_iva + importe_bonificacion
     //COMPRA: precio_costo + importe_ganancia
@@ -122,7 +122,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_ganancia", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_ganancia", type="decimal", precision=16, scale=2)
      */
     //VENTA: precio_venta - precio_costo
     //COMPRA: 0 (no se utiliza)
@@ -140,7 +140,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_neto", type="decimal", precision=16, scale=2)
      */
     //VENTA: cantidad * precio_unitario (sin iva)
     //COMPRA: cantidad * precio_costo (sin iva)
@@ -149,7 +149,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="total", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
      */
     //VENTA: cantidad * (precio_unitario + importe_bonificacion + importe_iva)
     //COMPRA: cantidad * (precio_costo + importe_iva)
@@ -158,7 +158,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="total_no_gravado", type="decimal", precision=16, scale=2)
      */
     //totalNoGravado = 0 (no se utiliza)
     private $totalNoGravado = '0';
@@ -166,7 +166,7 @@ class ComprobanteDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="importe_iva_exento", type="decimal", precision=16, scale=2)
      */
     //importeIvaExento = 0  (no se utiliza)
     private $importeIvaExento = '0';
