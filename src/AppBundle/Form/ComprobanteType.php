@@ -52,30 +52,30 @@ class ComprobanteType extends AbstractType
                     'label' => 'N de Comprobante'))
                 ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
-                        'readonly' => true, 'step' => 0.001, 'class' => 'bonificacion'
+                        'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
                     ),
                     'label' => 'Bonificación $'))
                 ->add('total',FloatType::class, array(
                     'attr' => array(
-                        'readonly' => true, 'step' => 0.001
+                        'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total'))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('totalNeto',FloatType::class, array(
                     'attr' => array(
-                        'readonly' => true, 'step' => 0.001
+                        'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total Neto',))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Exento'))
                 ->add('importeIva',FloatType::class, array(
                     'attr' => array(
-                        'readonly' => true, 'step' => 0.001
+                        'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total IVA'))
                 ->add('importeTributos',HiddenType::class, array(
                     'required' => false,
                     'attr' => array(
-                        'readonly' => true, 'step' => 0.001
+                        'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Importe Tributos'))
                 /*->add('importeTributos',FloatType::class, array(
