@@ -56,9 +56,6 @@ class ComprobanteVentaController extends Controller
              ->getQuery()
              ->getSingleScalarResult();
 
-            dump($comprobante);
-            die;
-
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
             $comprobante->setActivo(1);
@@ -113,7 +110,7 @@ class ComprobanteVentaController extends Controller
 
 
 
-                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getImporteBonificacion())*$comprobanteDetalle->getCantidad());
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
 
                 $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());                
 
@@ -218,9 +215,6 @@ class ComprobanteVentaController extends Controller
                 $comprobante->setObservaciones('');
             }
 
-            dump($comprobante);
-            die;
-
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
             //Basicamente seteo a todos los articulos ya existen en la base de datos con 
@@ -246,7 +240,9 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
                 $comprobanteDetalle->setComprobante($comprobante);
                 $comprobanteDetalle->setActivo(1);
-                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getImporteBonificacion())*$comprobanteDetalle->getCantidad());
+
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioVenta()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
+
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
 
                 switch ($comprobante->getTipo()) {
@@ -454,8 +450,6 @@ class ComprobanteVentaController extends Controller
 
         $em->flush();
 
-        dump($res);
-        die;
     }
 
     /**
