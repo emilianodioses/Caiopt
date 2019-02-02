@@ -75,13 +75,13 @@
                         <div class="row">      
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                                 {{ form_row(form.totalNeto)}}
-                            </div>   
-                            <div class="collection-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                                {{ form_row(form.importeIva)}}
-                            </div> 
+                            </div>
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                                 {{ form_row(form.totalBonificacion)}}
-                            </div> 
+                            </div>  
+                            <div class="collection-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.importeIva)}}
+                            </div>  
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                                 {{ form_row(form.total)}}
                             </div>
@@ -147,12 +147,14 @@
                     <thead>
                         <th width="35%">Artículo</th>
                         <th>Cantidad</th>
-                        <th>P. Venta</th>
-                        <th>P. Costo</th>
-                        <th>IVA %</th>
+                        <th>P. Unitario</th>
                         <th>Bonificación %</th>
+                        <th hidden>Bonificación $</th>
+                        <th>IVA %</th>
+                        <th hidden>IVA $</th>
+                        <th>P. Venta</th>
                         <th>Total</th>
-                        <th width="12%">&nbsp;</th>
+                        <th width="5%">&nbsp;</th>
                     </thead>
                     <tbody>
                         {% for item in form %}
@@ -173,10 +175,12 @@
     <tr {{ block('widget_attributes') }}>
         <td>{{ form_widget(form.articulo) }}</td>
         <td>{{ form_widget(form.cantidad) }}</td>
-        <td>{{ form_widget(form.precioVenta) }}</td>
-        <td>{{ form_widget(form.precioCosto) }}</td>
-        <td>{{ form_widget(form.porcentajeIva) }}</td>
+        <td>{{ form_widget(form.precioUnitario) }}</td>
         <td>{{ form_widget(form.porcentajeBonificacion) }}</td>
+        <td hidden>{{ form_widget(form.importeBonificacion) }}</td>
+        <td>{{ form_widget(form.porcentajeIva) }}</td>
+        <td hidden>{{ form_widget(form.importeIva) }}</td>
+        <td>{{ form_widget(form.precioVenta) }}</td>
         <td>{{ form_widget(form.total) }}</td>
 
         <td class="text-center">

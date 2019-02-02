@@ -106,7 +106,7 @@ class ComprobanteDetalle
      *
      * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=3)
      */
-    //VENTA: precio_de_compra(obtenido del art.) + importe_iva + bonificacion
+    //VENTA: precio_de_compra(obtenido del art.) + importe_iva + bonificacion (¿¿¿va importe_iva???)
     //COMPRA: precio_unitario + bonificacion
     private $precioCosto;
 

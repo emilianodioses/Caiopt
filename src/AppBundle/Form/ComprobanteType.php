@@ -40,7 +40,7 @@ class ComprobanteType extends AbstractType
                     'format' => 'dd-mm-yyyy',
                     'html5' => true,
                     'required' => true,
-                    'attr' => ['class' => 'js-datepicker']))
+                    'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('puntoVenta', null, array(
                     'label' => 'Punto de Venta',
                     'data' => 1,
