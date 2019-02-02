@@ -37,7 +37,7 @@ class ComprobanteType extends AbstractType
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',
-                    'format' => 'dd-mm-yyyy',
+                    'format' => 'dd-MM-yyyy',
                     'html5' => true,
                     'required' => true,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
@@ -52,9 +52,8 @@ class ComprobanteType extends AbstractType
                     'label' => 'N de Comprobante'))
                 ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
-                        'readonly' => true, 'step' => 0.001
+                        'readonly' => true, 'step' => 0.001, 'class' => 'bonificacion'
                     ),
-                    'attr' => array('class' => 'bonificacion'),
                     'label' => 'Bonificación $'))
                 ->add('total',FloatType::class, array(
                     'attr' => array(

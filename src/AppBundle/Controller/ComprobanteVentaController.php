@@ -56,6 +56,9 @@ class ComprobanteVentaController extends Controller
              ->getQuery()
              ->getSingleScalarResult();
 
+            dump($comprobante);
+            die;
+
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
             $comprobante->setActivo(1);
@@ -214,6 +217,9 @@ class ComprobanteVentaController extends Controller
             if (is_null($comprobante->getObservaciones())) {
                 $comprobante->setObservaciones('');
             }
+
+            dump($comprobante);
+            die;
 
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
