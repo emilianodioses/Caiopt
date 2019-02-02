@@ -92,7 +92,7 @@ class Comprobante
     /**
      * @var int
      *
-     * @ORM\Column(name="afip_numero", type="integer")
+     * @ORM\Column(name="afip_numero", type="integer", nullable=true))
      */
     private $afipNumero;
 
@@ -934,5 +934,29 @@ class Comprobante
     public function getCondicionVenta()
     {
         return $this->condicionVenta;
+    }
+
+    /**
+     * Set afipNumero
+     *
+     * @param integer $afipNumero
+     *
+     * @return Comprobante
+     */
+    public function setAfipNumero($afipNumero)
+    {
+        $this->afipNumero = $afipNumero;
+
+        return $this;
+    }
+
+    /**
+     * Get afipNumero
+     *
+     * @return integer
+     */
+    public function getAfipNumero()
+    {
+        return $this->afipNumero;
     }
 }
