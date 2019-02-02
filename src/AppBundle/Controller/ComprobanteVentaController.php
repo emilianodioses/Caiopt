@@ -340,6 +340,8 @@ class ComprobanteVentaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $afip = $this->get('AfipFE');
 
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
+
         //Lo siguiente debería modificarse para que no quede hardcodeado
         //dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
         //die;
@@ -411,12 +413,27 @@ class ComprobanteVentaController extends Controller
         $comprobanteTotalNeto = $comprobante->getTotalNeto();
         $comprobanteImportaIva = $comprobante->getImporteIva();
 
-        // Id del tipo de IVA (5 para 21%)(ver tipos disponibles) 
-        //dump($afip->getWS()->ElectronicBilling->GetAliquotTypes());
-        $alicuota['Id'] = 5; // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
-        $alicuota['BaseImp'] = 100; // Base imponible
-        $alicuota['Importe'] = $comprobanteImportaIva; // Importe 
-        $alicuotas[] = $alicuota;
+        $alicuotasIva = $em->getRepository('AppBundle:AfipAlicuota')->findAll();
+
+        foreach($alicuotasIva as $alicuotaIva) {
+            $alicuota['Id'] = $alicuotaIva->getId(); // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
+            $alicuota['BaseImp'] = 0; // Base imponible
+            $alicuota['Importe'] = 0; // Importe 
+            $alicuotas_all[$alicuotaIva->getId()] = $alicuota;
+        }
+
+        foreach ($comprobanteDetalles as $cd) {
+            $alicuota_id = $cd->getArticulo()->getAfipAlicuota()->getId();
+
+            $alicuotas_all[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();
+            $alicuotas_all[$alicuota_id]['Importe'] += $cd->getImporteIva(); 
+        }
+
+        foreach ($alicuotas_all as $alicuota) {
+            if ($alicuota['Importe'] > 0) {
+                $alicuotas[] = $alicuota;
+            }
+        }
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
