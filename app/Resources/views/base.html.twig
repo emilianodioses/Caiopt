@@ -238,7 +238,8 @@ desired effect
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          {% block header %}{% endblock %}
+          {% block header %}
+          {% endblock %}
           <small>{% block header_description %}{% endblock %}</small>
         </h1>
         {#
@@ -251,6 +252,46 @@ desired effect
 
       <!-- Main content -->
       <section class="content container-fluid">
+        {% set flashbag_warning = app.session.flashbag.get('warning') %}
+        {% set flashbag_success = app.session.flashbag.get('success') %}
+        {% set flashbag_danger = app.session.flashbag.get('danger') %}
+        {% set flashbag_info = app.session.flashbag.get('info') %}
+            {% if flashbag_warning is not empty %}
+              <div class="alert alert-warning" role="alert">
+                <ul >
+                {% for warning in flashbag_warning%}
+                {{ warning }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+            {% if flashbag_success is not empty %}
+              <div class="alert alert-success" role="alert">
+                <ul >
+                {% for success in flashbag_success%}
+                {{ success }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+            {% if flashbag_danger is not empty %}
+              <div class="alert alert-danger" role="alert">
+                <ul >
+                {% for danger in flashbag_danger%}
+                {{ danger }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+            {% if flashbag_info is not empty %}
+              <div class="alert alert-info" role="alert">
+                <ul >
+                {% for info in flashbag_info%}
+                {{ info }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
         {% block body %}{% endblock %}
         <nav class="pagination pull-right">
             {% block paginador %}{% endblock %}

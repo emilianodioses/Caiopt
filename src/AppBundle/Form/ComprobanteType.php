@@ -60,6 +60,7 @@ class ComprobanteType extends AbstractType
                         'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total'))
+                //->add('caeNumero',HiddenType::class,array('label'=>'CAE Numero'))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('totalNeto',FloatType::class, array(
                     'attr' => array(

@@ -147,6 +147,7 @@ class ComprobanteVentaController extends Controller
             }
 
             $em->flush();
+            $this->get('session')->getFlashbag()->add('success', 'Venta Realizada exitosamente');
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
@@ -180,6 +181,14 @@ class ComprobanteVentaController extends Controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        //Valido si el Comprobante fue Facturado, en dicho caso redirect a show
+        if (!(is_null($comprobante->getCaeNumero()))) {
+
+            $this->get('session')->getFlashbag()->add('warning', 'El Comprobante ya Fue facturado, Edicion Denegada');
+
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
@@ -250,6 +259,7 @@ class ComprobanteVentaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->get('session')->getFlashbag()->add('notice', 'El Comprobante ya Fue facturado, Edicion Denegada');
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
@@ -405,6 +415,9 @@ class ComprobanteVentaController extends Controller
             }
         }
 
+        //dump($alicuotas_all);
+        //die;
+
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
@@ -482,7 +495,7 @@ class ComprobanteVentaController extends Controller
                 break; 
         }       
 
-        //dump($comprobanteDetalles);
+        //dump($comprobante->getObservaciones());
         //die;
 
         $html = $this->renderView($facturaTemplate, array(
