@@ -89,6 +89,13 @@ class Comprobante
      */
     private $numero;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="afip_numero", type="integer")
+     */
+    private $afipNumero;
+
     //TotalBonificacion  = Monto de dinero bonificado
     /**
      * @var string
