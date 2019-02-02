@@ -239,17 +239,19 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setComprobante($comprobante);
                 $comprobanteDetalle->setActivo(1);
 
-                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
-
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
                 $comprobanteDetalle->setPrecioUnitario($articulo->getPrecioVenta());
 
                 $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
-                $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioCosto()));
+                
+                $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioUnitario()));
+
+                $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
+
                 $comprobanteDetalle->setTotalNoGravado(0);
                 $comprobanteDetalle->setImporteIvaExento(0);
 
-                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getPorcentajeIva()/100);
+                $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getPorcentajeIva()/100);
 
                 if (is_null($comprobanteDetalle->getObservaciones())) {
                 $comprobanteDetalle->setObservaciones('');
@@ -421,9 +423,6 @@ class ComprobanteVentaController extends Controller
                 $alicuotas[] = $alicuota;
             }
         }
-
-        dump($alicuotas);
-        die;
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
