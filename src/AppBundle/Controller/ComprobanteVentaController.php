@@ -79,7 +79,7 @@ class ComprobanteVentaController extends Controller
                 $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobanteDetalle->getArticulo()->getIva()->getId());
                 $comprobanteDetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
 
-                $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
+                $comprobanteDetalleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
                     ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
 
                 $comprobanteDetalle->setImporteIva($comprobanteDetalle->getCantidad()*$comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getPorcentajeIva()/100);
@@ -95,11 +95,13 @@ class ComprobanteVentaController extends Controller
                 
                 switch ($comprobante->getTipo()) {
                     case 'FACTURA A':
-                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
+                        //$comprobanteDetalle->setPrecioUnitario($comprobanteDetalleBD->getPrecioUnitario());
+                        $comprobanteDetalle->setPrecioUnitario($comprobanteDetalle->getArticulo()->getPrecioVenta());
                         break;
                     
                     case 'FACTURA B':
-                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario()*(1+$comprobanteDetalle->getPorcentajeIva()/100));
+                        //$comprobanteDetalle->setPrecioUnitario($comprobanteDetalleBD->getPrecioUnitario()*(1+$comprobanteDetalle->getPorcentajeIva()/100));
+                        $comprobanteDetalle->setPrecioUnitario($comprobanteDetalle->getArticulo()->getPrecioVenta());
                         break;
                     
                     default:
@@ -231,9 +233,6 @@ class ComprobanteVentaController extends Controller
             foreach($comprobanteDetalles as $comprobanteDetalle) {
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
-                $comprobantedetaleBD = $em->getRepository('AppBundle:ComprobanteDetalle')
-                    ->findOneBy(array('articulo' => $articulo)); //xxxx-fr: no se para q es esto
-
                 $comprobanteDetalle->setMovimiento('Venta');
                 $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
@@ -243,21 +242,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
 
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
-
-                switch ($comprobante->getTipo()) {
-                    case 'FACTURA A':
-                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioUnitario());
-                        break;
-                    
-                    case 'FACTURA B':
-                        $comprobanteDetalle->setPrecioUnitario($comprobantedetaleBD->getPrecioVenta()*(1+$comprobanteDetalle->getPorcentajeIva()/100));
-                        break;
-                    
-                    default:
-                        echo('ComprobanteTipo desconocido.');
-                        die;
-                        break;
-                }
+                $comprobanteDetalle->setPrecioUnitario($articulo->getPrecioVenta());
 
                 $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
                 $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioCosto()));
@@ -422,7 +407,10 @@ class ComprobanteVentaController extends Controller
         }
 
         foreach ($comprobanteDetalles as $cd) {
-            $alicuota_id = $cd->getArticulo()->getAfipAlicuota()->getId();
+            $articulo = $em->getRepository('AppBundle:Articulo')->findOneBy(array('id' => $cd->getArticulo()->getId()));
+            //dump($articulo);
+            //die;
+            $alicuota_id = $articulo->getIva()->getId();
 
             $alicuotas_all[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();
             $alicuotas_all[$alicuota_id]['Importe'] += $cd->getImporteIva(); 
@@ -433,6 +421,9 @@ class ComprobanteVentaController extends Controller
                 $alicuotas[] = $alicuota;
             }
         }
+
+        dump($alicuotas);
+        die;
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
