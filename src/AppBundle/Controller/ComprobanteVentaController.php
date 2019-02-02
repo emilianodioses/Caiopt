@@ -216,9 +216,6 @@ class ComprobanteVentaController extends Controller
                 $comprobante->setObservaciones('');
             }
 
-            dump($comprobante);
-            die;
-
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
             //Basicamente seteo a todos los articulos ya existen en la base de datos con 
