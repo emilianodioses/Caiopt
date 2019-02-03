@@ -13,6 +13,20 @@ Nuevo Comprobante de Compra
 
 {% block body %}
 
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>  
+
 {% form_theme form 'comprobantecompra/formCollection.html.twig' %}
 {{ form(form) }}
 {{ form_end(form) }}
@@ -56,7 +70,7 @@ Nuevo Comprobante de Compra
                   },
                 },
                 width: "100%",
-            });;
+            });
 
             return true;
          },
@@ -71,11 +85,12 @@ Nuevo Comprobante de Compra
     function fnArticuloChange(articulo) {
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
+        var cantidad = renglon.find("input.cantidad");
         var precioUnitario = renglon.find("input.precioUnitario");
+        var porcentajeBonificacion = renglon.find("porcentajeBonificacion");       
         var precioCosto = renglon.find("input.precioCosto");
-        var importeIva = renglon.find("input.importeIva");
-        var porcentajeGanancia = renglon.find("input.porcentajeGanancia");
         var porcentajeIva = renglon.find("input.porcentajeIva");
+        var porcentajeGanancia = renglon.find("input.porcentajeGanancia");
         
         $.ajax({
             type: 'POST',
@@ -84,6 +99,8 @@ Nuevo Comprobante de Compra
             success: function(resp){
                 var articulo = $.parseJSON(resp.articulo);
 
+                cantidad.val(1);
+                porcentajeBonificacion.val(0);
                 precioUnitario.val(articulo.precioCosto);
                 precioCosto.val(articulo.precioCosto);
                 porcentajeIva.val(parseFloat(articulo.iva.descripcion));
@@ -99,39 +116,31 @@ Nuevo Comprobante de Compra
     function fnRenglonChange(renglon) {
         var r_cantidad = renglon.find("input.cantidad");
         var r_precioUnitario = renglon.find("input.precioUnitario");
-        var r_bonificacion = renglon.find("input.bonificacion");
+        var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_precioCosto = renglon.find("input.precioCosto");
-        var r_precioVenta = renglon.find("input.precioVenta");
         var r_porcentajeIva = renglon.find("input.porcentajeIva");
-        var r_importeIva = renglon.find("input.importeIva");
         var r_total = renglon.find("input.total");
         var r_porcentaje_ganancia = renglon.find("input.porcentajeGanancia");
-        //var r_importeGanancia = renglon.find("input.importeGanancia");
-        
-        
-        if (r_cantidad == '' ||
-            r_bonificacion == '' ||
-            r_precioCosto == '' ||
-            r_porcentajeIva == '') {
-            //Si los campos están vacíos, no hago nada
-            return true;
-        }
+        var r_precioVenta = renglon.find("input.precioVenta");
 
-        var precio_costo = parseFloat(r_precioUnitario.val() * (1 - r_bonificacion.val() / 100));
-        var precio_venta = parseFloat(precio_costo * (1 + r_porcentaje_ganancia.val() / 100));
+        var r_importeIva = renglon.find("input.importeIva");
+        var r_importeBonificacion = $(this).find("input.importeBonificacion");
+
+
+        var precio_costo = parseFloat(r_precioUnitario.val() * (1 - r_porcentajeBonificacion.val() / 100));
+        var importe_bonificacion =  parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
 
         var importe_iva = parseFloat(precio_venta * (r_porcentajeIva.val() / 100));
-
-        var total_iva = parseFloat(r_precioCosto.val() * r_cantidad.val) * parseFloat(r_porcentajeIva.val() / 100);
+        var total_iva = parseFloat(r_precioCosto.val() * r_cantidad.val()) * parseFloat(r_porcentajeIva.val() / 100);
         var total = parseFloat(r_cantidad.val() * precio_costo * (1 + (r_porcentajeIva.val() / 100)));
-
-        //parseFloat(parseFloat(r_cantidad.val() * r_precioCosto.val()) + parseFloat(r_cantidad.val() * total_iva)).toFixed(2);
+        var precio_venta = parseFloat(precio_costo * (1 + r_porcentaje_ganancia.val() / 100));
 
         r_total.val(total);
+
+        r_importeBonificacion.val(importe_bonificacion);
         r_precioCosto.val(precio_costo.toFixed(2));
         r_precioVenta.val(precio_venta.toFixed(2));
         r_importeIva.val(importe_iva.toFixed(2));
-        //r_importeGanancia.val(importe_ganancia.toFixed(2));
         
         fnCalcularTotales();
 
@@ -148,26 +157,18 @@ Nuevo Comprobante de Compra
         $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {
             var r_cantidad = $(this).find("input.cantidad")
             var r_precioUnitario = $(this).find("input.precioUnitario");
-            var r_bonificacion = $(this).find("input.bonificacion");
+            var r_importeBonificacion = $(this).find("input.importeBonificacion");
             var r_precioCosto = $(this).find("input.precioCosto");
             var r_importeIva = $(this).find("input.importeIva");
             var r_porcentaje_iva = $(this).find("input.porcentajeIva");
             var r_total = $(this).find("input.total");
 
-            var precioUnitario = 0;
-            var bonificacion = 0;
-            var precioCosto = 0;
-
-            precioUnitario = parseFloat(r_cantidad.val()) * parseFloat(r_precioUnitario.val());
-            bonificacion = parseFloat(r_bonificacion.val()/100*precioUnitario);
             precioCosto = parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
 
-            importe_iva = parseFloat(precioCosto * (r_porcentaje_iva.val()/100));
-
-            total_precio_unitario += precioUnitario;
-            total_bonificacion += bonificacion;
+            total_precio_unitario += parseFloat(r_cantidad.val()) * parseFloat(r_precioUnitario.val());;
+            total_bonificacion += r_cantidad.val() * parseFloat(r_importeBonificacion.val());
             total_precio_costo += precioCosto;
-            total_importe_iva += importe_iva;
+            total_importe_iva += parseFloat(precioCosto * (r_porcentaje_iva.val()/100));
             total += parseFloat(r_total.val());
         });
 

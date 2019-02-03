@@ -32,11 +32,6 @@ $(function(){
 {{ form_end(form) }}
 
 <script type="text/javascript">
-    /*
-    $(document).ready(function() {
-        $('.js-example-basic-single').select2();
-    });
-    */
     $('.comprobanteDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
@@ -48,7 +43,6 @@ $(function(){
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
             articulo = element.find("select.articulo");
-            //alert(articulo_select.prop('outerHTML'));
             
             articulo.on('change', function(){
                 fnArticuloChange($(this));
@@ -58,8 +52,6 @@ $(function(){
                 fnRenglonChange($(this));
             });
 
-            //Inicializo el Select2 recién añadido
-            //Fuente: https://select2.org/data-sources/ajax
             articulo.select2({
                 ajax: {
                   delay: 250,
@@ -109,7 +101,7 @@ $(function(){
                 precioUnitario.val(articulo.precioVenta)
                 porcentajeBonificacion.val(0);
                 porcentajeIva.val(parseFloat(articulo.iva.descripcion));
-                //importe_iva.val(parseFloat(articulo.iva.descripcion));
+
                 fnRenglonChange(renglon);
             }
         });

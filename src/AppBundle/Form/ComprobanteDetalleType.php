@@ -69,7 +69,8 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('porcentajeBonificacion',FloatType::class,array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'porcentajeBonificacion', 'step' => 0.01)))
+                    'attr' => array('size' => 3, 'placeholder' => 'Bonificación', 'class' => 'porcentajeBonificacion', 'step' => 0.01),
+                    ))
                 ->add('importeBonificacion',HiddenType::class,array(
                     'label'=>'Importe Bonificación',
                     'attr' => array('class' => 'importeBonificacion')))
@@ -86,7 +87,7 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('precioVenta',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
                     ))
                 ->add('importeGanancia',HiddenType::class,array(
                     'label'=>'Importe Ganancia',
@@ -100,7 +101,7 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('total',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
                     ))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Iva Exento'))
