@@ -44,12 +44,14 @@ class Comprobante
 
     //Tipo: Tipo de factura "A, B, ..."
     /**
-     * @var string
+     * @var \AfipComprobanteTipo
      *
-     * @ORM\Column(name="tipo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipComprobanteTipo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
+     * })
      */
     private $tipo;
-
 
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
@@ -76,9 +78,12 @@ class Comprobante
 
     //Condicion de venta: Efectivo, tarjeta de debito/credito
     /**
-     * @var string
+     * @var \AfipCondicionVenta
      *
-     * @ORM\Column(name="condicion_venta", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AfipCondicionVenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="condicion_venta_id", referencedColumnName="id")
+     * })
      */
     private $condicionVenta;
 
@@ -284,6 +289,30 @@ class Comprobante
     }
 
     /**
+     * Set movimiento
+     *
+     * @param string $movimiento
+     *
+     * @return Comprobante
+     */
+    public function setMovimiento($movimiento)
+    {
+        $this->movimiento = $movimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get movimiento
+     *
+     * @return string
+     */
+    public function getMovimiento()
+    {
+        return $this->movimiento;
+    }
+
+    /**
      * Set fecha
      *
      * @param \DateTime $fecha
@@ -353,6 +382,30 @@ class Comprobante
     public function getNumero()
     {
         return $this->numero;
+    }
+
+    /**
+     * Set afipNumero
+     *
+     * @param integer $afipNumero
+     *
+     * @return Comprobante
+     */
+    public function setAfipNumero($afipNumero)
+    {
+        $this->afipNumero = $afipNumero;
+
+        return $this;
+    }
+
+    /**
+     * Get afipNumero
+     *
+     * @return integer
+     */
+    public function getAfipNumero()
+    {
+        return $this->afipNumero;
     }
 
     /**
@@ -644,6 +697,54 @@ class Comprobante
     }
 
     /**
+     * Set caeFechaVencimiento
+     *
+     * @param \DateTime $caeFechaVencimiento
+     *
+     * @return Comprobante
+     */
+    public function setCaeFechaVencimiento($caeFechaVencimiento)
+    {
+        $this->caeFechaVencimiento = $caeFechaVencimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get caeFechaVencimiento
+     *
+     * @return \DateTime
+     */
+    public function getCaeFechaVencimiento()
+    {
+        return $this->caeFechaVencimiento;
+    }
+
+    /**
+     * Set caeNumero
+     *
+     * @param integer $caeNumero
+     *
+     * @return Comprobante
+     */
+    public function setCaeNumero($caeNumero)
+    {
+        $this->caeNumero = $caeNumero;
+
+        return $this;
+    }
+
+    /**
+     * Get caeNumero
+     *
+     * @return integer
+     */
+    public function getCaeNumero()
+    {
+        return $this->caeNumero;
+    }
+
+    /**
      * Set activo
      *
      * @param boolean $activo
@@ -812,83 +913,6 @@ class Comprobante
     }
 
     /**
-     * Set movimiento
-     *
-     * @param string $movimiento
-     *
-     * @return Comprobante
-     */
-    public function setMovimiento($movimiento)
-    {
-        $this->movimiento = $movimiento;
-
-        return $this;
-    }
-
-    /**
-     * Get movimiento
-     *
-     * @return string
-     */
-    public function getMovimiento()
-    {
-        return $this->movimiento;
-    }
-
-    public function __toString()
-    {
-        return (string)$this->numero;
-    }
-
-    /**
-     * Set caeFechaVencimiento
-     *
-     * @param \DateTime $caeFechaVencimiento
-     *
-     * @return Comprobante
-     */
-    public function setCaeFechaVencimiento($caeFechaVencimiento)
-    {
-        $this->caeFechaVencimiento = $caeFechaVencimiento;
-
-        return $this;
-    }
-
-    /**
-     * Get caeFechaVencimiento
-     *
-     * @return \DateTime
-     */
-    public function getCaeFechaVencimiento()
-    {
-        return $this->caeFechaVencimiento;
-    }
-
-    /**
-     * Set caeNumero
-     *
-     * @param integer $caeNumero
-     *
-     * @return Comprobante
-     */
-    public function setCaeNumero($caeNumero)
-    {
-        $this->caeNumero = $caeNumero;
-
-        return $this;
-    }
-
-    /**
-     * Get caeNumero
-     *
-     * @return integer
-     */
-    public function getCaeNumero()
-    {
-        return $this->caeNumero;
-    }
-
-    /**
      * Set tipo
      *
      * @param \AppBundle\Entity\AfipComprobanteTipo $tipo
@@ -915,11 +939,11 @@ class Comprobante
     /**
      * Set condicionVenta
      *
-     * @param string $condicionVenta
+     * @param \AppBundle\Entity\AfipCondicionVenta $condicionVenta
      *
      * @return Comprobante
      */
-    public function setCondicionVenta($condicionVenta)
+    public function setCondicionVenta(\AppBundle\Entity\AfipCondicionVenta $condicionVenta = null)
     {
         $this->condicionVenta = $condicionVenta;
 
@@ -929,34 +953,10 @@ class Comprobante
     /**
      * Get condicionVenta
      *
-     * @return string
+     * @return \AppBundle\Entity\AfipCondicionVenta
      */
     public function getCondicionVenta()
     {
         return $this->condicionVenta;
-    }
-
-    /**
-     * Set afipNumero
-     *
-     * @param integer $afipNumero
-     *
-     * @return Comprobante
-     */
-    public function setAfipNumero($afipNumero)
-    {
-        $this->afipNumero = $afipNumero;
-
-        return $this;
-    }
-
-    /**
-     * Get afipNumero
-     *
-     * @return integer
-     */
-    public function getAfipNumero()
-    {
-        return $this->afipNumero;
     }
 }

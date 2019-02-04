@@ -80,7 +80,7 @@
                         <td>{{ comprobanteDetalle.precioUnitario }}</td>
                         <td>{{ comprobanteDetalle.porcentajeIva }}</td>
                         <td>{{ comprobanteDetalle.porcentajeBonificacion }}</td>
-                        <td>{{ comprobanteDetalle.total }}</td>
+                        <td>{{ comprobanteDetalle.totalNeto }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -100,10 +100,11 @@
                         <span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
                         <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
                         <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
-                                            </td>
-                                            <td width="40%">
-                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(3, '.', ',')}}<br>
+                    </td>
+                    <td width="40%">
+                        <b>Subtotal:</b> $ {{(comprobante.totalNeto + comprobante.totalBonificacion) | number_format(3, '.', ',')}}<br>
                         <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
+                        <b>IVA:</b> $ {{(comprobante.importeIva) | number_format(3, '.', ',')}}<br>
                         <b>Total:</b> $ {{comprobante.total}}
                     </td>
                 </tr>

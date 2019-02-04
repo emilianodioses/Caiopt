@@ -24,13 +24,24 @@ class ArticuloType extends AbstractType
             'Femenino' => 'Femenino',
             'Niños' => 'Niños');
 
-
-        $builder->add('codigo', null, array('label' => 'Codigo',))
+        $builder->add('iva', EntityType::class, array(
+                    'label' => 'IVA',
+                    'class' => 'AppBundle:AfipAlicuota',
+                    'required' => true,
+                    'choice_label' => 'descripcion',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('ic')
+                                   ->where('ic.activo = 1')
+                                   ->orderBy('ic.descripcion', 'ASC')
+                                   ;
+                           }
+                ))
+                ->add('codigo', null, array('label' => 'Codigo',))
                 ->add('descripcion', null, array('label' => 'Descripcion',))
                 ->add('precioCosto', null, array('label' => 'Precio Costo',))
                 ->add('gananciaPorcentaje', null, array('label' => 'Ganancia %',))
                 ->add('precioVenta', null, array('label' => 'Precio de Venta',))
-                ->add('iva', null, array('label' => 'IVA'))
+                
                 ->add('cantidad', null, array('label' => 'Cantidad',))
                 ->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
                 ->add('precioModifica', null, array('label' => 'Precio Modificable',))
