@@ -87,6 +87,7 @@ class Comprobante
      */
     private $condicionVenta;
 
+    //Numero interno de movimiento
     /**
      * @var int
      *
@@ -94,6 +95,7 @@ class Comprobante
      */
     private $numero;
 
+    //Numero de factura otorgado por el WS de FE de afip
     /**
      * @var int
      *

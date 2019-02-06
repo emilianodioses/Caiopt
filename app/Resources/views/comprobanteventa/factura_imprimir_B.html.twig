@@ -10,9 +10,9 @@
                         {{empresaDireccion}}<br>
                         {{empresaCondicion}}
                     </td>
-                    <td width="20%" align=" ">
+                    <td width="20%" align="center">
                         <span style="font-size:28pt">
-                            <b>{{ facturaTipo }}</b>
+<b>{{ facturaTipo }}</b>
                         </span>
                         <br>
                         COD. 06
@@ -100,7 +100,7 @@
                         <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
                                             </td>
                                             <td width="40%">
-                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(3, '.', ',')}}<br>
+                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', ',')}}<br>
                         <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
                         <b>Total:</b> $ {{comprobante.total}}
                     </td>

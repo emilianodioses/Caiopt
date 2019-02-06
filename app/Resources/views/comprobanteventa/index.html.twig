@@ -31,10 +31,11 @@ Comprobantes de Ventas
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
                 <tr>
-                    <th style="width: 10%">Comprobante Nº</th>
-                    <th style="width: 10%">Punto de Venta</th>
-                    <th>Cliente</th>
+                    <th style="width: 7%">Pto. Venta</th>
+                    <th style="width: 7%">Nº Int.</th>
+                    <th style="width: 7%">Nº Fac.</th>
                     <th>Tipo</th>
+                    <th>Cliente</th>
                     <th>Fecha</th>
                     <th>Total</th>
                     <th>Observaciones</th>
@@ -43,11 +44,16 @@ Comprobantes de Ventas
             <tbody>
             {% for comprobante in comprobantes %}
                 <tr>
-                    <td>{{ comprobante.numero }}</td>
                     <td>{{ comprobante.puntoVenta }}</td>
-                    <td>{{ comprobante.cliente }}</td>
+                    <td>{{ comprobante.numero }}</td>
+                    {% if comprobante.afipNumero is empty %}
+                      <td></td>
+                    {% else %}
+                      <td>{{ comprobante.afipNumero }}</td>
+                    {% endif %}
                     <td>{{ comprobante.tipo }}</td>
-                    <td>{{ comprobante.fecha|date('Y-m-d') }}</td>
+                    <td>{{ comprobante.cliente }}</td>
+                    <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
                     <td>{{ comprobante.total }}</td>
                     <td>{{ comprobante.observaciones }}</td> 
                     <td>

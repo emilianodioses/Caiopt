@@ -91,7 +91,7 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('importeGanancia',HiddenType::class,array(
                     'label'=>'Importe Ganancia',
-                    'attr' => array('class' => 'importeGanancia')))
+                    'attr' => array('class' => 'importeGanancia', 'step' => 0.01)))
                 ->add('porcentajeGanancia',FloatType::class, array(
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Ganancia %', 'class' => 'porcentajeGanancia')))

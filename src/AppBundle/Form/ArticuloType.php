@@ -53,10 +53,10 @@ class ArticuloType extends AbstractType
                 ->add('material', null, array('label' => 'Material','required'=> false,))
                 ->add('forma', null, array('label' => 'Forma','required'=> false,))
                 ->add('estilo', null, array('label' => 'Estilo','required'=> false,))
-                ->add('color_marco', null, array('label' => 'Color Marco','required'=> false,))
-                ->add('color_cristal', null, array('label' => 'Color Cristal','required'=> false,))
+                ->add('colorMarco', null, array('label' => 'Color Marco','required'=> false,))
+                ->add('colorCristal', null, array('label' => 'Color Cristal','required'=> false,))
                 ->add('activo', null, array('label' => 'Activo',))
-                ->add('categoriaId', EntityType::class, array(
+                ->add('categoria', EntityType::class, array(
                     'label' => 'Categoria',
                     'class' => 'AppBundle:ArticuloCategoria',
                     'required' => true,
@@ -68,7 +68,7 @@ class ArticuloType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('marcaId', EntityType::class, array(
+                ->add('marca', EntityType::class, array(
                     'label' => 'Marca',
                     'class' => 'AppBundle:ArticuloMarca',
                     'required' => true,

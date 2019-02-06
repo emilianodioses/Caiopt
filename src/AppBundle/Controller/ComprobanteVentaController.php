@@ -147,6 +147,7 @@ class ComprobanteVentaController extends Controller
             }
 
             $em->flush();
+            $this->get('session')->getFlashbag()->add('success', 'Venta realizada exitosamente.');
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
@@ -180,6 +181,14 @@ class ComprobanteVentaController extends Controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        //Valido si el Comprobante fue Facturado, en dicho caso redirect a show
+        if (!(is_null($comprobante->getCaeNumero()))) {
+
+            $this->get('session')->getFlashbag()->add('warning', 'El comprobante ya fue facturado. Edición denegada.');
+
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
@@ -250,6 +259,7 @@ class ComprobanteVentaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->get('session')->getFlashbag()->add('notice', 'El comprobante ya fue facturado. Edición denegada.');
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
@@ -312,60 +322,14 @@ class ComprobanteVentaController extends Controller
         //Lo siguiente debería modificarse para que no quede hardcodeado
         //dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
         //die;
-        switch ($comprobante->getTipo()) {
-            case 'FACTURA A':
-                $comprobanteTipo = 1;
-                break;
-
-            case 'NOTA DEBITO A':
-                $comprobanteTipo = 2;
-                break;
-            
-            case 'NOTA CREDITO A':
-                $comprobanteTipo = 3;
-                break;
-            
-            case 'FACTURA B':
-                $comprobanteTipo = 6;
-                break;
-
-            case 'NOTA DEBITO B':
-                $comprobanteTipo = 7;
-                break;
-            
-            case 'NOTA CREDITO B':
-                $comprobanteTipo = 8;
-                break;
-            
-            default:
-                echo('ComprobanteTipo desconocido.');
-                die;
-                break;
-        }
+        $comprobanteTipo = $comprobante->getTipo()->getCodigo();
 
         // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
         $concepto = 1;
 
         //dump($afip->getWS()->ElectronicBilling->GetDocumentTypes());
         $cliente = $comprobante->getCliente();
-        switch ($cliente->getDocumentoTipo()) {
-            case 'CUIT':
-                $clienteDocumentoTipo = 80;
-                break;
-
-            case 'CUIL':
-                $clienteDocumentoTipo = 86;
-                break;
-
-            case 'DNI':
-                $clienteDocumentoTipo = 96;
-                break;
-            
-            default:
-                echo('Cliente->DocumentoTipo desconocido.');
-                die;
-                break;
-        }
+        $clienteDocumentoTipo = $cliente->getDocumentoTipo()->getCodigo();
 
         if ($cliente->getIvaCondicion()->getDescripcion() == 'Consumidor Final' && $cliente->getDocumentoNumero() == 0){
             //Si el cliente es "consumidor final" y no tiene un documento ingresado, se utiliza el nro 99
@@ -425,7 +389,13 @@ class ComprobanteVentaController extends Controller
                 'Iva'       => $alicuotas, 
             );
 
-        $res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);
+        try {
+            $res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);
+        } catch (Exception $e) {
+            $this->get('session')->getFlashbag()->add('notice', $e->getMessage());
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
+        
         /*
         $res['CAE']; //CAE asignado el comprobante
         $res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)

@@ -62,21 +62,13 @@ class ComprobanteCompraController extends controller
             $comprobantedetalle = new ComprobanteDetalle();
             $comprobantedetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
-            foreach($comprobantedetalles as $comprobantedetalle):  
-
-                $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobantedetalle->getArticulo()->getIva()->getId());
-                
-                $comprobantedetalle->setImporteIva($comprobantedetalle->getCantidad()*$comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getPorcentajeIva()/100);
+            foreach($comprobantedetalles as $comprobantedetalle) {
                 $comprobantedetalle->setImporteGanancia(0);
-                
-
-                $comprobantedetalle->setImporteBonificacion($comprobantedetalle->getCantidad()*($comprobantedetalle->getPrecioUnitario()-$comprobantedetalle->getPrecioCosto()));
-
                 $comprobantedetalle->setTotalNoGravado(0);
                 $comprobantedetalle->setImporteIvaExento(0);
 
                 if (is_null($comprobantedetalle->getObservaciones())) {
-                $comprobantedetalle->setObservaciones('');
+                    $comprobantedetalle->setObservaciones('');
                 }
 
                 $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
@@ -90,12 +82,16 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
-
-
                 $em->persist($comprobantedetalle);
-            endforeach;  
 
-            $em->flush(); 
+                //Actualizo datos en el artículo
+                $articulo = $comprobantedetalle->getArticulo();
+                $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
+                $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
+                $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
+            }
+
+            $em->flush();
             return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }
 
@@ -164,23 +160,14 @@ class ComprobanteCompraController extends controller
             //**********************************************************************
 
             foreach($editForm->getData()->getComprobanteDetalles() as $comprobantedetalle) {
-
-                $alicuotaIva = $em->getRepository('AppBundle:AfipAlicuota')->find($comprobantedetalle->getArticulo()->getIva()->getId());
-                
-                $comprobantedetalle->setImporteIva($comprobantedetalle->getCantidad()*$comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getPorcentajeIva()/100);
                 $comprobantedetalle->setImporteGanancia(0);
-                
-
-                $comprobantedetalle->setImporteBonificacion($comprobantedetalle->getCantidad()*($comprobantedetalle->getPrecioUnitario()-$comprobantedetalle->getPrecioCosto()));
-
                 $comprobantedetalle->setTotalNoGravado(0);
                 $comprobantedetalle->setImporteIvaExento(0);
 
                 if (is_null($comprobantedetalle->getObservaciones())) {
-                $comprobantedetalle->setObservaciones('');
+                    $comprobantedetalle->setObservaciones('');
                 }
 
-                $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
                 $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
                 
                 $comprobantedetalle->setComprobante($comprobante);
@@ -191,11 +178,7 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
-                //dump($comprobantedetalle);
-                //die;
-
                 if (is_null($comprobantedetalle->getId())){     
-
                     if (is_null($comprobantedetalle->getObservaciones())) {
                         $comprobantedetalle->setObservaciones('');
                     }
@@ -205,6 +188,11 @@ class ComprobanteCompraController extends controller
                     $em->persist($comprobantedetalle);
                 }
 
+                //Actualizo datos en el artículo
+                $articulo = $comprobantedetalle->getArticulo();
+                $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
+                $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
+                $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
             }
 
             $em = $this->getDoctrine()->getManager();

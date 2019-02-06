@@ -36,7 +36,7 @@ class Articulo
      *   @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      * })
      */
-    private $categoriaId;
+    private $categoria;
 
     /**
      * @var string
@@ -74,15 +74,7 @@ class Articulo
      *   @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
      * })
      */
-    private $marcaId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="iva", type="decimal", precision=16, scale=2)
-     
-    private $iva;
-    */
+    private $marca;
 
     /**
      * @var \AfipAlicuota
@@ -155,14 +147,14 @@ class Articulo
      *
      * @ORM\Column(name="color_marco", type="string", length=255, nullable=true)
      */
-    private $color_marco;
+    private $colorMarco;
 
     /**
      * @var string
      *
      * @ORM\Column(name="color_cristal", type="string", length=255, nullable=true)
      */
-    private $color_cristal;
+    private $colorCristal;
 
     /**
      * @var bool
@@ -235,27 +227,27 @@ class Articulo
     }
 
     /**
-     * Set categoriaId
+     * Set categoria
      *
-     * @param string $categoriaId
+     * @param string $categoria
      *
      * @return Articulo
      */
-    public function setCategoriaId($categoriaId)
+    public function setcategoria($categoria)
     {
-        $this->categoriaId = $categoriaId;
+        $this->categoria = $categoria;
 
         return $this;
     }
 
     /**
-     * Get categoriaId
+     * Get categoria
      *
      * @return string
      */
-    public function getCategoriaId()
+    public function getcategoria()
     {
-        return $this->categoriaId;
+        return $this->categoria;
     }
 
     /**
@@ -355,27 +347,27 @@ class Articulo
     }
 
     /**
-     * Set marcaId
+     * Set marca
      *
-     * @param string $marcaId
+     * @param string $marca
      *
      * @return Articulo
      */
-    public function setMarcaId($marcaId)
+    public function setmarca($marca)
     {
-        $this->marcaId = $marcaId;
+        $this->marca = $marca;
 
         return $this;
     }
 
     /**
-     * Get marcaId
+     * Get marca
      *
      * @return string
      */
-    public function getMarcaId()
+    public function getmarca()
     {
-        return $this->marcaId;
+        return $this->marca;
     }
 
     /**
@@ -723,7 +715,7 @@ class Articulo
      */
     public function setColorMarco($colorMarco)
     {
-        $this->color_marco = $colorMarco;
+        $this->colorMarco = $colorMarco;
 
         return $this;
     }
@@ -735,7 +727,7 @@ class Articulo
      */
     public function getColorMarco()
     {
-        return $this->color_marco;
+        return $this->colorMarco;
     }
 
     /**
@@ -747,7 +739,7 @@ class Articulo
      */
     public function setColorCristal($colorCristal)
     {
-        $this->color_cristal = $colorCristal;
+        $this->colorCristal = $colorCristal;
 
         return $this;
     }
@@ -759,7 +751,7 @@ class Articulo
      */
     public function getColorCristal()
     {
-        return $this->color_cristal;
+        return $this->colorCristal;
     }
 
     public function __toString()
