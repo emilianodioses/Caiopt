@@ -37,7 +37,8 @@
                             {{ form_widget(form.totalNoGravado, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.importeIvaExento, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
-                            {{ form_widget(form.importeTributos, { 'attr': {'class': 'hide'} })}}         
+                            {{ form_widget(form.importeTributos, { 'attr': {'class': 'hide'} })}}      
+
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                 {{ form_row(form.cliente)}}
                             </div>
@@ -51,7 +52,7 @@
                                 {{ form_row(form.fecha)}}
                             </div>
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
-                                {{ form_row(form.puntoVenta)}}
+                                {{ form_row(form.puntoVenta,{ 'attr': {'readonly': 'true'}})}}
                             </div>
                             {#}
                             <select class="js-example-basic-single" name="state">
