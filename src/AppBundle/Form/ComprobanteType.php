@@ -45,7 +45,7 @@ class ComprobanteType extends AbstractType
                     'label' => 'Punto de Venta',
                     'data' => 1,
                     'attr' => array(
-                        'readonly' => true,
+                        'readonly' => false,
                     )))
                 ->add('numero', IntegerType::class, array(
                     'required' => false,
