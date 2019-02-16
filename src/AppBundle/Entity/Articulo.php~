@@ -768,28 +768,4 @@ class Articulo
     {
         return $this->descripcion;
     }
-
-    /**
-     * Set ultimoComprobante
-     *
-     * @param \AppBundle\Entity\Comprobante $ultimoComprobante
-     *
-     * @return Articulo
-     */
-    public function setUltimoComprobante(\AppBundle\Entity\Comprobante $ultimoComprobante = null)
-    {
-        $this->ultimoComprobante = $ultimoComprobante;
-
-        return $this;
-    }
-
-    /**
-     * Get ultimoComprobante
-     *
-     * @return \AppBundle\Entity\Comprobante
-     */
-    public function getUltimoComprobante()
-    {
-        return $this->ultimoComprobante;
-    }
 }

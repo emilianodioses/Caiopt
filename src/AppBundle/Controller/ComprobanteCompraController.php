@@ -76,6 +76,7 @@ class ComprobanteCompraController extends controller
             $comprobantedetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
             foreach($comprobantedetalles as $comprobantedetalle) {
+                $comprobantedetalle->setPrecioNeto(0);
                 $comprobantedetalle->setImporteGanancia(0);
                 $comprobantedetalle->setTotalNoGravado(0);
                 $comprobantedetalle->setImporteIvaExento(0);
@@ -101,6 +102,7 @@ class ComprobanteCompraController extends controller
                 $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
                 $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
                 $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
+                $articulo->setUltimoComprobante($comprobante);
             }
 
             $em->flush();
@@ -200,11 +202,15 @@ class ComprobanteCompraController extends controller
                     $em->persist($comprobantedetalle);
                 }
 
-                //Actualizo datos en el artículo
+                //Actualizo datos en el artículo, solo si corresponde al último ingreso del artículo
                 $articulo = $comprobantedetalle->getArticulo();
-                $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
-                $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
-                $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
+                if (!is_null($articulo->getUltimoComprobante())) {
+                    if ($articulo->getUltimoComprobante()->getId() == $comprobante->getId()) {
+                        $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
+                        $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
+                        $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
+                    }
+                }
             }
 
             $em = $this->getDoctrine()->getManager();
