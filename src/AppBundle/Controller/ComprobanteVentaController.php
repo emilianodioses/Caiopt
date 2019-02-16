@@ -84,7 +84,11 @@ class ComprobanteVentaController extends Controller
 
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
 
-                $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
+                $comprobanteDetalle->setPrecioNeto(($comprobanteDetalle->getPrecioUnitario()-$comprobanteDetalle->getImporteBonificacion()));
+
+                $comprobanteDetalle->setImporteGanancia(
+                    ($comprobanteDetalle->getPrecioNeto()-
+                    $comprobanteDetalle->getPrecioCosto())*$comprobanteDetalle->getCantidad());
                 
                 $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioUnitario()));
 
@@ -99,7 +103,7 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setObservaciones('');
                 }
 
-                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioVenta()/$comprobanteDetalle->getPrecioCosto())-1)*100);
+                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 $comprobanteDetalle->setMovimiento('Venta');
                 $comprobanteDetalle->setComprobante($comprobante);
@@ -111,6 +115,7 @@ class ComprobanteVentaController extends Controller
 
                 $em->persist($comprobanteDetalle);
 
+                /*
                 if ($articulo->getOrdenTrabajo()) {
                     $ordenTrabajo = new OrdenTrabajo();
 
@@ -144,6 +149,7 @@ class ComprobanteVentaController extends Controller
 
                     $em->persist($ordenTrabajo);
                 }
+                */
             }
 
             $em->flush();
@@ -232,7 +238,11 @@ class ComprobanteVentaController extends Controller
 
                 $comprobanteDetalle->setPrecioCosto($articulo->getPrecioCosto());
 
-                $comprobanteDetalle->setImporteGanancia(($comprobanteDetalle->getPrecioVenta()-$comprobanteDetalle->getPrecioUnitario())*$comprobanteDetalle->getCantidad());  
+                $comprobanteDetalle->setPrecioNeto(($comprobanteDetalle->getPrecioUnitario()-$comprobanteDetalle->getImporteBonificacion()));
+
+                $comprobanteDetalle->setImporteGanancia(
+                    ($comprobanteDetalle->getPrecioNeto()-
+                    $comprobanteDetalle->getPrecioCosto())*$comprobanteDetalle->getCantidad());
                 
                 $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioUnitario()));
 
@@ -247,7 +257,7 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setObservaciones('');
                 }
 
-                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioVenta()/$comprobanteDetalle->getPrecioCosto())-1)*100);
+                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 if (is_null($comprobanteDetalle->getId())){     
                     $comprobanteDetalle->setCreatedBy($this->getUser()->getId());

@@ -122,6 +122,14 @@ class ComprobanteDetalle
     /**
      * @var string
      *
+     * @ORM\Column(name="precio_neto", type="decimal", precision=16, scale=2)
+     */
+    //VENTA: precio_unitario + importe_bonificacion
+    private $precioNeto;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="importe_ganancia", type="decimal", precision=16, scale=2)
      */
     //VENTA: precio_venta - precio_costo
@@ -774,5 +782,29 @@ class ComprobanteDetalle
     public function getArticulo()
     {
         return $this->articulo;
+    }
+
+    /**
+     * Set precioNeto
+     *
+     * @param string $precioNeto
+     *
+     * @return ComprobanteDetalle
+     */
+    public function setPrecioNeto($precioNeto)
+    {
+        $this->precioNeto = $precioNeto;
+
+        return $this;
+    }
+
+    /**
+     * Get precioNeto
+     *
+     * @return string
+     */
+    public function getPrecioNeto()
+    {
+        return $this->precioNeto;
     }
 }
