@@ -44,6 +44,19 @@ class ComprobanteCompraController extends controller
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
 
+            //INICIO Validacion Comprobante Existente
+            $comprobanteDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('numero'=>$comprobante->getNumero(),  'activo'=>1, 'movimiento' => 'Compra'));
+
+            if (count($comprobanteDuplicado) > 0) {
+                $this->get('session')->getFlashbag()->add('warning', 'El Comprobante ya fue cargado');
+
+                return $this->render('comprobantecompra/new.html.twig', array(
+                    'comprobante' => $comprobante,
+                    'form' => $form->createView(),
+                ));
+            }
+            //FIN Validacion Comprobante Existente
+
             $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
             $comprobante->setActivo(1);
@@ -70,8 +83,7 @@ class ComprobanteCompraController extends controller
                 if (is_null($comprobantedetalle->getObservaciones())) {
                     $comprobantedetalle->setObservaciones('');
                 }
-
-                $comprobantedetalle->setPorcentajeIva($alicuotaIva->getDescripcion());
+                
                 $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
                 
                 $comprobantedetalle->setComprobante($comprobante);
