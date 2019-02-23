@@ -250,6 +250,16 @@ class Comprobante
      */
     protected $comprobanteDetalles;
 
+    /**
+     * @var \Sucursal
+     *
+     * @ORM\ManyToOne(targetEntity="Sucursal")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sucursal_id", referencedColumnName="id")
+     * })
+     */
+    private $sucursal;
+
     public function __construct()
     {
         $this->comprobanteDetalles = new ArrayCollection();
@@ -960,5 +970,29 @@ class Comprobante
     public function getCondicionVenta()
     {
         return $this->condicionVenta;
+    }
+
+    /**
+     * Set sucursal
+     *
+     * @param \AppBundle\Entity\Sucursal $sucursal
+     *
+     * @return Usuario
+     */
+    public function setSucursal(\AppBundle\Entity\Sucursal $sucursal = null)
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    /**
+     * Get sucursal
+     *
+     * @return \AppBundle\Entity\Sucursal
+     */
+    public function getSucursal()
+    {
+        return $this->sucursal;
     }
 }
