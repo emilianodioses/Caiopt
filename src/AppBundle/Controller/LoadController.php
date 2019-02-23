@@ -24,6 +24,10 @@ class LoadController extends Controller
 
     public function loginAction(Request $request)
     {
+
+        //$em = $this->getDoctrine()->getManager();
+        //$sucursal = $em->getRepository('AppBundle:Sucursal')->findAll();
+
         $authenticationUtils = $this->get('security.authentication_utils');
 
         $session = $request->getSession();
@@ -36,6 +40,7 @@ class LoadController extends Controller
 
         return $this->render('load/login.html.twig', array(
             'last_username' => $lastUsername,
+            //'sucursales' => $sucursal,
             'error'         => $error,
         ));
     }

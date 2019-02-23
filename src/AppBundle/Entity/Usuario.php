@@ -161,6 +161,16 @@ class Usuario implements AdvancedUserInterface , \Serializable
     private $email;
 
     /**
+     * @var \Sucursal
+     *
+     * @ORM\ManyToOne(targetEntity="Sucursal")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sucursal_id", referencedColumnName="id")
+     * })
+     */
+    private $sucursal;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="login_ultimo", type="datetime")
@@ -548,4 +558,29 @@ class Usuario implements AdvancedUserInterface , \Serializable
     {
         return $this->loginCantidad;
     }
+
+    /**
+     * Set sucursal
+     *
+     * @param \AppBundle\Entity\Sucursal $sucursal
+     *
+     * @return Usuario
+     */
+    public function setSucursal(\AppBundle\Entity\Sucursal $sucursal = null)
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    /**
+     * Get sucursal
+     *
+     * @return \AppBundle\Entity\Sucursal
+     */
+    public function getSucursal()
+    {
+        return $this->sucursal;
+    }
+
 }

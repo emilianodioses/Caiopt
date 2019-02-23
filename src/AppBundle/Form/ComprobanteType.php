@@ -43,7 +43,6 @@ class ComprobanteType extends AbstractType
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('puntoVenta', null, array(
                     'label' => 'Punto de Venta',
-                    'data' => 1,
                     'attr' => array(
                         'readonly' => false,
                     )))

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sucursals list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sucursal in sucursals %}
+            <tr>
+                <td><a href="{{ path('sucursal_show', { 'id': sucursal.id }) }}">{{ sucursal.id }}</a></td>
+                <td>{{ sucursal.nombre }}</td>
+                <td>{% if sucursal.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ sucursal.createdBy }}</td>
+                <td>{% if sucursal.createdAt %}{{ sucursal.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ sucursal.updatedBy }}</td>
+                <td>{% if sucursal.updatedAt %}{{ sucursal.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sucursal_show', { 'id': sucursal.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sucursal_edit', { 'id': sucursal.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sucursal_new') }}">Create a new sucursal</a>
+        </li>
+    </ul>
+{% endblock %}

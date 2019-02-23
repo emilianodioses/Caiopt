@@ -40,9 +40,17 @@ class ComprobanteVentaController extends Controller
     public function newAction(Request $request)
     {
         $comprobante = new Comprobante();
+
+        //Agrego Valor Default dia de la fecha a la fecha de venta
+        $comprobante->setFecha(new \DateTime("now"));
+        $comprobante->setPuntoVenta($this->getUser()->getSucursal()->getId());
+
+
         $form = $this->createForm(ComprobanteType::class, $comprobante);
 
         $form->handleRequest($request);
+
+        
 
         if ($form->isSubmitted()) {
 
@@ -153,8 +161,11 @@ class ComprobanteVentaController extends Controller
             }
 
             $em->flush();
+
             $this->get('session')->getFlashbag()->add('success', 'Venta realizada exitosamente.');
-            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+            
+            return $this->redirectToRoute('comprobanteventa_show', 
+                array('id' => $comprobante->getId()));
         }
 
         return $this->render('comprobanteventa/new.html.twig', array(
@@ -382,7 +393,7 @@ class ComprobanteVentaController extends Controller
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
-                'PtoVta'    => 1,  // Punto de venta
+                'PtoVta'    => $this->getUser()->getSucursal()->getId(),  // Punto de venta
                 'CbteTipo'  => $comprobanteTipo,  // Tipo de comprobante (ver tipos disponibles) 
                 'Concepto'  => $concepto,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'   => $clienteDocumentoTipo, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)

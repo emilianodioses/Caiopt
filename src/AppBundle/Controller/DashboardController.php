@@ -12,6 +12,7 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();

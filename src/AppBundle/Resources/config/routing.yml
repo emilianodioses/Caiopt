@@ -42,7 +42,10 @@ app_orden_trabajo:
     resource: "@AppBundle/Resources/config/routing/ordentrabajo.yml"
     prefix:   /ordentrabajo
 
-    
+app_sucursal:
+    resource: "@AppBundle/Resources/config/routing/sucursal.yml"
+    prefix:   /sucursal
+
 afip_test:
     path:     /afipTest
     defaults: { _controller: "AppBundle:AfipTest:index" }  
