@@ -56,6 +56,7 @@ class ArticuloController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
+            $articulo->setUltimoComprobante(null);
             $articulo->setCreatedBy($this->getUser()->getId());
             $articulo->setCreatedAt(new \DateTime("now"));
             $articulo->setUpdatedBy($this->getUser()->getId());
@@ -98,7 +99,13 @@ class ArticuloController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            
+            $articulo->setUltimoComprobante(null);
+            $articulo->setUpdatedBy($this->getUser()->getId());
+            $articulo->setUpdatedAt(new \DateTime("now"));
+
+            $em->flush();
 
             return $this->redirectToRoute('articulo_show', array('id' => $articulo->getId()));
         }

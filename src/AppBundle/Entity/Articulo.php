@@ -157,6 +157,16 @@ class Articulo
     private $colorCristal;
 
     /**
+     * @var \Comprobante
+     *
+     * @ORM\ManyToOne(targetEntity="Comprobante")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ultimo_comprobante_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $ultimoComprobante;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -757,5 +767,29 @@ class Articulo
     public function __toString()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set ultimoComprobante
+     *
+     * @param \AppBundle\Entity\Comprobante $ultimoComprobante
+     *
+     * @return Articulo
+     */
+    public function setUltimoComprobante(\AppBundle\Entity\Comprobante $ultimoComprobante = null)
+    {
+        $this->ultimoComprobante = $ultimoComprobante;
+
+        return $this;
+    }
+
+    /**
+     * Get ultimoComprobante
+     *
+     * @return \AppBundle\Entity\Comprobante
+     */
+    public function getUltimoComprobante()
+    {
+        return $this->ultimoComprobante;
     }
 }
