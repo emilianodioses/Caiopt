@@ -209,6 +209,16 @@ class ComprobanteVentaController extends Controller
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
+        //Solo puede editarse si la sucursal elegida es la misma del comprobante.
+        if ($comprobante->getSucursal()->getId() != $this->getUser()->getSucursal()->getId()) {
+
+            $this->get('session')->getFlashbag()->add('warning', 'Comprobante de sucursal: '.$comprobante->getSucursal().'. La sucursal actual es: '.$this->getUser()->getSucursal().', Cambie de sucursal para editar el registro');
+
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
+
+
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));

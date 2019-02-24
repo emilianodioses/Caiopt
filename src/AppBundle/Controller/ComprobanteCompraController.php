@@ -57,9 +57,13 @@ class ComprobanteCompraController extends controller
             }
             //FIN Validacion Comprobante Existente
 
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+        
+            $comprobante->setSucursal($sucursal);
             $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
             $comprobante->setActivo(1);
+
 
             if (is_null($comprobante->getObservaciones())) {
                 $comprobante->setObservaciones('');
@@ -139,6 +143,14 @@ class ComprobanteCompraController extends controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        //Solo puede editarse si la sucursal elegida es la misma del comprobante.
+        if ($comprobante->getSucursal()->getId() != $this->getUser()->getSucursal()->getId()) {
+
+            $this->get('session')->getFlashbag()->add('warning', 'Comprobante de sucursal: '.$comprobante->getSucursal().'. La sucursal actual es: '.$this->getUser()->getSucursal().', Cambie de sucursal para editar el registro');
+
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
@@ -160,6 +172,10 @@ class ComprobanteCompraController extends controller
             if (is_null($comprobante->getObservaciones())) {
                 $comprobante->setObservaciones('');
             }
+
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+        
+            $comprobante->setSucursal($sucursal);
             
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
