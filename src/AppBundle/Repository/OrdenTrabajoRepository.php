@@ -23,4 +23,20 @@ class OrdenTrabajoRepository extends \Doctrine\ORM\EntityRepository
 
         return $resultado;
     }
+
+    public function findAll_sucursalFecha($sucursal_id, $fecha) {
+        $em = $this->getEntityManager('default');
+        
+        $resultado = $em->createQuery('SELECT ot
+                FROM AppBundle:OrdenTrabajo ot
+                INNER JOIN ot.comprobante c
+                WHERE ot.activo = 1
+                and c.sucursal = :sucursal
+                and c.fecha = :fecha ')
+            ->setParameter('sucursal', $sucursal_id)
+            ->setParameter('fecha', $fecha)
+            ->getResult();
+
+        return $resultado;
+    }
 }

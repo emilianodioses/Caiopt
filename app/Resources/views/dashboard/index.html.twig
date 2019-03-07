@@ -14,7 +14,7 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>0</h3>
+          <h3>{{cantidadVentas}}</h3>
 
           <p>Ventas</p>
         </div>
@@ -29,7 +29,7 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>$ 0</h3>
+          <h3>$ {{totalVentas}}</h3>
 
           <p>Caja</p>
         </div>
@@ -44,7 +44,7 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>0</h3>
+          <h3>{{cantidadOrdenesTrabajo}}</h3>
 
           <p>Ordenes de Trabajo</p>
         </div>
@@ -58,7 +58,7 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>0</h3>
+          <h3>{{cantidadCompras}}</h3>
 
           <p>Compras</p>
         </div>
@@ -105,15 +105,15 @@ Panel Principal
         <!-- /.box-body -->
         <div class="box-footer text-black">
           <div class="row">
-            {% for acv in afip_condiciones_venta %}
+            {% for cd in cajaDetalles %}
               <div class="col-sm-12">
                 <!-- Progress bars -->
                 <div class="clearfix">
-                  <span class="pull-left">{{ acv.descripcion }} $ 0</span>
-                  <small class="pull-right">0%</small>
+                  <span class="pull-left">{{cd['descripcion']}} $ {{cd['total']}}</span>
+                  <small class="pull-right">{{cd['porcentaje']}}%</small>
                 </div>
                 <div class="progress xs">
-                  <div class="progress-bar progress-bar-green" style="width: 0%;"></div>
+                  <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
                 </div>
               </div>
             {% endfor %}
@@ -128,6 +128,7 @@ Panel Principal
         <ul class="nav nav-tabs pull-right">
           <li class="active"><a href="#pendientes-chart" data-toggle="tab">Pendientes</a></li>
           <li><a href="#marcha-chart" data-toggle="tab">En Marcha</a></li>
+          <li><a href="#finalizadas-chart" data-toggle="tab">Finalizadas</a></li>
           <li class="pull-left header"><i class="fa fa-list-alt"></i> Ordenes de Trabajo</li>
         </ul>
         <div class="tab-content no-padding">
@@ -135,30 +136,26 @@ Panel Principal
           <div class="chart tab-pane active" id="pendientes-chart" style="position: relative; height: 300px;">
             <table class="table table-hover">
                   <tr>
-                    <th>ID</th>
+                    <th>Nro.</th>
                     <th>Cliente</th>
                     <th>Comprobante</th>
-                    <th>Taller</th>
                     <th>Fecha</th>
-                    <th>Días Estimados</th>
                     <th>Fecha Fin</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
               <tbody>
               {% for ordenTrabajo in ordenesTrabajo %}
-                {% if ordenTrabajo.estado != 'Pendiente' %}
+                {% if ordenTrabajo.estado == 'Pendiente' %}
                   <tr>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
-                      <td>{{ ordenTrabajo.taller }}</td>
                       {% if ordenTrabajo.fecha is empty %}
                         <td></td>
                       {% else %}
                         <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
                       {% endif %}
-                      <td>{{ ordenTrabajo.diasEstimados }}</td>
                       {% if ordenTrabajo.fechaFin is empty %}
                         <td></td>
                       {% else %}
@@ -184,7 +181,103 @@ Panel Principal
               </tbody>
             </table>
           </div>
-          <div class="chart tab-pane" id="marcha-chart" style="position: relative; height: 300px;"></div>
+          <div class="chart tab-pane" id="marcha-chart" style="position: relative; height: 300px;">
+            <table class="table table-hover">
+                  <tr>
+                    <th>Nro.</th>
+                    <th>Cliente</th>
+                    <th>Comprobante</th>
+                    <th>Fecha</th>
+                    <th>Fecha Fin</th>
+                    <th>Estado</th>
+                    <th style="width: 5%">Acciones</th>
+                </tr>
+              <tbody>
+              {% for ordenTrabajo in ordenesTrabajo %}
+                {% if ordenTrabajo.estado != 'Pendiente' and ordenTrabajo.estado != 'Finalizado' %}
+                  <tr>
+                      <td>{{ ordenTrabajo.id }}</td>
+                      <td>{{ ordenTrabajo.cliente }}</td>
+                      <td>{{ ordenTrabajo.comprobante }}</td>
+                      {% if ordenTrabajo.fecha is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                      {% endif %}
+                      {% if ordenTrabajo.fechaFin is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajo.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajo.activo %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+                  {% endif %}
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- Morris chart - Sales -->
+          <div class="chart tab-pane" id="finalizadas-chart" style="position: relative; height: 300px;">
+            <table class="table table-hover">
+                  <tr>
+                    <th>Nro.</th>
+                    <th>Cliente</th>
+                    <th>Comprobante</th>
+                    <th>Fecha</th>
+                    <th>Fecha Fin</th>
+                    <th>Estado</th>
+                    <th style="width: 5%">Acciones</th>
+                </tr>
+              <tbody>
+              {% for ordenTrabajo in ordenesTrabajo %}
+                {% if ordenTrabajo.estado == 'Finalizado' %}
+                  <tr>
+                      <td>{{ ordenTrabajo.id }}</td>
+                      <td>{{ ordenTrabajo.cliente }}</td>
+                      <td>{{ ordenTrabajo.comprobante }}</td>
+                      {% if ordenTrabajo.fecha is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                      {% endif %}
+                      {% if ordenTrabajo.fechaFin is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajo.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajo.activo %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+                  {% endif %}
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
