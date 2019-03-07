@@ -21,19 +21,27 @@ Orden de trabajo
                     <div class="box-body">
                         {{ form_errors(form) }}
                         <div class="row">
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 {{ form_row(form.cliente) }}                            
                             </div>  
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 {{ form_row(form.comprobante) }}                            
                             </div>
                         </div>     
                         <div class="row">    
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 {{ form_row(form.taller) }}
                             </div>
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.fecha) }}
+                            </div>
+                        </div>
+                        <div class="row">    
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 {{ form_row(form.diasEstimados) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.fechaFin) }}
                             </div>
                         </div>
                         <div class="row">
@@ -50,18 +58,18 @@ Orden de trabajo
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                {{ form_row(form.estado) }}
-                            </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(form.dip) }}
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                {{ form_row(form.estado) }}
                             </div>
                         </div>
                         <div class="row">    
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 {{ form_row(form.observaciones) }}
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 </div>
             </div>

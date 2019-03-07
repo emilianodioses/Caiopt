@@ -10,4 +10,17 @@ namespace AppBundle\Repository;
  */
 class OrdenTrabajoRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findAll_sucursal($sucursal_id) {
+		$em = $this->getEntityManager('default');
+        
+		$resultado = $em->createQuery('SELECT ot
+                FROM AppBundle:OrdenTrabajo ot
+                INNER JOIN ot.comprobante c
+                WHERE ot.activo = 1
+                and c.sucursal = :sucursal')
+			->setParameter('sucursal', $sucursal_id)
+			->getResult();
+
+        return $resultado;
+    }
 }

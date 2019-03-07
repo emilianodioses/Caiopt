@@ -44,9 +44,10 @@ Ordenes de Trabajo
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Comprobante</th>
-                    <th>Observaciones</th>
                     <th>Taller</th>
-                    <th>Dias Estimados</th>
+                    <th>Fecha</th>
+                    <th>Días Estimados</th>
+                    <th>Fecha Fin</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
@@ -57,9 +58,18 @@ Ordenes de Trabajo
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
-                      <td>{{ ordenTrabajo.observaciones }}</td>
                       <td>{{ ordenTrabajo.taller }}</td>
+                      {% if ordenTrabajo.fecha is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                      {% endif %}
                       <td>{{ ordenTrabajo.diasEstimados }}</td>
+                      {% if ordenTrabajo.fechaFin is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                      {% endif %}
                       <td>{{ ordenTrabajo.estado }}</td>
                       <td>
                         <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
@@ -103,9 +113,21 @@ Ordenes de Trabajo
                   {% if ordenTrabajo.estado == 'Pendiente' %}
                     <tr>
                       <td>{{ordenTrabajo.cliente}}</td>
-                      <td>{{ ordenTrabajo.comprobante }}</td>
+                      <td>{{ordenTrabajo.comprobante}}</td>
                       <td>{{ordenTrabajo.observaciones}}</td>
-                      <td></td>
+                      <td>
+                        <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajo.activo %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
                     </tr>
                   {% endif %}
                 {% endfor %}

@@ -37,8 +37,24 @@ Orden de Trabajo
                                     <td>{{ ordenTrabajo.otrosTrabajos }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Dias Estimados</th>
+                                    <th>Fecha</th>
+                                    {% if ordenTrabajo.fecha is empty %}
+                                        <td></td>
+                                    {% else %}
+                                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Días Estimados</th>
                                     <td>{{ ordenTrabajo.diasEstimados }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha Fin</th>
+                                    {% if ordenTrabajo.fechaFin is empty %}
+                                        <td></td>
+                                    {% else %}
+                                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                                    {% endif %}
                                 </tr>
                                 <tr>
                                     <th>Observaciones</th>

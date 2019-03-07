@@ -179,10 +179,24 @@ class OrdenTrabajo
      *
      * @ORM\ManyToOne(targetEntity="Taller")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="taller_id", referencedColumnName="id", nullable=true)
      * })
      */
     private $taller;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=true)
+     */
+    private $fecha;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="datetime", nullable=true)
+     */
+    private $fechaFin;
 
     /**
      * @var int
@@ -230,35 +244,11 @@ class OrdenTrabajo
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set cliente
-     *
-     * @param \stdClass $cliente
-     *
-     * @return OrdentrAbajo
-     */
-    public function setCliente($cliente)
-    {
-        $this->cliente = $cliente;
-
-        return $this;
-    }
-
-    /**
-     * Get cliente
-     *
-     * @return \stdClass
-     */
-    public function getCliente()
-    {
-        return $this->cliente;
     }
 
     /**
@@ -286,6 +276,30 @@ class OrdenTrabajo
     }
 
     /**
+     * Set estado
+     *
+     * @param string $estado
+     *
+     * @return OrdenTrabajo
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
      * Set ojoDerechoEje
      *
      * @param integer $ojoDerechoEje
@@ -302,7 +316,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoEje
      *
-     * @return int
+     * @return integer
      */
     public function getOjoDerechoEje()
     {
@@ -326,7 +340,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoCilindro
      *
-     * @return int
+     * @return integer
      */
     public function getOjoDerechoCilindro()
     {
@@ -350,7 +364,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoEsfera
      *
-     * @return int
+     * @return integer
      */
     public function getOjoDerechoEsfera()
     {
@@ -374,7 +388,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoAdicc
      *
-     * @return int
+     * @return integer
      */
     public function getOjoDerechoAdicc()
     {
@@ -398,7 +412,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoDnp
      *
-     * @return int
+     * @return integer
      */
     public function getOjoDerechoDnp()
     {
@@ -422,7 +436,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoAlt
      *
-     * @return int
+     * @return integer
      */
     public function getOjoDerechoAlt()
     {
@@ -446,7 +460,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoEje
      *
-     * @return int
+     * @return integer
      */
     public function getOjoIzquierdoEje()
     {
@@ -470,7 +484,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoCilindro
      *
-     * @return int
+     * @return integer
      */
     public function getOjoIzquierdoCilindro()
     {
@@ -494,7 +508,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoEsfera
      *
-     * @return int
+     * @return integer
      */
     public function getOjoIzquierdoEsfera()
     {
@@ -518,7 +532,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoAdicc
      *
-     * @return int
+     * @return integer
      */
     public function getOjoIzquierdoAdicc()
     {
@@ -542,7 +556,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoDnp
      *
-     * @return int
+     * @return integer
      */
     public function getOjoIzquierdoDnp()
     {
@@ -566,7 +580,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoAlt
      *
-     * @return int
+     * @return integer
      */
     public function getOjoIzquierdoAlt()
     {
@@ -662,7 +676,7 @@ class OrdenTrabajo
     /**
      * Get dip
      *
-     * @return int
+     * @return integer
      */
     public function getDip()
     {
@@ -694,6 +708,30 @@ class OrdenTrabajo
     }
 
     /**
+     * Set diasEstimados
+     *
+     * @param integer $diasEstimados
+     *
+     * @return OrdenTrabajo
+     */
+    public function setDiasEstimados($diasEstimados)
+    {
+        $this->diasEstimados = $diasEstimados;
+
+        return $this;
+    }
+
+    /**
+     * Get diasEstimados
+     *
+     * @return integer
+     */
+    public function getDiasEstimados()
+    {
+        return $this->diasEstimados;
+    }
+
+    /**
      * Set createdBy
      *
      * @param integer $createdBy
@@ -710,7 +748,7 @@ class OrdenTrabajo
     /**
      * Get createdBy
      *
-     * @return int
+     * @return integer
      */
     public function getCreatedBy()
     {
@@ -758,7 +796,7 @@ class OrdenTrabajo
     /**
      * Get updatedBy
      *
-     * @return int
+     * @return integer
      */
     public function getUpdatedBy()
     {
@@ -806,7 +844,7 @@ class OrdenTrabajo
     /**
      * Get activo
      *
-     * @return bool
+     * @return boolean
      */
     public function getActivo()
     {
@@ -814,51 +852,27 @@ class OrdenTrabajo
     }
 
     /**
-     * Set taller
+     * Set cliente
      *
-     * @param integer $taller
+     * @param \AppBundle\Entity\Cliente $cliente
      *
      * @return OrdenTrabajo
      */
-    public function setTaller($taller)
+    public function setCliente(\AppBundle\Entity\Cliente $cliente = null)
     {
-        $this->taller = $taller;
+        $this->cliente = $cliente;
 
         return $this;
     }
 
     /**
-     * Get taller
+     * Get cliente
      *
-     * @return int
+     * @return \AppBundle\Entity\Cliente
      */
-    public function getTaller()
+    public function getCliente()
     {
-        return $this->taller;
-    }
-
-    /**
-     * Set diasEstimados
-     *
-     * @param integer $diasEstimados
-     *
-     * @return OrdenTrabajo
-     */
-    public function setDiasEstimados($diasEstimados)
-    {
-        $this->diasEstimados = $diasEstimados;
-
-        return $this;
-    }
-
-    /**
-     * Get diasEstimados
-     *
-     * @return int
-     */
-    public function getDiasEstimados()
-    {
-        return $this->diasEstimados;
+        return $this->cliente;
     }
 
     /**
@@ -886,26 +900,74 @@ class OrdenTrabajo
     }
 
     /**
-     * Set estado
+     * Set taller
      *
-     * @param string $estado
+     * @param \AppBundle\Entity\Taller $taller
      *
      * @return OrdenTrabajo
      */
-    public function setEstado($estado)
+    public function setTaller(\AppBundle\Entity\Taller $taller = null)
     {
-        $this->estado = $estado;
+        $this->taller = $taller;
 
         return $this;
     }
 
     /**
-     * Get estado
+     * Get taller
      *
-     * @return string
+     * @return \AppBundle\Entity\Taller
      */
-    public function getEstado()
+    public function getTaller()
     {
-        return $this->estado;
+        return $this->taller;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return OrdenTrabajo
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set fechaFin
+     *
+     * @param \DateTime $fechaFin
+     *
+     * @return OrdenTrabajo
+     */
+    public function setFechaFin($fechaFin)
+    {
+        $this->fechaFin = $fechaFin;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaFin
+     *
+     * @return \DateTime
+     */
+    public function getFechaFin()
+    {
+        return $this->fechaFin;
     }
 }

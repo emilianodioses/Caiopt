@@ -82,7 +82,9 @@ class ComprobanteVentaController extends Controller
 
             $em->persist($comprobante);
 
-            $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
+            $comprobanteDetalles = $comprobante->getComprobanteDetalles()->toArray();
+
+            $orden_trabajo_crear = false;
 
             foreach($comprobanteDetalles as $comprobanteDetalle) {  
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
@@ -126,41 +128,47 @@ class ComprobanteVentaController extends Controller
 
                 $em->persist($comprobanteDetalle);
 
-                /*
                 if ($articulo->getOrdenTrabajo()) {
-                    $ordenTrabajo = new OrdenTrabajo();
-
-                    //ESTO ESTA MAL, solo lo puse para poner un valor default de taller de estado pendiente
-                    $taller = $em->getRepository('AppBundle:Taller')->find(1);
-                    $ordenTrabajo->setTaller($taller);
-
-                    $ordenTrabajo->setCliente($comprobante->getCliente());
-                    $ordenTrabajo->setComprobante($comprobante);
-                    $ordenTrabajo->setEstado('Pendiente');
-                                        
-                    $ordenTrabajo->setOjoDerechoEje(0);
-                    $ordenTrabajo->setOjoDerechoCilindro(0);
-                    $ordenTrabajo->setOjoDerechoEsfera(0);
-                    $ordenTrabajo->setOjoDerechoAdicc(0);
-                    $ordenTrabajo->setOjoDerechoDnp(0);
-                    $ordenTrabajo->setOjoDerechoAlt(0);
-                    $ordenTrabajo->setOjoIzquierdoEje(0);
-                    $ordenTrabajo->setOjoIzquierdoCilindro(0);
-                    $ordenTrabajo->setOjoIzquierdoEsfera(0);
-                    $ordenTrabajo->setOjoIzquierdoAdicc(0);
-                    $ordenTrabajo->setOjoIzquierdoDnp(0);
-                    $ordenTrabajo->setOjoIzquierdoAlt(0);
-                    $ordenTrabajo->setDip(0);
-
-                    $ordenTrabajo->setActivo(1);
-                    $ordenTrabajo->setCreatedBy($this->getUser()->getId());
-                    $ordenTrabajo->setCreatedAt(new \DateTime("now"));
-                    $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
-                    $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
-
-                    $em->persist($ordenTrabajo);
+                    $orden_trabajo_crear = true;
                 }
-                */
+            }
+
+            //Si hay algún artículo que requiera una orden de trabajo
+            if ($orden_trabajo_crear) {
+                $ordenTrabajo = new OrdenTrabajo();
+
+                //ESTO ESTA MAL, solo lo puse para poner un valor default de taller de estado pendiente
+                $taller = $em->getRepository('AppBundle:Taller')->find(1);
+                $ordenTrabajo->setTaller($taller);
+
+                $ordenTrabajo->setCliente($comprobante->getCliente());
+                $ordenTrabajo->setComprobante($comprobante);
+                $ordenTrabajo->setEstado('Pendiente');
+                                    
+                $ordenTrabajo->setOjoDerechoEje(0);
+                $ordenTrabajo->setOjoDerechoCilindro(0);
+                $ordenTrabajo->setOjoDerechoEsfera(0);
+                $ordenTrabajo->setOjoDerechoAdicc(0);
+                $ordenTrabajo->setOjoDerechoDnp(0);
+                $ordenTrabajo->setOjoDerechoAlt(0);
+                $ordenTrabajo->setOjoIzquierdoEje(0);
+                $ordenTrabajo->setOjoIzquierdoCilindro(0);
+                $ordenTrabajo->setOjoIzquierdoEsfera(0);
+                $ordenTrabajo->setOjoIzquierdoAdicc(0);
+                $ordenTrabajo->setOjoIzquierdoDnp(0);
+                $ordenTrabajo->setOjoIzquierdoAlt(0);
+                $ordenTrabajo->setDip(0);
+
+                $ordenTrabajo->setActivo(1);
+                $ordenTrabajo->setCreatedBy($this->getUser()->getId());
+                $ordenTrabajo->setCreatedAt(new \DateTime("now"));
+                $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
+                $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
+
+
+                $em->persist($ordenTrabajo);
+
+                
             }
 
             $em->flush();

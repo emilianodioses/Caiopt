@@ -995,4 +995,9 @@ class Comprobante
     {
         return $this->sucursal;
     }
+
+    public function __toString()
+    {
+        return $this->puntoVenta.'-'.$this->numero;
+    }
 }

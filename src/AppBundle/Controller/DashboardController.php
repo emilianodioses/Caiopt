@@ -16,9 +16,14 @@ class DashboardController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+
+        $afip_condiciones_venta = $em->getRepository('AppBundle:AfipCondicionVenta')->findBy(Array('activo'=> '1'), array('descripcion' => 'ASC'));
+
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursal($this->getUser()->getSucursal()->getId());
         
         return $this->render('dashboard/index.html.twig', array(
-            'usuarios' => $usuarios,
+            'afip_condiciones_venta' => $afip_condiciones_venta,
+            'ordenesTrabajo' => $ordenesTrabajo
         ));
     }
 }

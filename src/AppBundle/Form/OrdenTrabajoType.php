@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class OrdenTrabajoType extends AbstractType
 {
@@ -40,7 +41,6 @@ class OrdenTrabajoType extends AbstractType
                     'label' => 'Comprobante',
                     'class' => 'AppBundle:Comprobante',
                     'required' => true,
-                    'choice_label' => 'numero',
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
@@ -158,6 +158,20 @@ class OrdenTrabajoType extends AbstractType
                     'required' => false,
                     ),
                     'label' => 'Tiempo EST'))
+                ->add('fecha',DateType::class,array(
+                    'label'=>'Fecha',
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'html5' => true,
+                    'required' => true,
+                    'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+                ->add('fechaFin',DateType::class,array(
+                    'label'=>'Fecha Fin',
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'html5' => true,
+                    'required' => true,
+                    'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ;
     }/**
      * {@inheritdoc}

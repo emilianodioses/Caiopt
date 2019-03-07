@@ -14,14 +14,14 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>150</h3>
+          <h3>0</h3>
 
-          <p>New Orders</p>
+          <p>Ventas</p>
         </div>
         <div class="icon">
           <i class="ion ion-bag"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{path('comprobanteventa_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
       <!-- ./col -->
@@ -29,14 +29,14 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>53<sup style="font-size: 20px">%</sup></h3>
+          <h3>$ 0</h3>
 
-          <p>Bounce Rate</p>
+          <p>Caja</p>
         </div>
         <div class="icon">
-          <i class="ion ion-stats-bars"></i>
+          <i class="fa fa-inbox"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -44,55 +44,39 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>44</h3>
+          <h3>0</h3>
 
-          <p>User Registrations</p>
+          <p>Ordenes de Trabajo</p>
         </div>
         <div class="icon">
-          <i class="ion ion-person-add"></i>
+          <i class="fa fa-list-alt"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{path('ordentrabajo_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>65</h3>
+          <h3>0</h3>
 
-          <p>Unique Visitors</p>
+          <p>Compras</p>
         </div>
         <div class="icon">
-          <i class="ion ion-pie-graph"></i>
+          <i class="fa fa-shopping-cart"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{path('comprobantecompra_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-6 col-xs-6">
-      <!-- Custom tabs (Charts with tabs)-->
-      <div class="nav-tabs-custom">
-        <!-- Tabs within a box -->
-        <ul class="nav nav-tabs pull-right">
-          <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-          <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-          <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-        </ul>
-        <div class="tab-content no-padding">
-          <!-- Morris chart - Sales -->
-          <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-          <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-        </div>
-      </div>
-    </div>
     <!-- Calendar -->
     <div class="col-lg-6 col-xs-6">
       <div class="box box-solid bg-green-gradient">
         <div class="box-header">
-          <i class="fa fa-calendar"></i>
+          <i class="fa fa-pie-chart"></i>
 
-          <h3 class="box-title">Calendar</h3>
+          <h3 class="box-title">Caja</h3>
           <!-- tools box -->
           <div class="pull-right box-tools">
             <!-- button with a dropdown -->
@@ -121,43 +105,86 @@ Panel Principal
         <!-- /.box-body -->
         <div class="box-footer text-black">
           <div class="row">
-            <div class="col-sm-6">
-              <!-- Progress bars -->
-              <div class="clearfix">
-                <span class="pull-left">Task #1</span>
-                <small class="pull-right">90%</small>
+            {% for acv in afip_condiciones_venta %}
+              <div class="col-sm-12">
+                <!-- Progress bars -->
+                <div class="clearfix">
+                  <span class="pull-left">{{ acv.descripcion }} $ 0</span>
+                  <small class="pull-right">0%</small>
+                </div>
+                <div class="progress xs">
+                  <div class="progress-bar progress-bar-green" style="width: 0%;"></div>
+                </div>
               </div>
-              <div class="progress xs">
-                <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-              </div>
-
-              <div class="clearfix">
-                <span class="pull-left">Task #2</span>
-                <small class="pull-right">70%</small>
-              </div>
-              <div class="progress xs">
-                <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-              </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-6">
-              <div class="clearfix">
-                <span class="pull-left">Task #3</span>
-                <small class="pull-right">60%</small>
-              </div>
-              <div class="progress xs">
-                <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-              </div>
-
-              <div class="clearfix">
-                <span class="pull-left">Task #4</span>
-                <small class="pull-right">40%</small>
-              </div>
-              <div class="progress xs">
-                <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-              </div>
-            </div>
+            {% endfor %}
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+      <!-- Custom tabs (Charts with tabs)-->
+      <div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs pull-right">
+          <li class="active"><a href="#pendientes-chart" data-toggle="tab">Pendientes</a></li>
+          <li><a href="#marcha-chart" data-toggle="tab">En Marcha</a></li>
+          <li class="pull-left header"><i class="fa fa-list-alt"></i> Ordenes de Trabajo</li>
+        </ul>
+        <div class="tab-content no-padding">
+          <!-- Morris chart - Sales -->
+          <div class="chart tab-pane active" id="pendientes-chart" style="position: relative; height: 300px;">
+            <table class="table table-hover">
+                  <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Comprobante</th>
+                    <th>Taller</th>
+                    <th>Fecha</th>
+                    <th>Días Estimados</th>
+                    <th>Fecha Fin</th>
+                    <th>Estado</th>
+                    <th style="width: 5%">Acciones</th>
+                </tr>
+              <tbody>
+              {% for ordenTrabajo in ordenesTrabajo %}
+                {% if ordenTrabajo.estado != 'Pendiente' %}
+                  <tr>
+                      <td>{{ ordenTrabajo.id }}</td>
+                      <td>{{ ordenTrabajo.cliente }}</td>
+                      <td>{{ ordenTrabajo.comprobante }}</td>
+                      <td>{{ ordenTrabajo.taller }}</td>
+                      {% if ordenTrabajo.fecha is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajo.diasEstimados }}</td>
+                      {% if ordenTrabajo.fechaFin is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajo.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajo.activo %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+                  {% endif %}
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="chart tab-pane" id="marcha-chart" style="position: relative; height: 300px;"></div>
         </div>
       </div>
     </div>
