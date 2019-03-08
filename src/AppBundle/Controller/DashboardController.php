@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $sucursal_Id = $this->getUser()->getSucursal()->getId();
+        $sucursal_id = $this->getUser()->getSucursal()->getId();
 
         $fecha_now = new \DateTime("now");
         $fecha_now->setTime(00, 00, 00);
@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $total_ventas = 0;
         $cantidad_ventas = 0;
         foreach($afipCondicionesVenta as $acv) {
-            $comprobantesVentas = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'condicionVenta' => $acv->getId(), 'fecha' => $fecha_now, 'sucursal' => $sucursal_Id));
+            $comprobantesVentas = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'condicionVenta' => $acv->getId(), 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
 
             $total_ventas_acv = 0;
             foreach($comprobantesVentas as $cv) {
@@ -47,11 +47,11 @@ class DashboardController extends Controller
             }
         }
 
-        $comprobantesCompras = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'compra', 'activo'=> '1', 'fecha' => $fecha_now, 'sucursal' => $sucursal_Id));
+        $comprobantesCompras = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'compra', 'activo'=> '1', 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
 
-        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursal($sucursal_Id);
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursal($sucursal_id);
 
-        $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_Id, $fecha_now);
+        $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_id, $fecha_now);
         
         return $this->render('dashboard/index.html.twig', array(
             'cantidadVentas' => $cantidad_ventas,

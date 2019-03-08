@@ -438,7 +438,7 @@ class ComprobanteVentaController extends Controller
 
         try {
             $res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->get('session')->getFlashbag()->add('notice', $e->getMessage());
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
@@ -454,6 +454,7 @@ class ComprobanteVentaController extends Controller
         $comprobante->setAfipNumero($res['voucher_number']);
 
         $em->flush();
+        $this->get('session')->getFlashbag()->add('success', 'Venta facturada exitosamente.');
         return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
     }
 
@@ -479,25 +480,27 @@ class ComprobanteVentaController extends Controller
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
+        //Si no fue facturado con el WS, solo podemos hacer una impresion interna
+        if (is_null($comprobante->getCaeNumero())){
+            $facturaTemplate = 'comprobanteventa/factura_imprimir_interna.html.twig';
+        }
+        else {
+            switch ($comprobante->getTipo()) {
+                case "FACTURA A":
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'A'.'.html.twig';
+                    break;
+                case "FACTURA B":
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
+                    break; 
+                case "FACTURA C": 
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'C'.'.html.twig';
+                    break; 
+                default:
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
+                    break; 
+            }
+        }
 
-        $facturaTemplate = 'comprobanteventa/factura_imprimir_';
-
-
-
-        switch ($comprobante->getTipo()) {
-            case "FACTURA A":
-                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'A'.'.html.twig';
-                break;
-            case "FACTURA B":
-                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
-                break; 
-            case "FACTURA C": 
-                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'C'.'.html.twig';
-                break; 
-            default:
-                $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
-                break; 
-        }       
 
         //dump($comprobanteDetalles);
         //die;

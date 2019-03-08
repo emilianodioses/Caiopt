@@ -31,8 +31,8 @@ Comprobantes de Compras
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
                 <tr>
-                    <th style="width: 10%">Comprobante Nº</th>
                     <th style="width: 10%">Punto de Venta</th>
+                    <th style="width: 10%">Nº Comprobante</th>
                     <th>Tipo</th>
                     <th>Fecha</th>
                     <th>Total</th>
@@ -42,8 +42,8 @@ Comprobantes de Compras
             <tbody>
             {% for comprobante in comprobantes %}
                 <tr>
-                    <td>{{ comprobante.numero }}</td>
                     <td>{{ comprobante.puntoVenta }}</td>
+                    <td>{{ comprobante.numero }}</td>
                     <td>{{ comprobante.tipo }}</td>
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
                     <td>{{ comprobante.total }}</td>

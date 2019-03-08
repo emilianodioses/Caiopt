@@ -156,8 +156,9 @@
                                 </div>
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     {%if not comprobante.caeNumero is empty%}
-                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank"><span class="glyphicon glyphicon-print"></span>Imprimir FE</a>
+                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Factura Electrónica"><span class="glyphicon glyphicon-print"></span>Imprimir FE</a>
                                     {%else%}
+                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Comprobante Interno"><span class="glyphicon glyphicon-print"></span>Imprimir CI</a>
                                         <a href="{{ path('comprobanteventa_facturar', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-hdd"></span> Facturar</a>
                                     {%endif%}
                                 </div>
