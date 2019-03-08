@@ -47,7 +47,7 @@ Ordenes de Trabajo
                     <th>Taller</th>
                     <th>Fecha</th>
                     <th>Días Estimados</th>
-                    <th>Fecha Fin</th>
+                    <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
@@ -65,10 +65,10 @@ Ordenes de Trabajo
                         <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
                       {% endif %}
                       <td>{{ ordenTrabajo.diasEstimados }}</td>
-                      {% if ordenTrabajo.fechaFin is empty %}
+                      {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
                       {% endif %}
                       <td>{{ ordenTrabajo.estado }}</td>
                       <td>

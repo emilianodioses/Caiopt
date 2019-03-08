@@ -194,9 +194,9 @@ class OrdenTrabajo
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_fin", type="datetime", nullable=true)
+     * @ORM\Column(name="fecha_entrega", type="datetime", nullable=true)
      */
-    private $fechaFin;
+    private $fechaEntrega;
 
     /**
      * @var int
@@ -948,26 +948,26 @@ class OrdenTrabajo
     }
 
     /**
-     * Set fechaFin
+     * Set fechaEntrega
      *
-     * @param \DateTime $fechaFin
+     * @param \DateTime $fechaEntrega
      *
      * @return OrdenTrabajo
      */
-    public function setFechaFin($fechaFin)
+    public function setFechaEntrega($fechaEntrega)
     {
-        $this->fechaFin = $fechaFin;
+        $this->fechaEntrega = $fechaEntrega;
 
         return $this;
     }
 
     /**
-     * Get fechaFin
+     * Get fechaEntrega
      *
      * @return \DateTime
      */
-    public function getFechaFin()
+    public function getFechaEntrega()
     {
-        return $this->fechaFin;
+        return $this->fechaEntrega;
     }
 }

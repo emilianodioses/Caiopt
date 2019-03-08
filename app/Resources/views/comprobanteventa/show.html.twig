@@ -67,6 +67,14 @@
                                             <td>{{ comprobante.cliente }}</td>
                                         </tr>
                                         <tr>
+                                            <th>Obra Social</th>
+                                            <td>{{ comprobante.obraSocialPlan.obraSocial.nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Obra Social - Plan</th>
+                                            <td>{{ comprobante.obraSocialPlan }}</td>
+                                        </tr>
+                                        <tr>
                                             <th>Condicion de Venta</th>
                                             <td>{{ comprobante.condicionVenta }}</td>
                                         </tr>
@@ -78,16 +86,6 @@
                                             <th>Observaciones</th>
                                             <td>{{ comprobante.observaciones }}</td>
                                         </tr>
-                                        <!--
-                                        <tr>
-                                            <th>Obra Social ID</th>
-                                            <td>{{ comprobante.obraSocialId }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Obra Social Plan ID</th>
-                                            <td>{{ comprobante.obraSocialPlanId }}</td>
-                                        </tr>
-                                        -->
                                     </tbody>
                                 </table>
                             </div>

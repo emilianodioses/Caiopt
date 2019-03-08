@@ -103,8 +103,18 @@ class ComprobanteType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('obraSocialId',HiddenType::class,array('label'=>'Obra Social'))
-                ->add('obraSocialPlanId',HiddenType::class,array('label'=>'Plan Obra Social'))
+                ->add('obraSocialPlan', EntityType::class, array(
+                    'label' => 'Obra Social - Plan',
+                    'class' => 'AppBundle:ObraSocialPlan',
+                    'required' => true,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->orderBy('l.nombre', 'ASC')
+                                   ;
+                           }
+                ))
+                ->add('obraSocial',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('totalCosto',HiddenType::class,array('label'=>'Total Costo'))
                 ->add('totalGanancia',HiddenType::class,array('label'=>'Total Ganancia'))
                 ->add('proveedor', EntityType::class, array(
