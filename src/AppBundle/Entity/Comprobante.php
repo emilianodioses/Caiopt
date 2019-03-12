@@ -166,20 +166,6 @@ class Comprobante
      */
     private $observaciones = '';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="obra_social_id", type="integer", nullable=true)
-     */
-    private $obraSocialId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="obra_social_plan_id", type="integer", nullable=true)
-     */
-    private $obraSocialPlanId;
-
     //totalCosto = sumatoria de los articulos a precio costo (compra o venta)
     /**
      * @var string
@@ -209,6 +195,26 @@ class Comprobante
      * @ORM\Column(name="cae_numero", type="bigint", nullable=true)
      */
     private $caeNumero;
+
+    /**
+     * @var \ObraSocial
+     *
+     * @ORM\ManyToOne(targetEntity="ObraSocial")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="obra_social_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $obraSocial;
+
+    /**
+     * @var \ObraSocialPlan
+     *
+     * @ORM\ManyToOne(targetEntity="ObraSocialPlan")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="obra_social_plan_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $obraSocialPlan;
 
     /**
      * @var bool
@@ -289,6 +295,13 @@ class Comprobante
     {
         $this->comprobanteDetalles->remove($comprobanteDetalle);
     }
+
+    public function __toString()
+    {
+        return $this->puntoVenta.'-'.$this->numero;
+    }
+
+    
 
     /**
      * Get id
@@ -613,54 +626,6 @@ class Comprobante
     }
 
     /**
-     * Set obraSocialId
-     *
-     * @param integer $obraSocialId
-     *
-     * @return Comprobante
-     */
-    public function setObraSocialId($obraSocialId)
-    {
-        $this->obraSocialId = $obraSocialId;
-
-        return $this;
-    }
-
-    /**
-     * Get obraSocialId
-     *
-     * @return integer
-     */
-    public function getObraSocialId()
-    {
-        return $this->obraSocialId;
-    }
-
-    /**
-     * Set obraSocialPlanId
-     *
-     * @param integer $obraSocialPlanId
-     *
-     * @return Comprobante
-     */
-    public function setObraSocialPlanId($obraSocialPlanId)
-    {
-        $this->obraSocialPlanId = $obraSocialPlanId;
-
-        return $this;
-    }
-
-    /**
-     * Get obraSocialPlanId
-     *
-     * @return integer
-     */
-    public function getObraSocialPlanId()
-    {
-        return $this->obraSocialPlanId;
-    }
-
-    /**
      * Set totalCosto
      *
      * @param string $totalCosto
@@ -973,11 +938,59 @@ class Comprobante
     }
 
     /**
+     * Set obraSocial
+     *
+     * @param \AppBundle\Entity\ObraSocial $obraSocial
+     *
+     * @return Comprobante
+     */
+    public function setObraSocial(\AppBundle\Entity\ObraSocial $obraSocial = null)
+    {
+        $this->obraSocial = $obraSocial;
+
+        return $this;
+    }
+
+    /**
+     * Get obraSocial
+     *
+     * @return \AppBundle\Entity\ObraSocial
+     */
+    public function getObraSocial()
+    {
+        return $this->obraSocial;
+    }
+
+    /**
+     * Set obraSocialPlan
+     *
+     * @param \AppBundle\Entity\ObraSocialPlan $obraSocialPlan
+     *
+     * @return Comprobante
+     */
+    public function setObraSocialPlan(\AppBundle\Entity\ObraSocialPlan $obraSocialPlan = null)
+    {
+        $this->obraSocialPlan = $obraSocialPlan;
+
+        return $this;
+    }
+
+    /**
+     * Get obraSocialPlan
+     *
+     * @return \AppBundle\Entity\ObraSocialPlan
+     */
+    public function getObraSocialPlan()
+    {
+        return $this->obraSocialPlan;
+    }
+
+    /**
      * Set sucursal
      *
      * @param \AppBundle\Entity\Sucursal $sucursal
      *
-     * @return Usuario
+     * @return Comprobante
      */
     public function setSucursal(\AppBundle\Entity\Sucursal $sucursal = null)
     {
@@ -994,10 +1007,5 @@ class Comprobante
     public function getSucursal()
     {
         return $this->sucursal;
-    }
-
-    public function __toString()
-    {
-        return $this->puntoVenta.'-'.$this->numero;
     }
 }

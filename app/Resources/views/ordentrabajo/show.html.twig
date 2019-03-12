@@ -49,11 +49,11 @@ Orden de Trabajo
                                     <td>{{ ordenTrabajo.diasEstimados }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Fecha Fin</th>
-                                    {% if ordenTrabajo.fechaFin is empty %}
+                                    <th>Fecha Entrega</th>
+                                    {% if ordenTrabajo.fechaEntrega is empty %}
                                         <td></td>
                                     {% else %}
-                                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                                        <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
                                     {% endif %}
                                 </tr>
                                 <tr>

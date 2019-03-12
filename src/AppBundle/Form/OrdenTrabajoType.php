@@ -165,8 +165,8 @@ class OrdenTrabajoType extends AbstractType
                     'html5' => true,
                     'required' => true,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
-                ->add('fechaFin',DateType::class,array(
-                    'label'=>'Fecha Fin',
+                ->add('fechaEntrega',DateType::class,array(
+                    'label'=>'Fecha Entrega',
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,

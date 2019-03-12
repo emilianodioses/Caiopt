@@ -71,7 +71,7 @@ Panel Principal
   </div>
   <div class="row">
     <!-- Calendar -->
-    <div class="col-lg-6 col-xs-6">
+    <div class="col-lg-6 col-xs-12">
       <div class="box box-solid bg-green-gradient">
         <div class="box-header">
           <i class="fa fa-pie-chart"></i>
@@ -121,7 +121,7 @@ Panel Principal
         </div>
       </div>
     </div>
-    <div class="col-lg-6 col-xs-6">
+    <div class="col-lg-6 col-xs-12">
       <!-- Custom tabs (Charts with tabs)-->
       <div class="nav-tabs-custom">
         <!-- Tabs within a box -->
@@ -140,7 +140,7 @@ Panel Principal
                     <th>Cliente</th>
                     <th>Comprobante</th>
                     <th>Fecha</th>
-                    <th>Fecha Fin</th>
+                    <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
@@ -156,10 +156,10 @@ Panel Principal
                       {% else %}
                         <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
                       {% endif %}
-                      {% if ordenTrabajo.fechaFin is empty %}
+                      {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
                       {% endif %}
                       <td>{{ ordenTrabajo.estado }}</td>
                       <td>
@@ -188,7 +188,7 @@ Panel Principal
                     <th>Cliente</th>
                     <th>Comprobante</th>
                     <th>Fecha</th>
-                    <th>Fecha Fin</th>
+                    <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
@@ -204,10 +204,10 @@ Panel Principal
                       {% else %}
                         <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
                       {% endif %}
-                      {% if ordenTrabajo.fechaFin is empty %}
+                      {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
                       {% endif %}
                       <td>{{ ordenTrabajo.estado }}</td>
                       <td>
@@ -237,7 +237,7 @@ Panel Principal
                     <th>Cliente</th>
                     <th>Comprobante</th>
                     <th>Fecha</th>
-                    <th>Fecha Fin</th>
+                    <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
                 </tr>
@@ -253,10 +253,10 @@ Panel Principal
                       {% else %}
                         <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
                       {% endif %}
-                      {% if ordenTrabajo.fechaFin is empty %}
+                      {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fechaFin | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
                       {% endif %}
                       <td>{{ ordenTrabajo.estado }}</td>
                       <td>

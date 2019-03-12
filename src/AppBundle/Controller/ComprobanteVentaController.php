@@ -69,6 +69,7 @@ class ComprobanteVentaController extends Controller
             $comprobante->setSucursal($sucursal);
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
+            //$comprobante->setObraSocial($comprobante->getObraSocialPlan()->getObraSocial());
             $comprobante->setActivo(1);
             $comprobante->setCreatedBy($this->getUser()->getId());
             $comprobante->setCreatedAt(new \DateTime("now"));
@@ -247,7 +248,10 @@ class ComprobanteVentaController extends Controller
 
             $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
         
+            
+
             $comprobante->setSucursal($sucursal);
+            //$comprobante->setObraSocial($comprobante->getObraSocialPlan()->getObraSocial());
 
 
             //**********************************************************************
