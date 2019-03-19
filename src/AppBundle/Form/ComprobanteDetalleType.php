@@ -57,9 +57,8 @@ class ComprobanteDetalleType extends AbstractType
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
-                ));
-                
-        $builder->add('cantidad',IntegerType::class,array(
+                    )) 
+                ->add('cantidad',IntegerType::class,array(
                     'required' => true,
                     'label' => false,
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad', 'class' => 'cantidad')))
@@ -106,12 +105,7 @@ class ComprobanteDetalleType extends AbstractType
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Iva Exento'))
                 ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
-
-
-                
-                
-                
-                
+ 
                 
                 ;
     }/**

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * OrdenTrabajo
@@ -56,90 +57,6 @@ class OrdenTrabajo
     private $estado;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_eje", type="integer")
-     */
-    private $ojoDerechoEje;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_cilindro", type="integer")
-     */
-    private $ojoDerechoCilindro;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_esfera", type="integer")
-     */
-    private $ojoDerechoEsfera;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_adicc", type="integer")
-     */
-    private $ojoDerechoAdicc;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_dnp", type="integer")
-     */
-    private $ojoDerechoDnp;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_alt", type="integer")
-     */
-    private $ojoDerechoAlt;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_eje", type="integer")
-     */
-    private $ojoIzquierdoEje;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_cilindro", type="integer")
-     */
-    private $ojoIzquierdoCilindro;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_esfera", type="integer")
-     */
-    private $ojoIzquierdoEsfera;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_adicc", type="integer")
-     */
-    private $ojoIzquierdoAdicc;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_dnp", type="integer")
-     */
-    private $ojoIzquierdoDnp;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_alt", type="integer")
-     */
-    private $ojoIzquierdoAlt;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="cristales", type="string", length=255, nullable=true)
@@ -159,13 +76,6 @@ class OrdenTrabajo
      * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
      */
     private $observaciones;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="dip", type="integer")
-     */
-    private $dip;
 
     /**
      * @var string
@@ -234,12 +144,47 @@ class OrdenTrabajo
     private $updatedAt;
 
     /**
+     * @var ArrayCollection OrdenTrabajoDetalle
+     */
+    protected $ordenTrabajoDetalles;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
      */
     private $activo;
 
+
+    public function __construct()
+    {
+        $this->ordenTrabajoDetalles = new ArrayCollection();
+    }
+    
+    public function getOrdenTrabajoDetalles()
+    {
+        if (is_null($this->ordenTrabajoDetalles)) {
+            $this->ordenTrabajoDetalles = new ArrayCollection();
+        }
+        return $this->ordenTrabajoDetalles;
+    }
+
+    /*
+    public function setOrdenTrabajoDetalles(ArrayCollection $ordenTrabajoDetalles)
+    {
+        $this->ordenTrabajoDetalles = $ordenTrabajoDetalles;
+    }
+    */
+    
+    public function addOrdenTrabajoDetalle(OrdenTrabajoDetalle $ordenTrabajoDetalle)
+    {
+        $this->ordenTrabajoDetalles->add($ordenTrabajoDetalle);
+    }
+
+    public function removeOrdenTrabajoDetalle(OrdenTrabajoDetalle $ordenTrabajoDetalle)
+    {
+        $this->ordenTrabajoDetalles->remove($ordenTrabajoDetalle);
+    }
 
     /**
      * Get id
@@ -297,294 +242,6 @@ class OrdenTrabajo
     public function getEstado()
     {
         return $this->estado;
-    }
-
-    /**
-     * Set ojoDerechoEje
-     *
-     * @param integer $ojoDerechoEje
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoDerechoEje($ojoDerechoEje)
-    {
-        $this->ojoDerechoEje = $ojoDerechoEje;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoDerechoEje
-     *
-     * @return integer
-     */
-    public function getOjoDerechoEje()
-    {
-        return $this->ojoDerechoEje;
-    }
-
-    /**
-     * Set ojoDerechoCilindro
-     *
-     * @param integer $ojoDerechoCilindro
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoDerechoCilindro($ojoDerechoCilindro)
-    {
-        $this->ojoDerechoCilindro = $ojoDerechoCilindro;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoDerechoCilindro
-     *
-     * @return integer
-     */
-    public function getOjoDerechoCilindro()
-    {
-        return $this->ojoDerechoCilindro;
-    }
-
-    /**
-     * Set ojoDerechoEsfera
-     *
-     * @param integer $ojoDerechoEsfera
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoDerechoEsfera($ojoDerechoEsfera)
-    {
-        $this->ojoDerechoEsfera = $ojoDerechoEsfera;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoDerechoEsfera
-     *
-     * @return integer
-     */
-    public function getOjoDerechoEsfera()
-    {
-        return $this->ojoDerechoEsfera;
-    }
-
-    /**
-     * Set ojoDerechoAdicc
-     *
-     * @param integer $ojoDerechoAdicc
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoDerechoAdicc($ojoDerechoAdicc)
-    {
-        $this->ojoDerechoAdicc = $ojoDerechoAdicc;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoDerechoAdicc
-     *
-     * @return integer
-     */
-    public function getOjoDerechoAdicc()
-    {
-        return $this->ojoDerechoAdicc;
-    }
-
-    /**
-     * Set ojoDerechoDnp
-     *
-     * @param integer $ojoDerechoDnp
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoDerechoDnp($ojoDerechoDnp)
-    {
-        $this->ojoDerechoDnp = $ojoDerechoDnp;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoDerechoDnp
-     *
-     * @return integer
-     */
-    public function getOjoDerechoDnp()
-    {
-        return $this->ojoDerechoDnp;
-    }
-
-    /**
-     * Set ojoDerechoAlt
-     *
-     * @param integer $ojoDerechoAlt
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoDerechoAlt($ojoDerechoAlt)
-    {
-        $this->ojoDerechoAlt = $ojoDerechoAlt;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoDerechoAlt
-     *
-     * @return integer
-     */
-    public function getOjoDerechoAlt()
-    {
-        return $this->ojoDerechoAlt;
-    }
-
-    /**
-     * Set ojoIzquierdoEje
-     *
-     * @param integer $ojoIzquierdoEje
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoIzquierdoEje($ojoIzquierdoEje)
-    {
-        $this->ojoIzquierdoEje = $ojoIzquierdoEje;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoIzquierdoEje
-     *
-     * @return integer
-     */
-    public function getOjoIzquierdoEje()
-    {
-        return $this->ojoIzquierdoEje;
-    }
-
-    /**
-     * Set ojoIzquierdoCilindro
-     *
-     * @param integer $ojoIzquierdoCilindro
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoIzquierdoCilindro($ojoIzquierdoCilindro)
-    {
-        $this->ojoIzquierdoCilindro = $ojoIzquierdoCilindro;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoIzquierdoCilindro
-     *
-     * @return integer
-     */
-    public function getOjoIzquierdoCilindro()
-    {
-        return $this->ojoIzquierdoCilindro;
-    }
-
-    /**
-     * Set ojoIzquierdoEsfera
-     *
-     * @param integer $ojoIzquierdoEsfera
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoIzquierdoEsfera($ojoIzquierdoEsfera)
-    {
-        $this->ojoIzquierdoEsfera = $ojoIzquierdoEsfera;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoIzquierdoEsfera
-     *
-     * @return integer
-     */
-    public function getOjoIzquierdoEsfera()
-    {
-        return $this->ojoIzquierdoEsfera;
-    }
-
-    /**
-     * Set ojoIzquierdoAdicc
-     *
-     * @param integer $ojoIzquierdoAdicc
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoIzquierdoAdicc($ojoIzquierdoAdicc)
-    {
-        $this->ojoIzquierdoAdicc = $ojoIzquierdoAdicc;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoIzquierdoAdicc
-     *
-     * @return integer
-     */
-    public function getOjoIzquierdoAdicc()
-    {
-        return $this->ojoIzquierdoAdicc;
-    }
-
-    /**
-     * Set ojoIzquierdoDnp
-     *
-     * @param integer $ojoIzquierdoDnp
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoIzquierdoDnp($ojoIzquierdoDnp)
-    {
-        $this->ojoIzquierdoDnp = $ojoIzquierdoDnp;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoIzquierdoDnp
-     *
-     * @return integer
-     */
-    public function getOjoIzquierdoDnp()
-    {
-        return $this->ojoIzquierdoDnp;
-    }
-
-    /**
-     * Set ojoIzquierdoAlt
-     *
-     * @param integer $ojoIzquierdoAlt
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOjoIzquierdoAlt($ojoIzquierdoAlt)
-    {
-        $this->ojoIzquierdoAlt = $ojoIzquierdoAlt;
-
-        return $this;
-    }
-
-    /**
-     * Get ojoIzquierdoAlt
-     *
-     * @return integer
-     */
-    public function getOjoIzquierdoAlt()
-    {
-        return $this->ojoIzquierdoAlt;
     }
 
     /**
@@ -660,30 +317,6 @@ class OrdenTrabajo
     }
 
     /**
-     * Set dip
-     *
-     * @param integer $dip
-     *
-     * @return OrdenTrabajo
-     */
-    public function setDip($dip)
-    {
-        $this->dip = $dip;
-
-        return $this;
-    }
-
-    /**
-     * Get dip
-     *
-     * @return integer
-     */
-    public function getDip()
-    {
-        return $this->dip;
-    }
-
-    /**
      * Set otrosTrabajos
      *
      * @param string $otrosTrabajos
@@ -705,6 +338,54 @@ class OrdenTrabajo
     public function getOtrosTrabajos()
     {
         return $this->otrosTrabajos;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return OrdenTrabajo
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set fechaEntrega
+     *
+     * @param \DateTime $fechaEntrega
+     *
+     * @return OrdenTrabajo
+     */
+    public function setFechaEntrega($fechaEntrega)
+    {
+        $this->fechaEntrega = $fechaEntrega;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaEntrega
+     *
+     * @return \DateTime
+     */
+    public function getFechaEntrega()
+    {
+        return $this->fechaEntrega;
     }
 
     /**
@@ -921,53 +602,5 @@ class OrdenTrabajo
     public function getTaller()
     {
         return $this->taller;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return OrdenTrabajo
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * Set fechaEntrega
-     *
-     * @param \DateTime $fechaEntrega
-     *
-     * @return OrdenTrabajo
-     */
-    public function setFechaEntrega($fechaEntrega)
-    {
-        $this->fechaEntrega = $fechaEntrega;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaEntrega
-     *
-     * @return \DateTime
-     */
-    public function getFechaEntrega()
-    {
-        return $this->fechaEntrega;
     }
 }

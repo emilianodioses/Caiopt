@@ -1,0 +1,187 @@
+{% block OrdenTrabajoType_widget %}
+
+<div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        {{ form_start(form) }}
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> General </h3>
+            </div>
+            <div class="box-body">
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.cliente) }}                            
+                    </div>  
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.comprobante) }}                            
+                    </div>  
+                </div>   
+                <div class="row">    
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.taller) }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.fecha) }}
+                    </div>
+                </div>
+                <div class="row">    
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.diasEstimados) }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.fechaEntrega) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(form.otrosTrabajos) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.cristales) }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.montura) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        {{ form_row(form.estado) }}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(form.observaciones) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        {{ form_widget(form.ordenTrabajoDetalles) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('ordentrabajo_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+{% endblock %}
+
+
+{# By default, collection uses the form_widget block to create its markup, but we want a table #}
+{% block collection_widget %}
+
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': form_widget(prototype)}) %}
+        {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+    {% endif %}
+    {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+    {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+    {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+        
+    {{ form_errors(form) }}
+
+    {# Don't forget to add the collection attributes in your markup #}
+    <div class="row">    
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Detalles</h3>
+                </div>
+                
+                <div class="form-group form-group-sm">
+                    <table {{ block('widget_attributes') }}>
+                        <thead>
+                            <th colspan="2" style="text-align: center">VISION</th>
+                            <th style="text-align: center">ESF</th>
+                            <th style="text-align: center">CIL</th>
+                            <th style="text-align: center">EJE</th>
+                            <th style="text-align: center">DNP</th>
+                        </thead>
+                        <tbody>
+                            {% for item in form %}
+                                {{ form_widget(item) }}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block OrdenTrabajoDetalleType_widget %}
+
+    {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
+    <tr {{ block('widget_attributes') }}>
+        <td rowspan="2" style="text-align: center; vertical-align : middle" >LEJOS</td>
+        <td style="text-align: center">OD</td>
+        <td>{{ form_widget(form.lejosOjoDerechoEsfera) }}</td>
+        <td>{{ form_widget(form.lejosOjoDerechoCilindro) }}</td>
+        <td>{{ form_widget(form.lejosOjoDerechoEje) }}</td>
+        <td>{{ form_widget(form.ojoDerechoDnp) }}</td>
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    <tr {{ block('widget_attributes') }}>
+        <td style="text-align: center">OI</td> 
+        <td>{{ form_widget(form.lejosOjoIzquierdoEsfera) }}</td>
+        <td>{{ form_widget(form.lejosOjoIzquierdoCilindro) }}</td>
+        <td>{{ form_widget(form.lejosOjoIzquierdoEje) }}</td>
+        <td>{{ form_widget(form.ojoIzquierdoDnp) }}</td>
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    <tr {{ block('widget_attributes') }}>
+        <td rowspan="2" style="text-align: center; vertical-align : middle">CERCA</td>
+        <td style="text-align: center">OD</td> 
+        <td>{{ form_widget(form.cercaOjoDerechoEsfera) }}</td>
+        <td>{{ form_widget(form.cercaOjoDerechoCilindro) }}</td>
+        <td>{{ form_widget(form.cercaOjoDerechoEje) }}</td>
+        <td></td>
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    <tr {{ block('widget_attributes') }}>
+        <td style="text-align: center">OI</td> 
+        <td>{{ form_widget(form.cercaOjoIzquierdoEsfera) }}</td>
+        <td>{{ form_widget(form.cercaOjoIzquierdoCilindro) }}</td>
+        <td>{{ form_widget(form.cercaOjoIzquierdoEje) }}</td>
+        <td></td>
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    <tr {{ block('widget_attributes') }}>
+        <td></td>
+        <td></td>
+        <td>{{ form_row(form.fechaEntrega) }}</td>
+        <td>{{ form_row(form.estado) }}</td>
+        <td></td>
+        <td></td>
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+
+{% endblock %}
+
+{% block OrdenTrabajoDetalleType_label %}{% endblock %}

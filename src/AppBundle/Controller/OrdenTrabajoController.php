@@ -3,8 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\OrdenTrabajo;
+use AppBundle\Entity\OrdenTrabajoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\OrdenTrabajoType;
 
 /**
  * Ordentrabajo controller.
@@ -19,7 +21,7 @@ class OrdenTrabajoController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
+        
         $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1));
 
         return $this->render('ordentrabajo/index.html.twig', array(
@@ -34,7 +36,7 @@ class OrdenTrabajoController extends Controller
     public function newAction(Request $request)
     {
         $ordenTrabajo = new Ordentrabajo();
-        $form = $this->createForm('AppBundle\Form\OrdenTrabajoType', $ordenTrabajo);
+        $form = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,6 +49,21 @@ class OrdenTrabajoController extends Controller
             $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($ordenTrabajo);
+
+            $ordentrabajodetalle = new OrdenTrabajoDetalle();
+            $ordentrabajodetalles  = $ordenTrabajo->getOrdenTrabajoDetalles()->toArray();
+
+            foreach($ordentrabajodetalles as $ordentrabajodetalle) {
+                $ordentrabajodetalle->setOrdenTrabajo($ordenTrabajo);
+                $ordentrabajodetalle->setActivo(1);
+                $ordentrabajodetalle->setCreatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setCreatedAt(new \DateTime("now"));
+                $ordentrabajodetalle->setUpdatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($ordentrabajodetalle);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('ordentrabajo_show', array('id' => $ordenTrabajo->getId()));
@@ -64,10 +81,14 @@ class OrdenTrabajoController extends Controller
      */
     public function showAction(OrdenTrabajo $ordenTrabajo)
     {
+        $em = $this->getDoctrine()->getManager();
+        $ordentrabajodetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));
+
         $deleteForm = $this->createDeleteForm($ordenTrabajo);
 
         return $this->render('ordentrabajo/show.html.twig', array(
             'ordenTrabajo' => $ordenTrabajo,
+            'ordentrabajodetalles' => $ordentrabajodetalles,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -79,7 +100,7 @@ class OrdenTrabajoController extends Controller
     public function editAction(Request $request, OrdenTrabajo $ordenTrabajo)
     {
         $deleteForm = $this->createDeleteForm($ordenTrabajo);
-        $editForm = $this->createForm('AppBundle\Form\OrdenTrabajoType', $ordenTrabajo);
+        $editForm = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

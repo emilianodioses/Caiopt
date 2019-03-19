@@ -61,10 +61,6 @@ Orden de Trabajo
                                     <td>{{ ordenTrabajo.observaciones }}</td>
                                 </tr>
                                 <tr>
-                                    <th>DIP</th>
-                                    <td>{{ ordenTrabajo.dip }}</td>
-                                </tr>
-                                <tr>
                                     <th>Cristales</th>
                                     <td>{{ ordenTrabajo.cristales }}</td>
                                 </tr>
@@ -80,35 +76,33 @@ Orden de Trabajo
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i> OJO IZQUIERDO</h3>
+                        <h3 class="box-title"><i class="fa fa-user"></i> LEJOS</h3>
                     </div>
                     <div class="box-body">
                         <table class="table table-hover">
+                            <thead>
+                                <th>&nbsp;</th>
+                                <th>OI</th>
+                                <th>OD</th>
+                            </thead>
                             <tbody>
+                                {% for ordentrabajodetalle in ordentrabajodetalles %}
                                 <tr>
-                                    <th>Eje</th>
-                                    <td>{{ ordenTrabajo.ojoIzquierdoEje }}</td>
+                                    <th>EJE</th>
+                                    <td>{{ ordentrabajodetalle.lejosOjoIzquierdoEje }}</td>
+                                    <td>{{ ordentrabajodetalle.lejosOjoDerechoEje }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Cilindo</th>
-                                    <td>{{ ordenTrabajo.ojoIzquierdoCilindro }}</td>
+                                    <th>ESFERA</th>
+                                    <td>{{ ordentrabajodetalle.lejosOjoIzquierdoEsfera }}</td>
+                                    <td>{{ ordentrabajodetalle.lejosOjoDerechoEsfera }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Esfera</th>
-                                    <td>{{ ordenTrabajo.ojoIzquierdoEsfera }}</td>
+                                    <th>CILINDRO</th>
+                                    <td>{{ ordentrabajodetalle.lejosOjoIzquierdoCilindro }}</td>
+                                    <td>{{ ordentrabajodetalle.lejosOjoDerechoCilindro }}</td>
                                 </tr>
-                                <tr>
-                                    <th>Adicc</th>
-                                    <td>{{ ordenTrabajo.ojoIzquierdoAdicc }}</td>
-                                </tr>
-                                <tr>
-                                    <th>DNP</th>
-                                    <td>{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
-                                </tr>
-                                <tr>
-                                    <th>ALT</th>
-                                    <td>{{ ordenTrabajo.ojoIzquierdoAlt }}</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -117,35 +111,66 @@ Orden de Trabajo
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i> OJO DERECHO</h3>
+                        <h3 class="box-title"><i class="fa fa-user"></i> OTROS</h3>
                     </div>
                     <div class="box-body">
                         <table class="table table-hover">
+                            <thead>
+                                <th>&nbsp;</th>
+                                <th>OI</th>
+                                <th>OD</th>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <th>Eje</th>
-                                    <td>{{ ordenTrabajo.ojoDerechoEje }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Cilindro</th>
-                                    <td>{{ ordenTrabajo.ojoDerechoCilindro }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Esfera</th>
-                                    <td>{{ ordenTrabajo.ojoDerechoEsfera }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Adicc</th>
-                                    <td>{{ ordenTrabajo.ojoDerechoAdicc }}</td>
-                                </tr>
+                                {% for ordentrabajodetalle in ordentrabajodetalles %}
                                 <tr>
                                     <th>DNP</th>
-                                    <td>{{ ordenTrabajo.ojoDerechoDnp }}</td>
+                                    <td>{{ ordentrabajodetalle.ojoIzquierdoDnp }}</td>
+                                    <td>{{ ordentrabajodetalle.ojoDerechoDnp }}</td>
                                 </tr>
                                 <tr>
-                                    <th>ALT</th>
-                                    <td>{{ ordenTrabajo.ojoDerechoAlt }}</td>
+                                    <th>ESTADO</th>
+                                    <td>{{ ordentrabajodetalle.estado }}</td>
                                 </tr>
+                                <tr>
+                                    <th>FECHA ENTREGA</th>
+                                    <td>{{ ordentrabajodetalle.fechaEntrega|date('d-m-Y') }}</td>
+                                </tr>
+                                {% endfor %}     
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> CERCA</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>&nbsp;</th>
+                                <th>OI</th>
+                                <th>OD</th>
+                            </thead>
+                            <tbody>
+                                {% for ordentrabajodetalle in ordentrabajodetalles %}
+                                <tr>
+                                    <th>EJE</th>
+                                    <td>{{ ordentrabajodetalle.cercaOjoIzquierdoEje }}</td>
+                                    <td>{{ ordentrabajodetalle.cercaOjoDerechoEje }}</td>
+                                </tr>
+                                <tr>
+                                    <th>ESFERA</th>
+                                    <td>{{ ordentrabajodetalle.cercaOjoIzquierdoEsfera }}</td>
+                                    <td>{{ ordentrabajodetalle.lejosOjoDerechoEsfera }}</td>
+                                </tr>
+                                <tr>
+                                    <th>CILINDRO</th>
+                                    <td>{{ ordentrabajodetalle.lejosOjoIzquierdoCilindro }}</td>
+                                    <td>{{ ordentrabajodetalle.lejosOjoDerechoCilindro }}</td>
+                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

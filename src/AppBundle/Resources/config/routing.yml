@@ -42,6 +42,10 @@ app_orden_trabajo:
     resource: "@AppBundle/Resources/config/routing/ordentrabajo.yml"
     prefix:   /ordentrabajo
 
+app_ordentrabajodetalle:
+        resource: "@AppBundle/Resources/config/routing/ordentrabajodetalle.yml"
+        prefix:   /ordentrabajodetalle    
+
 app_sucursal:
     resource: "@AppBundle/Resources/config/routing/sucursal.yml"
     prefix:   /sucursal
