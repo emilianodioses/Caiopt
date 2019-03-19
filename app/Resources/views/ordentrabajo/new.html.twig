@@ -25,6 +25,8 @@ Orden de trabajo
         init_with_n_elements: 1,
         add_at_the_end: true,
         add: '<a href="#" class="btn btn-default" title="Agregar Orden"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        //Ver por que no funciona el delete asi borro todas las lineas de la orden en vez de cada tr por si misma
+        //remove: '<a href="#" class="collection-remove btn btn-default" title="Borrar Orden"><span class="glyphicon glyphicon-trash"></span></a>',
         elements_selector: 'tr.item',
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {

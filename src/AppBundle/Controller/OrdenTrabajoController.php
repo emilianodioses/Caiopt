@@ -99,6 +99,15 @@ class OrdenTrabajoController extends Controller
      */
     public function editAction(Request $request, OrdenTrabajo $ordenTrabajo)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ordentrabajodetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));
+
+        foreach($ordentrabajodetalles as $ordentrabajodetalle) {
+            $ordenTrabajo->getOrdenTrabajoDetalles()->add($ordentrabajodetalle);
+        }
+
         $deleteForm = $this->createDeleteForm($ordenTrabajo);
         $editForm = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
         $editForm->handleRequest($request);
