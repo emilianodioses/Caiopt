@@ -37,7 +37,7 @@ class OrdenTrabajo
      *
      * @ORM\ManyToOne(targetEntity="Comprobante")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="comprobante_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="comprobante_id", referencedColumnName="id", nullable=true)
      * })
      */
     private $comprobante;

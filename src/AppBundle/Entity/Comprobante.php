@@ -53,6 +53,16 @@ class Comprobante
      */
     private $tipo;
 
+    /**
+     * @var \OrdenTrabajo
+     *
+     * @ORM\ManyToOne(targetEntity="OrdenTrabajo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ordentrabajo_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $ordenTrabajo;
+
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
     /**
@@ -1007,5 +1017,29 @@ class Comprobante
     public function getSucursal()
     {
         return $this->sucursal;
+    }
+
+    /**
+     * Set ordenTrabajo
+     *
+     * @param \AppBundle\Entity\OrdenTrabajo $ordenTrabajo
+     *
+     * @return Comprobante
+     */
+    public function setOrdenTrabajo(\AppBundle\Entity\OrdenTrabajo $ordenTrabajo = null)
+    {
+        $this->ordenTrabajo = $ordenTrabajo;
+
+        return $this;
+    }
+
+    /**
+     * Get ordenTrabajo
+     *
+     * @return \AppBundle\Entity\OrdenTrabajo
+     */
+    public function getOrdenTrabajo()
+    {
+        return $this->ordenTrabajo;
     }
 }

@@ -90,6 +90,20 @@ class ComprobanteType extends AbstractType
                     'required' => false,
                     'attr' => array('rows' => '20')
                 ))
+                ->add('ordenTrabajo', EntityType::class, array(
+                    'label' => 'OrdenTrabajo',
+                    'class' => 'AppBundle:OrdenTrabajo',
+                    'required' => false,
+                    'choice_label' => 'id',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->andWhere('l.estado != ?1')
+                                   ->setParameter(1, 'Finalizado')
+                                   ->orderBy('l.id', 'ASC')
+                                   ;
+                           }
+                ))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))
                 ->add('condicionVenta', EntityType::class, array(
                     'label' => 'Condición de Venta',

@@ -41,7 +41,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('comprobante', EntityType::class, array(
                     'label' => 'Comprobante',
                     'class' => 'AppBundle:Comprobante',
-                    'required' => true,
+                    'required' => false,
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
@@ -93,7 +93,7 @@ class OrdenTrabajoType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('ordenTrabajoDetalles', CollectionType::class, array(
                         'entry_type'   => OrdenTrabajoDetalleType::class,

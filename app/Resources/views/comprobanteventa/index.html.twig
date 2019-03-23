@@ -34,6 +34,7 @@ Comprobantes de Ventas
                     <th style="width: 7%">Pto. Venta</th>
                     <th style="width: 7%">Nº Int.</th>
                     <th style="width: 7%">Nº Fac.</th>
+                    <th style="width: 7%">Nº OT.</th>
                     <th>Tipo</th>
                     <th>Cliente</th>
                     <th>Fecha</th>
@@ -51,6 +52,7 @@ Comprobantes de Ventas
                     {% else %}
                       <td>{{ comprobante.afipNumero }}</td>
                     {% endif %}
+                    <td>{{ comprobante.ordenTrabajo.id }}</td>
                     <td>{{ comprobante.tipo }}</td>
                     <td>{{ comprobante.cliente }}</td>
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>

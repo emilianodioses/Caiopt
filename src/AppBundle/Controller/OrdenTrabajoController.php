@@ -117,7 +117,23 @@ class OrdenTrabajoController extends Controller
 
             $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
             $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
+
             $em->persist($ordenTrabajo);
+
+            $ordentrabajodetalle = new OrdenTrabajoDetalle();
+            $ordentrabajodetalles  = $ordenTrabajo->getOrdenTrabajoDetalles()->toArray();
+
+            foreach($ordentrabajodetalles as $ordentrabajodetalle) {
+                $ordentrabajodetalle->setOrdenTrabajo($ordenTrabajo);
+                $ordentrabajodetalle->setActivo(1);
+                $ordentrabajodetalle->setCreatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setCreatedAt(new \DateTime("now"));
+                $ordentrabajodetalle->setUpdatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($ordentrabajodetalle);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('ordentrabajo_show', array('id' => $ordenTrabajo->getId()));

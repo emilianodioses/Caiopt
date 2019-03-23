@@ -43,20 +43,24 @@
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
-                                            <th>Punto Venta</th>
+                                            <th>Pto. Venta</th>
                                             <td>{{ comprobante.puntoVenta }}</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:30%">Nro. Interno</th>
+                                            <th style="width:30%">Nº Int.</th>
                                             <td>{{ comprobante.numero }}</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:30%">Nro. Factura</th>
+                                            <th style="width:30%">Nº Fac.</th>
                                             {% if comprobante.afipNumero is empty %}
                                               <td></td>
                                             {% else %}
                                               <td>{{ comprobante.afipNumero }}</td>
                                             {% endif %}
+                                        </tr>
+                                        <tr>
+                                            <th>Nº OT.</th>
+                                            <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">{{comprobante.ordenTrabajo.Id}}</a></td>
                                         </tr>
                                         <tr>
                                             <th>Tipo</th>
