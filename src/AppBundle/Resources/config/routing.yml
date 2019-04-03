@@ -52,4 +52,16 @@ app_sucursal:
 
 afip_test:
     path:     /afipTest
-    defaults: { _controller: "AppBundle:AfipTest:index" }  
+    defaults: { _controller: "AppBundle:AfipTest:index" }
+
+app_pagotipo:
+    resource: "@AppBundle/Resources/config/routing/pagotipo.yml"
+    prefix:   /pagotipo
+
+app_recibo:
+    resource: "@AppBundle/Resources/config/routing/recibo.yml"
+    prefix:   /recibo
+
+app_clientepago:
+    resource: "@AppBundle/Resources/config/routing/clientepago.yml"
+    prefix:   /clientepago

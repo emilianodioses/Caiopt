@@ -1,0 +1,24 @@
+recibo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Recibo:index" }
+    methods:  GET
+
+recibo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Recibo:show" }
+    methods:  GET
+
+recibo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Recibo:new" }
+    methods:  [GET, POST]
+
+recibo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Recibo:edit" }
+    methods:  [GET, POST]
+
+recibo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Recibo:delete" }
+    methods:  DELETE

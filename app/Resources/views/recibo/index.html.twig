@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Recibos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Numero</th>
+                <th>Total</th>
+                <th>Pendiente</th>
+                <th>Saldo</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recibo in recibos %}
+            <tr>
+                <td><a href="{{ path('recibo_show', { 'id': recibo.id }) }}">{{ recibo.id }}</a></td>
+                <td>{% if recibo.fecha %}{{ recibo.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ recibo.numero }}</td>
+                <td>{{ recibo.total }}</td>
+                <td>{{ recibo.pendiente }}</td>
+                <td>{{ recibo.saldo }}</td>
+                <td>{% if recibo.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ recibo.createdBy }}</td>
+                <td>{% if recibo.createdAt %}{{ recibo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ recibo.updatedBy }}</td>
+                <td>{% if recibo.updatedAt %}{{ recibo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('recibo_show', { 'id': recibo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('recibo_edit', { 'id': recibo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('recibo_new') }}">Create a new recibo</a>
+        </li>
+    </ul>
+{% endblock %}

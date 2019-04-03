@@ -226,6 +226,22 @@ class Comprobante
      */
     private $obraSocialPlan;
 
+    //pendiente = importe que queda por pagar/cobrar del comprobante
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pendiente", type="decimal", precision=16, scale=2)
+     */
+    private $pendiente;
+
+    //saldo = importe de la cuenta del cliente/proveedor luego del movimiento asentado en este comprobante
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="saldo", type="decimal", precision=16, scale=2)
+     */
+    private $saldo;
+
     /**
      * @var bool
      *
@@ -1041,5 +1057,53 @@ class Comprobante
     public function getOrdenTrabajo()
     {
         return $this->ordenTrabajo;
+    }
+
+    /**
+     * Set saldo
+     *
+     * @param string $saldo
+     *
+     * @return Comprobante
+     */
+    public function setSaldo($saldo)
+    {
+        $this->saldo = $saldo;
+
+        return $this;
+    }
+
+    /**
+     * Get saldo
+     *
+     * @return string
+     */
+    public function getSaldo()
+    {
+        return $this->saldo;
+    }
+
+    /**
+     * Set pendiente
+     *
+     * @param string $pendiente
+     *
+     * @return Comprobante
+     */
+    public function setPendiente($pendiente)
+    {
+        $this->pendiente = $pendiente;
+
+        return $this;
+    }
+
+    /**
+     * Get pendiente
+     *
+     * @return string
+     */
+    public function getPendiente()
+    {
+        return $this->pendiente;
     }
 }

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pagotipos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pagoTipo in pagoTipos %}
+            <tr>
+                <td><a href="{{ path('pagotipo_show', { 'id': pagoTipo.id }) }}">{{ pagoTipo.id }}</a></td>
+                <td>{{ pagoTipo.nombre }}</td>
+                <td>{% if pagoTipo.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ pagoTipo.createdBy }}</td>
+                <td>{% if pagoTipo.createdAt %}{{ pagoTipo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ pagoTipo.updatedBy }}</td>
+                <td>{% if pagoTipo.updatedAt %}{{ pagoTipo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pagotipo_show', { 'id': pagoTipo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pagotipo_edit', { 'id': pagoTipo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pagotipo_new') }}">Create a new pagoTipo</a>
+        </li>
+    </ul>
+{% endblock %}
