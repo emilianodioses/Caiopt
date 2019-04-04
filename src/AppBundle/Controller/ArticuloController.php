@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Articulo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -156,12 +157,20 @@ class ArticuloController extends Controller
     }
 
     public function findAction(Request $req) {
-        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(2);
+        // Add Circular reference handler
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
+        
         $articulo = $this->getDoctrine()->getManager('default')->getRepository('AppBundle:Articulo')
                 ->find($req->get('articuloId'));
         
         $j_articulo = $serializer->serialize($articulo, 'json');
-        
+
         return JsonResponse::create(array('articulo' => $j_articulo));
     }
 

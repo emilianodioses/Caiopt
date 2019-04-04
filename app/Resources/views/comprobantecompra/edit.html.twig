@@ -87,7 +87,7 @@ Nuevo Comprobante de Compra
         var precioUnitario = renglon.find("input.precioUnitario");
         var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");       
         var precioCosto = renglon.find("input.precioCosto");
-        var porcentajeIva = renglon.find("input.porcentajeIva");
+        var porcentajeIva = renglon.find("select.porcentajeIva");
         var porcentajeGanancia = renglon.find("input.porcentajeGanancia");
         
         $.ajax({
@@ -117,7 +117,7 @@ Nuevo Comprobante de Compra
         var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
         var r_precioCosto = renglon.find("input.precioCosto");
-        var r_porcentajeIva = renglon.find("input.porcentajeIva");
+        var r_porcentajeIva = renglon.find("select.porcentajeIva");
         var r_importeIva = renglon.find("input.importeIva");
         var r_total = renglon.find("input.total");
         var r_porcentajeGanancia = renglon.find("input.porcentajeGanancia");
@@ -131,7 +131,8 @@ Nuevo Comprobante de Compra
 
         var total = parseFloat(r_cantidad.val() * (parseFloat(precio_costo) + parseFloat(importe_iva))).toFixed(2);
 
-        var precio_venta = parseFloat(precio_costo * (1 + r_porcentajeGanancia.val() / 100)).toFixed(2);
+        var precio_costo_iva = parseFloat(precio_costo) + parseFloat(importe_iva);
+        var precio_venta = parseFloat(precio_costo_iva * (1 + r_porcentajeGanancia.val() / 100)).toFixed(2);
         
         r_importeBonificacion.val(importe_bonificacion);
         r_precioCosto.val(precio_costo);

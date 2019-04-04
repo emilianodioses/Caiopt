@@ -67,6 +67,13 @@ class Articulo
     private $precioVenta;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="precio_venta_iva", type="decimal", precision=16, scale=3)
+     */
+    private $precioVentaIva;
+
+    /**
      * @var \ArticuloMarca
      *
      * @ORM\ManyToOne(targetEntity="ArticuloMarca")
@@ -354,6 +361,30 @@ class Articulo
     public function getPrecioVenta()
     {
         return $this->precioVenta;
+    }
+
+    /**
+     * Set precioVentaIva
+     *
+     * @param string $precioVentaIva
+     *
+     * @return Articulo
+     */
+    public function setPrecioVentaIva($precioVentaIva)
+    {
+        $this->precioVentaIva = $precioVentaIva;
+
+        return $this;
+    }
+
+    /**
+     * Get precioVentaIva
+     *
+     * @return string
+     */
+    public function getPrecioVentaIva()
+    {
+        return $this->precioVentaIva;
     }
 
     /**

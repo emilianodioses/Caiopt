@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ComprobanteDetalleType extends AbstractType
 {
@@ -37,7 +38,18 @@ class ComprobanteDetalleType extends AbstractType
                                    ;
                            }
                 ));
-                /**/
+                /*
+                ->add('porcentajeIva',FloatType::class, array(
+                    'label' => false,
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Porcentaje Iva', 'class' => 'porcentajeIva', 'step' => 0.01),
+                    ))
+                */
+
+        $porcentajeIva = array(
+            '10.5' => '10.5',
+            '21' => '21'
+        );
+
         $builder->add('comprobante',HiddenType::class,array('label'=>'Comprobante'))
                 ->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
@@ -73,10 +85,11 @@ class ComprobanteDetalleType extends AbstractType
                 ->add('importeBonificacion',HiddenType::class,array(
                     'label'=>'Importe Bonificación',
                     'attr' => array('class' => 'importeBonificacion')))
-                ->add('porcentajeIva',FloatType::class, array(
-                    'label' => false,
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Porcentaje Iva', 'class' => 'porcentajeIva', 'step' => 0.01),
-                    ))
+                ->add('porcentajeIva',ChoiceType::class,array(
+                        'label'=> false,
+                        'choices' => $porcentajeIva,
+                        'choices_as_values' => true,
+                        'attr' => array('class' => 'porcentajeIva',),))
                 ->add('importeIva',HiddenType::class,array(
                     'label'=>'Importe Iva',
                     'attr' => array('class' => 'importeIva')))

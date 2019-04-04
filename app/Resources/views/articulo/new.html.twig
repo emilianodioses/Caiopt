@@ -28,21 +28,24 @@ Articulo
                                 {{ form_row(form.descripcion) }}
                             </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                {{ form_row(form.precioCosto) }}
+                                {{ form_row(form.iva) }}
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.precioCosto) }}
+                            </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(form.gananciaPorcentaje) }}
                             </div> 
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
                                 {{ form_row(form.precioVenta) }}
                             </div>
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                {{ form_row(form.iva) }}
-                            </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
+                                {{ form_row(form.precioVentaIva) }}
+                            </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(form.cantidad) }}
                             </div>
@@ -142,8 +145,11 @@ $(document).ready( function() {
         fnCalcularPorcentajeGanancia();
     });
 
+    $('#appbundle_articulo_iva').change(function() {
+        fnCalcularPrecioVenta();
+    });
+
     function fnCalcularPorcentajeGanancia() {
-        
         var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
         var r_precio_venta = $('#appbundle_articulo_precioVenta').val();
 
@@ -159,11 +165,12 @@ $(document).ready( function() {
     }
 
     function fnCalcularPrecioVenta() {
-        
+        var r_iva = $('#appbundle_articulo_iva :selected').text();
         var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
         var r_porcentaje_ganancia = $('#appbundle_articulo_gananciaPorcentaje').val();
 
         var precio_venta = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
+        var precio_venta_iva = parseFloat(precio_venta) * parseFloat(1+(r_iva/100));
 
         if (r_porcentaje_ganancia === '') {
             //var precio_venta = 0;
@@ -176,6 +183,7 @@ $(document).ready( function() {
         }
 
         $('#appbundle_articulo_precioVenta').val(precio_venta.toFixed(3));
+        $('#appbundle_articulo_precioVentaIva').val(precio_venta_iva.toFixed(3));
 
         return true;
     }

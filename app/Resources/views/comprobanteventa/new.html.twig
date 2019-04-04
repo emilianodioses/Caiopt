@@ -87,7 +87,7 @@ $(function(){
         var renglon = articulo.closest("tr");
         var cantidad = renglon.find("input.cantidad");
         var precioUnitario = renglon.find("input.precioUnitario");
-        var porcentajeIva = renglon.find("input.porcentajeIva");
+        var porcentajeIva = renglon.find("select.porcentajeIva");
         var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
 
         $.ajax({
@@ -114,7 +114,7 @@ $(function(){
         var r_precioUnitario = renglon.find("input.precioUnitario");
         var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
-        var r_porcentajeIva = renglon.find("input.porcentajeIva");
+        var r_porcentajeIva = renglon.find("select.porcentajeIva");
         var r_importeIva = renglon.find("input.importeIva");
         var r_precioVenta = renglon.find("input.precioVenta");
         var r_total = renglon.find("input.total");
@@ -151,7 +151,7 @@ $(function(){
             var r_precioUnitario = $(this).find("input.precioUnitario");
             var r_porcentajeBonificacion = $(this).find("input.porcentajeBonificacion");
             var r_importeBonificacion = $(this).find("input.importeBonificacion");
-            var r_porcentajeIva = $(this).find("input.porcentajeIva");
+            var r_porcentajeIva = $(this).find("select.porcentajeIva");
             var r_importeIva = $(this).find("input.importeIva");
             var r_precioVenta = $(this).find("input.precioVenta");
             var r_total = $(this).find("input.total");
