@@ -107,12 +107,12 @@ class ComprobanteCompraController extends controller
                 $articulo = $comprobantedetalle->getArticulo();
 
                 $iva = $articulo->getIva()->getDescripcion();
-                $articulo_precio_venta = 100 * $comprobantedetalle->getPrecioVenta() / (100+$iva);
+                $articulo_precio_venta_sin_iva = 100 * $comprobantedetalle->getPrecioVenta() / (100+$iva);
 
                 $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
                 $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
-                $articulo->setPrecioVenta($articulo_precio_venta);
-                $articulo->setPrecioVentaIva($comprobantedetalle->getPrecioVenta());
+                $articulo->setPrecioVentaSinIva($articulo_precio_venta_sin_iva);
+                $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
                 $articulo->setUltimoComprobante($comprobante);
             }
 
@@ -229,14 +229,14 @@ class ComprobanteCompraController extends controller
                 $articulo = $comprobantedetalle->getArticulo();
 
                 $iva = $articulo->getAfipAlicuota()->getDescripcion();
-                $articulo_precio_venta = 100 * $comprobantedetalle->getPrecioVenta() / (100+$iva);
+                $articulo_precio_venta_sin_iva = 100 * $comprobantedetalle->getPrecioVenta() / (100+$iva);
 
                 if (!is_null($articulo->getUltimoComprobante())) {
                     if ($articulo->getUltimoComprobante()->getId() == $comprobante->getId()) {
                         $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
                         $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
-                        $articulo->setPrecioVenta($articulo_precio_venta);
-                        $articulo->setPrecioVentaIva($comprobantedetalle->getPrecioVenta());
+                        $articulo->setPrecioVentaSinIva($articulo_precio_venta_sin_iva);
+                        $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
                     }
                 }
             }

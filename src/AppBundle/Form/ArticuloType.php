@@ -41,7 +41,7 @@ class ArticuloType extends AbstractType
                 ->add('precioCosto', null, array('label' => 'Precio Costo',))
                 ->add('gananciaPorcentaje', null, array('label' => 'Ganancia %',))
                 ->add('precioVenta', null, array('label' => 'Precio de Venta',))
-                ->add('precioVentaIva', null, array('label' => 'Precio de Venta + IVA','attr' => array('readonly' => true )))
+                ->add('precioVentaSinIva', null, array('label' => 'Precio Venta sin IVA','attr' => array('readonly' => true )))
                 ->add('cantidad', null, array('label' => 'Cantidad',))
                 ->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
                 ->add('precioModifica', null, array('label' => 'Precio Modificable',))

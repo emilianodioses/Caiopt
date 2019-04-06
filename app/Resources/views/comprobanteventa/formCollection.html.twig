@@ -39,6 +39,7 @@
                             {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.importeTributos, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.obraSocial, { 'attr': {'class': 'hide'} })}}
+                            {{ form_widget(form.condicionVenta, { 'attr': {'class': 'hide'} })}}
 
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                 {{ form_row(form.cliente)}}
@@ -53,12 +54,9 @@
                                 {{ form_row(form.tipo)}}
                             </div>
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                {{ form_row(form.condicionVenta)}}
-                            </div>
-                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                 {{ form_row(form.fecha)}}
                             </div>
-                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                 {{ form_row(form.puntoVenta,{ 'attr': {'readonly': 'true'}})}}
                             </div>
                         </div>  
@@ -149,8 +147,8 @@
                     <thead>
                         <th width="35%">Artículo</th>
                         <th>Cantidad</th>
-                        <th>P. Unitario</th>
-                        <th>Bonificación %</th>
+                        <th hidden>P. Unitario</th>
+                        <th hidden>Bonificación %</th>
                         <th hidden>Bonificación $</th>
                         <th width="8%">IVA %</th>
                         <th hidden>IVA $</th>
@@ -177,8 +175,8 @@
     <tr {{ block('widget_attributes') }}>
         <td>{{ form_widget(form.articulo) }}</td>
         <td>{{ form_widget(form.cantidad) }}</td>
-        <td>{{ form_widget(form.precioUnitario) }}</td>
-        <td>{{ form_widget(form.porcentajeBonificacion) }}</td>
+        <td hidden>{{ form_widget(form.precioUnitario) }}</td>
+        <td hidden>{{ form_widget(form.porcentajeBonificacion) }}</td>
         <td hidden>{{ form_widget(form.importeBonificacion) }}</td>
         <td>{{ form_widget(form.porcentajeIva) }}</td>
         <td hidden>{{ form_widget(form.importeIva) }}</td>

@@ -52,7 +52,11 @@ Comprobantes de Ventas
                     {% else %}
                       <td>{{ comprobante.afipNumero }}</td>
                     {% endif %}
-                    <td>{{ comprobante.ordenTrabajo.id }}</td>
+                    {% if comprobante.ordenTrabajo is empty %}
+                      <td>-</td>
+                    {% else %}
+                      <td>{{ comprobante.ordenTrabajo.id }}</td>
+                    {% endif %}
                     <td>{{ comprobante.tipo }}</td>
                     <td>{{ comprobante.cliente }}</td>
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>

@@ -46,8 +46,8 @@ class ComprobanteDetalleType extends AbstractType
                 */
 
         $porcentajeIva = array(
-            '10.5' => '10.5',
-            '21' => '21'
+            '10.50' => '10.50',
+            '21.00' => '21.00'
         );
 
         $builder->add('comprobante',HiddenType::class,array('label'=>'Comprobante'))

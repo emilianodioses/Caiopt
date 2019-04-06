@@ -39,12 +39,12 @@ Articulo
                                 {{ form_row(edit_form.gananciaPorcentaje) }}
                             </div> 
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
-                                {{ form_row(edit_form.precioVenta) }}
+                                {{ form_row(edit_form.precioVentaSinIva) }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
-                                {{ form_row(edit_form.precioVentaIva) }}
+                                {{ form_row(edit_form.precioVenta) }}
                             </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(edit_form.cantidad) }}
@@ -140,7 +140,7 @@ $(document).ready( function() {
         fnCalcularPrecioVenta();
     });
 
-    $('#appbundle_articulo_precioVenta').change(function() {
+    $('#appbundle_articulo_precioVentaSinIva').change(function() {
         fnCalcularPorcentajeGanancia();
     });
 
@@ -150,13 +150,9 @@ $(document).ready( function() {
 
     function fnCalcularPorcentajeGanancia() {
         var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
-        var r_precio_venta = $('#appbundle_articulo_precioVenta').val();
+        var r_precio_venta_sin_iva = $('#appbundle_articulo_precioVentaSinIva').val();
 
-        var porcentaje_ganancia = (((parseFloat(r_precio_venta) / parseFloat(r_precio_costo))-1) * 100) ;
-
-        if (r_precio_costo === '') {
-            var precio_venta = 0;
-        }
+        var porcentaje_ganancia = (((parseFloat(r_precio_venta_sin_iva) / parseFloat(r_precio_costo))-1) * 100) ;
 
         $('#appbundle_articulo_gananciaPorcentaje').val(porcentaje_ganancia.toFixed(0));
 
@@ -168,8 +164,8 @@ $(document).ready( function() {
         var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
         var r_porcentaje_ganancia = $('#appbundle_articulo_gananciaPorcentaje').val();
 
-        var precio_venta = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
-        var precio_venta_iva = parseFloat(precio_venta) * parseFloat(1+(r_iva/100));
+        var precio_venta_sin_iva = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
+        var precio_venta = parseFloat(precio_venta_sin_iva) * parseFloat(1+(r_iva/100));
 
         if (r_porcentaje_ganancia === '') {
             //var precio_venta = 0;
@@ -177,12 +173,12 @@ $(document).ready( function() {
         }
 
         if (r_precio_costo === '') {
-            var precio_venta = 0;
+            var precio_venta_sin_iva = 0;
             $('#appbundle_articulo_precioCosto').val(0);
         }
 
+        $('#appbundle_articulo_precioVentaSinIva').val(precio_venta_sin_iva.toFixed(3));
         $('#appbundle_articulo_precioVenta').val(precio_venta.toFixed(3));
-        $('#appbundle_articulo_precioVentaIva').val(precio_venta_iva.toFixed(3));
 
         return true;
     }

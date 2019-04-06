@@ -48,7 +48,7 @@ class Articulo
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="precio_costo", type="decimal", precision=16, scale=2)
      */
     private $precioCosto;
 
@@ -62,16 +62,16 @@ class Articulo
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_venta", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="precio_venta", type="decimal", precision=16, scale=2)
      */
     private $precioVenta;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="precio_venta_iva", type="decimal", precision=16, scale=3)
+     * @ORM\Column(name="precio_venta_sin_iva", type="decimal", precision=16, scale=2)
      */
-    private $precioVentaIva;
+    private $precioVentaSinIva;
 
     /**
      * @var \ArticuloMarca
@@ -364,27 +364,27 @@ class Articulo
     }
 
     /**
-     * Set precioVentaIva
+     * Set precioVentaSinIva
      *
-     * @param string $precioVentaIva
+     * @param string $precioVentaSinIva
      *
      * @return Articulo
      */
-    public function setPrecioVentaIva($precioVentaIva)
+    public function setPrecioVentaSinIva($precioVentaSinIva)
     {
-        $this->precioVentaIva = $precioVentaIva;
+        $this->precioVentaSinIva = $precioVentaSinIva;
 
         return $this;
     }
 
     /**
-     * Get precioVentaIva
+     * Get precioVentaSinIva
      *
      * @return string
      */
-    public function getPrecioVentaIva()
+    public function getPrecioVentaSinIva()
     {
-        return $this->precioVentaIva;
+        return $this->precioVentaSinIva;
     }
 
     /**
