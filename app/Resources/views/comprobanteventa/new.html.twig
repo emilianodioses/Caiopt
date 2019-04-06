@@ -86,7 +86,7 @@ $(function(){
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
         var cantidad = renglon.find("input.cantidad");
-        var precioUnitario = renglon.find("input.precioUnitario");
+        var precioVenta = renglon.find("input.precioVenta");
         var porcentajeIva = renglon.find("select.porcentajeIva");
         var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
 
@@ -98,7 +98,7 @@ $(function(){
                 var articulo = $.parseJSON(resp.articulo);
                 
                 cantidad.val(1);
-                precioUnitario.val(articulo.precioVenta)
+                precioVenta.val(articulo.precioVentaIva)
                 porcentajeBonificacion.val(0);
                 porcentajeIva.val(parseFloat(articulo.iva.descripcion));
 
@@ -119,17 +119,22 @@ $(function(){
         var r_precioVenta = renglon.find("input.precioVenta");
         var r_total = renglon.find("input.total");
 
-        var importe_bonificacion =  parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
-        var precio_neto = parseFloat(r_precioUnitario.val() - parseFloat(importe_bonificacion)).toFixed(2);
+        //Dejo la bonificacion en cero hasta q veamos q hacemos
+        var importe_bonificacion = 0;//parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
+        r_porcentajeBonificacion.val(0);
+        //var precio_neto = parseFloat(r_precioUnitario.val() - parseFloat(importe_bonificacion)).toFixed(2);
 
-        var importe_iva = parseFloat(parseFloat(precio_neto).toFixed(2) * r_porcentajeIva.val() / 100).toFixed(2);
+        //var precio_venta = parseFloat(parseFloat(precio_neto) + parseFloat(importe_iva)).toFixed(2);
 
-        var precio_venta = parseFloat(parseFloat(precio_neto) + parseFloat(importe_iva)).toFixed(2);
-        var total = parseFloat(r_cantidad.val() * parseFloat(precio_venta).toFixed(2)).toFixed(2);
+
+        var importe_iva = parseFloat(r_precioVenta.val() * r_porcentajeIva.val() / (parseFloat(100) + parseFloat(r_porcentajeIva.val()))).toFixed(2);
+
+        var precio_unitario = parseFloat(r_precioVenta.val() - importe_iva).toFixed(2);
+        var total = parseFloat(r_cantidad.val() * r_precioVenta.val()).toFixed(2);
 
         r_importeBonificacion.val(importe_bonificacion);
+        r_precioUnitario.val(precio_unitario);
         r_importeIva.val(importe_iva);
-        r_precioVenta.val(precio_venta);
         r_total.val(total);   
         
         fnCalcularTotales();

@@ -99,7 +99,7 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('precioVenta',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
+                    'attr' => array('size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
                     ))
                 ->add('importeGanancia',HiddenType::class,array(
                     'label'=>'Importe Ganancia',
