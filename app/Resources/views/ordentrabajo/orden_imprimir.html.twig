@@ -5,12 +5,13 @@
         <tbody>
             <tr>
                 <td width="30%" align="left">
-                    <img width="226" height="64" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
+                    <img width="150" height="40" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
                     <b>OPTICA CONTINI</b><br>
                     {{empresaDireccion}}<br>
                 </td>
-                <td width="30%" align="centar">
-                    <b>TALLER</b>
+                <td width="30%" align="left" border="1">
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>TALLER:</u></b>
+                    <br>
                     <br>
                     Pedido a: 
                     <br>
@@ -26,16 +27,167 @@
                     <br>
                     Fecha Entrega:
                     <br>
-                    <b>ATENCION:</b>
                     <br>
-                    Los trabajos recibidos tienen validez por 90 diás, de lo contrario pierde todo derecho sobre los mismos. (Art. 873-875 del Codígo Civil)
+                    <b><u>ATENCION:</u></b>
+                    <br>
+                    Los trabajos recibidos tienen validez por 90
+                    <br>
+                    diás, de lo contrario pierde todo derecho 
+                    <br>
+                    sobre los mismos. (Art. 873-875 del Codígo 
+                    <br>
+                    Civil)
                 </td>
             </tr>
         </tbody>
     </table>
-
-        {% if loop.index < 2 %}
-            <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
-        {% endif %}
+    <br>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td width="30%" align="left">
+                    &nbsp;
+                    <br>
+                    <b>Bonificacion: </b> {{ ordenTrabajo.totalbonificacion}}
+                    <br>
+                    <b>Total: </b> {{ ordenTrabajo.total}}
+                    <br>
+                    ---------------------------------------------
+                    <br>
+                    <b>Entrega: </b> {{ ordenTrabajo.entrega}}
+                    <br>
+                    <b>Saldo: </b> {{ ordenTrabajo.saldo}}
+                    <br>
+                </td>
+                <td width="70%" align="left">
+                    <b>Nombre: </b> {{ ordenTrabajo.cliente.nombre}}
+                    <br>
+                    <b>Direccion: </b> {{ ordenTrabajo.cliente.direccion}}
+                    <br>
+                    <b>Telefono: </b> {{ ordenTrabajo.cliente.telefono}}
+                    <br>
+                    <b>Celular: </b>
+                    <br>
+                    <b>Medico: </b> {{ ordenTrabajo.medico}}
+                    <br>
+                    <b>Fecha Receta: </b> {{ ordenTrabajo.fechaReceta | date('d-m-Y') }}
+                    <br>
+                    <b>Observaciones: </b> {{ ordenTrabajo.observaciones }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td style="text-align: center"><b>Artículo</b></td>
+                <td style="text-align: center">Marca</td>
+                <td style="text-align: center">Material</td>
+                <td style="text-align: center">Forma</td>
+                <td style="text-align: center">Estilo</td>
+                <td style="text-align: center">P. Venta</td>
+                <td style="text-align: center">O.S</td>
+                <td style="text-align: center">Total</td>
+            </tr>
+            {% for ordenTrabajoDetalle in ordentrabajodetalles %}
+                <tr>
+                    <td style="text-align: center"><b>{{ ordenTrabajoDetalle.articulo.descripcion }}</b></td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.marca }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.material }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.forma }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.estilo }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.precioVenta }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.total }}</td>
+                </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td rowspan="5" align="center">
+                    <br>
+                    &nbsp;
+                    <br>
+                    ESPC.
+                    <br>
+                    RECETA
+                </td>
+                <td colspan="2" align="center">
+                    VISION
+                </td>
+                <td align="center">
+                    ESF.
+                </td>
+                <td align="center">
+                    CIL.
+                </td>
+                <td align="center">
+                    EJE.
+                </td>
+                <td align="center">
+                    DNP.
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    LEJOS
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.ojoDerechoDnp }}</td>
+                
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    CERCA
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoEje }}</td>
+                <td rowspan="2" align="center">
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEje }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    <br>
+    &nbsp;
+    <br>
     {% endfor %}
 </body>

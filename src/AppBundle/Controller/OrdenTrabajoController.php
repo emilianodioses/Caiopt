@@ -193,13 +193,15 @@ class OrdenTrabajoController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobanteDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($ordenTrabajo);
+
+        $ordentrabajodetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));
 
         $ordenTemplate = 'ordentrabajo/orden_imprimir.html.twig';
 
         $html = $this->renderView($ordenTemplate, array(
-            'ordenTrabajo' => $ordenTrabajo,
-            'comprobanteDetalles' => $comprobanteDetalles,
+            'ordentrabajodetalles' => $ordentrabajodetalles,
+            'ordenTrabajo' => $ordenesTrabajo,
             'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
         )
         );

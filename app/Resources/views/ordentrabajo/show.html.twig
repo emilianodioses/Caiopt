@@ -56,10 +56,6 @@
                                                 <td>{{ ordenTrabajo.comprobante }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Estado</th>
-                                                <td>{{ ordenTrabajo.estado }}</td>
-                                            </tr>
-                                            <tr>
                                                 <th>Observaciones</th>
                                                 <td>{{ ordenTrabajo.observaciones }}</td>
                                             </tr>
@@ -153,10 +149,6 @@
                                                 <td>{{ ordenTrabajo.taller }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Otros Trabajos</th>
-                                                <td>{{ ordenTrabajo.otrosTrabajos }}</td>
-                                            </tr>
-                                            <tr>
                                                 <th>Fecha Taller Pedido</th>
                                                 {% if ordenTrabajo.fechaTallerPedido is empty %}
                                                     <td></td>
@@ -175,6 +167,18 @@
                                             <tr>
                                                 <th>Necesita Armado</th>
                                                 <td>{{ ordenTrabajo.armado }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Otros Trabajos</th>
+                                                <td>{{ ordenTrabajo.otrosTrabajos }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -202,6 +206,10 @@
                                                     {% else %}
                                                         <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
                                                     {% endif %}
+                                                </tr>
+                                                <tr>
+                                                    <th>Estado</th>
+                                                    <td>{{ ordenTrabajo.estado }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
