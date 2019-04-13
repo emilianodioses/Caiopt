@@ -32,102 +32,35 @@ class OrdenTrabajoDetalle
     private $ordenTrabajo;
 
     /**
-     * @var int
+     * @var \Articulo
      *
-     * @ORM\Column(name="lejos_ojo_derecho_eje", type="integer")
+     * @ORM\ManyToOne(targetEntity="Articulo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="articulo_id", referencedColumnName="id")
+     * })
      */
-    private $lejosOjoDerechoEje;
+    private $articulo;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_izquierdo_eje", type="integer")
+     * @ORM\Column(name="importe_bonificacion", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoIzquierdoEje;
+    private $importeBonificacion;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_derecho_cilindro", type="integer")
+     * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoDerechoCilindro;
+    private $total; 
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_izquierdo_cilindro", type="integer")
+     * @ORM\Column(name="precio_venta", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoIzquierdoCilindro;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="lejos_ojo_derecho_esfera", type="integer")
-     */
-    private $lejosOjoDerechoEsfera;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="lejos_ojo_izquierdo_esfera", type="integer")
-     */
-    private $lejosOjoIzquierdoEsfera;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cerca_ojo_derecho_eje", type="integer")
-     */
-    private $cercaOjoDerechoEje;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cerca_ojo_izquierdo_eje", type="integer")
-     */
-    private $cercaOjoIzquierdoEje;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cerca_ojo_derecho_cilindro", type="integer")
-     */
-    private $cercaOjoDerechoCilindro;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cerca_ojo_izquierdo_cilindro", type="integer")
-     */
-    private $cercaOjoIzquierdoCilindro;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cerca_ojo_derecho_esfera", type="integer")
-     */
-    private $cercaOjoDerechoEsfera;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cerca_ojo_izquierdo_esfera", type="integer")
-     */
-    private $cercaOjoIzquierdoEsfera;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_derecho_dnp", type="integer")
-     */
-    private $ojoDerechoDnp;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ojo_izquierdo_dnp", type="integer")
-     */
-    private $ojoIzquierdoDnp;
+    private $precioVenta;
 
     /**
      * @var \DateTime
@@ -135,6 +68,13 @@ class OrdenTrabajoDetalle
      * @ORM\Column(name="fecha_entrega", type="datetime", nullable=true)
      */
     private $fechaEntrega;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=255)
+     */
+    private $estado;
 
     /**
      * @var int
@@ -170,14 +110,6 @@ class OrdenTrabajoDetalle
      * @ORM\Column(name="activo", type="boolean")
      */
     private $activo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="estado", type="string", length=255)
-     */
-    private $estado;
-
 
     /**
      * Get id
@@ -715,5 +647,101 @@ class OrdenTrabajoDetalle
     public function getOrdenTrabajo()
     {
         return $this->ordenTrabajo;
+    }
+
+    /**
+     * Set articulo
+     *
+     * @param \AppBundle\Entity\Articulo $articulo
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setArticulo(\AppBundle\Entity\Articulo $articulo = null)
+    {
+        $this->articulo = $articulo;
+
+        return $this;
+    }
+
+    /**
+     * Get articulo
+     *
+     * @return \AppBundle\Entity\Articulo
+     */
+    public function getArticulo()
+    {
+        return $this->articulo;
+    }
+
+    /**
+     * Set importeBonificacion
+     *
+     * @param string $importeBonificacion
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setImporteBonificacion($importeBonificacion)
+    {
+        $this->importeBonificacion = $importeBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get importeBonificacion
+     *
+     * @return string
+     */
+    public function getImporteBonificacion()
+    {
+        return $this->importeBonificacion;
+    }
+
+    /**
+     * Set total
+     *
+     * @param string $total
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return string
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * Set precioVenta
+     *
+     * @param string $precioVenta
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setPrecioVenta($precioVenta)
+    {
+        $this->precioVenta = $precioVenta;
+
+        return $this;
+    }
+
+    /**
+     * Get precioVenta
+     *
+     * @return string
+     */
+    public function getPrecioVenta()
+    {
+        return $this->precioVenta;
     }
 }

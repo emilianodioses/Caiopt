@@ -46,7 +46,6 @@ Ordenes de Trabajo
                     <th>Comprobante</th>
                     <th>Taller</th>
                     <th>Fecha</th>
-                    <th>Días Estimados</th>
                     <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th style="width: 5%">Acciones</th>
@@ -59,12 +58,11 @@ Ordenes de Trabajo
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
                       <td>{{ ordenTrabajo.taller }}</td>
-                      {% if ordenTrabajo.fecha is empty %}
+                      {% if ordenTrabajo.fechaRecepcion is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
                       {% endif %}
-                      <td>{{ ordenTrabajo.diasEstimados }}</td>
                       {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
                       {% else %}

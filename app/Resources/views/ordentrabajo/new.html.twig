@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Orden de trabajo
+Nueva Orden de Trabajo
 {% endblock %}
 
 {% block header_description %}
@@ -11,7 +11,21 @@ Orden de trabajo
     <script src="{{ asset('js/jquery.collection.js') }}"></script>
 {% endblock %}
 
-{% block body %}
+{% block body %}  
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>  
 
 {% form_theme form 'ordentrabajo/formCollection.html.twig' %}
 {{ form(form) }}
@@ -24,20 +38,43 @@ Orden de trabajo
         allow_down: false,
         init_with_n_elements: 1,
         add_at_the_end: true,
-        add: '<a href="#" class="btn btn-default" title="Agregar Orden"><span class="glyphicon glyphicon-plus-sign"></span></a>',
-        //Ver por que no funciona el delete asi borro todas las lineas de la orden en vez de cada tr por si misma
-        //remove: '<a href="#" class="collection-remove btn btn-default" title="Borrar Orden"><span class="glyphicon glyphicon-trash"></span></a>',
+        add: '<a href="#" class="btn btn-default" title="Agregar Artículo"><span class="glyphicon glyphicon-plus-sign"></span></a>',
         elements_selector: 'tr.item',
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
-            orden = element.find("select.orden");
+            articulo = element.find("select.articulo");
+            entrega = element.find("OrdenTrabajoType_entrega");
             
-            orden.on('change', function(){
-                fnOrdenChange($(this));
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
             });
 
-            orden.on('change', function(){
+            element.on('change', function(){
                 fnRenglonChange($(this));
+            });
+
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
+
+            entrega.on('change', function(){
+                fnCalcularSaldo();
             });
 
             return true;
@@ -50,5 +87,81 @@ Orden de trabajo
          }
     });
 
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+
+        var total = renglon.find("input.total");
+        var importeBonificacion = renglon.find("input.importeBonificacion");
+        var precioVenta = renglon.find("input.precioVenta");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                precioVenta.val(articulo.precioVenta)
+                total.val(articulo.precioVenta)
+                importeBonificacion.val(0);
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var r_importeBonificacion = renglon.find("input.importeBonificacion");
+        var r_precioVenta = renglon.find("input.precioVenta");
+        var r_total = renglon.find("input.total");
+
+        var total = parseFloat(r_precioVenta.val() - r_importeBonificacion.val()).toFixed(2);
+
+        r_total.val(total);   
+        
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+
+        var total_bonificacion = 0;
+        var total = 0;
+        
+        $("#OrdenTrabajoType_ordenTrabajoDetalles tr.item").each(function() {
+
+            var r_importeBonificacion = $(this).find("input.importeBonificacion");
+            var r_total = $(this).find("input.total");
+
+            total_bonificacion += parseFloat(r_importeBonificacion.val());
+            total += parseFloat(r_total.val());
+        });
+
+        $("#OrdenTrabajoType_totalBonificacion").val(total_bonificacion.toFixed(2));
+        $("#OrdenTrabajoType_total").val(total.toFixed(2));
+        $("#OrdenTrabajoType_saldo").val(total.toFixed(2));
+        
+        fnCalcularSaldo();
+
+        return true;
+    }
+
+    function fnCalcularSaldo() {
+
+        total = $("#OrdenTrabajoType_total").val();
+        entrega = $("#OrdenTrabajoType_entrega").val();
+
+        var saldo = parseFloat(total - entrega);
+
+        $("#OrdenTrabajoType_saldo").val(saldo.toFixed(2));
+        
+        return true;
+    }
+
 </script>          
+
 {% endblock %}

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class OrdenTrabajoDetalleType extends AbstractType
 {
@@ -19,107 +20,54 @@ class OrdenTrabajoDetalleType extends AbstractType
     {
 
         $estados = array(
-            'Pendiente' => 'Pendiente',
             'Nuevo' => 'Nuevo',
+            'Pendiente' => 'Pendiente',
             'Enviado' => 'Enviado',
             'Finalizado' => 'Finalizado');
 
         $builder->add('ordenTrabajo',HiddenType::class,array('label'=>'Orden Trabajo'))
-                ->add('lejosOjoDerechoEje',IntegerType::class, array(
-                    'attr' => array(
+                ->add('articulo', Select2EntityType::class, array(
+                    'label' => 'Articulo',
+                    'class' => 'AppBundle:Articulo',
+                    'remote_route' => 'articulo_find_select2',
+                    'placeholder' => 'Seleccione un artículo',
                     'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Eje Ojo Derecho'))
-                ->add('lejosOjoIzquierdoEje',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Eje Ojo Izquierdo'))
-                ->add('lejosOjoDerechoCilindro',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Cilindro Ojo Derecho'))
-                ->add('lejosOjoIzquierdoCilindro',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Cilindro Ojo Izquierdo'))
-                ->add('lejosOjoDerechoEsfera',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Esfera Ojo Derecho'))
-                ->add('lejosOjoIzquierdoEsfera',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Esfera Ojo Izquierdo'))
-                ->add('cercaOjoDerechoEje',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Eje Ojo Derecho'))
-                ->add('cercaOjoIzquierdoEje',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Eje Ojo Izquierdo'))
-                ->add('cercaOjoDerechoCilindro',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Cilindro Ojo Derecho'))
-                ->add('cercaOjoIzquierdoCilindro',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Cilindro Ojo Izquierdo'))
-                ->add('cercaOjoDerechoEsfera',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Esfera Ojo Derecho'))
-                ->add('cercaOjoIzquierdoEsfera',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'Esfera Ojo Izquierdo'))
-                ->add('ojoDerechoDnp',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'DNP OD'))
-                ->add('ojoIzquierdoDnp',IntegerType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    ),
-                    'label' => 'DNP OI'))
+                    'attr' => [
+                            'class' => 'articulo',
+                        ],
+                    'primary_key' => 'id',
+                    'text_property' => 'descripcion',
+                    'minimum_input_length' => 2,
+                    'page_limit' => 10,
+                    'allow_clear' => false,
+                    'delay' => 250,
+                    'cache' => true,
+                    'cache_timeout' => 60000, // if 'cache' is true
+                    'language' => 'es',
+                    )) 
                 ->add('fechaEntrega',DateType::class,array(
-                    'label'=>'Fecha Entrega',
+                    'label'=>false,
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
                     'required' => true,
-                    'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+                    'attr' => ['class' => 'js-datepicker', 'placeholder' => 'Fecha Entrega', 'autocomplete' => 'off']))
+                ->add('precioVenta',FloatType::class, array(
+                    'label' => false,
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
+                    ))
+                ->add('total',FloatType::class, array(
+                    'label' => false,
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
+                    ))
+                ->add('importeBonificacion',FloatType::class,array(
+                    'label'=>'Importe Bonificación',
+                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Obra Social/Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
+                        ))
                 ->add('estado',ChoiceType::class,array(
-                        'label'=>'Estado',
+                        'label'=>false,
                         'choices' => $estados,
-                            'choices_as_values' => true)) ;
+                        'choices_as_values' => true)) ;
     }/**
      * {@inheritdoc}
      */

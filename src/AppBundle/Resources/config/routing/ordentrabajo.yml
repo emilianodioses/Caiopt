@@ -22,3 +22,8 @@ ordentrabajo_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:OrdenTrabajo:delete" }
     methods:  [GET, POST] 
+
+ordentrabajo_orden_imprimir:
+    path:     /{id}/facturaImprimir
+    defaults: { _controller: "AppBundle:OrdenTrabajo:ordenImprimir" }
+    methods:  [GET, POST]    

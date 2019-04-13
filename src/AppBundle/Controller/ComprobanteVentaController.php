@@ -45,7 +45,6 @@ class ComprobanteVentaController extends Controller
         $comprobante->setFecha(new \DateTime("now"));
         $comprobante->setPuntoVenta($this->getUser()->getSucursal()->getId());
 
-
         $form = $this->createForm(ComprobanteType::class, $comprobante);
 
         $form->handleRequest($request);

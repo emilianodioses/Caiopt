@@ -183,4 +183,46 @@ class OrdenTrabajoController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Imprime la orden de trabajo
+     *
+     */
+    public function ordenImprimirAction(Request $request, Ordentrabajo $ordenTrabajo)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobanteDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));
+
+        $ordenTemplate = 'ordentrabajo/orden_imprimir.html.twig';
+
+        $html = $this->renderView($ordenTemplate, array(
+            'ordenTrabajo' => $ordenTrabajo,
+            'comprobanteDetalles' => $comprobanteDetalles,
+            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
+        )
+        );
+
+        //set_time_limit(30); uncomment this line according to your needs
+        // If you are not in a controller, retrieve of some way the service container and then retrieve it
+        //$pdf = $this->container->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        //if you are in a controlller use :
+        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        //$pdf->SetAuthor('Our Code World');
+        //$pdf->SetTitle(('Our Code World Title'));
+        //$pdf->SetSubject('Our Code World Subject');
+        //$pdf->setFontSubsetting(true);
+        $pdf->SetFont('helvetica', '', 11, '', true);
+        //$pdf->SetMargins(20,20,40, true);
+        $pdf->AddPage();
+        
+        $filename = 'test';//$ordenTrabajo->getNumero();
+        
+        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+        $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
+    }
 }
