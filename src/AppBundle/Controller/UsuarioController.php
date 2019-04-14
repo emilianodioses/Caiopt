@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Usuario controller.
@@ -160,4 +161,41 @@ class UsuarioController extends AppController
             ->getForm()
         ;
     }
+
+    /**   
+    public function perfilAction($id)
+    {
+        // implement your own logic to retrieve file using $fileId
+        $folder = $this->container->getParameter('dir_upload');
+        
+        $file = $folder.'/profile_pictures/'.$id.'.jpg';
+       
+        if (!is_file($file)) $file = new File($folder.'/profile_pictures/sin_foto.jpg');
+        
+        return $this->printAttach($file);
+    }
+
+    private function printAttach($file)
+    {
+        $file = new File($file);
+
+        $filename = basename($file);
+
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($file){
+            $handle = fopen($file->getRealPath(), 'rb');
+            while (!feof($handle)) {
+                $buffer = fread($handle, 1024);
+                echo $buffer;
+                flush();
+            }
+            fclose($handle);
+        });
+        $d = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, $filename);
+        $response->headers->set('Content-Disposition', $d);
+        $response->headers->set('Content-Type', $file->getMimeType());
+
+        return $response;
+    }
+    */
 }

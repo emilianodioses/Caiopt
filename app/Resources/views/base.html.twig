@@ -108,7 +108,8 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+<!--<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">-->
+<body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
 
     <!-- Main Header -->
@@ -142,17 +143,18 @@ desired effect
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="{{ asset('profile_pictures')}}/ivan_rizzo.jpg" class="user-image" alt="User Image">
+                <img src="{{ asset('profile_pictures')}}/{{ app.user.id }}.jpg" class="user-image" alt="User Image">
+                <!--<img src="{{ asset('profile_pictures')}}/{{ app.user.id }}.jpg" class="user-image" alt="User Image">-->
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">Ivan Rizzo</span>
+                <span id="username" class="hidden-xs">{{ app.user.nombre }} {{ app.user.apellido }}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="{{ asset('profile_pictures')}}/ivan_rizzo.jpg" class="img-circle" alt="User Image">
+                  <!--<img id="imagenperfil" src="{{ asset('profile_pictures')}}/{{ app.user.id }}.jpg" class="img-circle" alt="User Image">-->
+                  <img id="imagenperfil" src="{{ asset('profile_pictures')}}/{{ app.user.id }}.jpg" class="img-circle" alt="User Image">
                   <p>
-                    Ivan Rizzo
-                    {#<small>Member since Nov. 2012</small>#}
+                    Optica Contini - {{ app.user.sucursal }}
                   </p>
                 </li>
                 </li>
@@ -200,7 +202,7 @@ desired effect
           <li>
 
           <li class="treeview">
-            <a href="#" id="comprobantes"><i class="glyphicon glyphicon glyphicon-file"></i> <span>Comprobantes</span>
+            <a href="#" id="comprobantes"><i class="glyphicon glyphicon-file"></i> <span>Comprobantes</span>
               <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -208,10 +210,23 @@ desired effect
             <ul class="treeview-menu">
               <li><a href="{{path('comprobantecompra_index')}}">Compra</a></li>
               <li><a href="{{path('comprobanteventa_index')}}">Venta</a></li>
-              <li><a href="{{path('ordentrabajo_index')}}">Orden de Trabajo</a></li>
+              
             </ul>
           </li>
           <li>  
+
+          <li class="treeview">
+            <a href="#" id="comprobantes"><i class="glyphicon glyphicon-briefcase"></i> <span>Orden de Trabajo</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('ordentrabajo_index')}}">Orden Cristales</a></li>
+              <li><a href="{{path('ordentrabajo_index')}}">Orden Contactologia</a></li>
+            </ul>
+          </li>
+          <li> 
 
           <li id="articulo"><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a></li>
           {#

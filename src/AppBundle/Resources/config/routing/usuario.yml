@@ -22,3 +22,7 @@ usuario_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Usuario:delete" }
     methods:  [GET, POST] 
+
+usuario_perfil:
+    path:  /{id}/perfil
+    defaults: { _controller: "AppBundle:Usuario:perfil" }    

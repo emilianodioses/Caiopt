@@ -6,26 +6,34 @@
             <tr>
                 <td width="30%" align="left">
                     <img width="150" height="40" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
-                    <b>OPTICA CONTINI</b><br>
-                    {{empresaDireccion}}<br>
+                    <b>OPTICA CONTINI</b>
+                    <br>
+                    {{empresaDireccion}}
+                    <br> 
+                    &nbsp;
+                    <br> 
+                    <b style="font-size:10">N° Orden: {{ ordenTrabajo.id }}</b>
+                    <br> 
+                    <b style="font-size:10">N° Comprobante: {{ ordenTrabajo.comprobante }}</b>
+                    <br>
                 </td>
                 <td width="30%" align="left" border="1">
                     <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>TALLER:</u></b>
                     <br>
                     <br>
-                    Pedido a: 
+                    Pedido a: {{ ordenTrabajo.taller }}
                     <br>
-                    Armado: 
+                    Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %} 
                     <br>
-                    Fecha Pedido:
+                    Fecha Pedido: {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }}
                     <br>
-                    Fecha Entrega:
+                    Fecha Entrega: {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }}
                     <br>
                 </td>
                 <td width="40%" align="left">
-                    Fecha Recepcion:
+                    Fecha Recepcion: {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}
                     <br>
-                    Fecha Entrega:
+                    Fecha Entrega: {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}
                     <br>
                     <br>
                     <b><u>ATENCION:</u></b>
