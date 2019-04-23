@@ -54,7 +54,7 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'attr' => ['class' => 'js-datepicker', 'placeholder' => 'Fecha Entrega', 'autocomplete' => 'off']))
                 ->add('precioVenta',FloatType::class, array(
                     'label' => false,
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
+                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioVenta', 'step' => 0.01),
                     ))
                 ->add('total',FloatType::class, array(
                     'label' => false,

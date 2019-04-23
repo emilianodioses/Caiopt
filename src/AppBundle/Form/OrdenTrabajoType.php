@@ -135,84 +135,196 @@ class OrdenTrabajoType extends AbstractType
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Eje Ojo Derecho'))
                 ->add('lejosOjoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
                 ->add('lejosOjoDerechoCilindro',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
                 ->add('lejosOjoIzquierdoCilindro',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
                 ->add('lejosOjoDerechoEsfera',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Esfera Ojo Derecho'))
                 ->add('lejosOjoIzquierdoEsfera',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
                 ->add('cercaOjoDerechoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Eje Ojo Derecho'))
                 ->add('cercaOjoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
                 ->add('cercaOjoDerechoCilindro',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
                 ->add('cercaOjoIzquierdoCilindro',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
                 ->add('cercaOjoDerechoEsfera',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Esfera Ojo Derecho'))
                 ->add('cercaOjoIzquierdoEsfera',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
                 ->add('ojoDerechoDnp',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'DNP OD'))
                 ->add('ojoIzquierdoDnp',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'DNP OI'))
+                ->add('antesLejosOjoDerechoEje',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Eje Ojo Derecho'))
+                ->add('antesLejosOjoIzquierdoEje',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Eje Ojo Izquierdo'))
+                ->add('antesLejosOjoDerechoCilindro',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Cilindro Ojo Derecho'))
+                ->add('antesLejosOjoIzquierdoCilindro',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Cilindro Ojo Izquierdo'))
+                ->add('antesLejosOjoDerechoEsfera',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Esfera Ojo Derecho'))
+                ->add('antesLejosOjoIzquierdoEsfera',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Esfera Ojo Izquierdo'))
+                ->add('antesCercaOjoDerechoEje',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Eje Ojo Derecho'))
+                ->add('antesCercaOjoIzquierdoEje',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Eje Ojo Izquierdo'))
+                ->add('antesCercaOjoDerechoCilindro',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Cilindro Ojo Derecho'))
+                ->add('antesCercaOjoIzquierdoCilindro',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Cilindro Ojo Izquierdo'))
+                ->add('antesCercaOjoDerechoEsfera',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Esfera Ojo Derecho'))
+                ->add('antesCercaOjoIzquierdoEsfera',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'Esfera Ojo Izquierdo'))
+                ->add('antesOjoDerechoDnp',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
+                    ),
+                    'label' => 'DNP OD'))
+                ->add('antesOjoIzquierdoDnp',IntegerType::class, array(
+                    'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.1,
                     ),
                     'label' => 'DNP OI'))
                 ->add('ordenTrabajoDetalles', CollectionType::class, array(
