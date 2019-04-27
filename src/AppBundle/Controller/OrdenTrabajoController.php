@@ -42,6 +42,9 @@ class OrdenTrabajoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+        
+            $ordenTrabajo->setSucursal($sucursal);
             $ordenTrabajo->setActivo(1);
             $ordenTrabajo->setCreatedBy($this->getUser()->getId());
             $ordenTrabajo->setCreatedAt(new \DateTime("now"));

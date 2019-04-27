@@ -42,6 +42,9 @@ class OrdenTrabajoContactologiaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+        
+            $ordenTrabajoContactologia->setSucursal($sucursal);
             $ordenTrabajoContactologia->setActivo(1);
             $ordenTrabajoContactologia->setCreatedBy($this->getUser()->getId());
             $ordenTrabajoContactologia->setCreatedAt(new \DateTime("now"));

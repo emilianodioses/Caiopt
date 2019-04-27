@@ -387,6 +387,40 @@ class OrdenTrabajo
      */
     private $activo;
 
+    /**
+     * @var \Sucursal
+     *
+     * @ORM\ManyToOne(targetEntity="Sucursal")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sucursal_id", referencedColumnName="id")
+     * })
+     */
+    private $sucursal;
+
+    /**
+     * Set sucursal
+     *
+     * @param \AppBundle\Entity\Sucursal $sucursal
+     *
+     * @return Comprobante
+     */
+    public function setSucursal(\AppBundle\Entity\Sucursal $sucursal = null)
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    /**
+     * Get sucursal
+     *
+     * @return \AppBundle\Entity\Sucursal
+     */
+    public function getSucursal()
+    {
+        return $this->sucursal;
+    }
+
 
     public function __construct()
     {
