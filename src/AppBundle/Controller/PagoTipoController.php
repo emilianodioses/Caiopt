@@ -121,4 +121,27 @@ class PagoTipoController extends Controller
             ->getForm()
         ;
     }
+
+    public function findSelect2Action(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+        
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
+
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
+        }
+
+        $result = $em->createQuery('
+                        SELECT r.id as id, r.nombre as text
+                        FROM AppBundle:PagoTipo r
+                        WHERE lower(r.nombre) LIKE :text_search
+                        ORDER BY r.nombre ASC
+                        ')
+                    ->setParameter('text_search', '%'.$text_search.'%')
+                    ->setMaxResults($pageLimit)
+                ->getArrayResult();
+        
+        return new JsonResponse($result);
+    }
 }

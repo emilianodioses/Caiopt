@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\ClientePago;
 
 /**
  * Recibo
@@ -66,9 +67,9 @@ class Recibo
     /**
      * @var string
      *
-     * @ORM\Column(name="pendiente", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="disponible", type="decimal", precision=16, scale=2)
      */
-    private $pendiente;
+    private $disponible;
 
     /**
      * @var string
@@ -111,6 +112,13 @@ class Recibo
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observaciones", type="string", length=255)
+     */
+    private $observaciones = '';
 
     /**
      * @var ArrayCollection ClientePago
@@ -230,27 +238,27 @@ class Recibo
     }
 
     /**
-     * Set pendiente
+     * Set disponible
      *
-     * @param string $pendiente
+     * @param string $disponible
      *
      * @return Recibo
      */
-    public function setPendiente($pendiente)
+    public function setDisponible($disponible)
     {
-        $this->pendiente = $pendiente;
+        $this->disponible = $disponible;
 
         return $this;
     }
 
     /**
-     * Get pendiente
+     * Get disponible
      *
      * @return string
      */
-    public function getPendiente()
+    public function getDisponible()
     {
-        return $this->pendiente;
+        return $this->disponible;
     }
 
     /**
@@ -443,5 +451,29 @@ class Recibo
     public function getCliente()
     {
         return $this->cliente;
+    }
+
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     *
+     * @return Recibo
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
     }
 }

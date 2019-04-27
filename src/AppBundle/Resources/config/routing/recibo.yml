@@ -9,7 +9,7 @@ recibo_show:
     methods:  GET
 
 recibo_new:
-    path:     /new
+    path:     /{comprobante}/new
     defaults: { _controller: "AppBundle:Recibo:new" }
     methods:  [GET, POST]
 
@@ -21,4 +21,4 @@ recibo_edit:
 recibo_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Recibo:delete" }
-    methods:  DELETE
+    methods:  [GET, POST] 

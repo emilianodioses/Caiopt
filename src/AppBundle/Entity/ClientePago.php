@@ -44,9 +44,9 @@ class ClientePago
     /**
      * @var string
      *
-     * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="importe", type="decimal", precision=16, scale=2)
      */
-    private $total;
+    private $importe;
 
     /**
      * @var bool
@@ -95,27 +95,27 @@ class ClientePago
     }
 
     /**
-     * Set total
+     * Set importe
      *
-     * @param string $total
+     * @param string $importe
      *
      * @return ClientePago
      */
-    public function setTotal($total)
+    public function setImporte($importe)
     {
-        $this->total = $total;
+        $this->importe = $importe;
 
         return $this;
     }
 
     /**
-     * Get total
+     * Get importe
      *
      * @return string
      */
-    public function getTotal()
+    public function getImporte()
     {
-        return $this->total;
+        return $this->importe;
     }
 
     /**

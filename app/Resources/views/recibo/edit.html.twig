@@ -1,21 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Recibo edit</h1>
+{% block header %}
+Editar Recibo
+{% endblock %}
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+{% block header_description %}
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('recibo_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
+{% block body %}  
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>
+
+{% form_theme edit_form 'recibo/formCollection.html.twig' %}
+{{ form(edit_form, {'reciboComprobantes': reciboComprobantes}) }}
+{{ form_end(edit_form) }}
+
+<script type="text/javascript">
+    $('.clientePago-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 1,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Agregar Artículo"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    //<< FUNCIONES PARA LOS ComprobanteDetalle YA EXISTENTES
+    $('.item').on('change', function(){
+        fnRenglonChange($(this));
+    });
+    //>> FIN FUNCIONES
+
+
+    function fnRenglonChange(renglon) {
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        var total = 0;
+        
+        $("#ReciboType_clientePagos tr.item").each(function() {
+            var r_importe = $(this).find("input.importe");
+            
+            total += parseFloat(r_importe.val());
+            //total += parseFloat(importe_iva);
+        });
+
+        var pendiente = 0;
+        
+        $("#recibo_comprobantes tr.item").each(function() {
+            var c_pendiente = $(this).find("td.pendiente");
+
+            pendiente += parseFloat(c_pendiente.html());
+            //total += parseFloat(importe_iva);
+        });
+
+        var disponible = total - pendiente;
+        if (disponible < 0) {
+            disponible = 0;
+        }
+
+        $("#ReciboType_total").val(total.toFixed(2));
+        $("#ReciboType_disponible").val(disponible.toFixed(2));
+
+        //$("#ReciboType_totalCosto").val(total_costo.toFixed(2));
+        //$("#ReciboType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
+
+        return true;
+    }
+
+</script>          
+
 {% endblock %}
