@@ -63,7 +63,12 @@
                                         </tr>
                                         <tr>
                                             <th>Nº OT.</th>
-                                            <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">{{comprobante.ordenTrabajo.Id}}</a></td>
+                                            {% if comprobante.ordenTrabajo is empty %}
+                                                <td></td>
+                                            {% else %}
+                                                <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">{{comprobante.ordenTrabajo.Id}}</a></td>
+                                                }
+                                            {% endif %}
                                         </tr>
                                         <tr>
                                             <th>Tipo</th>
@@ -80,10 +85,6 @@
                                         <tr>
                                             <th>Obra Social - Plan</th>
                                             <td>{{ comprobante.obraSocialPlan }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Condicion de Venta</th>
-                                            <td>{{ comprobante.condicionVenta }}</td>
                                         </tr>
                                         <tr>
                                             <th>Fecha</th>
