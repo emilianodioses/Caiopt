@@ -18,34 +18,37 @@ class DashboardController extends Controller
         $fecha_now = new \DateTime("now");
         $fecha_now->setTime(00, 00, 00);
 
-        $afipCondicionesVenta = $em->getRepository('AppBundle:AfipCondicionVenta')->findBy(Array('activo'=> '1'), array('descripcion' => 'ASC'));
+        $pagoTipos = $em->getRepository('AppBundle:PagoTipo')->findBy(Array('activo'=> '1'), array('nombre' => 'ASC'));
 
-        //Calculo los totales de las ventas por condicion de venta
+        //inicializo el arreglo de los tipos de pago
         $cajaDetalles = array();
-        $total_ventas = 0;
-        $cantidad_ventas = 0;
-        foreach($afipCondicionesVenta as $acv) {
-            $comprobantesVentas = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'condicionVenta' => $acv->getId(), 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
+        foreach($pagoTipos as $pagoTipo) {
+            $cajaDetalles[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
+            $cajaDetalles[$pagoTipo->getId()]['total'] = 0;
+            $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = 0;
+        }
 
-            $total_ventas_acv = 0;
-            foreach($comprobantesVentas as $cv) {
-                $total_ventas_acv += $cv->getTotal();
+        //Calculo los totales de las ventas por tipos de pago
+        $total_recibos = 0;
+        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo'=> '1', 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
+        foreach($recibos as $recibo) {
+            $clientePagos = $em->getRepository('AppBundle:ClientePago')->findBy(Array('recibo' => $recibo->getId(), 'activo'=> '1'));
+
+            foreach($clientePagos as $clientePago) {
+                $cajaDetalles[$clientePago->getPagoTipo()->getId()]['total'] += $clientePago->getImporte();
                 
-                $total_ventas += $cv->getTotal();
-                $cantidad_ventas++;
+                $total_recibos += $clientePago->getImporte();
             }
-
-            $cajaDetalles[$acv->getId()]['descripcion'] = $acv->getDescripcion();
-            $cajaDetalles[$acv->getId()]['total'] = $total_ventas_acv;
-            $cajaDetalles[$acv->getId()]['porcentaje'] = 0;
         }
 
         //Calculo los porcentajes de cada condicion de venta, siempre que las haya
-        if ($total_ventas > 0) {
-            foreach($afipCondicionesVenta as $acv) {
-                $cajaDetalles[$acv->getId()]['porcentaje'] = number_format($cajaDetalles[$acv->getId()]['total'] * 100 / $total_ventas, 2);
+        if ($total_recibos > 0) {
+            foreach($pagoTipos as $pagoTipo) {
+                $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = number_format($cajaDetalles[$pagoTipo->getId()]['total'] * 100 / $total_recibos, 2);
             }
         }
+
+        $comprobantesVentas = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
 
         $comprobantesCompras = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'compra', 'activo'=> '1', 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
 
@@ -54,8 +57,8 @@ class DashboardController extends Controller
         $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_id, $fecha_now);
         
         return $this->render('dashboard/index.html.twig', array(
-            'cantidadVentas' => $cantidad_ventas,
-            'totalVentas' => $total_ventas,
+            'cantidadVentas' => count($comprobantesVentas),
+            'totalRecibos' => $total_recibos,
             'cantidadCompras' => count($comprobantesCompras),
             'cantidadOrdenesTrabajo' => count($ordenesTrabajoHoy),
             'cajaDetalles' => $cajaDetalles,

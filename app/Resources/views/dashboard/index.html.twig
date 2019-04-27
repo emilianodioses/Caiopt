@@ -29,7 +29,7 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>$ {{totalVentas}}</h3>
+          <h3>$ {{totalRecibos}}</h3>
 
           <p>Caja</p>
         </div>
@@ -151,10 +151,10 @@ Panel Principal
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
-                      {% if ordenTrabajo.fecha is empty %}
+                      {% if ordenTrabajo.fechaRecepcion is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
                       {% endif %}
                       {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
@@ -199,10 +199,10 @@ Panel Principal
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
-                      {% if ordenTrabajo.fecha is empty %}
+                      {% if ordenTrabajo.fechaRecepcion is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
                       {% endif %}
                       {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>
@@ -248,10 +248,10 @@ Panel Principal
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
-                      {% if ordenTrabajo.fecha is empty %}
+                      {% if ordenTrabajo.fechaRecepcion is empty %}
                         <td></td>
                       {% else %}
-                        <td>{{ ordenTrabajo.fecha | date('d-m-Y') }}</td>
+                        <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
                       {% endif %}
                       {% if ordenTrabajo.fechaEntrega is empty %}
                         <td></td>

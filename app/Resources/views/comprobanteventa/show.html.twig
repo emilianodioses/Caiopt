@@ -28,6 +28,9 @@
     <li class="nav">
         <a href="#tabs-2" data-toggle="tab">Detalles Venta</a>
     </li>
+    <li class="nav">
+        <a href="#tabs-3" data-toggle="tab">Recibos</a>
+    </li>
 </ul>
 <div class="row">
     <div class="tab-content">
@@ -60,7 +63,12 @@
                                         </tr>
                                         <tr>
                                             <th>Nº OT.</th>
-                                            <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">{{comprobante.ordenTrabajo.Id}}</a></td>
+                                            {% if comprobante.ordenTrabajo is empty %}
+                                                <td></td>
+                                            {% else %}
+                                                <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">{{comprobante.ordenTrabajo.Id}}</a></td>
+                                                }
+                                            {% endif %}
                                         </tr>
                                         <tr>
                                             <th>Tipo</th>
@@ -77,10 +85,6 @@
                                         <tr>
                                             <th>Obra Social - Plan</th>
                                             <td>{{ comprobante.obraSocialPlan }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Condicion de Venta</th>
-                                            <td>{{ comprobante.condicionVenta }}</td>
                                         </tr>
                                         <tr>
                                             <th>Fecha</th>
@@ -221,6 +225,70 @@
                                     </a>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>            
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tabs-3">  
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Recibos</h3>
+                                <table class="table table-condensed table-hover input-sm">
+                                    <tr>
+                                        <th style="width: 10%">Nº Recibo</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Disponible</th>
+                                        <th>Observaciones</th>
+                                        <th>Importe Comprobante</th>
+                                        <th style="width: 5%">Acciones</th>
+                                    </tr>
+                                    <tbody>
+                                    {% for reciboComprobante in reciboComprobantes %}
+                                        {% set recibo = reciboComprobante.recibo %}
+                                        <tr>
+                                            <td>{{ recibo.numero }}</td>
+                                            <td>{{ recibo.cliente }}</td>
+                                            <td>{{ recibo.fecha|date('d-m-Y') }}</td>
+                                            <td>{{ recibo.total }}</td>
+                                            <td>{{ recibo.disponible }}</td>
+                                            <td>{{ recibo.observaciones }}</td> 
+                                            <td>{{ reciboComprobante.importe }}
+                                            <td>
+                                              <a href="{{ path('recibo_show', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                              </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Volver
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-usd"></span> Nuevo Recibo
+                                     </a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
                                      </a>
                                 </div>

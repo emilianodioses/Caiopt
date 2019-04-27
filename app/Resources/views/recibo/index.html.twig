@@ -1,57 +1,77 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+Recibos
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
 {% block body %}
-    <h1>Recibos list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>Numero</th>
-                <th>Total</th>
-                <th>Pendiente</th>
-                <th>Saldo</th>
-                <th>Activo</th>
-                <th>Createdby</th>
-                <th>Createdat</th>
-                <th>Updatedby</th>
-                <th>Updatedat</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for recibo in recibos %}
-            <tr>
-                <td><a href="{{ path('recibo_show', { 'id': recibo.id }) }}">{{ recibo.id }}</a></td>
-                <td>{% if recibo.fecha %}{{ recibo.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ recibo.numero }}</td>
-                <td>{{ recibo.total }}</td>
-                <td>{{ recibo.pendiente }}</td>
-                <td>{{ recibo.saldo }}</td>
-                <td>{% if recibo.activo %}Yes{% else %}No{% endif %}</td>
-                <td>{{ recibo.createdBy }}</td>
-                <td>{% if recibo.createdAt %}{{ recibo.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ recibo.updatedBy }}</td>
-                <td>{% if recibo.updatedAt %}{{ recibo.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('recibo_show', { 'id': recibo.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('recibo_edit', { 'id': recibo.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<form class="form-horizontal" action="{{path('recibo_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value=""/>
 
-    <ul>
-        <li>
-            <a href="{{ path('recibo_new') }}">Create a new recibo</a>
-        </li>
-    </ul>
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  {#
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('recibo_new', { 'comprobante': 0 }) }}"><i class="fa fa-plus"></i> Nuevo</a>
+                  #}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+                <tr>
+                    <th style="width: 10%">Nº Recibo</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Disponible</th>
+                    <th>Observaciones</th>
+                    <th style="width: 5%">Acciones</th>
+                </tr>
+            <tbody>
+            {% for recibo in recibos %}
+                <tr>
+                    <td>{{ recibo.numero }}</td>
+                    <td>{{ recibo.cliente }}</td>
+                    <td>{{ recibo.fecha|date('d-m-Y') }}</td>
+                    <td>{{ recibo.total }}</td>
+                    <td>{{ recibo.disponible }}</td>
+                    <td>{{ recibo.observaciones }}</td> 
+                    <td>
+                      <a href="{{ path('recibo_show', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      {#
+                      <a href="{{ path('recibo_edit', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      #}
+                      {% if recibo.activo %}
+                          <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 {% endblock %}

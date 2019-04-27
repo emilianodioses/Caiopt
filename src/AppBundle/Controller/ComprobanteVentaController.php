@@ -164,11 +164,14 @@ class ComprobanteVentaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
+        $reciboComprobantes = $em->getRepository('AppBundle:ReciboComprobante')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+
         $deleteForm = $this->createDeleteForm($comprobante);
 
         return $this->render('comprobanteventa/show.html.twig', array(
             'comprobante' => $comprobante,
             'comprobanteDetalles' => $comprobanteDetalles,
+            'reciboComprobantes' => $reciboComprobantes,
             'delete_form' => $deleteForm->createView(),
         ));
     }
