@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * OrdenTrabajo
+ * OrdenTrabajoContactologia
  *
- * @ORM\Table(name="orden_trabajo")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\OrdenTrabajoRepository")
+ * @ORM\Table(name="orden_trabajo_contactologia")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\OrdenTrabajoContactologiaRepository")
  */
-class OrdenTrabajo
+class OrdenTrabajoContactologia
 {
     /**
      * @var int
@@ -81,47 +81,37 @@ class OrdenTrabajo
     /**
      * @var string
      *
+     * @ORM\Column(name="diagnostico", type="string", length=255, nullable=true)
+     */
+    private $diagnostico;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rp", type="string", length=255, nullable=true)
+     */
+    private $rp;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
      */
     private $observaciones;
 
     /**
-     * @var \Taller
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Taller")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="taller_id", referencedColumnName="id", nullable=true)
-     * })
+     * @ORM\Column(name="motivacion", type="string", length=255, nullable=true)
      */
-    private $taller;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha_taller_pedido", type="datetime", nullable=true)
-     */
-    private $fechaTallerPedido;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha_talle_entrega", type="datetime", nullable=true)
-     */
-    private $fechaTallerEntrega;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="armado", type="boolean")
-     */
-    private $armado;
+    private $motivacion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="otros_trabajos", type="string", length=255, nullable=true)
+     * @ORM\Column(name="uso_lc", type="string", length=255, nullable=true)
      */
-    private $otrosTrabajos;
+    private $usoLC;
 
     /**
      * @var string
@@ -150,6 +140,91 @@ class OrdenTrabajo
      * @ORM\Column(name="saldo", type="decimal", precision=16, scale=2)
      */
     private $saldo = '0';
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rc_ojo_derecho_horizontal", type="decimal", precision=16, scale=2)
+     */
+    private $rcOjoDerechoHorizontal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rc_ojo_izquierdo_horizontal", type="decimal", precision=16, scale=2)
+     */
+    private $rcOjoIzquierdoHorizontal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rc_ojo_derecho_vertical", type="decimal", precision=16, scale=2)
+     */
+    private $rcOjoDerechoVertical;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rc_ojo_izquierdo_vertical", type="decimal", precision=16, scale=2)
+     */
+    private $rcOjoIzquierdoVertical;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_derecho_curvas", type="decimal", precision=16, scale=2)
+     */
+    private $ojoDerechoCurvas;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_izquierdo_curvas", type="decimal", precision=16, scale=2)
+     */
+    private $ojoIzquierdoCurvas;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_derecho_diametro", type="decimal", precision=16, scale=2)
+     */
+    private $ojoDerechoDiametro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_izquierdo_diametro", type="decimal", precision=16, scale=2)
+     */
+    private $ojoIzquierdoDiametro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_derecho_av", type="decimal", precision=16, scale=2)
+     */
+    private $ojoDerechoAV;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_izquierdo_av", type="decimal", precision=16, scale=2)
+     */
+    private $ojoIzquierdoAV;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_derecho_caracteristicas", type="string", length=255, nullable=true)
+     */
+    private $ojoDerechoCaracteristicas;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_izquierdo_caracteristicas", type="string", length=255, nullable=true)
+     */
+    private $ojoIzquierdoCaracteristicas;
 
     /**
      * @var string
@@ -376,9 +451,9 @@ class OrdenTrabajo
     private $updatedAt;
 
     /**
-     * @var ArrayCollection OrdenTrabajoDetalle
+     * @var ArrayCollection OrdenTrabajoContactologiaDetalle
      */
-    protected $ordenTrabajoDetalles;
+    protected $OrdenTrabajoContactologiaDetalles;
 
     /**
      * @var bool
@@ -387,36 +462,6 @@ class OrdenTrabajo
      */
     private $activo;
 
-
-    public function __construct()
-    {
-        $this->ordenTrabajoDetalles = new ArrayCollection();
-    }
-    
-    public function getOrdenTrabajoDetalles()
-    {
-        if (is_null($this->ordenTrabajoDetalles)) {
-            $this->ordenTrabajoDetalles = new ArrayCollection();
-        }
-        return $this->ordenTrabajoDetalles;
-    }
-
-    /*
-    public function setOrdenTrabajoDetalles(ArrayCollection $ordenTrabajoDetalles)
-    {
-        $this->ordenTrabajoDetalles = $ordenTrabajoDetalles;
-    }
-    */
-    
-    public function addOrdenTrabajoDetalle(OrdenTrabajoDetalle $ordenTrabajoDetalle)
-    {
-        $this->ordenTrabajoDetalles->add($ordenTrabajoDetalle);
-    }
-
-    public function removeOrdenTrabajoDetalle(OrdenTrabajoDetalle $ordenTrabajoDetalle)
-    {
-        $this->ordenTrabajoDetalles->remove($ordenTrabajoDetalle);
-    }
 
     /**
      * Get id
@@ -428,396 +473,43 @@ class OrdenTrabajo
         return $this->id;
     }
 
-    /**
-     * Set referencia
-     *
-     * @param string $referencia
-     *
-     * @return OrdenTrabajo
-     */
-    public function setReferencia($referencia)
+    public function __construct()
     {
-        $this->referencia = $referencia;
-
-        return $this;
+        $this->OrdenTrabajoContactologiaDetalles = new ArrayCollection();
+    }
+    
+    public function getOrdenTrabajoContactologiaDetalles()
+    {
+        if (is_null($this->OrdenTrabajoContactologiaDetalles)) {
+            $this->OrdenTrabajoContactologiaDetalles = new ArrayCollection();
+        }
+        return $this->OrdenTrabajoContactologiaDetalles;
     }
 
-    /**
-     * Get referencia
-     *
-     * @return string
-     */
-    public function getReferencia()
+    /*
+    public function setOrdenTrabajoContactologiaDetalles(ArrayCollection $OrdenTrabajoContactologiaDetalles)
     {
-        return $this->referencia;
+        $this->OrdenTrabajoContactologiaDetalles = $OrdenTrabajoContactologiaDetalles;
+    }
+    */
+    
+    public function addOrdenTrabajoContactologiaDetalle(OrdenTrabajoContactologiaDetalle $OrdenTrabajoContactologiaDetalle)
+    {
+        $this->OrdenTrabajoContactologiaDetalles->add($OrdenTrabajoContactologiaDetalle);
     }
 
-    /**
-     * Set estado
-     *
-     * @param string $estado
-     *
-     * @return OrdenTrabajo
-     */
-    public function setEstado($estado)
+    public function removeOrdenTrabajoContactologiaDetalle(OrdenTrabajoContactologiaDetalle $OrdenTrabajoContactologiaDetalle)
     {
-        $this->estado = $estado;
-
-        return $this;
+        $this->OrdenTrabajoContactologiaDetalles->remove($OrdenTrabajoContactologiaDetalle);
     }
 
-    /**
-     * Get estado
-     *
-     * @return string
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
-
-    /**
-     * Set cristales
-     *
-     * @param string $cristales
-     *
-     * @return OrdenTrabajo
-     */
-    public function setCristales($cristales)
-    {
-        $this->cristales = $cristales;
-
-        return $this;
-    }
-
-    /**
-     * Get cristales
-     *
-     * @return string
-     */
-    public function getCristales()
-    {
-        return $this->cristales;
-    }
-
-    /**
-     * Set montura
-     *
-     * @param string $montura
-     *
-     * @return OrdenTrabajo
-     */
-    public function setMontura($montura)
-    {
-        $this->montura = $montura;
-
-        return $this;
-    }
-
-    /**
-     * Get montura
-     *
-     * @return string
-     */
-    public function getMontura()
-    {
-        return $this->montura;
-    }
-
-    /**
-     * Set observaciones
-     *
-     * @param string $observaciones
-     *
-     * @return OrdenTrabajo
-     */
-    public function setObservaciones($observaciones)
-    {
-        $this->observaciones = $observaciones;
-
-        return $this;
-    }
-
-    /**
-     * Get observaciones
-     *
-     * @return string
-     */
-    public function getObservaciones()
-    {
-        return $this->observaciones;
-    }
-
-    /**
-     * Set otrosTrabajos
-     *
-     * @param string $otrosTrabajos
-     *
-     * @return OrdenTrabajo
-     */
-    public function setOtrosTrabajos($otrosTrabajos)
-    {
-        $this->otrosTrabajos = $otrosTrabajos;
-
-        return $this;
-    }
-
-    /**
-     * Get otrosTrabajos
-     *
-     * @return string
-     */
-    public function getOtrosTrabajos()
-    {
-        return $this->otrosTrabajos;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return OrdenTrabajo
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * Set fechaEntrega
-     *
-     * @param \DateTime $fechaEntrega
-     *
-     * @return OrdenTrabajo
-     */
-    public function setFechaEntrega($fechaEntrega)
-    {
-        $this->fechaEntrega = $fechaEntrega;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaEntrega
-     *
-     * @return \DateTime
-     */
-    public function getFechaEntrega()
-    {
-        return $this->fechaEntrega;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return OrdenTrabajo
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return integer
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return OrdenTrabajo
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return OrdenTrabajo
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return integer
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return OrdenTrabajo
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set activo
-     *
-     * @param boolean $activo
-     *
-     * @return OrdenTrabajo
-     */
-    public function setActivo($activo)
-    {
-        $this->activo = $activo;
-
-        return $this;
-    }
-
-    /**
-     * Get activo
-     *
-     * @return boolean
-     */
-    public function getActivo()
-    {
-        return $this->activo;
-    }
-
-    /**
-     * Set cliente
-     *
-     * @param \AppBundle\Entity\Cliente $cliente
-     *
-     * @return OrdenTrabajo
-     */
-    public function setCliente(\AppBundle\Entity\Cliente $cliente = null)
-    {
-        $this->cliente = $cliente;
-
-        return $this;
-    }
-
-    /**
-     * Get cliente
-     *
-     * @return \AppBundle\Entity\Cliente
-     */
-    public function getCliente()
-    {
-        return $this->cliente;
-    }
-
-    /**
-     * Set comprobante
-     *
-     * @param \AppBundle\Entity\Comprobante $comprobante
-     *
-     * @return OrdenTrabajo
-     */
-    public function setComprobante(\AppBundle\Entity\Comprobante $comprobante = null)
-    {
-        $this->comprobante = $comprobante;
-
-        return $this;
-    }
-
-    /**
-     * Get comprobante
-     *
-     * @return \AppBundle\Entity\Comprobante
-     */
-    public function getComprobante()
-    {
-        return $this->comprobante;
-    }
-
-    /**
-     * Set taller
-     *
-     * @param \AppBundle\Entity\Taller $taller
-     *
-     * @return OrdenTrabajo
-     */
-    public function setTaller(\AppBundle\Entity\Taller $taller = null)
-    {
-        $this->taller = $taller;
-
-        return $this;
-    }
-
-    /**
-     * Get taller
-     *
-     * @return \AppBundle\Entity\Taller
-     */
-    public function getTaller()
-    {
-        return $this->taller;
-    }
 
     /**
      * Set fechaRecepcion
      *
      * @param \DateTime $fechaRecepcion
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setFechaRecepcion($fechaRecepcion)
     {
@@ -837,11 +529,35 @@ class OrdenTrabajo
     }
 
     /**
+     * Set fechaEntrega
+     *
+     * @param \DateTime $fechaEntrega
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setFechaEntrega($fechaEntrega)
+    {
+        $this->fechaEntrega = $fechaEntrega;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaEntrega
+     *
+     * @return \DateTime
+     */
+    public function getFechaEntrega()
+    {
+        return $this->fechaEntrega;
+    }
+
+    /**
      * Set medico
      *
      * @param string $medico
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setMedico($medico)
     {
@@ -865,7 +581,7 @@ class OrdenTrabajo
      *
      * @param \DateTime $fechaReceta
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setFechaReceta($fechaReceta)
     {
@@ -885,84 +601,155 @@ class OrdenTrabajo
     }
 
     /**
-     * Set fechaTallerPedido
+     * Set estado
      *
-     * @param \DateTime $fechaTallerPedido
+     * @param string $estado
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
-    public function setFechaTallerPedido($fechaTallerPedido)
+    public function setEstado($estado)
     {
-        $this->fechaTallerPedido = $fechaTallerPedido;
+        $this->estado = $estado;
 
         return $this;
     }
 
     /**
-     * Get fechaTallerPedido
+     * Get estado
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getFechaTallerPedido()
+    public function getEstado()
     {
-        return $this->fechaTallerPedido;
+        return $this->estado;
     }
 
     /**
-     * Set fechaTallerEntrega
+     * Set diagnostico
      *
-     * @param \DateTime $fechaTallerEntrega
+     * @param string $diagnostico
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
-    public function setFechaTallerEntrega($fechaTallerEntrega)
+    public function setDiagnostico($diagnostico)
     {
-        $this->fechaTallerEntrega = $fechaTallerEntrega;
+        $this->diagnostico = $diagnostico;
 
         return $this;
     }
 
     /**
-     * Get fechaTallerEntrega
+     * Get diagnostico
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getFechaTallerEntrega()
+    public function getDiagnostico()
     {
-        return $this->fechaTallerEntrega;
+        return $this->diagnostico;
     }
 
     /**
-     * Set armado
+     * Set rp
      *
-     * @param boolean $armado
+     * @param string $rp
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
-    public function setArmado($armado)
+    public function setRp($rp)
     {
-        $this->armado = $armado;
+        $this->rp = $rp;
 
         return $this;
     }
 
     /**
-     * Get armado
+     * Get rp
      *
-     * @return boolean
+     * @return string
      */
-    public function getArmado()
+    public function getRp()
     {
-        return $this->armado;
+        return $this->rp;
     }
 
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    /**
+     * Set motivacion
+     *
+     * @param string $motivacion
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setMotivacion($motivacion)
+    {
+        $this->motivacion = $motivacion;
+
+        return $this;
+    }
+
+    /**
+     * Get motivacion
+     *
+     * @return string
+     */
+    public function getMotivacion()
+    {
+        return $this->motivacion;
+    }
+
+    /**
+     * Set usoLC
+     *
+     * @param string $usoLC
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setUsoLC($usoLC)
+    {
+        $this->usoLC = $usoLC;
+
+        return $this;
+    }
+
+    /**
+     * Get usoLC
+     *
+     * @return string
+     */
+    public function getUsoLC()
+    {
+        return $this->usoLC;
+    }
 
     /**
      * Set total
      *
      * @param string $total
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setTotal($total)
     {
@@ -986,7 +773,7 @@ class OrdenTrabajo
      *
      * @param string $totalBonificacion
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setTotalBonificacion($totalBonificacion)
     {
@@ -1010,7 +797,7 @@ class OrdenTrabajo
      *
      * @param string $entrega
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setEntrega($entrega)
     {
@@ -1034,7 +821,7 @@ class OrdenTrabajo
      *
      * @param string $saldo
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setSaldo($saldo)
     {
@@ -1054,11 +841,299 @@ class OrdenTrabajo
     }
 
     /**
+     * Set rcOjoDerechoHorizontal
+     *
+     * @param string $rcOjoDerechoHorizontal
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setRcOjoDerechoHorizontal($rcOjoDerechoHorizontal)
+    {
+        $this->rcOjoDerechoHorizontal = $rcOjoDerechoHorizontal;
+
+        return $this;
+    }
+
+    /**
+     * Get rcOjoDerechoHorizontal
+     *
+     * @return string
+     */
+    public function getRcOjoDerechoHorizontal()
+    {
+        return $this->rcOjoDerechoHorizontal;
+    }
+
+    /**
+     * Set rcOjoIzquierdoHorizontal
+     *
+     * @param string $rcOjoIzquierdoHorizontal
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setRcOjoIzquierdoHorizontal($rcOjoIzquierdoHorizontal)
+    {
+        $this->rcOjoIzquierdoHorizontal = $rcOjoIzquierdoHorizontal;
+
+        return $this;
+    }
+
+    /**
+     * Get rcOjoIzquierdoHorizontal
+     *
+     * @return string
+     */
+    public function getRcOjoIzquierdoHorizontal()
+    {
+        return $this->rcOjoIzquierdoHorizontal;
+    }
+
+    /**
+     * Set rcOjoDerechoVertical
+     *
+     * @param string $rcOjoDerechoVertical
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setRcOjoDerechoVertical($rcOjoDerechoVertical)
+    {
+        $this->rcOjoDerechoVertical = $rcOjoDerechoVertical;
+
+        return $this;
+    }
+
+    /**
+     * Get rcOjoDerechoVertical
+     *
+     * @return string
+     */
+    public function getRcOjoDerechoVertical()
+    {
+        return $this->rcOjoDerechoVertical;
+    }
+
+    /**
+     * Set rcOjoIzquierdoVertical
+     *
+     * @param string $rcOjoIzquierdoVertical
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setRcOjoIzquierdoVertical($rcOjoIzquierdoVertical)
+    {
+        $this->rcOjoIzquierdoVertical = $rcOjoIzquierdoVertical;
+
+        return $this;
+    }
+
+    /**
+     * Get rcOjoIzquierdoVertical
+     *
+     * @return string
+     */
+    public function getRcOjoIzquierdoVertical()
+    {
+        return $this->rcOjoIzquierdoVertical;
+    }
+
+    /**
+     * Set ojoDerechoCurvas
+     *
+     * @param string $ojoDerechoCurvas
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoDerechoCurvas($ojoDerechoCurvas)
+    {
+        $this->ojoDerechoCurvas = $ojoDerechoCurvas;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoDerechoCurvas
+     *
+     * @return string
+     */
+    public function getOjoDerechoCurvas()
+    {
+        return $this->ojoDerechoCurvas;
+    }
+
+    /**
+     * Set ojoIzquierdoCurvas
+     *
+     * @param string $ojoIzquierdoCurvas
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoIzquierdoCurvas($ojoIzquierdoCurvas)
+    {
+        $this->ojoIzquierdoCurvas = $ojoIzquierdoCurvas;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoIzquierdoCurvas
+     *
+     * @return string
+     */
+    public function getOjoIzquierdoCurvas()
+    {
+        return $this->ojoIzquierdoCurvas;
+    }
+
+    /**
+     * Set ojoDerechoDiametro
+     *
+     * @param string $ojoDerechoDiametro
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoDerechoDiametro($ojoDerechoDiametro)
+    {
+        $this->ojoDerechoDiametro = $ojoDerechoDiametro;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoDerechoDiametro
+     *
+     * @return string
+     */
+    public function getOjoDerechoDiametro()
+    {
+        return $this->ojoDerechoDiametro;
+    }
+
+    /**
+     * Set ojoIzquierdoDiametro
+     *
+     * @param string $ojoIzquierdoDiametro
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoIzquierdoDiametro($ojoIzquierdoDiametro)
+    {
+        $this->ojoIzquierdoDiametro = $ojoIzquierdoDiametro;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoIzquierdoDiametro
+     *
+     * @return string
+     */
+    public function getOjoIzquierdoDiametro()
+    {
+        return $this->ojoIzquierdoDiametro;
+    }
+
+    /**
+     * Set ojoDerechoAV
+     *
+     * @param string $ojoDerechoAV
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoDerechoAV($ojoDerechoAV)
+    {
+        $this->ojoDerechoAV = $ojoDerechoAV;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoDerechoAV
+     *
+     * @return string
+     */
+    public function getOjoDerechoAV()
+    {
+        return $this->ojoDerechoAV;
+    }
+
+    /**
+     * Set ojoIzquierdoAV
+     *
+     * @param string $ojoIzquierdoAV
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoIzquierdoAV($ojoIzquierdoAV)
+    {
+        $this->ojoIzquierdoAV = $ojoIzquierdoAV;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoIzquierdoAV
+     *
+     * @return string
+     */
+    public function getOjoIzquierdoAV()
+    {
+        return $this->ojoIzquierdoAV;
+    }
+
+    /**
+     * Set ojoDerechoCaracteristicas
+     *
+     * @param string $ojoDerechoCaracteristicas
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoDerechoCaracteristicas($ojoDerechoCaracteristicas)
+    {
+        $this->ojoDerechoCaracteristicas = $ojoDerechoCaracteristicas;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoDerechoCaracteristicas
+     *
+     * @return string
+     */
+    public function getOjoDerechoCaracteristicas()
+    {
+        return $this->ojoDerechoCaracteristicas;
+    }
+
+    /**
+     * Set ojoIzquierdoCaracteristicas
+     *
+     * @param string $ojoIzquierdoCaracteristicas
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOjoIzquierdoCaracteristicas($ojoIzquierdoCaracteristicas)
+    {
+        $this->ojoIzquierdoCaracteristicas = $ojoIzquierdoCaracteristicas;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoIzquierdoCaracteristicas
+     *
+     * @return string
+     */
+    public function getOjoIzquierdoCaracteristicas()
+    {
+        return $this->ojoIzquierdoCaracteristicas;
+    }
+
+    /**
      * Set lejosOjoDerechoEje
      *
-     * @param integer $lejosOjoDerechoEje
+     * @param string $lejosOjoDerechoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setLejosOjoDerechoEje($lejosOjoDerechoEje)
     {
@@ -1070,7 +1145,7 @@ class OrdenTrabajo
     /**
      * Get lejosOjoDerechoEje
      *
-     * @return integer
+     * @return string
      */
     public function getLejosOjoDerechoEje()
     {
@@ -1080,9 +1155,9 @@ class OrdenTrabajo
     /**
      * Set lejosOjoIzquierdoEje
      *
-     * @param integer $lejosOjoIzquierdoEje
+     * @param string $lejosOjoIzquierdoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setLejosOjoIzquierdoEje($lejosOjoIzquierdoEje)
     {
@@ -1094,7 +1169,7 @@ class OrdenTrabajo
     /**
      * Get lejosOjoIzquierdoEje
      *
-     * @return integer
+     * @return string
      */
     public function getLejosOjoIzquierdoEje()
     {
@@ -1104,9 +1179,9 @@ class OrdenTrabajo
     /**
      * Set lejosOjoDerechoCilindro
      *
-     * @param integer $lejosOjoDerechoCilindro
+     * @param string $lejosOjoDerechoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setLejosOjoDerechoCilindro($lejosOjoDerechoCilindro)
     {
@@ -1118,7 +1193,7 @@ class OrdenTrabajo
     /**
      * Get lejosOjoDerechoCilindro
      *
-     * @return integer
+     * @return string
      */
     public function getLejosOjoDerechoCilindro()
     {
@@ -1128,9 +1203,9 @@ class OrdenTrabajo
     /**
      * Set lejosOjoIzquierdoCilindro
      *
-     * @param integer $lejosOjoIzquierdoCilindro
+     * @param string $lejosOjoIzquierdoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setLejosOjoIzquierdoCilindro($lejosOjoIzquierdoCilindro)
     {
@@ -1142,7 +1217,7 @@ class OrdenTrabajo
     /**
      * Get lejosOjoIzquierdoCilindro
      *
-     * @return integer
+     * @return string
      */
     public function getLejosOjoIzquierdoCilindro()
     {
@@ -1154,7 +1229,7 @@ class OrdenTrabajo
      *
      * @param integer $lejosOjoDerechoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setLejosOjoDerechoEsfera($lejosOjoDerechoEsfera)
     {
@@ -1176,9 +1251,9 @@ class OrdenTrabajo
     /**
      * Set lejosOjoIzquierdoEsfera
      *
-     * @param integer $lejosOjoIzquierdoEsfera
+     * @param string $lejosOjoIzquierdoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setLejosOjoIzquierdoEsfera($lejosOjoIzquierdoEsfera)
     {
@@ -1190,7 +1265,7 @@ class OrdenTrabajo
     /**
      * Get lejosOjoIzquierdoEsfera
      *
-     * @return integer
+     * @return string
      */
     public function getLejosOjoIzquierdoEsfera()
     {
@@ -1200,9 +1275,9 @@ class OrdenTrabajo
     /**
      * Set cercaOjoDerechoEje
      *
-     * @param integer $cercaOjoDerechoEje
+     * @param string $cercaOjoDerechoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setCercaOjoDerechoEje($cercaOjoDerechoEje)
     {
@@ -1214,7 +1289,7 @@ class OrdenTrabajo
     /**
      * Get cercaOjoDerechoEje
      *
-     * @return integer
+     * @return string
      */
     public function getCercaOjoDerechoEje()
     {
@@ -1224,9 +1299,9 @@ class OrdenTrabajo
     /**
      * Set cercaOjoIzquierdoEje
      *
-     * @param integer $cercaOjoIzquierdoEje
+     * @param string $cercaOjoIzquierdoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setCercaOjoIzquierdoEje($cercaOjoIzquierdoEje)
     {
@@ -1238,7 +1313,7 @@ class OrdenTrabajo
     /**
      * Get cercaOjoIzquierdoEje
      *
-     * @return integer
+     * @return string
      */
     public function getCercaOjoIzquierdoEje()
     {
@@ -1248,9 +1323,9 @@ class OrdenTrabajo
     /**
      * Set cercaOjoDerechoCilindro
      *
-     * @param integer $cercaOjoDerechoCilindro
+     * @param string $cercaOjoDerechoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setCercaOjoDerechoCilindro($cercaOjoDerechoCilindro)
     {
@@ -1262,7 +1337,7 @@ class OrdenTrabajo
     /**
      * Get cercaOjoDerechoCilindro
      *
-     * @return integer
+     * @return string
      */
     public function getCercaOjoDerechoCilindro()
     {
@@ -1272,9 +1347,9 @@ class OrdenTrabajo
     /**
      * Set cercaOjoIzquierdoCilindro
      *
-     * @param integer $cercaOjoIzquierdoCilindro
+     * @param string $cercaOjoIzquierdoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setCercaOjoIzquierdoCilindro($cercaOjoIzquierdoCilindro)
     {
@@ -1286,7 +1361,7 @@ class OrdenTrabajo
     /**
      * Get cercaOjoIzquierdoCilindro
      *
-     * @return integer
+     * @return string
      */
     public function getCercaOjoIzquierdoCilindro()
     {
@@ -1296,9 +1371,9 @@ class OrdenTrabajo
     /**
      * Set cercaOjoDerechoEsfera
      *
-     * @param integer $cercaOjoDerechoEsfera
+     * @param string $cercaOjoDerechoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setCercaOjoDerechoEsfera($cercaOjoDerechoEsfera)
     {
@@ -1310,7 +1385,7 @@ class OrdenTrabajo
     /**
      * Get cercaOjoDerechoEsfera
      *
-     * @return integer
+     * @return string
      */
     public function getCercaOjoDerechoEsfera()
     {
@@ -1320,9 +1395,9 @@ class OrdenTrabajo
     /**
      * Set cercaOjoIzquierdoEsfera
      *
-     * @param integer $cercaOjoIzquierdoEsfera
+     * @param string $cercaOjoIzquierdoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setCercaOjoIzquierdoEsfera($cercaOjoIzquierdoEsfera)
     {
@@ -1334,7 +1409,7 @@ class OrdenTrabajo
     /**
      * Get cercaOjoIzquierdoEsfera
      *
-     * @return integer
+     * @return string
      */
     public function getCercaOjoIzquierdoEsfera()
     {
@@ -1344,9 +1419,9 @@ class OrdenTrabajo
     /**
      * Set ojoDerechoDnp
      *
-     * @param integer $ojoDerechoDnp
+     * @param string $ojoDerechoDnp
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setOjoDerechoDnp($ojoDerechoDnp)
     {
@@ -1358,7 +1433,7 @@ class OrdenTrabajo
     /**
      * Get ojoDerechoDnp
      *
-     * @return integer
+     * @return string
      */
     public function getOjoDerechoDnp()
     {
@@ -1368,9 +1443,9 @@ class OrdenTrabajo
     /**
      * Set ojoIzquierdoDnp
      *
-     * @param integer $ojoIzquierdoDnp
+     * @param string $ojoIzquierdoDnp
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setOjoIzquierdoDnp($ojoIzquierdoDnp)
     {
@@ -1382,7 +1457,7 @@ class OrdenTrabajo
     /**
      * Get ojoIzquierdoDnp
      *
-     * @return integer
+     * @return string
      */
     public function getOjoIzquierdoDnp()
     {
@@ -1394,7 +1469,7 @@ class OrdenTrabajo
      *
      * @param string $antesLejosOjoDerechoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesLejosOjoDerechoEje($antesLejosOjoDerechoEje)
     {
@@ -1418,7 +1493,7 @@ class OrdenTrabajo
      *
      * @param string $antesLejosOjoIzquierdoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesLejosOjoIzquierdoEje($antesLejosOjoIzquierdoEje)
     {
@@ -1442,7 +1517,7 @@ class OrdenTrabajo
      *
      * @param string $antesLejosOjoDerechoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesLejosOjoDerechoCilindro($antesLejosOjoDerechoCilindro)
     {
@@ -1466,7 +1541,7 @@ class OrdenTrabajo
      *
      * @param string $antesLejosOjoIzquierdoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesLejosOjoIzquierdoCilindro($antesLejosOjoIzquierdoCilindro)
     {
@@ -1490,7 +1565,7 @@ class OrdenTrabajo
      *
      * @param integer $antesLejosOjoDerechoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesLejosOjoDerechoEsfera($antesLejosOjoDerechoEsfera)
     {
@@ -1514,7 +1589,7 @@ class OrdenTrabajo
      *
      * @param string $antesLejosOjoIzquierdoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesLejosOjoIzquierdoEsfera($antesLejosOjoIzquierdoEsfera)
     {
@@ -1538,7 +1613,7 @@ class OrdenTrabajo
      *
      * @param string $antesCercaOjoDerechoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesCercaOjoDerechoEje($antesCercaOjoDerechoEje)
     {
@@ -1562,7 +1637,7 @@ class OrdenTrabajo
      *
      * @param string $antesCercaOjoIzquierdoEje
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesCercaOjoIzquierdoEje($antesCercaOjoIzquierdoEje)
     {
@@ -1586,7 +1661,7 @@ class OrdenTrabajo
      *
      * @param string $antesCercaOjoDerechoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesCercaOjoDerechoCilindro($antesCercaOjoDerechoCilindro)
     {
@@ -1610,7 +1685,7 @@ class OrdenTrabajo
      *
      * @param string $antesCercaOjoIzquierdoCilindro
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesCercaOjoIzquierdoCilindro($antesCercaOjoIzquierdoCilindro)
     {
@@ -1634,7 +1709,7 @@ class OrdenTrabajo
      *
      * @param string $antesCercaOjoDerechoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesCercaOjoDerechoEsfera($antesCercaOjoDerechoEsfera)
     {
@@ -1658,7 +1733,7 @@ class OrdenTrabajo
      *
      * @param string $antesCercaOjoIzquierdoEsfera
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesCercaOjoIzquierdoEsfera($antesCercaOjoIzquierdoEsfera)
     {
@@ -1682,7 +1757,7 @@ class OrdenTrabajo
      *
      * @param string $antesOjoDerechoDnp
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesOjoDerechoDnp($antesOjoDerechoDnp)
     {
@@ -1706,7 +1781,7 @@ class OrdenTrabajo
      *
      * @param string $antesOjoIzquierdoDnp
      *
-     * @return OrdenTrabajo
+     * @return OrdenTrabajoContactologia
      */
     public function setAntesOjoIzquierdoDnp($antesOjoIzquierdoDnp)
     {
@@ -1723,5 +1798,173 @@ class OrdenTrabajo
     public function getAntesOjoIzquierdoDnp()
     {
         return $this->antesOjoIzquierdoDnp;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param integer $createdBy
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return integer
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param integer $updatedBy
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setUpdatedBy($updatedBy)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return integer
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+    /**
+     * Set cliente
+     *
+     * @param \AppBundle\Entity\Cliente $cliente
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setCliente(\AppBundle\Entity\Cliente $cliente = null)
+    {
+        $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    /**
+     * Get cliente
+     *
+     * @return \AppBundle\Entity\Cliente
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
+
+    /**
+     * Set comprobante
+     *
+     * @param \AppBundle\Entity\Comprobante $comprobante
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setComprobante(\AppBundle\Entity\Comprobante $comprobante = null)
+    {
+        $this->comprobante = $comprobante;
+
+        return $this;
+    }
+
+    /**
+     * Get comprobante
+     *
+     * @return \AppBundle\Entity\Comprobante
+     */
+    public function getComprobante()
+    {
+        return $this->comprobante;
     }
 }

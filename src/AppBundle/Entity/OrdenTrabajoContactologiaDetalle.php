@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OrdenTrabajoDetalle
+ * OrdenTrabajoContactologiaDetalle
  *
- * @ORM\Table(name="orden_trabajo_detalle")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\OrdenTrabajoDetalleRepository")
+ * @ORM\Table(name="orden_trabajo_contactologia_detalle")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\OrdenTrabajoContactologiaDetalleRepository")
  */
-class OrdenTrabajoDetalle
+class OrdenTrabajoContactologiaDetalle
 {
     /**
      * @var int
@@ -24,12 +24,12 @@ class OrdenTrabajoDetalle
     /**
      * @var \ordenTrabajo
      *
-     * @ORM\ManyToOne(targetEntity="OrdenTrabajo")
+     * @ORM\ManyToOne(targetEntity="OrdenTrabajoContactologia")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="orden_trabajo_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="orden_trabajo_contactologia_id", referencedColumnName="id")
      * })
      */
-    private $ordenTrabajo;
+    private $ordenTrabajoContactologia;
 
     /**
      * @var \Articulo
@@ -126,7 +126,7 @@ class OrdenTrabajoDetalle
      *
      * @param \DateTime $fechaEntrega
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setFechaEntrega($fechaEntrega)
     {
@@ -150,7 +150,7 @@ class OrdenTrabajoDetalle
      *
      * @param integer $createdBy
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setCreatedBy($createdBy)
     {
@@ -174,7 +174,7 @@ class OrdenTrabajoDetalle
      *
      * @param \DateTime $createdAt
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setCreatedAt($createdAt)
     {
@@ -198,7 +198,7 @@ class OrdenTrabajoDetalle
      *
      * @param integer $updatedBy
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setUpdatedBy($updatedBy)
     {
@@ -222,7 +222,7 @@ class OrdenTrabajoDetalle
      *
      * @param \DateTime $updatedAt
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -246,7 +246,7 @@ class OrdenTrabajoDetalle
      *
      * @param boolean $activo
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setActivo($activo)
     {
@@ -270,7 +270,7 @@ class OrdenTrabajoDetalle
      *
      * @param string $estado
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setEstado($estado)
     {
@@ -294,7 +294,7 @@ class OrdenTrabajoDetalle
      *
      * @param \AppBundle\Entity\OrdenTrabajo $ordenTrabajo
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setOrdenTrabajo(\AppBundle\Entity\OrdenTrabajo $ordenTrabajo = null)
     {
@@ -318,7 +318,7 @@ class OrdenTrabajoDetalle
      *
      * @param \AppBundle\Entity\Articulo $articulo
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setArticulo(\AppBundle\Entity\Articulo $articulo = null)
     {
@@ -342,7 +342,7 @@ class OrdenTrabajoDetalle
      *
      * @param string $importeBonificacion
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setImporteBonificacion($importeBonificacion)
     {
@@ -366,7 +366,7 @@ class OrdenTrabajoDetalle
      *
      * @param string $total
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setTotal($total)
     {
@@ -390,7 +390,7 @@ class OrdenTrabajoDetalle
      *
      * @param string $precioVenta
      *
-     * @return OrdenTrabajoDetalle
+     * @return OrdenTrabajoContactologiaDetalle
      */
     public function setPrecioVenta($precioVenta)
     {
@@ -407,5 +407,29 @@ class OrdenTrabajoDetalle
     public function getPrecioVenta()
     {
         return $this->precioVenta;
+    }
+
+    /**
+     * Set ordenTrabajoContactologia
+     *
+     * @param \AppBundle\Entity\OrdenTrabajoContactologia $ordenTrabajoContactologia
+     *
+     * @return OrdenTrabajoContactologiaDetalle
+     */
+    public function setOrdenTrabajoContactologia(\AppBundle\Entity\OrdenTrabajoContactologia $ordenTrabajoContactologia = null)
+    {
+        $this->ordenTrabajoContactologia = $ordenTrabajoContactologia;
+
+        return $this;
+    }
+
+    /**
+     * Get ordenTrabajoContactologia
+     *
+     * @return \AppBundle\Entity\OrdenTrabajoContactologia
+     */
+    public function getOrdenTrabajoContactologia()
+    {
+        return $this->ordenTrabajoContactologia;
     }
 }

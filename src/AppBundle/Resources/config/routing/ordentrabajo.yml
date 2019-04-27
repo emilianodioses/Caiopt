@@ -24,6 +24,6 @@ ordentrabajo_delete:
     methods:  [GET, POST] 
 
 ordentrabajo_orden_imprimir:
-    path:     /{id}/facturaImprimir
+    path:     /{id}/ordenImprimir
     defaults: { _controller: "AppBundle:OrdenTrabajo:ordenImprimir" }
     methods:  [GET, POST]    

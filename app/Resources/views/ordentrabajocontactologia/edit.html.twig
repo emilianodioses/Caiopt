@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Orden de trabajo
+Nueva Orden de Trabajo
 {% endblock %}
 
 {% block header_description %}
@@ -11,14 +11,28 @@ Orden de trabajo
     <script src="{{ asset('js/jquery.collection.js') }}"></script>
 {% endblock %}
 
-{% block body %}
+{% block body %}  
 
-{% form_theme edit_form 'ordentrabajo/formCollection.html.twig' %}
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>  
+
+{% form_theme edit_form 'ordentrabajocontactologia/formCollection.html.twig' %}
 {{ form(edit_form) }}
 {{ form_end(edit_form) }}
 
 <script type="text/javascript">
-    $('.ordenTrabajoDetalle-collection').collection({
+    $('.ordenTrabajoContactologiaDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
         allow_down: false,
@@ -29,7 +43,7 @@ Orden de trabajo
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
             articulo = element.find("select.articulo");
-            entrega = element.find("OrdenTrabajoType_entrega");
+            entrega = element.find("OrdenTrabajoContactologiaType_entrega");
             
             articulo.on('change', function(){
                 fnArticuloChange($(this));
@@ -83,7 +97,7 @@ Orden de trabajo
         fnRenglonChange($(this));
     });
     //>> FIN FUNCIONES
-    
+
     function fnArticuloChange(articulo) {
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
@@ -129,7 +143,7 @@ Orden de trabajo
         var total_bonificacion = 0;
         var total = 0;
         
-        $("#OrdenTrabajoType_ordenTrabajoDetalles tr.item").each(function() {
+        $("#OrdenTrabajoContactologiaType_ordenTrabajoContactologiaDetalles tr.item").each(function() {
 
             var r_importeBonificacion = $(this).find("input.importeBonificacion");
             var r_total = $(this).find("input.total");
@@ -138,9 +152,9 @@ Orden de trabajo
             total += parseFloat(r_total.val());
         });
 
-        $("#OrdenTrabajoType_totalBonificacion").val(total_bonificacion.toFixed(2));
-        $("#OrdenTrabajoType_total").val(total.toFixed(2));
-        $("#OrdenTrabajoType_saldo").val(total.toFixed(2));
+        $("#OrdenTrabajoContactologiaType_totalBonificacion").val(total_bonificacion.toFixed(2));
+        $("#OrdenTrabajoContactologiaType_total").val(total.toFixed(2));
+        $("#OrdenTrabajoContactologiaType_saldo").val(total.toFixed(2));
         
         fnCalcularSaldo();
 
@@ -149,19 +163,20 @@ Orden de trabajo
 
     function fnCalcularSaldo() {
 
-        total = $("#OrdenTrabajoType_total").val();
-        entrega = $("#OrdenTrabajoType_entrega").val();
+        total = $("#OrdenTrabajoContactologiaType_total").val();
+        entrega = $("#OrdenTrabajoContactologiaType_entrega").val();
 
         var saldo = parseFloat(total - entrega);
 
-        $("#OrdenTrabajoType_saldo").val(saldo.toFixed(2));
+        $("#OrdenTrabajoContactologiaType_saldo").val(saldo.toFixed(2));
         
         return true;
     }
 
-    $('#OrdenTrabajoType_entrega').change(function() {
+    $('#OrdenTrabajoContactologiaType_entrega').change(function() {
        fnCalcularSaldo();
     });
 
-</script>      
+</script>          
+
 {% endblock %}

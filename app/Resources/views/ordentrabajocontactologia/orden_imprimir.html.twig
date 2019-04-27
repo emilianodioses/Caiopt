@@ -1,0 +1,320 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:9pt">
+    {% for pagina_nro in 1..2 %}
+
+    <table width="100%" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+                <td width="30%" align="left">
+                    <img width="150" height="40" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
+                    <b>OPTICA CONTINI</b>
+                    <br>
+                    {{empresaDireccion}}
+                    <br> 
+                    &nbsp;
+                    <b style="font-size:9">N° Ord: {{ ordenTrabajoContactologia.id }}</b> | 
+                    <b style="font-size:9">N° Comp: {{ ordenTrabajoContactologia.comprobante }}</b>
+                </td>
+                <td width="40%" align="left" border="1">
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Detalles:</u></b>
+                    <br>
+                    <br>
+                    Estado: {{ ordenTrabajoContactologia.estado }}
+                    <br>
+                    Diagnostico: {{ ordenTrabajoContactologia.diagnostico }}
+                    <br>
+                    Rp: {{ ordenTrabajoContactologia.rp }}
+                    <br>
+                    Observaciones: {{ ordenTrabajoContactologia.observaciones }}
+                    <br>
+                    Motivacion: {{ ordenTrabajoContactologia.motivacion }}
+                    <br>
+                    Usolc: {{ ordenTrabajoContactologia.usoLC }}
+                    <br>
+                </td>
+                <td width="30%" align="left">
+                    Fecha Recepcion: {{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}
+                    <br>
+                    Fecha Entrega: {{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}
+                    <br>
+                    <br>
+                    <b><u>ATENCION:</u></b>
+                    <br>
+                    Los trabajos recibidos tienen
+                    <br> 
+                    validez por 90 diás, de lo
+                    <br>
+                    contrario pierde todo derecho
+                    <br>
+                    sobre los mismos. (Art. 873-875 
+                    <br>
+                    del Codígo Civil)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td width="30%" align="left">
+                    &nbsp;
+                    <br>
+                    <b>Bonificacion: </b> {{ ordenTrabajoContactologia.totalbonificacion}}
+                    <br>
+                    <b>Total: </b> {{ ordenTrabajoContactologia.total}}
+                    <br>
+                    ---------------------------------------------
+                    <br>
+                    <b>Entrega: </b> {{ ordenTrabajoContactologia.entrega}}
+                    <br>
+                    <b>Saldo: </b> {{ ordenTrabajoContactologia.saldo}}
+                    <br>
+                </td>
+                <td width="70%" align="left">
+                    <b>Nombre: </b> {{ ordenTrabajoContactologia.cliente.nombre}}
+                    <br>
+                    <b>Direccion: </b> {{ ordenTrabajoContactologia.cliente.direccion}}
+                    <br>
+                    <b>Telefono: </b> {{ ordenTrabajoContactologia.cliente.telefono}}
+                    <br>
+                    <b>Celular: </b>
+                    <br>
+                    <b>Medico: </b> {{ ordenTrabajoContactologia.medico}}
+                    <br>
+                    <b>Fecha Receta: </b> {{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }}
+                    <br>
+                    <b>Observaciones: </b> {{ ordenTrabajoContactologia.observaciones }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td style="text-align: center"><b>Artículo</b></td>
+                <td style="text-align: center">Marca</td>
+                <td style="text-align: center">Material</td>
+                <td style="text-align: center">Forma</td>
+                <td style="text-align: center">Estilo</td>
+                <td style="text-align: center">P. Venta</td>
+                <td style="text-align: center">O.S</td>
+                <td style="text-align: center">Total</td>
+            </tr>
+            {% for ordenTrabajoContactologiaDetalle in ordentrabajocontactologiadetalles %}
+                <tr>
+                    <td style="text-align: center"><b>{{ ordenTrabajoContactologiaDetalle.articulo.descripcion }}</b></td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.articulo.marca }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.articulo.material }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.articulo.forma }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.articulo.estilo }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.precioVenta }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.importeBonificacion }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.total }}</td>
+                </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <b>ANTES:</b>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td rowspan="5" align="center">
+                    <br>
+                    &nbsp;
+                    <br>
+                    ESPC.
+                    <br>
+                    RECETA
+                </td>
+                <td colspan="2" align="center">
+                    VISION
+                </td>
+                <td align="center">
+                    ESF.
+                </td>
+                <td align="center">
+                    CIL.
+                </td>
+                <td align="center">
+                    EJE.
+                </td>
+                <td align="center">
+                    DNP.
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    LEJOS
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesOjoDerechoDnp }}</td>
+                
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesOjoIzquierdoDnp }}</td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    CERCA
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoEje }}</td>
+                <td rowspan="2" align="center">
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEje }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <b>DESPUES:</b>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td rowspan="5" align="center">
+                    <br>
+                    &nbsp;
+                    <br>
+                    ESPC.
+                    <br>
+                    RECETA
+                </td>
+                <td colspan="2" align="center">
+                    VISION
+                </td>
+                <td align="center">
+                    ESF.
+                </td>
+                <td align="center">
+                    CIL.
+                </td>
+                <td align="center">
+                    EJE.
+                </td>
+                <td align="center">
+                    DNP.
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    LEJOS
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoDnp }}</td>
+                
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDnp }}</td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    CERCA
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoEje }}</td>
+                <td rowspan="2" align="center">
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEje }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    &nbsp;
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td style="width: 9%" align="center"></td>
+                <td style="width: 10%" align="center">Horizontal</td>
+                <td style="width: 8%" align="center">Vertical</td>
+                <td style="width: 1%" align="center"></td>
+                <td style="width: 5%" align="center"></td>
+                <td style="width: 8%" align="center">Curvas</td>
+                <td style="width: 9%" align="center">Diametro</td>
+                <td style="width: 45%" align="center">Caracteristicas</td>
+                <td style="width: 5%"align="center">AV</td>
+            </tr>
+            <tr>
+                <td align="center">RC - OI</td>
+                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoHorizontal }}</td>
+                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoVertical }}</td>
+                <td align="center"></td>
+                <td align="center">OI</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCurvas }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDiametro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCaracteristicas }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoAV }}</td>
+            </tr>
+            <tr>
+                <td align="center">RC - OD</td>
+                <td align="center">{{ ordenTrabajoContactologia.rcOjoDerechoHorizontal }}</td>
+                <td align="center">{{ ordenTrabajoContactologia.rcOjoDerechoVertical }}</td>
+                <td align="center"></td>
+                <td align="center">OD</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoCurvas }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoDiametro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoCaracteristicas }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoAV }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    {% endfor %}
+</body>
