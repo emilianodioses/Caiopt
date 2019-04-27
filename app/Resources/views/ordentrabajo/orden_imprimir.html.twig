@@ -11,11 +11,8 @@
                     {{empresaDireccion}}
                     <br> 
                     &nbsp;
-                    <br> 
-                    <b style="font-size:10">N° Orden: {{ ordenTrabajo.id }}</b>
-                    <br> 
-                    <b style="font-size:10">N° Comprobante: {{ ordenTrabajo.comprobante }}</b>
-                    <br>
+                    <b style="font-size:9">N° Ord: {{ ordenTrabajo.id }}</b> | 
+                    <b style="font-size:9">N° Comp: {{ ordenTrabajo.comprobante }}</b>
                 </td>
                 <td width="30%" align="left" border="1">
                     <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>TALLER:</u></b>
@@ -118,6 +115,85 @@
     <br>
     &nbsp;
     <br>
+    <b>ANTES:</b>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td rowspan="5" align="center">
+                    <br>
+                    &nbsp;
+                    <br>
+                    ESPC.
+                    <br>
+                    RECETA
+                </td>
+                <td colspan="2" align="center">
+                    VISION
+                </td>
+                <td align="center">
+                    ESF.
+                </td>
+                <td align="center">
+                    CIL.
+                </td>
+                <td align="center">
+                    EJE.
+                </td>
+                <td align="center">
+                    DNP.
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    LEJOS
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesOjoDerechoDnp }}</td>
+                
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesOjoIzquierdoDnp }}</td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    CERCA
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoEje }}</td>
+                <td rowspan="2" align="center">
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEje }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <b>DESPUES:</b>
+    <br>
     <table width="100%" cellspacing="0" border="1">
         <tbody>
             <tr>
@@ -191,11 +267,6 @@
         </tbody>
     </table>
     <br>
-    &nbsp;
-    <br>
-    ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    <br>
-    &nbsp;
     <br>
     {% endfor %}
 </body>

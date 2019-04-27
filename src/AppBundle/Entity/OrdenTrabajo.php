@@ -152,102 +152,200 @@ class OrdenTrabajo
     private $saldo = '0';
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_derecho_eje", type="integer")
+     * @ORM\Column(name="lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
     private $lejosOjoDerechoEje;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_izquierdo_eje", type="integer")
+     * @ORM\Column(name="lejos_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
      */
     private $lejosOjoIzquierdoEje;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_derecho_cilindro", type="integer")
+     * @ORM\Column(name="lejos_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
      */
     private $lejosOjoDerechoCilindro;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_izquierdo_cilindro", type="integer")
+     * @ORM\Column(name="lejos_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
      */
     private $lejosOjoIzquierdoCilindro;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_derecho_esfera", type="integer")
+     * @ORM\Column(name="lejos_ojo_derecho_esfera", type="integer"), type="decimal", precision=16, scale=2)
      */
     private $lejosOjoDerechoEsfera;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="lejos_ojo_izquierdo_esfera", type="integer")
+     * @ORM\Column(name="lejos_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
      */
     private $lejosOjoIzquierdoEsfera;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="cerca_ojo_derecho_eje", type="integer")
+     * @ORM\Column(name="cerca_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
     private $cercaOjoDerechoEje;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="cerca_ojo_izquierdo_eje", type="integer")
+     * @ORM\Column(name="cerca_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
      */
     private $cercaOjoIzquierdoEje;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="cerca_ojo_derecho_cilindro", type="integer")
+     * @ORM\Column(name="cerca_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
      */
     private $cercaOjoDerechoCilindro;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="cerca_ojo_izquierdo_cilindro", type="integer")
+     * @ORM\Column(name="cerca_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
      */
     private $cercaOjoIzquierdoCilindro;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="cerca_ojo_derecho_esfera", type="integer")
+     * @ORM\Column(name="cerca_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
     private $cercaOjoDerechoEsfera;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="cerca_ojo_izquierdo_esfera", type="integer")
+     * @ORM\Column(name="cerca_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
      */
     private $cercaOjoIzquierdoEsfera;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="ojo_derecho_dnp", type="integer")
+     * @ORM\Column(name="ojo_derecho_dnp", type="decimal", precision=16, scale=2)
      */
     private $ojoDerechoDnp;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="ojo_izquierdo_dnp", type="integer")
+     * @ORM\Column(name="ojo_izquierdo_dnp", type="decimal", precision=16, scale=2)
      */
     private $ojoIzquierdoDnp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
+     */
+    private $antesLejosOjoDerechoEje;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_lejos_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
+     */
+    private $antesLejosOjoIzquierdoEje;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_lejos_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
+     */
+    private $antesLejosOjoDerechoCilindro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_lejos_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
+     */
+    private $antesLejosOjoIzquierdoCilindro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_lejos_ojo_derecho_esfera", type="integer"), type="decimal", precision=16, scale=2)
+     */
+    private $antesLejosOjoDerechoEsfera;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_lejos_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
+     */
+    private $antesLejosOjoIzquierdoEsfera;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_cerca_ojo_derecho_eje", type="decimal", precision=16, scale=2)
+     */
+    private $antesCercaOjoDerechoEje;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_cerca_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
+     */
+    private $antesCercaOjoIzquierdoEje;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="antes_cerca_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
+     */
+    private $antesCercaOjoDerechoCilindro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_cerca_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
+     */
+    private $antesCercaOjoIzquierdoCilindro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_cerca_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
+     */
+    private $antesCercaOjoDerechoEsfera;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_cerca_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
+     */
+    private $antesCercaOjoIzquierdoEsfera;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_ojo_derecho_dnp", type="decimal", precision=16, scale=2)
+     */
+    private $antesOjoDerechoDnp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_ojo_izquierdo_dnp", type="decimal", precision=16, scale=2)
+     */
+    private $antesOjoIzquierdoDnp;
 
     /**
      * @var int
@@ -1312,5 +1410,341 @@ class OrdenTrabajo
     public function getOjoIzquierdoDnp()
     {
         return $this->ojoIzquierdoDnp;
+    }
+
+    /**
+     * Set antesLejosOjoDerechoEje
+     *
+     * @param string $antesLejosOjoDerechoEje
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesLejosOjoDerechoEje($antesLejosOjoDerechoEje)
+    {
+        $this->antesLejosOjoDerechoEje = $antesLejosOjoDerechoEje;
+
+        return $this;
+    }
+
+    /**
+     * Get antesLejosOjoDerechoEje
+     *
+     * @return string
+     */
+    public function getAntesLejosOjoDerechoEje()
+    {
+        return $this->antesLejosOjoDerechoEje;
+    }
+
+    /**
+     * Set antesLejosOjoIzquierdoEje
+     *
+     * @param string $antesLejosOjoIzquierdoEje
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesLejosOjoIzquierdoEje($antesLejosOjoIzquierdoEje)
+    {
+        $this->antesLejosOjoIzquierdoEje = $antesLejosOjoIzquierdoEje;
+
+        return $this;
+    }
+
+    /**
+     * Get antesLejosOjoIzquierdoEje
+     *
+     * @return string
+     */
+    public function getAntesLejosOjoIzquierdoEje()
+    {
+        return $this->antesLejosOjoIzquierdoEje;
+    }
+
+    /**
+     * Set antesLejosOjoDerechoCilindro
+     *
+     * @param string $antesLejosOjoDerechoCilindro
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesLejosOjoDerechoCilindro($antesLejosOjoDerechoCilindro)
+    {
+        $this->antesLejosOjoDerechoCilindro = $antesLejosOjoDerechoCilindro;
+
+        return $this;
+    }
+
+    /**
+     * Get antesLejosOjoDerechoCilindro
+     *
+     * @return string
+     */
+    public function getAntesLejosOjoDerechoCilindro()
+    {
+        return $this->antesLejosOjoDerechoCilindro;
+    }
+
+    /**
+     * Set antesLejosOjoIzquierdoCilindro
+     *
+     * @param string $antesLejosOjoIzquierdoCilindro
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesLejosOjoIzquierdoCilindro($antesLejosOjoIzquierdoCilindro)
+    {
+        $this->antesLejosOjoIzquierdoCilindro = $antesLejosOjoIzquierdoCilindro;
+
+        return $this;
+    }
+
+    /**
+     * Get antesLejosOjoIzquierdoCilindro
+     *
+     * @return string
+     */
+    public function getAntesLejosOjoIzquierdoCilindro()
+    {
+        return $this->antesLejosOjoIzquierdoCilindro;
+    }
+
+    /**
+     * Set antesLejosOjoDerechoEsfera
+     *
+     * @param integer $antesLejosOjoDerechoEsfera
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesLejosOjoDerechoEsfera($antesLejosOjoDerechoEsfera)
+    {
+        $this->antesLejosOjoDerechoEsfera = $antesLejosOjoDerechoEsfera;
+
+        return $this;
+    }
+
+    /**
+     * Get antesLejosOjoDerechoEsfera
+     *
+     * @return integer
+     */
+    public function getAntesLejosOjoDerechoEsfera()
+    {
+        return $this->antesLejosOjoDerechoEsfera;
+    }
+
+    /**
+     * Set antesLejosOjoIzquierdoEsfera
+     *
+     * @param string $antesLejosOjoIzquierdoEsfera
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesLejosOjoIzquierdoEsfera($antesLejosOjoIzquierdoEsfera)
+    {
+        $this->antesLejosOjoIzquierdoEsfera = $antesLejosOjoIzquierdoEsfera;
+
+        return $this;
+    }
+
+    /**
+     * Get antesLejosOjoIzquierdoEsfera
+     *
+     * @return string
+     */
+    public function getAntesLejosOjoIzquierdoEsfera()
+    {
+        return $this->antesLejosOjoIzquierdoEsfera;
+    }
+
+    /**
+     * Set antesCercaOjoDerechoEje
+     *
+     * @param string $antesCercaOjoDerechoEje
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesCercaOjoDerechoEje($antesCercaOjoDerechoEje)
+    {
+        $this->antesCercaOjoDerechoEje = $antesCercaOjoDerechoEje;
+
+        return $this;
+    }
+
+    /**
+     * Get antesCercaOjoDerechoEje
+     *
+     * @return string
+     */
+    public function getAntesCercaOjoDerechoEje()
+    {
+        return $this->antesCercaOjoDerechoEje;
+    }
+
+    /**
+     * Set antesCercaOjoIzquierdoEje
+     *
+     * @param string $antesCercaOjoIzquierdoEje
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesCercaOjoIzquierdoEje($antesCercaOjoIzquierdoEje)
+    {
+        $this->antesCercaOjoIzquierdoEje = $antesCercaOjoIzquierdoEje;
+
+        return $this;
+    }
+
+    /**
+     * Get antesCercaOjoIzquierdoEje
+     *
+     * @return string
+     */
+    public function getAntesCercaOjoIzquierdoEje()
+    {
+        return $this->antesCercaOjoIzquierdoEje;
+    }
+
+    /**
+     * Set antesCercaOjoDerechoCilindro
+     *
+     * @param string $antesCercaOjoDerechoCilindro
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesCercaOjoDerechoCilindro($antesCercaOjoDerechoCilindro)
+    {
+        $this->antesCercaOjoDerechoCilindro = $antesCercaOjoDerechoCilindro;
+
+        return $this;
+    }
+
+    /**
+     * Get antesCercaOjoDerechoCilindro
+     *
+     * @return string
+     */
+    public function getAntesCercaOjoDerechoCilindro()
+    {
+        return $this->antesCercaOjoDerechoCilindro;
+    }
+
+    /**
+     * Set antesCercaOjoIzquierdoCilindro
+     *
+     * @param string $antesCercaOjoIzquierdoCilindro
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesCercaOjoIzquierdoCilindro($antesCercaOjoIzquierdoCilindro)
+    {
+        $this->antesCercaOjoIzquierdoCilindro = $antesCercaOjoIzquierdoCilindro;
+
+        return $this;
+    }
+
+    /**
+     * Get antesCercaOjoIzquierdoCilindro
+     *
+     * @return string
+     */
+    public function getAntesCercaOjoIzquierdoCilindro()
+    {
+        return $this->antesCercaOjoIzquierdoCilindro;
+    }
+
+    /**
+     * Set antesCercaOjoDerechoEsfera
+     *
+     * @param string $antesCercaOjoDerechoEsfera
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesCercaOjoDerechoEsfera($antesCercaOjoDerechoEsfera)
+    {
+        $this->antesCercaOjoDerechoEsfera = $antesCercaOjoDerechoEsfera;
+
+        return $this;
+    }
+
+    /**
+     * Get antesCercaOjoDerechoEsfera
+     *
+     * @return string
+     */
+    public function getAntesCercaOjoDerechoEsfera()
+    {
+        return $this->antesCercaOjoDerechoEsfera;
+    }
+
+    /**
+     * Set antesCercaOjoIzquierdoEsfera
+     *
+     * @param string $antesCercaOjoIzquierdoEsfera
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesCercaOjoIzquierdoEsfera($antesCercaOjoIzquierdoEsfera)
+    {
+        $this->antesCercaOjoIzquierdoEsfera = $antesCercaOjoIzquierdoEsfera;
+
+        return $this;
+    }
+
+    /**
+     * Get antesCercaOjoIzquierdoEsfera
+     *
+     * @return string
+     */
+    public function getAntesCercaOjoIzquierdoEsfera()
+    {
+        return $this->antesCercaOjoIzquierdoEsfera;
+    }
+
+    /**
+     * Set antesOjoDerechoDnp
+     *
+     * @param string $antesOjoDerechoDnp
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesOjoDerechoDnp($antesOjoDerechoDnp)
+    {
+        $this->antesOjoDerechoDnp = $antesOjoDerechoDnp;
+
+        return $this;
+    }
+
+    /**
+     * Get antesOjoDerechoDnp
+     *
+     * @return string
+     */
+    public function getAntesOjoDerechoDnp()
+    {
+        return $this->antesOjoDerechoDnp;
+    }
+
+    /**
+     * Set antesOjoIzquierdoDnp
+     *
+     * @param string $antesOjoIzquierdoDnp
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesOjoIzquierdoDnp($antesOjoIzquierdoDnp)
+    {
+        $this->antesOjoIzquierdoDnp = $antesOjoIzquierdoDnp;
+
+        return $this;
+    }
+
+    /**
+     * Get antesOjoIzquierdoDnp
+     *
+     * @return string
+     */
+    public function getAntesOjoIzquierdoDnp()
+    {
+        return $this->antesOjoIzquierdoDnp;
     }
 }
