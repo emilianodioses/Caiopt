@@ -281,7 +281,7 @@ class ComprobanteVentaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->get('session')->getFlashbag()->add('notice', 'El comprobante ya fue facturado. Edición denegada.');
+            $this->get('session')->getFlashbag()->add('warning', 'El comprobante ya fue facturado. Edición denegada.');
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
@@ -414,7 +414,7 @@ class ComprobanteVentaController extends Controller
         try {
             $res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);
         } catch (\Exception $e) {
-            $this->get('session')->getFlashbag()->add('notice', $e->getMessage());
+            $this->get('session')->getFlashbag()->add('warning', $e->getMessage());
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
         

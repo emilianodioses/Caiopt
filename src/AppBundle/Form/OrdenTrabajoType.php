@@ -131,200 +131,200 @@ class OrdenTrabajoType extends AbstractType
                         'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Saldo'))
-                ->add('lejosOjoDerechoEje',IntegerType::class, array(
+                ->add('lejosOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('lejosOjoIzquierdoEje',IntegerType::class, array(
+                ->add('lejosOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('lejosOjoDerechoCilindro',IntegerType::class, array(
+                ->add('lejosOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
-                ->add('lejosOjoIzquierdoCilindro',IntegerType::class, array(
+                ->add('lejosOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
-                ->add('lejosOjoDerechoEsfera',IntegerType::class, array(
+                ->add('lejosOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Derecho'))
-                ->add('lejosOjoIzquierdoEsfera',IntegerType::class, array(
+                ->add('lejosOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('cercaOjoDerechoEje',IntegerType::class, array(
+                ->add('cercaOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('cercaOjoIzquierdoEje',IntegerType::class, array(
+                ->add('cercaOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('cercaOjoDerechoCilindro',IntegerType::class, array(
+                ->add('cercaOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
-                ->add('cercaOjoIzquierdoCilindro',IntegerType::class, array(
+                ->add('cercaOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
-                ->add('cercaOjoDerechoEsfera',IntegerType::class, array(
+                ->add('cercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Derecho'))
-                ->add('cercaOjoIzquierdoEsfera',IntegerType::class, array(
+                ->add('cercaOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('ojoDerechoDnp',IntegerType::class, array(
+                ->add('ojoDerechoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'DNP OD'))
-                ->add('ojoIzquierdoDnp',IntegerType::class, array(
+                ->add('ojoIzquierdoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'DNP OI'))
-                ->add('antesLejosOjoDerechoEje',IntegerType::class, array(
+                ->add('antesLejosOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('antesLejosOjoIzquierdoEje',IntegerType::class, array(
+                ->add('antesLejosOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('antesLejosOjoDerechoCilindro',IntegerType::class, array(
+                ->add('antesLejosOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
-                ->add('antesLejosOjoIzquierdoCilindro',IntegerType::class, array(
+                ->add('antesLejosOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
-                ->add('antesLejosOjoDerechoEsfera',IntegerType::class, array(
+                ->add('antesLejosOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Derecho'))
-                ->add('antesLejosOjoIzquierdoEsfera',IntegerType::class, array(
+                ->add('antesLejosOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('antesCercaOjoDerechoEje',IntegerType::class, array(
+                ->add('antesCercaOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('antesCercaOjoIzquierdoEje',IntegerType::class, array(
+                ->add('antesCercaOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('antesCercaOjoDerechoCilindro',IntegerType::class, array(
+                ->add('antesCercaOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Derecho'))
-                ->add('antesCercaOjoIzquierdoCilindro',IntegerType::class, array(
+                ->add('antesCercaOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Cilindro Ojo Izquierdo'))
-                ->add('antesCercaOjoDerechoEsfera',IntegerType::class, array(
+                ->add('antesCercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Derecho'))
-                ->add('antesCercaOjoIzquierdoEsfera',IntegerType::class, array(
+                ->add('antesCercaOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('antesOjoDerechoDnp',IntegerType::class, array(
+                ->add('antesOjoDerechoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'DNP OD'))
-                ->add('antesOjoIzquierdoDnp',IntegerType::class, array(
+                ->add('antesOjoIzquierdoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.1,
+                    'step' => 0.01,
                     ),
                     'label' => 'DNP OI'))
                 ->add('ordenTrabajoDetalles', CollectionType::class, array(

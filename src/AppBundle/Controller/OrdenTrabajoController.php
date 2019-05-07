@@ -36,6 +36,7 @@ class OrdenTrabajoController extends Controller
     public function newAction(Request $request)
     {
         $ordenTrabajo = new Ordentrabajo();
+        $ordenTrabajo->setFechaRecepcion(new \DateTime("now"));
         $form = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
         $form->handleRequest($request);
 
@@ -120,8 +121,6 @@ class OrdenTrabajoController extends Controller
 
             $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
             $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
-
-            $em->persist($ordenTrabajo);
 
             $ordentrabajodetalle = new OrdenTrabajoDetalle();
             $ordentrabajodetalles  = $ordenTrabajo->getOrdenTrabajoDetalles()->toArray();

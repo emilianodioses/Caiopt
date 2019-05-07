@@ -36,6 +36,7 @@ class ReciboController extends Controller
     public function newAction(Request $request, Comprobante $comprobante)
     {
         $recibo = new Recibo();
+        $recibo->setFecha(new \DateTime("now"));
         $form = $this->createForm('AppBundle\Form\ReciboType', $recibo);
         $form->handleRequest($request);
 
