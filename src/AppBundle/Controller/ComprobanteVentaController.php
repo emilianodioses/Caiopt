@@ -11,6 +11,7 @@ use AppBundle\Form\ComprobanteType;
 use AppBundle\Form\ComprobanteDetalleType;
 use AppBundle\Form\OrdenTrabajoType;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Services\Mail;
 
 /**
  * Comprobante controller.
@@ -446,17 +447,6 @@ class ComprobanteVentaController extends Controller
      */
     public function facturaImprimirAction(Request $request, Comprobante $comprobante)
     {
-        // You can send the html as you want
-        /*
-        $html = '
-        <table border="1">
-            <tr>
-                <td>'.$comprobante->getTipo().'</td>
-                <td>'.$comprobante->getPuntoVenta().'</td>
-                <td>'.$comprobante->getNumero().'</td>
-            </tr>
-        </table>';
-        */
 
         $em = $this->getDoctrine()->getManager();
 
@@ -482,10 +472,6 @@ class ComprobanteVentaController extends Controller
                     break; 
             }
         }
-
-
-        //dump($comprobanteDetalles);
-        //die;
 
         $html = $this->renderView($facturaTemplate, array(
             'comprobante' => $comprobante,
@@ -522,4 +508,94 @@ class ComprobanteVentaController extends Controller
         $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
         $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
     }
+
+    /**
+     * Imprime la factura electrónica generada por medio de WS con afip.
+     *
+     */
+    public function enviarFacturaAction(Request $request, Comprobante $comprobante)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
+
+        //Si no fue facturado con el WS, solo podemos hacer una impresion interna
+        if (is_null($comprobante->getCaeNumero())){
+            $facturaTemplate = 'comprobanteventa/factura_imprimir_interna.html.twig';
+        }
+        else {
+            switch ($comprobante->getTipo()) {
+                case "FACTURA A":
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'A'.'.html.twig';
+                    break;
+                case "FACTURA B":
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
+                    break; 
+                case "FACTURA C": 
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'C'.'.html.twig';
+                    break; 
+                default:
+                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
+                    break; 
+            }
+        }
+
+        $html = $this->renderView($facturaTemplate, array(
+            'comprobante' => $comprobante,
+            'comprobanteDetalles' => $comprobanteDetalles,
+            'facturaTipo' => substr($comprobante->getTipo(),8,1),
+            'empresa' => $this->container->getParameter('empresa'),
+            'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
+            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
+            'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
+            'empresaCuit' => $this->container->getParameter('empresa_cuit'),
+            'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
+            'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
+        )
+        );
+
+        //set_time_limit(30); uncomment this line according to your needs
+        // If you are not in a controller, retrieve of some way the service container and then retrieve it
+        //$pdf = $this->container->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        //if you are in a controlller use :
+        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        //$pdf->SetAuthor('Our Code World');
+        //$pdf->SetTitle(('Our Code World Title'));
+        //$pdf->SetSubject('Our Code World Subject');
+        //$pdf->setFontSubsetting(true);
+        $pdf->SetFont('helvetica', '', 11, '', true);
+        //$pdf->SetMargins(20,20,40, true);
+        $pdf->AddPage();
+
+        $folder = $this->container->getParameter('dir_download');
+
+        
+        $filename = str_replace('FACTURA ', 'FACTURA_', ($folder. '/' .$comprobante->getTipo().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero()));
+        
+        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+        $pdf->Output($filename.".pdf",'F'); // This will output the PDF as a response directly
+
+
+        $parameters = array('titulo'              => 'Comprobante de Venta',
+                            'descripcion'         => 'Comprobante de Venta',
+                            'fechainicio'         => '',
+                            'horainicio'          => '',
+                            'ubicacion'           => '',
+                            'cliente'             => 'ivanrizzo@gmail.com',
+                            'nombreorganizador'   => '',
+                            'notificaciontipo'    => '',
+                            'eventopersonaid'     => '',
+                            'nombreinvitado'      => $comprobante->getCliente()->getNombre(),
+                            'eventoid'            => '');
+        $mailtemplate = 'newemail.html.twig';
+        
+        Mail::sendEmail($mailtemplate, $parameters, $filename);
+
+        return $this->redirectToRoute('comprobanteventa_show', 
+                array('id' => $comprobante->getId()));
+    }
+
 }

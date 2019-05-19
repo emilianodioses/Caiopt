@@ -32,3 +32,8 @@ comprobanteventa_factura_imprimir:
     path:     /{id}/facturaImprimir
     defaults: { _controller: "AppBundle:ComprobanteVenta:facturaImprimir" }
     methods:  [GET, POST]
+
+comprobanteventa_enviar_factura:
+    path:     /{id}/enviarFactura
+    defaults: { _controller: "AppBundle:ComprobanteVenta:enviarFactura" }
+    methods:  [GET, POST]    

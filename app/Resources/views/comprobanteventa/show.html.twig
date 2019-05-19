@@ -169,7 +169,9 @@
                                 </div>
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
-                                     </a>
+                                    </a>
+                                    <a href="{{ path('comprobanteventa_enviar_factura', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" title="Enviar Comprobante Interno"><span class="glyphicon glyphicon-envelope"></span>Enviar CI
+                                    </a>
                                 </div>
                             </div>
                         </div>

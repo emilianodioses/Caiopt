@@ -27,3 +27,8 @@ ordentrabajocontactologia_orden_imprimir:
     path:     /{id}/ordenImprimir
     defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:ordenImprimir" }
     methods:  [GET, POST]    
+
+ordentrabajocontactologia_cerrar:
+    path:     /{id}/cerrar
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:cerrar" }
+    methods:  [GET, POST]    

@@ -97,6 +97,25 @@ class OrdenTrabajoContactologiaController extends Controller
     }
 
     /**
+     * Cerrar orden de trabajo
+     *
+     */
+    public function cerrarAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
+        $ordenTrabajoContactologia->setEstado("Finalizado");  
+
+        $ordenTrabajoContactologia->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($ordenTrabajoContactologia);
+        
+        return $this->redirectToRoute('ordentrabajocontactologia_show', array('id' => $ordenTrabajoContactologia->getId()));
+    }
+
+    /**
      * Displays a form to edit an existing ordenTrabajoContactologia entity.
      *
      */
@@ -122,8 +141,8 @@ class OrdenTrabajoContactologiaController extends Controller
 
             $em->persist($ordenTrabajoContactologia);
 
-            $ordentrabajocontactologiadetalle = new OrdenTrabajoDetalle();
-            $ordentrabajocontactologiadetalles  = $ordenTrabajoContactologia->getOrdenTrabajoDetalles()->toArray();
+            $ordentrabajocontactologiadetalle = new OrdenTrabajoContactologiaDetalle();
+            $ordentrabajocontactologiadetalles  = $ordenTrabajoContactologia->getOrdenTrabajoContactologiaDetalles()->toArray();
 
             foreach($ordentrabajocontactologiadetalles as $ordentrabajocontactologiadetalle) {
                 $ordentrabajocontactologiadetalle->setOrdenTrabajo($ordenTrabajoContactologia);

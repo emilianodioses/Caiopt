@@ -290,15 +290,15 @@ class OrdenTrabajoContactologiaDetalle
     }
 
     /**
-     * Set ordenTrabajo
+     * Set ordenTrabajoContactologia
      *
-     * @param \AppBundle\Entity\OrdenTrabajo $ordenTrabajo
+     * @param \AppBundle\Entity\OrdenTrabajoContactologia $ordenTrabajoContactologia
      *
      * @return OrdenTrabajoContactologiaDetalle
      */
-    public function setOrdenTrabajo(\AppBundle\Entity\OrdenTrabajo $ordenTrabajo = null)
+    public function setOrdenTrabajo(\AppBundle\Entity\OrdenTrabajoContactologia $ordenTrabajoContactologia = null)
     {
-        $this->ordenTrabajo = $ordenTrabajo;
+        $this->ordenTrabajoContactologia = $ordenTrabajoContactologia;
 
         return $this;
     }
