@@ -37,9 +37,16 @@ class ComprobanteVentaController extends Controller
      * Creates a new comprobante entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $id)
     {
         $comprobante = new Comprobante();
+
+        //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro
+        $em = $this->getDoctrine()->getManager();
+        if($id > 0){
+            $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
+            $comprobante->setOrdenTrabajo($ordenTrabajo);      
+        }
 
         //Agrego Valor Default dia de la fecha a la fecha de venta
         $comprobante->setFecha(new \DateTime("now"));

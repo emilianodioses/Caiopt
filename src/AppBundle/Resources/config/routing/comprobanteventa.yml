@@ -9,8 +9,8 @@ comprobanteventa_show:
     methods:  GET
 
 comprobanteventa_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:ComprobanteVenta:new" }
+    path:     /{id}/new
+    defaults: { _controller: "AppBundle:ComprobanteVenta:new", id:0 }
     methods:  [GET, POST]
 
 comprobanteventa_edit:

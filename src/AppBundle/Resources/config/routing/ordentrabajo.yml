@@ -27,3 +27,10 @@ ordentrabajo_orden_imprimir:
     path:     /{id}/ordenImprimir
     defaults: { _controller: "AppBundle:OrdenTrabajo:ordenImprimir" }
     methods:  [GET, POST]    
+
+ordentrabajo_cerrar:
+    path:     /{id}/cerrar
+    defaults: { _controller: "AppBundle:OrdenTrabajo:cerrar" }
+    methods:  [GET, POST]
+
+    

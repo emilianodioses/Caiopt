@@ -171,6 +171,25 @@ class OrdenTrabajoController extends Controller
     }
 
     /**
+     * Cerrar orden de trabajo
+     *
+     */
+    public function cerrarAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id);
+        $ordenTrabajo->setEstado("Finalizado");  
+
+        $ordenTrabajo->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajo->setUpdatedAt(new \DateTime("now")); 
+        
+        $em->flush($ordenTrabajo);
+        
+        return $this->redirectToRoute('ordentrabajo_show', array('id' => $ordenTrabajo->getId()));
+    }
+
+    /**
      * Creates a form to delete a ordenTrabajo entity.
      *
      * @param OrdenTrabajo $ordenTrabajo The ordenTrabajo entity
