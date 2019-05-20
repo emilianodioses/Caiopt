@@ -386,7 +386,7 @@
                                     </a>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    {% if ordenTrabajoContactologia.saldo == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
+                                    {% if ordenTrabajoContactologia.comprobante.pendiente == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
                                         <a href="{{ path('ordentrabajocontactologia_cerrar', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
                                         </a>
                                     {% endif %}
@@ -399,7 +399,7 @@
                                         <a href="{{ path('ordentrabajocontactologia_new', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
                                         </a>
                                     {% else %}    
-                                        <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.saldo}}</b></span>Saldo Pendiente 
+                                        <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.comprobante.pendiente}}</b></span>Saldo Pendiente 
                                         </a>
                                     {% endif %}
                                 </div>

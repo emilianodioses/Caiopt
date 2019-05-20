@@ -25,6 +25,12 @@ class OrdenTrabajoContactologiaDetalleType extends AbstractType
             'Enviado' => 'Enviado',
             'Finalizado' => 'Finalizado');
 
+        $tipoCristal = array(
+            'Nuevo' => 'Nuevo',
+            'Pendiente' => 'Pendiente',
+            'Enviado' => 'Enviado',
+            'Finalizado' => 'Finalizado');    
+
         $builder->add('ordenTrabajoContactologia',HiddenType::class,array('label'=>'Orden Trabajo Contactologia'))
                 ->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
@@ -64,10 +70,14 @@ class OrdenTrabajoContactologiaDetalleType extends AbstractType
                     'label'=>'Importe Bonificación',
                     'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Obra Social/Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
                         ))
+                ->add('tipoCristal',ChoiceType::class,array(
+                    'label'=>false,
+                    'choices' => $tipoCristal,
+                    'choices_as_values' => true))
                 ->add('estado',ChoiceType::class,array(
-                        'label'=>false,
-                        'choices' => $estados,
-                        'choices_as_values' => true)) ;
+                    'label'=>false,
+                    'choices' => $estados,
+                    'choices_as_values' => true)) ;
     }/**
      * {@inheritdoc}
      */

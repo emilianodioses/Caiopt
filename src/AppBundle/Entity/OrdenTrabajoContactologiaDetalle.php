@@ -77,6 +77,13 @@ class OrdenTrabajoContactologiaDetalle
     private $estado;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_cristal", type="string", length=255)
+     */
+    private $tipoCristal;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="created_by", type="integer")
