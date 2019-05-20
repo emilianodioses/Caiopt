@@ -26,10 +26,11 @@ class OrdenTrabajoContactologiaDetalleType extends AbstractType
             'Finalizado' => 'Finalizado');
 
         $tipoCristal = array(
-            'Nuevo' => 'Nuevo',
-            'Pendiente' => 'Pendiente',
-            'Enviado' => 'Enviado',
-            'Finalizado' => 'Finalizado');    
+            'Nuevo' => 'Lejos',
+            'Pendiente' => 'Cerca',
+            'Enviado' => 'Bifocal',
+            'Enviado' => 'Ocupacional',
+            'Finalizado' => 'Progresivo');    
 
         $builder->add('ordenTrabajoContactologia',HiddenType::class,array('label'=>'Orden Trabajo Contactologia'))
                 ->add('articulo', Select2EntityType::class, array(

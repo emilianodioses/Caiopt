@@ -25,6 +25,13 @@ class OrdenTrabajoDetalleType extends AbstractType
             'Enviado' => 'Enviado',
             'Finalizado' => 'Finalizado');
 
+        $tipoCristal = array(
+            'Nuevo' => 'Lejos',
+            'Pendiente' => 'Cerca',
+            'Enviado' => 'Bifocal',
+            'Enviado' => 'Ocupacional',
+            'Finalizado' => 'Progresivo');
+
         $builder->add('ordenTrabajo',HiddenType::class,array('label'=>'Orden Trabajo'))
                 ->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',

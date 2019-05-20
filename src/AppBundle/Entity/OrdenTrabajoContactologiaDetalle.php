@@ -439,4 +439,28 @@ class OrdenTrabajoContactologiaDetalle
     {
         return $this->ordenTrabajoContactologia;
     }
+
+    /**
+     * Set tipoCristal
+     *
+     * @param string $tipoCristal
+     *
+     * @return OrdenTrabajoContactologiaDetalle
+     */
+    public function setTipoCristal($tipoCristal)
+    {
+        $this->tipoCristal = $tipoCristal;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoCristal
+     *
+     * @return string
+     */
+    public function getTipoCristal()
+    {
+        return $this->tipoCristal;
+    }
 }
