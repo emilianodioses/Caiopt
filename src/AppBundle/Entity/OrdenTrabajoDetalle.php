@@ -415,4 +415,28 @@ class OrdenTrabajoDetalle
     {
         return $this->precioVenta;
     }
+
+    /**
+     * Set tipoCristal
+     *
+     * @param string $tipoCristal
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setTipoCristal($tipoCristal)
+    {
+        $this->tipoCristal = $tipoCristal;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoCristal
+     *
+     * @return string
+     */
+    public function getTipoCristal()
+    {
+        return $this->tipoCristal;
+    }
 }
