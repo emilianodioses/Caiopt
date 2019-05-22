@@ -66,6 +66,8 @@ Clientes
                           <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                           </a>
                       {% endif %}
+                      <a href="{{ path('recibo_cliente_new', { 'cliente': cliente.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
+                      </a>
                   </td>
                 </tr>
             {% endfor %}

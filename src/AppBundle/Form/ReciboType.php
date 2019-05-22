@@ -62,23 +62,22 @@ class ReciboType extends AbstractType
                     'attr' => array('rows' => '20')
                 ))
                 ->add('clientePagos', CollectionType::class, array(
-                        'entry_type'   => ClientePagoType::class,
-                        'entry_options' => [
-                            'attr' => [
-                                'class' => 'item', // we want to use 'tr.item' as collection elements' selector
-                            ],
-                        ],
-                        'allow_add' => true,
-                        'allow_delete' => true,
-                        'prototype'    => true,
-                        'required'     => false,
-                        'by_reference' => true,
-                        'delete_empty' => true,
+                    'entry_type'   => ClientePagoType::class,
+                    'entry_options' => [
                         'attr' => [
-                            'class' => 'table clientePago-collection',
+                            'class' => 'item', // we want to use 'tr.item' as collection elements' selector
                         ],
-                    )
-                );
+                    ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype'    => true,
+                    'required'     => false,
+                    'by_reference' => true,
+                    'delete_empty' => true,
+                    'attr' => [
+                        'class' => 'table clientePago-collection',
+                    ],
+                ));
     }/**
      * {@inheritdoc}
      */

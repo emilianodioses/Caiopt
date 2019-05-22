@@ -71,17 +71,22 @@
                     <div class="form-group form-group-sm">
                         <table id="recibo_comprobantes" class="table table-hover">
                             <thead>
+                                <th hidden>Comprobante ID</th>
+                                <th style="width: 5%"></th>
                                 <th style="width: 15%">Pto. Venta</th>
                                 <th style="width: 15%">Nº Int.</th>
                                 <th style="width: 15%">Nº Fac.</th>
                                 <th style="width: 15%">Nº OT.</th>
                                 <th>Total</th>
                                 <th>Pendiente</th>
+                                
                             </thead>
                             <tbody>
                                 {% for reciboComprobante in reciboComprobantes %}
                                     {% set comprobante = reciboComprobante.comprobante %}
                                     <tr class="item">
+                                        <td hidden>{{comprobante.id}}</td>
+                                        <td><input type="checkbox" id="{{ comprobante.id }}" name="{{ comprobante.id }}" onchange="comprobante_checked(this)"></td>
                                         <td>{{ comprobante.puntoVenta }}</td>
                                         <td>{{ comprobante.numero }}</td>
                                         {% if comprobante.afipNumero is empty %}
