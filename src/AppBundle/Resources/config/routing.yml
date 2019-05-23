@@ -69,3 +69,11 @@ app_recibo:
 app_clientepago:
     resource: "@AppBundle/Resources/config/routing/clientepago.yml"
     prefix:   /clientepago
+
+app_rol:
+    resource: "@AppBundle/Resources/config/routing/rol.yml"
+    prefix:   /rol   
+     
+app_rolfuncion:
+    resource: "@AppBundle/Resources/config/routing/rolfuncion.yml"
+    prefix:   /rolfuncion

@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Roles
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+        {{ form_start(edit_form) }}
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales </h3>
+                </div>
+                <div class="box-body">
+                    {{ form_errors(edit_form) }}
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(edit_form.descripcion) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <select multiple="multiple" id='lstBox1' class="form-control" style="height:400px;">
+                            </select>
+                        </div>
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: center; vertical-align: middle;">
+                            <input type="button" id="btnAllRight" value=">>" class="btn btn-default" /><br />
+                            <input type="button" id="btnRight" value=">" class="btn btn-default" /><br />
+                            <input type="button" id="btnLeft" value="<" class="btn btn-default" /><br />
+                            <input type="button" id="btnAllLeft" value="<<" class="btn btn-default" />
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <select multiple="multiple" id='lstBox2' class="form-control" style="height:400px;">
+                                {% for funcion in rolFuncion %}
+                                    <option value="{{funcion.id}}">{{funcion.descripcion}}</option>   
+                                {% endfor %}  
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('rol_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+<script type="text/javascript">
+
+    (function () {
+    $('#btnRight').click(function (e) {
+        var selectedOpts = $('#lstBox1 option:selected');
+        if (selectedOpts.length == 0) {
+            alert("Nada para mover.");
+            e.preventDefault();
+        }
+        $('#lstBox2').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+    $('#btnAllRight').click(function (e) {
+        var selectedOpts = $('#lstBox1 option');
+        if (selectedOpts.length == 0) {
+            alert("Nada para move.");
+            e.preventDefault();
+        }
+        $('#lstBox2').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+    $('#btnLeft').click(function (e) {
+        var selectedOpts = $('#lstBox2 option:selected');
+        if (selectedOpts.length == 0) {
+            alert("Nada para move.");
+            e.preventDefault();
+        }
+        $('#lstBox1').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+    $('#btnAllLeft').click(function (e) {
+        var selectedOpts = $('#lstBox2 option');
+        if (selectedOpts.length == 0) {
+            alert("Nada para move.");
+            e.preventDefault();
+        }
+        $('#lstBox1').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+}(jQuery));
+
+</script>  
+
+{% endblock %}
