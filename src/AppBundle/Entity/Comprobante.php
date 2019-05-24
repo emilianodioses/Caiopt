@@ -63,6 +63,16 @@ class Comprobante
      */
     private $ordenTrabajo;
 
+    /**
+     * @var \OrdenTrabajo
+     *
+     * @ORM\ManyToOne(targetEntity="OrdenTrabajoContactologia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ordentrabajocontactologia_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $ordenTrabajoContactologia;
+
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
     /**
@@ -1105,5 +1115,29 @@ class Comprobante
     public function getPendiente()
     {
         return $this->pendiente;
+    }
+
+    /**
+     * Set ordenTrabajoContactologia
+     *
+     * @param \AppBundle\Entity\OrdenTrabajoContactologia $ordenTrabajoContactologia
+     *
+     * @return Comprobante
+     */
+    public function setOrdenTrabajoContactologia(\AppBundle\Entity\OrdenTrabajoContactologia $ordenTrabajoContactologia = null)
+    {
+        $this->ordenTrabajoContactologia = $ordenTrabajoContactologia;
+
+        return $this;
+    }
+
+    /**
+     * Get ordenTrabajoContactologia
+     *
+     * @return \AppBundle\Entity\OrdenTrabajoContactologia
+     */
+    public function getOrdenTrabajoContactologia()
+    {
+        return $this->ordenTrabajoContactologia;
     }
 }

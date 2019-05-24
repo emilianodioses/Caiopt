@@ -171,6 +171,16 @@ class Usuario implements AdvancedUserInterface , \Serializable
     private $sucursal;
 
     /**
+     * @var \Rol
+     *
+     * @ORM\ManyToOne(targetEntity="Rol")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
+     * })
+     */
+    private $rol;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="login_ultimo", type="datetime")
@@ -583,4 +593,28 @@ class Usuario implements AdvancedUserInterface , \Serializable
         return $this->sucursal;
     }
 
+
+    /**
+     * Set rol
+     *
+     * @param \AppBundle\Entity\Rol $rol
+     *
+     * @return Usuario
+     */
+    public function setRol(\AppBundle\Entity\Rol $rol = null)
+    {
+        $this->rol = $rol;
+
+        return $this;
+    }
+
+    /**
+     * Get rol
+     *
+     * @return \AppBundle\Entity\Rol
+     */
+    public function getRol()
+    {
+        return $this->rol;
+    }
 }

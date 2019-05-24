@@ -77,6 +77,13 @@ class OrdenTrabajoContactologiaDetalle
     private $estado;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_cristal", type="string", length=255)
+     */
+    private $tipoCristal;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="created_by", type="integer")
@@ -431,5 +438,29 @@ class OrdenTrabajoContactologiaDetalle
     public function getOrdenTrabajoContactologia()
     {
         return $this->ordenTrabajoContactologia;
+    }
+
+    /**
+     * Set tipoCristal
+     *
+     * @param string $tipoCristal
+     *
+     * @return OrdenTrabajoContactologiaDetalle
+     */
+    public function setTipoCristal($tipoCristal)
+    {
+        $this->tipoCristal = $tipoCristal;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoCristal
+     *
+     * @return string
+     */
+    public function getTipoCristal()
+    {
+        return $this->tipoCristal;
     }
 }

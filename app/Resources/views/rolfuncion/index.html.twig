@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rolfuncions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Modulo</th>
+                <th>Accion</th>
+                <th>Descripcion</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rolFuncion in rolFuncions %}
+            <tr>
+                <td><a href="{{ path('rolfuncion_show', { 'id': rolFuncion.id }) }}">{{ rolFuncion.id }}</a></td>
+                <td>{{ rolFuncion.modulo }}</td>
+                <td>{{ rolFuncion.accion }}</td>
+                <td>{{ rolFuncion.descripcion }}</td>
+                <td>{% if rolFuncion.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ rolFuncion.createdBy }}</td>
+                <td>{% if rolFuncion.createdAt %}{{ rolFuncion.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ rolFuncion.updatedBy }}</td>
+                <td>{% if rolFuncion.updatedAt %}{{ rolFuncion.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('rolfuncion_show', { 'id': rolFuncion.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

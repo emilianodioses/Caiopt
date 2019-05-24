@@ -257,7 +257,7 @@ class OrdenTrabajoContactologia
     /**
      * @var string
      *
-     * @ORM\Column(name="lejos_ojo_derecho_esfera", type="integer"), type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="lejos_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
     private $lejosOjoDerechoEsfera;
 
@@ -355,7 +355,7 @@ class OrdenTrabajoContactologia
     /**
      * @var string
      *
-     * @ORM\Column(name="antes_lejos_ojo_derecho_esfera", type="integer"), type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="antes_lejos_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
     private $antesLejosOjoDerechoEsfera;
 

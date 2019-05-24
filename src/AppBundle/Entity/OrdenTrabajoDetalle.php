@@ -77,6 +77,13 @@ class OrdenTrabajoDetalle
     private $estado;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_cristal", type="string", length=255)
+     */
+    private $tipoCristal;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="created_by", type="integer")
@@ -407,5 +414,29 @@ class OrdenTrabajoDetalle
     public function getPrecioVenta()
     {
         return $this->precioVenta;
+    }
+
+    /**
+     * Set tipoCristal
+     *
+     * @param string $tipoCristal
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setTipoCristal($tipoCristal)
+    {
+        $this->tipoCristal = $tipoCristal;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoCristal
+     *
+     * @return string
+     */
+    public function getTipoCristal()
+    {
+        return $this->tipoCristal;
     }
 }

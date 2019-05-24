@@ -25,6 +25,14 @@ class OrdenTrabajoDetalleType extends AbstractType
             'Enviado' => 'Enviado',
             'Finalizado' => 'Finalizado');
 
+        $tipoCristal = array(
+            'N/A' => 'N/A',
+            'Lejos' => 'Lejos',
+            'Cerca' => 'Cerca',
+            'Bifocal' => 'Bifocal',
+            'Ocupacional' => 'Ocupacional',
+            'Progresivo' => 'Progresivo');
+
         $builder->add('ordenTrabajo',HiddenType::class,array('label'=>'Orden Trabajo'))
                 ->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
@@ -64,10 +72,14 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'label'=>'Importe Bonificación',
                     'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Obra Social/Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
                         ))
+                ->add('tipoCristal',ChoiceType::class,array(
+                    'label'=>false,
+                    'choices' => $tipoCristal,
+                    'choices_as_values' => true))        
                 ->add('estado',ChoiceType::class,array(
-                        'label'=>false,
-                        'choices' => $estados,
-                        'choices_as_values' => true)) ;
+                    'label'=>false,
+                    'choices' => $estados,
+                    'choices_as_values' => true)) ;
     }/**
      * {@inheritdoc}
      */

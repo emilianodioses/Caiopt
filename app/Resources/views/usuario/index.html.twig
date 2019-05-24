@@ -37,6 +37,7 @@ Usuarios
                 <th>Usuario</th>
                 <th>Email</th>
                 <th>Estado</th>
+                <th>Rol</th>
                 <th>Acciones</th>
             </tr>
             <tbody>
@@ -52,6 +53,7 @@ Usuarios
                         <span class="label label-danger">Inactivo</span>
                     {% endif %}
                     </td>  
+                    <td>{{ usuario.rol }}</td>
                     <td>
                         <a href="{{ path('usuario_show', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                         </a>

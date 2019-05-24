@@ -38,15 +38,51 @@ class ComprobanteVentaController extends Controller
      * Creates a new comprobante entity.
      *
      */
-    public function newAction(Request $request, $id)
+    public function newAction(Request $request, $id, $tipo)
     {
         $comprobante = new Comprobante();
 
-        //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro
+        //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro y los articulos vinculados a ella.
         $em = $this->getDoctrine()->getManager();
-        if($id > 0){
-            $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
-            $comprobante->setOrdenTrabajo($ordenTrabajo);      
+        if($id > 0)
+        {
+            if($tipo != "contactologia"){
+                $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
+                $comprobante->setOrdenTrabajo($ordenTrabajo);      
+
+                /*
+                $ordenTrabajoDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(array('ordenTrabajo' => $ordenTrabajo));
+
+                foreach($ordenTrabajoDetalles as $ordenTrabajoDetalle) {  
+                    $comprobanteDetalle = new ComprobanteDetalle();
+                    $articulo = $em->getRepository('AppBundle:Articulo')->find($ordenTrabajoDetalle->getArticulo());
+
+                    $comprobanteDetalle->setArticulo($articulo);
+                    $comprobanteDetalle->setMovimiento('Venta');
+                    $comprobanteDetalle->setCantidad(1);
+
+                    $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
+                }
+                */
+            }
+            else
+            {
+                $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id); 
+                $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);      
+
+                /*
+                $ordenTrabajoContactologiaDetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(array('ordenTrabajoContactologia' => $ordenTrabajoContactologia));
+
+                foreach($ordenTrabajoContactologiaDetalles as $ordenTrabajoContactologiaDetalle) {  
+                    $comprobanteDetalle = new ComprobanteDetalle();
+                    $articulo = $em->getRepository('AppBundle:Articulo')->find($ordenTrabajoContactologiaDetalle->getArticulo());
+
+                    $comprobanteDetalle->setArticulo($articulo);
+
+                    $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
+                }
+                */
+            }
         }
 
         //Agrego Valor Default dia de la fecha a la fecha de venta
@@ -55,9 +91,7 @@ class ComprobanteVentaController extends Controller
 
         $form = $this->createForm(ComprobanteType::class, $comprobante);
 
-        $form->handleRequest($request);
-
-        
+        $form->handleRequest($request);        
 
         if ($form->isSubmitted()) {
 
@@ -205,8 +239,6 @@ class ComprobanteVentaController extends Controller
 
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
-
-
 
         $em = $this->getDoctrine()->getManager();
 

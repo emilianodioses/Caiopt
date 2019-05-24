@@ -217,7 +217,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="box box-success">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title"><i class="fa fa-user"></i> Vision ANTES</h3>
+                                        <h3 class="box-title"><i class="fa fa-user"></i> Vision ACTUAL</h3>
                                     </div>
                                     <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover">
@@ -267,7 +267,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="box box-success">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title"><i class="fa fa-user"></i> Vision DESPUES</h3>
+                                        <h3 class="box-title"><i class="fa fa-user"></i> Vision NUEVA</h3>
                                     </div>
                                     <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover">
@@ -386,20 +386,20 @@
                                     </a>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    {% if ordenTrabajoContactologia.saldo == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
-                                        <a href="{{ path('ordentrabajocontactologia_cerrar', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
-                                        </a>
-                                    {% endif %}
                                     {% if ordenTrabajoContactologia.estado != "Finalizado" %}
                                         <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
                                         </a>
                                     {% endif %} 
                                      <a href="{{ path('ordentrabajocontactologia_orden_imprimir', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Orden de Trabajo"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
                                      {% if ordenTrabajoContactologia.comprobante is empty %}
-                                        <a href="{{ path('ordentrabajocontactologia_new', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
+                                        <a href="{{ path('comprobanteventa_new', { 'id': ordenTrabajoContactologia.Id, 'tipo':'contactologia' }) }}" class="btn btn-app pull-right" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
                                         </a>
-                                    {% else %}    
-                                        <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.saldo}}</b></span>Saldo Pendiente 
+                                    {% else %}  
+                                        {% if ordenTrabajoContactologia.comprobante.pendiente == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
+                                            <a href="{{ path('ordentrabajocontactologia_cerrar', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
+                                            </a>
+                                        {% endif %}  
+                                        <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.comprobante.pendiente}}</b></span>Saldo Pendiente 
                                         </a>
                                     {% endif %}
                                 </div>

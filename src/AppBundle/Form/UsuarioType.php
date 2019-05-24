@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UsuarioType extends AbstractType
 {
@@ -36,6 +37,19 @@ class UsuarioType extends AbstractType
             'first_options'  => array('label' => 'Contraseña'),
             'second_options' => array('label' => 'Repita contraseña'),
         )); 
+
+        $builder->add('rol', EntityType::class, array(
+            'label' => 'Rol',
+            'class' => 'AppBundle:Rol',
+            'required' => true,
+            'choice_label' => 'descripcion',
+            'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                   return $er->createQueryBuilder('ic')
+                       ->where('ic.activo = 1')
+                       ->orderBy('ic.descripcion', 'ASC')
+                       ;
+               }
+        ));
 
         $builder->add('email', TextType::class, array(
             'label' => 'E-Mail', 'required' => true
