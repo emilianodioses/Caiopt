@@ -71,17 +71,23 @@
                     <div class="form-group form-group-sm">
                         <table id="recibo_comprobantes" class="table table-hover">
                             <thead>
-                                <th style="width: 15%">Pto. Venta</th>
-                                <th style="width: 15%">Nº Int.</th>
-                                <th style="width: 15%">Nº Fac.</th>
-                                <th style="width: 15%">Nº OT.</th>
+                                <th hidden>Comprobante ID</th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 12%">Pto. Venta</th>
+                                <th style="width: 12%">Nº Int.</th>
+                                <th style="width: 12%">Nº Fac.</th>
+                                <th style="width: 12%">Nº OT.</th>
+                                <th style="width: 20%">Tipo</th>
                                 <th>Total</th>
                                 <th>Pendiente</th>
+                                
                             </thead>
                             <tbody>
                                 {% for reciboComprobante in reciboComprobantes %}
                                     {% set comprobante = reciboComprobante.comprobante %}
                                     <tr class="item">
+                                        <td hidden>{{comprobante.id}}</td>
+                                        <td><input type="checkbox" id="{{ comprobante.id }}" name="{{ comprobante.id }}" onchange="comprobante_checked(this)"></td>
                                         <td>{{ comprobante.puntoVenta }}</td>
                                         <td>{{ comprobante.numero }}</td>
                                         {% if comprobante.afipNumero is empty %}
@@ -94,6 +100,7 @@
                                         {% else %}
                                           <td>{{ comprobante.ordenTrabajo.id }}</td>
                                         {% endif %}
+                                        <td>{{ comprobante.tipo.descripcion }}</td>
                                         <td>{{ comprobante.total }}</td>
                                         <td class="pendiente">{{ comprobante.pendiente }}</td>
                                     </tr>
@@ -111,7 +118,11 @@
                         <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
                     </div>
                     <div class="box-body">                
-                        <div class="row">      
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 
+                                <label class="control-label required" >Total Pendiente</label>   
+                                <input type="number" id="total_pendiente" name="total_pendiente" readonly="readonly" step="0.01" class="form-control">
+                            </div>
                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
                                 {{ form_row(form.total)}}
                             </div>

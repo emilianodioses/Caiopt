@@ -13,6 +13,11 @@ recibo_new:
     defaults: { _controller: "AppBundle:Recibo:new" }
     methods:  [GET, POST]
 
+recibo_cliente_new:
+    path:     /{cliente}/clienteNew
+    defaults: { _controller: "AppBundle:Recibo:clienteNew" }
+    methods:  [GET, POST]
+
 recibo_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Recibo:edit" }

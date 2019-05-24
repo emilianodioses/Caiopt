@@ -32,6 +32,16 @@ $(function(){
 {{ form_end(form) }}
 
 <script type="text/javascript">
+    var COL_COMPROBANTE_ID = 0;
+    var COL_CHECKBOX = 1
+    var COL_PUNTOVENTA = 2;
+    var COL_NRO_INTERNO = 3;
+    var COL_NRO_FACTURA = 4;
+    var COL_NRO_OT = 5;
+    var COL_TIPO = 6;
+    var COL_TOTAL = 7;
+    var COL_PENDIENTE = 8;
+
     $('.clientePago-collection').collection({
         allow_duplicate: false,
         allow_up: false,
@@ -72,14 +82,7 @@ $(function(){
             //total += parseFloat(importe_iva);
         });
 
-        var pendiente = 0;
-        
-        $("#recibo_comprobantes tr.item").each(function() {
-            var c_pendiente = $(this).find("td.pendiente");
-
-            pendiente += parseFloat(c_pendiente.html());
-            //total += parseFloat(importe_iva);
-        });
+        var pendiente = parseFloat($('#total_pendiente').val());
 
         var disponible = total - pendiente;
         if (disponible < 0) {
@@ -95,6 +98,68 @@ $(function(){
         return true;
     }
 
+    function comprobante_checked(argument) {
+        var total = 0;
+
+        $('#recibo_comprobantes tr').each(function(row, tr){
+            comprobante_id = $(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text();
+            tipo = $(tr).find('td:eq('+COL_TIPO+')').text();
+            
+            
+            var x = document.getElementById($(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text());
+
+            if (x !== null) {
+                if (x.checked) {
+                    if (tipo == 'NOTAS DE CREDITO A' ||
+                        tipo == 'NOTAS DE CREDITO B' || 
+                        tipo == 'NOTAS DE CREDITO C') {
+                        
+                        total -= parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                    }
+                    else {
+                        total += parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                    }
+                }
+            }
+        });
+
+        $('#total_pendiente').val(total.toFixed(2));
+        fnCalcularTotales();
+    };
+
+    function getComprobantes(){
+        var TableData = new Array();
+        var i = 0;
+        
+        $('#recibo_comprobantes tr').each(function(row, tr){
+            comprobante_id = $(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text();
+            
+            var x = document.getElementById($(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text());
+
+            if (x !== null) {
+                if (x.checked) {
+                    TableData[i]={"id": comprobante_id};
+
+                    i++;
+                }
+            }
+        });
+
+        return TableData;
+    }
+
+    function submitform() {
+        var comprobantes = JSON.stringify(getComprobantes());
+
+        var form = document.getElementsByName("ReciboType")[0];
+
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "comprobantes")
+            .attr('value', comprobantes)
+            .appendTo(form);
+
+        return true;
+    };
 </script>          
 
 {% endblock %}
