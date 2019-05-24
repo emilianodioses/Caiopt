@@ -48,11 +48,20 @@ class RolController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $rolFuncion = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
+        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
+
+        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')
+                ->createQueryBuilder('rf')
+                ->innerjoin('rf.funcion','f')
+                ->where('rf.rol = '.$rol->getId())
+                ->orderBy('f.id', 'ASC')
+                ->getQuery() 
+                ->getResult();
+
 
         return $this->render('rol/show.html.twig', array(
             'rol' => $rol,
-            'rolFuncion' => $rolFuncion,
+            'rolFunciones' => $rolFunciones,
         ));
     }
 
@@ -67,7 +76,11 @@ class RolController extends Controller
         $form = $this->createForm('AppBundle\Form\RolType', $rol);
         $form->handleRequest($request);
 
-        $rolFuncion = $em->getRepository('AppBundle:RolFuncion')->findAll();
+        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')
+                ->createQueryBuilder('rf')
+                ->innerjoin('rf.funcion','f')
+                ->getQuery() 
+                ->getResult();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -85,7 +98,7 @@ class RolController extends Controller
 
         return $this->render('rol/new.html.twig', array(
             'rol' => $rol,
-            'rolFuncion' => $rolFuncion,
+            'rolFunciones' => $rolFunciones,
             'form' => $form->createView(),
         ));
     }
@@ -101,7 +114,14 @@ class RolController extends Controller
         $editForm->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
-        $rolFuncion = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
+        
+        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')
+                ->createQueryBuilder('rf')
+                ->innerjoin('rf.funcion','f')
+                ->where('rf.rol = '.$rol->getId())
+                ->orderBy('f.id', 'ASC')
+                ->getQuery() 
+                ->getResult();
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {             
             $rol->setUpdatedBy($this->getUser()->getId());
@@ -114,7 +134,7 @@ class RolController extends Controller
 
         return $this->render('rol/edit.html.twig', array(
             'rol' => $rol,
-            'rolFuncion' => $rolFuncion,
+            'rolFunciones' => $rolFunciones,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

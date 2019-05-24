@@ -27,6 +27,11 @@ Roles
                     <div class="row">
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <select multiple="multiple" id='lstBox1' class="form-control" style="height:400px;">
+                                {% for rolFuncion in rolFunciones %}
+                                <tr>
+                                    <option value="{{rolFuncion.funcion.id}}">{{rolFuncion.funcion.descripcion}}</option>   
+                                </tr>
+                                {% endfor %}  
                             </select>
                         </div>
                         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: center; vertical-align: middle;">
@@ -37,9 +42,7 @@ Roles
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <select multiple="multiple" id='lstBox2' class="form-control" style="height:400px;">
-                                {% for funcion in rolFuncion %}
-                                    <option value="{{funcion.id}}">{{funcion.descripcion}}</option>   
-                                {% endfor %}  
+                                
                             </select>
                         </div>
                         <div class="clearfix"></div>
