@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class DashboardController extends Controller
 {
@@ -12,6 +14,13 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Dashboard', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $sucursal_id = $this->getUser()->getSucursal()->getId();
 

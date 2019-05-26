@@ -7,6 +7,8 @@ use AppBundle\Entity\OrdenTrabajoContactologiaDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\OrdenTrabajoContactologiaType;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Ordentrabajocontactologia controller.
@@ -20,6 +22,13 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajoContactologia', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findBy(array('activo'=>1));
@@ -35,6 +44,13 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $ordenTrabajoContactologia = new Ordentrabajocontactologia();
         $form = $this->createForm('AppBundle\Form\OrdenTrabajoContactologiaType', $ordenTrabajoContactologia);
         $form->handleRequest($request);
@@ -84,6 +100,13 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function showAction(OrdenTrabajoContactologia $ordenTrabajoContactologia)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $ordentrabajocontactologiadetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(Array('ordenTrabajoContactologia'=>$ordenTrabajoContactologia,  'activo'=>1));
 
@@ -102,6 +125,13 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function cerrarAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Cerrar', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
@@ -121,6 +151,13 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function editAction(Request $request, OrdenTrabajoContactologia $ordenTrabajoContactologia)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordentrabajocontactologiadetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(Array('ordenTrabajoContactologia'=>$ordenTrabajoContactologia,  'activo'=>1));
@@ -173,6 +210,13 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
@@ -211,6 +255,12 @@ class OrdenTrabajoContactologiaController extends Controller
      */
     public function ordenImprimirAction(Request $request, OrdentrabajoContactologia $ordenTrabajoContactologia)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Imprimir', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
 
         $em = $this->getDoctrine()->getManager();
 

@@ -6,6 +6,7 @@ use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Form\ComprobanteType;
 use AppBundle\Form\ComprobanteDetalleType;
@@ -22,6 +23,13 @@ class ComprobanteCompraController extends controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteCompra', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra', 'activo'=> '1'));
@@ -37,6 +45,13 @@ class ComprobanteCompraController extends controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteCompra', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $comprobante = new Comprobante();
         $form = $this->createForm(ComprobanteType::class, $comprobante);
         $form->handleRequest($request);
@@ -132,6 +147,13 @@ class ComprobanteCompraController extends controller
      */
     public function showAction(Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteCompra', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
@@ -150,6 +172,13 @@ class ComprobanteCompraController extends controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteCompra', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         //Solo puede editarse si la sucursal elegida es la misma del comprobante.
         if ($comprobante->getSucursal()->getId() != $this->getUser()->getSucursal()->getId()) {
 
@@ -260,6 +289,13 @@ class ComprobanteCompraController extends controller
      */
     public function deleteAction(Request $request, Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteCompra', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($comprobante);
         $form->handleRequest($request);
 

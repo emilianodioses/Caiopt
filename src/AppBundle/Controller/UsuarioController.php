@@ -53,6 +53,14 @@ class UsuarioController extends AppController
      */
     public function newAction(Request $request)
     {
+
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Usuarios', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $usuario = new Usuario();
         $form = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
         $form->handleRequest($request);
@@ -91,6 +99,13 @@ class UsuarioController extends AppController
      */
     public function showAction(Usuario $usuario)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Usuarios', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($usuario);
 
         return $this->render('usuario/show.html.twig', array(
@@ -105,6 +120,14 @@ class UsuarioController extends AppController
      */
     public function editAction(Request $request, Usuario $usuario)
     {
+
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Usuarios', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($usuario);
         $editForm = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
         $editForm->handleRequest($request);
@@ -139,6 +162,13 @@ class UsuarioController extends AppController
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Usuarios', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $usuario = $em->getRepository('AppBundle:Usuario')->find($id);

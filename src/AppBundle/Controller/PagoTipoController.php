@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\PagoTipo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Pagotipo controller.
@@ -18,6 +20,13 @@ class PagoTipoController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('PagoTipo', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $pagoTipos = $em->getRepository('AppBundle:PagoTipo')->findAll();
@@ -33,6 +42,13 @@ class PagoTipoController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('PagoTipo', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $pagoTipo = new Pagotipo();
         $form = $this->createForm('AppBundle\Form\PagoTipoType', $pagoTipo);
         $form->handleRequest($request);
@@ -57,6 +73,13 @@ class PagoTipoController extends Controller
      */
     public function showAction(PagoTipo $pagoTipo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('PagoTipo', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($pagoTipo);
 
         return $this->render('pagotipo/show.html.twig', array(
@@ -71,6 +94,13 @@ class PagoTipoController extends Controller
      */
     public function editAction(Request $request, PagoTipo $pagoTipo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('PagoTipo', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($pagoTipo);
         $editForm = $this->createForm('AppBundle\Form\PagoTipoType', $pagoTipo);
         $editForm->handleRequest($request);
@@ -94,6 +124,13 @@ class PagoTipoController extends Controller
      */
     public function deleteAction(Request $request, PagoTipo $pagoTipo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('PagoTipo', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($pagoTipo);
         $form->handleRequest($request);
 

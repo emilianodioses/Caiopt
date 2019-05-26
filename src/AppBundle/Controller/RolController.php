@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Rol;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -19,6 +20,13 @@ class RolController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Rol', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         //$texto = $request->get('texto','');
@@ -46,6 +54,13 @@ class RolController extends Controller
      */
     public function showAction(Rol $rol)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Rol', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $rolFunciones = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
@@ -71,6 +86,13 @@ class RolController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Rol', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $rol = new Rol();
         $form = $this->createForm('AppBundle\Form\RolType', $rol);
@@ -109,6 +131,13 @@ class RolController extends Controller
      */
     public function editAction(Request $request, Rol $rol)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Rol', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($rol);
         $editForm = $this->createForm('AppBundle\Form\RolType', $rol);
         $editForm->handleRequest($request);
@@ -146,6 +175,13 @@ class RolController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Rol', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $rol = $em->getRepository('AppBundle:Rol')->find($id);

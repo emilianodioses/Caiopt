@@ -5,7 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ReciboComprobante;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Recibocomprobante controller.
@@ -22,6 +25,13 @@ class ReciboComprobanteController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ReciboComprobante', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $reciboComprobantes = $em->getRepository('AppBundle:ReciboComprobante')->findAll();
@@ -39,6 +49,13 @@ class ReciboComprobanteController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ReciboComprobante', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $reciboComprobante = new Recibocomprobante();
         $form = $this->createForm('AppBundle\Form\ReciboComprobanteType', $reciboComprobante);
         $form->handleRequest($request);
@@ -65,6 +82,13 @@ class ReciboComprobanteController extends Controller
      */
     public function showAction(ReciboComprobante $reciboComprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ReciboComprobante', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($reciboComprobante);
 
         return $this->render('recibocomprobante/show.html.twig', array(
@@ -81,6 +105,13 @@ class ReciboComprobanteController extends Controller
      */
     public function editAction(Request $request, ReciboComprobante $reciboComprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ReciboComprobante', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($reciboComprobante);
         $editForm = $this->createForm('AppBundle\Form\ReciboComprobanteType', $reciboComprobante);
         $editForm->handleRequest($request);
@@ -106,6 +137,13 @@ class ReciboComprobanteController extends Controller
      */
     public function deleteAction(Request $request, ReciboComprobante $reciboComprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ReciboComprobante', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($reciboComprobante);
         $form->handleRequest($request);
 

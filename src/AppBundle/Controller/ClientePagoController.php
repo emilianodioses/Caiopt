@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ClientePago;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Clientepago controller.
@@ -18,6 +19,13 @@ class ClientePagoController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ClientePago', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $clientePagos = $em->getRepository('AppBundle:ClientePago')->findAll();
@@ -33,6 +41,13 @@ class ClientePagoController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ClientePago', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $clientePago = new Clientepago();
         $form = $this->createForm('AppBundle\Form\ClientePagoType', $clientePago);
         $form->handleRequest($request);
@@ -57,6 +72,13 @@ class ClientePagoController extends Controller
      */
     public function showAction(ClientePago $clientePago)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ClientePago', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($clientePago);
 
         return $this->render('clientepago/show.html.twig', array(
@@ -71,6 +93,13 @@ class ClientePagoController extends Controller
      */
     public function editAction(Request $request, ClientePago $clientePago)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ClientePago', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($clientePago);
         $editForm = $this->createForm('AppBundle\Form\ClientePagoType', $clientePago);
         $editForm->handleRequest($request);
@@ -94,6 +123,13 @@ class ClientePagoController extends Controller
      */
     public function deleteAction(Request $request, ClientePago $clientePago)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ClientePago', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($clientePago);
         $form->handleRequest($request);
 
