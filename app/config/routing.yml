@@ -1,11 +1,3 @@
-app_recibo_comprobante:
-    resource: "@AppBundle/Controller/ReciboComprobanteController.php"
-    type:     annotation
-
-app_recibo_comprobante:
-    resource: "@AppBundle/Controller/ReciboComprobanteController.php"
-    type:     annotation
-
 app:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /

@@ -77,3 +77,11 @@ app_rol:
 app_rolfuncion:
     resource: "@AppBundle/Resources/config/routing/rolfuncion.yml"
     prefix:   /rolfuncion
+
+app_ordenpago:
+    resource: "@AppBundle/Resources/config/routing/ordenpago.yml"
+    prefix:   /ordenpago
+
+app_proveedorpago:
+    resource: "@AppBundle/Resources/config/routing/proveedorpago.yml"
+    prefix:   /proveedorpago   

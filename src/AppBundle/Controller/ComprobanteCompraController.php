@@ -135,11 +135,14 @@ class ComprobanteCompraController extends controller
         $em = $this->getDoctrine()->getManager();
         $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
+        $ordenPagoComprobantes = $em->getRepository('AppBundle:OrdenPagoComprobante')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+
         $deleteForm = $this->createDeleteForm($comprobante);
 
         return $this->render('comprobantecompra/show.html.twig', array(
             'comprobante' => $comprobante,
             'comprobantedetalles' => $comprobantedetalles,
+            'ordenPagoComprobantes' => $ordenPagoComprobantes,
             'delete_form' => $deleteForm->createView(),
         ));
     }

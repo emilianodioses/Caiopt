@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proveedorpagos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Importe</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proveedorPago in proveedorPagos %}
+            <tr>
+                <td><a href="{{ path('proveedorpago_show', { 'id': proveedorPago.id }) }}">{{ proveedorPago.id }}</a></td>
+                <td>{{ proveedorPago.importe }}</td>
+                <td>{% if proveedorPago.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ proveedorPago.createdBy }}</td>
+                <td>{% if proveedorPago.createdAt %}{{ proveedorPago.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ proveedorPago.updatedBy }}</td>
+                <td>{% if proveedorPago.updatedAt %}{{ proveedorPago.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('proveedorpago_show', { 'id': proveedorPago.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('proveedorpago_edit', { 'id': proveedorPago.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proveedorpago_new') }}">Create a new proveedorPago</a>
+        </li>
+    </ul>
+{% endblock %}

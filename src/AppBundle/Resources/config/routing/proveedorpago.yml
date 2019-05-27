@@ -1,0 +1,24 @@
+proveedorpago_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ProveedorPago:index" }
+    methods:  GET
+
+proveedorpago_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ProveedorPago:show" }
+    methods:  GET
+
+proveedorpago_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ProveedorPago:new" }
+    methods:  [GET, POST]
+
+proveedorpago_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ProveedorPago:edit" }
+    methods:  [GET, POST]
+
+proveedorpago_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ProveedorPago:delete" }
+    methods:  DELETE

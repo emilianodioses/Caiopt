@@ -34,10 +34,11 @@ Comprobantes de Compras
                     <th style="width: 10%">Punto de Venta</th>
                     <th style="width: 10%">Nº Comprobante</th>
                     <th>Tipo</th>
+                    <th>Proveedor</th>
                     <th>Fecha</th>
                     <th>Total</th>
                     <th>Observaciones</th>
-                    <th style="width: 5%">Acciones</th>
+                    <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
             {% for comprobante in comprobantes %}
@@ -45,6 +46,7 @@ Comprobantes de Compras
                     <td>{{ comprobante.puntoVenta }}</td>
                     <td>{{ comprobante.numero }}</td>
                     <td>{{ comprobante.tipo }}</td>
+                    <td>{{ comprobante.proveedor }}</td>
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
                     <td>{{ comprobante.total }}</td>
                     <td>{{ comprobante.observaciones }}</td> 
@@ -60,6 +62,7 @@ Comprobantes de Compras
                           <a href="{{ path('comprobantecompra_delete', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                           </a>
                       {% endif %}
+                      <a href="{{ path('ordenpago_new', { 'comprobante': comprobante.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
                     </td>
                 </tr>
             {% endfor %}
