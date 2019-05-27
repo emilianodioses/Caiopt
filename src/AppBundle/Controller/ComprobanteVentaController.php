@@ -12,6 +12,8 @@ use AppBundle\Form\ComprobanteDetalleType;
 use AppBundle\Form\OrdenTrabajoType;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Services\Mail;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Comprobante controller.
@@ -25,6 +27,13 @@ class ComprobanteVentaController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1'));
@@ -40,6 +49,13 @@ class ComprobanteVentaController extends Controller
      */
     public function newAction(Request $request, $id, $tipo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $comprobante = new Comprobante();
 
         //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro y los articulos vinculados a ella.
@@ -203,6 +219,13 @@ class ComprobanteVentaController extends Controller
      */
     public function showAction(Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
@@ -224,6 +247,13 @@ class ComprobanteVentaController extends Controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         //Valido si el Comprobante fue Facturado, en dicho caso redirect a show
         if (!(is_null($comprobante->getCaeNumero()))) {
 
@@ -338,6 +368,13 @@ class ComprobanteVentaController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobante = $em->getRepository('AppBundle:Comprobante')->find($id);
@@ -376,6 +413,13 @@ class ComprobanteVentaController extends Controller
      */
     public function facturarAction(Request $request, Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'Facturar', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $afip = $this->get('AfipFE');
 
@@ -480,6 +524,13 @@ class ComprobanteVentaController extends Controller
     public function facturaImprimirAction(Request $request, Comprobante $comprobante)
     {
 
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'Imprimir', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
@@ -547,6 +598,13 @@ class ComprobanteVentaController extends Controller
      */
     public function enviarFacturaAction(Request $request, Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteVenta', 'EnviarFactura', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));

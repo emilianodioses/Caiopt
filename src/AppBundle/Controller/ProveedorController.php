@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Proveedor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Proveedor controller.
@@ -18,6 +20,13 @@ class ProveedorController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Proveedor', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $texto = $request->get('texto','');
@@ -43,6 +52,13 @@ class ProveedorController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Proveedor', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $proveedor = new Proveedor();
         $form = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
         $form->handleRequest($request);
@@ -74,6 +90,13 @@ class ProveedorController extends Controller
      */
     public function showAction(Proveedor $proveedor)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Proveedor', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor'=>$proveedor, 'movimiento'=>'Compra'));
@@ -93,6 +116,13 @@ class ProveedorController extends Controller
      */
     public function editAction(Request $request, Proveedor $proveedor)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Proveedor', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($proveedor);
         $editForm = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
         $editForm->handleRequest($request);
@@ -119,6 +149,13 @@ class ProveedorController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Proveedor', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $proveedor = $em->getRepository('AppBundle:Proveedor')->find($id);

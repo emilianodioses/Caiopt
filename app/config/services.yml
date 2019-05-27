@@ -37,3 +37,8 @@ services:
         class: AppBundle\Services\AfipFE
         public: true
         arguments: [%afip_parameters%, %kernel.project_dir%]
+
+    SecureAction:
+        class: AppBundle\Services\SecureAction
+        public: true
+        arguments: ['@doctrine.orm.entity_manager'] 

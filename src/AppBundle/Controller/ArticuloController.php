@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Articulo controller.
@@ -23,6 +24,13 @@ class ArticuloController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Articulo', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $texto = $request->get('texto','');
@@ -50,6 +58,13 @@ class ArticuloController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Articulo', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $articulo = new Articulo();
         $form = $this->createForm('AppBundle\Form\ArticuloType', $articulo);
         $form->handleRequest($request);
@@ -81,6 +96,13 @@ class ArticuloController extends Controller
      */
     public function showAction(Articulo $articulo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Articulo', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($articulo);
 
         return $this->render('articulo/show.html.twig', array(
@@ -95,6 +117,13 @@ class ArticuloController extends Controller
      */
     public function editAction(Request $request, Articulo $articulo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Articulo', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($articulo);
         $editForm = $this->createForm('AppBundle\Form\ArticuloType', $articulo);
         $editForm->handleRequest($request);
@@ -124,6 +153,13 @@ class ArticuloController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Articulo', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $articulo = $em->getRepository('AppBundle:Articulo')->find($id);

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ReciboComprobante;
 use AppBundle\Entity\Cliente;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Recibo controller.
@@ -21,6 +23,13 @@ class ReciboController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Recibo', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo' => 1));
@@ -36,6 +45,13 @@ class ReciboController extends Controller
      */
     public function newAction(Request $request, Comprobante $comprobante)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Recibo', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $recibo = new Recibo();
         $recibo->setFecha(new \DateTime("now"));
 
@@ -146,6 +162,13 @@ class ReciboController extends Controller
      */
     public function clienteNewAction(Request $request, Cliente $cliente)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Recibo', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $recibo = new Recibo();
         $recibo->setFecha(new \DateTime("now"));
@@ -314,6 +337,13 @@ class ReciboController extends Controller
      */
     public function showAction(Recibo $recibo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Recibo', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $clientePagos = $em->getRepository('AppBundle:ClientePago')->findBy(Array('recibo'=>$recibo,  'activo'=>1));
         $reciboComprobantes = $em->getRepository('AppBundle:ReciboComprobante')->findBy(Array('recibo'=>$recibo, 'activo' => 1));
@@ -334,6 +364,13 @@ class ReciboController extends Controller
      */
     public function editAction(Request $request, Recibo $recibo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Recibo', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $clientePagos = $em->getRepository('AppBundle:ClientePago')->findBy(Array('recibo'=>$recibo, 'activo' => 1));
@@ -439,6 +476,13 @@ class ReciboController extends Controller
      */
     public function deleteAction(Request $request, Recibo $recibo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Recibo', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $clientePagos = $em->getRepository('AppBundle:ClientePago')->findBy(Array('recibo'=>$recibo, 'activo' => 1));

@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ComprobanteDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Comprobantedetalle controller.
@@ -18,6 +20,13 @@ class ComprobanteDetalleController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteDetalle', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findAll();
@@ -33,6 +42,13 @@ class ComprobanteDetalleController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteDetalle', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $comprobanteDetalle = new Comprobantedetalle();
         $form = $this->createForm('AppBundle\Form\ComprobanteDetalleType', $comprobanteDetalle);
         $form->handleRequest($request);
@@ -57,6 +73,13 @@ class ComprobanteDetalleController extends Controller
      */
     public function showAction(ComprobanteDetalle $comprobanteDetalle)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteDetalle', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($comprobanteDetalle);
 
         return $this->render('comprobantedetalle/show.html.twig', array(
@@ -71,6 +94,13 @@ class ComprobanteDetalleController extends Controller
      */
     public function editAction(Request $request, ComprobanteDetalle $comprobanteDetalle)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteDetalle', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($comprobanteDetalle);
         $editForm = $this->createForm('AppBundle\Form\ComprobanteDetalleType', $comprobanteDetalle);
         $editForm->handleRequest($request);
@@ -94,6 +124,13 @@ class ComprobanteDetalleController extends Controller
      */
     public function deleteAction(Request $request, ComprobanteDetalle $comprobanteDetalle)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('ComprobanteDetalle', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($comprobanteDetalle);
         $form->handleRequest($request);
 

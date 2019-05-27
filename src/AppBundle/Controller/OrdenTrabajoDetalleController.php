@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\OrdenTrabajoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Ordentrabajodetalle controller.
@@ -18,6 +20,13 @@ class OrdenTrabajoDetalleController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajoDetalle', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordenTrabajoDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findAll();
@@ -33,6 +42,13 @@ class OrdenTrabajoDetalleController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajoDetalle', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $ordenTrabajoDetalle = new Ordentrabajodetalle();
         $form = $this->createForm('AppBundle\Form\OrdenTrabajoDetalleType', $ordenTrabajoDetalle);
         $form->handleRequest($request);
@@ -57,6 +73,13 @@ class OrdenTrabajoDetalleController extends Controller
      */
     public function showAction(OrdenTrabajoDetalle $ordenTrabajoDetalle)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajoDetalle', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($ordenTrabajoDetalle);
 
         return $this->render('ordentrabajodetalle/show.html.twig', array(
@@ -71,6 +94,13 @@ class OrdenTrabajoDetalleController extends Controller
      */
     public function editAction(Request $request, OrdenTrabajoDetalle $ordenTrabajoDetalle)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajoDetalle', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($ordenTrabajoDetalle);
         $editForm = $this->createForm('AppBundle\Form\OrdenTrabajoDetalleType', $ordenTrabajoDetalle);
         $editForm->handleRequest($request);
@@ -94,6 +124,13 @@ class OrdenTrabajoDetalleController extends Controller
      */
     public function deleteAction(Request $request, OrdenTrabajoDetalle $ordenTrabajoDetalle)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajoDetalle', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($ordenTrabajoDetalle);
         $form->handleRequest($request);
 

@@ -48,9 +48,9 @@ Rol
             <div class="box-body">
                 <table class="table table-hover">
                     <tbody>
-                         {% for funcion in rolFuncion %}
+                         {% for rolFuncion in rolFunciones %}
                         <tr>
-                            <td>{{funcion.descripcion}}</td>
+                            <td>{{rolFuncion.funcion.descripcion}}</td>
                         </tr>
                         {% endfor %}  
                     </tbody>

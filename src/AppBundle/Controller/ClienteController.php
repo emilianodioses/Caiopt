@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Cliente;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Cliente controller.
@@ -18,6 +19,13 @@ class ClienteController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Cliente', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $texto = $request->get('texto','');
@@ -43,6 +51,13 @@ class ClienteController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Cliente', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $cliente = new Cliente();
         $form = $this->createForm('AppBundle\Form\ClienteType', $cliente);
         $form->handleRequest($request);
@@ -74,6 +89,13 @@ class ClienteController extends Controller
      */
     public function showAction(Cliente $cliente)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Cliente', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('cliente'=>$cliente, 'movimiento'=>'Venta'));
@@ -93,6 +115,13 @@ class ClienteController extends Controller
      */
     public function editAction(Request $request, Cliente $cliente)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Cliente', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($cliente);
         $editForm = $this->createForm('AppBundle\Form\ClienteType', $cliente);
         $editForm->handleRequest($request);
@@ -121,6 +150,13 @@ class ClienteController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Cliente', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $cliente = $em->getRepository('AppBundle:Cliente')->find($id);

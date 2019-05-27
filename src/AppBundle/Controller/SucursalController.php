@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -26,6 +27,13 @@ class SucursalController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Sucursal', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $sucursals = $em->getRepository('AppBundle:Sucursal')->findAll();
@@ -41,6 +49,13 @@ class SucursalController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Sucursal', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $sucursal = new Sucursal();
         $form = $this->createForm('AppBundle\Form\SucursalType', $sucursal);
         $form->handleRequest($request);
@@ -65,6 +80,13 @@ class SucursalController extends Controller
      */
     public function showAction(Sucursal $sucursal)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Sucursal', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($sucursal);
 
         return $this->render('sucursal/show.html.twig', array(
@@ -79,6 +101,13 @@ class SucursalController extends Controller
      */
     public function editAction(Request $request, Sucursal $sucursal)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Sucursal', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $deleteForm = $this->createDeleteForm($sucursal);
         $editForm = $this->createForm('AppBundle\Form\SucursalType', $sucursal);
         $editForm->handleRequest($request);
@@ -102,6 +131,13 @@ class SucursalController extends Controller
      */
     public function deleteAction(Request $request, Sucursal $sucursal)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Sucursal', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $form = $this->createDeleteForm($sucursal);
         $form->handleRequest($request);
 

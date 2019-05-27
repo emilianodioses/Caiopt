@@ -7,6 +7,8 @@ use AppBundle\Entity\OrdenTrabajoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\OrdenTrabajoType;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Ordentrabajo controller.
@@ -20,6 +22,13 @@ class OrdenTrabajoController extends Controller
      */
     public function indexAction()
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         
         $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1));
@@ -35,6 +44,13 @@ class OrdenTrabajoController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'New', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $ordenTrabajo = new Ordentrabajo();
         $ordenTrabajo->setFechaRecepcion(new \DateTime("now"));
         $form = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
@@ -85,6 +101,13 @@ class OrdenTrabajoController extends Controller
      */
     public function showAction(OrdenTrabajo $ordenTrabajo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Show', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $ordentrabajodetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));
 
@@ -103,6 +126,12 @@ class OrdenTrabajoController extends Controller
      */
     public function editAction(Request $request, OrdenTrabajo $ordenTrabajo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
 
         $em = $this->getDoctrine()->getManager();
 
@@ -154,6 +183,13 @@ class OrdenTrabajoController extends Controller
      */
     public function deleteAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Delete', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id);
@@ -176,6 +212,13 @@ class OrdenTrabajoController extends Controller
      */
     public function cerrarAction($id)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Cerrar', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id);
@@ -211,6 +254,12 @@ class OrdenTrabajoController extends Controller
      */
     public function ordenImprimirAction(Request $request, Ordentrabajo $ordenTrabajo)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Imprimir', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
 
         $em = $this->getDoctrine()->getManager();
 
