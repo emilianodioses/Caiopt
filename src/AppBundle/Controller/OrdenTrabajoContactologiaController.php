@@ -31,7 +31,7 @@ class OrdenTrabajoContactologiaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findBy(array('activo'=>1));
+        $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findBy(array('activo'=>1, 'sucursal' => $this->getUser()->getSucursal()));
 
         return $this->render('ordentrabajocontactologia/index.html.twig', array(
             'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia,

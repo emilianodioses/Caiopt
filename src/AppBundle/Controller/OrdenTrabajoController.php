@@ -31,7 +31,7 @@ class OrdenTrabajoController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         
-        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1));
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1, 'sucursal' => $this->getUser()->getSucursal()));
 
         return $this->render('ordentrabajo/index.html.twig', array(
             'ordenesTrabajo' => $ordenesTrabajo,

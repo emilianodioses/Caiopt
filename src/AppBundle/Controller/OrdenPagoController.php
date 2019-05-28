@@ -23,8 +23,8 @@ class OrdenPagoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ordenPagos = $em->getRepository('AppBundle:OrdenPago')->findBy(Array('activo' => 1));
-
+        $ordenPagos = $em->getRepository('AppBundle:OrdenPago')->findBy(Array('activo' => 1, 'sucursal' => $this->getUser()->getSucursal()));
+        
         return $this->render('ordenpago/index.html.twig', array(
             'ordenPagos' => $ordenPagos,
         ));

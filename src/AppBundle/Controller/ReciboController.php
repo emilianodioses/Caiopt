@@ -32,7 +32,7 @@ class ReciboController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo' => 1));
+        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo' => 1, 'sucursal' => $this->getUser()->getSucursal()));
 
         return $this->render('recibo/index.html.twig', array(
             'recibos' => $recibos,

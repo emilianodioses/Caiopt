@@ -52,6 +52,20 @@ class AfipComprobanteTipo
     /**
      * @var bool
      *
+     * @ORM\Column(name="compra", type="boolean")
+     */
+    private $compra;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="venta", type="boolean")
+     */
+    private $venta;
+
+    /**
+     * @var bool
+     *
      * @ORM\Column(name="activo", type="boolean")
      */
     private $activo;
@@ -313,5 +327,53 @@ class AfipComprobanteTipo
     public function __toString()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set compra
+     *
+     * @param boolean $compra
+     *
+     * @return AfipComprobanteTipo
+     */
+    public function setCompra($compra)
+    {
+        $this->compra = $compra;
+
+        return $this;
+    }
+
+    /**
+     * Get compra
+     *
+     * @return boolean
+     */
+    public function getCompra()
+    {
+        return $this->compra;
+    }
+
+    /**
+     * Set venta
+     *
+     * @param boolean $venta
+     *
+     * @return AfipComprobanteTipo
+     */
+    public function setVenta($venta)
+    {
+        $this->venta = $venta;
+
+        return $this;
+    }
+
+    /**
+     * Get venta
+     *
+     * @return boolean
+     */
+    public function getVenta()
+    {
+        return $this->venta;
     }
 }

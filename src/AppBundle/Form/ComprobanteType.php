@@ -22,6 +22,39 @@ class ComprobanteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+      if ( isset($options['attr']['tipo']) ) {
+        if ($options['attr']['tipo'] == 'Compra') {
+          $builder->add('tipo', EntityType::class, array(
+                        'label' => 'Tipo',
+                        'class' => 'AppBundle:AfipComprobanteTipo',
+                        'required' => true,
+                        'choice_label' => 'descripcion',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('ic')
+                                       ->where('ic.activo = 1')
+                                       ->andWhere('ic.compra = 1')
+                                       ->orderBy('ic.descripcion', 'ASC')
+                                       ;
+                               }
+                  ));
+        }
+        else {
+          $builder->add('tipo', EntityType::class, array(
+                        'label' => 'Tipo',
+                        'class' => 'AppBundle:AfipComprobanteTipo',
+                        'required' => true,
+                        'choice_label' => 'descripcion',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('ic')
+                                       ->where('ic.activo = 1')
+                                       ->andWhere('ic.venta = 1')
+                                       ->orderBy('ic.descripcion', 'ASC')
+                                       ;
+                               }
+                  ));
+        }
+      }
+      else {
         $builder->add('tipo', EntityType::class, array(
                     'label' => 'Tipo',
                     'class' => 'AppBundle:AfipComprobanteTipo',
@@ -33,8 +66,9 @@ class ComprobanteType extends AbstractType
                                    ->orderBy('ic.descripcion', 'ASC')
                                    ;
                            }
-                ))
-                ->add('fecha',DateType::class,array(
+                ));
+      }
+        $builder->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',

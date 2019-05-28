@@ -99,13 +99,16 @@ class ProveedorController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor'=>$proveedor, 'movimiento'=>'Compra'));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor'=>$proveedor, 'movimiento'=>'Compra', 'activo' => 1));
+
+        $ordenPagos = $em->getRepository('AppBundle:OrdenPago')->findBy(Array('proveedor'=>$proveedor, 'activo' => 1));
 
         $deleteForm = $this->createDeleteForm($proveedor);
 
         return $this->render('proveedor/show.html.twig', array(
             'proveedor' => $proveedor,
             'comprobantes' => $comprobantes,
+            'ordenPagos' => $ordenPagos,
             'delete_form' => $deleteForm->createView(),
         ));
     }

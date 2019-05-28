@@ -32,7 +32,7 @@ class ComprobanteCompraController extends controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra', 'activo'=> '1'));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()));
         
         return $this->render('comprobantecompra/index.html.twig', array(
             'comprobantes' => $comprobantes,
@@ -53,7 +53,7 @@ class ComprobanteCompraController extends controller
         endif;
 
         $comprobante = new Comprobante();
-        $form = $this->createForm(ComprobanteType::class, $comprobante);
+        $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Compra')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -187,7 +187,15 @@ class ComprobanteCompraController extends controller
 
             $this->get('session')->getFlashbag()->add('warning', 'Comprobante de sucursal: '.$comprobante->getSucursal().'. La sucursal actual es: '.$this->getUser()->getSucursal().', Cambie de sucursal para editar el registro');
 
-            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+            return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
+        }
+
+        //Si ya tiene ordenes de pago asociadas no se puede modificar
+        $recibos = $em->getRepository('AppBundle:OrdenPagoComprobante')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+        if (count($recibos) > 0) {
+            $this->get('session')->getFlashbag()->add('warning', 'El comprobante ya tiene ordenes de pago asociadas. Edición denegada.');
+
+            return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }
         
         $em = $this->getDoctrine()->getManager();
@@ -203,7 +211,7 @@ class ComprobanteCompraController extends controller
         }
 
         $deleteForm = $this->createDeleteForm($comprobante);
-        $editForm = $this->createForm(ComprobanteType::class, $comprobante);
+        $editForm = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Compra')));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

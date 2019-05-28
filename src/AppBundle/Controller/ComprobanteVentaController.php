@@ -36,7 +36,7 @@ class ComprobanteVentaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1'));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()));
 
         return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,
@@ -105,7 +105,7 @@ class ComprobanteVentaController extends Controller
         $comprobante->setFecha(new \DateTime("now"));
         $comprobante->setPuntoVenta($this->getUser()->getSucursal()->getId());
 
-        $form = $this->createForm(ComprobanteType::class, $comprobante);
+        $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Venta')));
 
         $form->handleRequest($request);        
 
@@ -270,6 +270,14 @@ class ComprobanteVentaController extends Controller
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 
+        //Si ya tiene recibos asociados no se puede modificar
+        $recibos = $em->getRepository('AppBundle:ReciboComprobante')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+        if (count($recibos) > 0) {
+            $this->get('session')->getFlashbag()->add('warning', 'El comprobante ya tiene recibos asociados. Edición denegada.');
+
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
@@ -279,7 +287,7 @@ class ComprobanteVentaController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($comprobante);
-        $editForm = $this->createForm(ComprobanteType::class, $comprobante);
+        $editForm = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Venta')));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
