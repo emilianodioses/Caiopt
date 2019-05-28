@@ -86,7 +86,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('taller', EntityType::class, array(
                     'label' => 'Taller',
                     'class' => 'AppBundle:Taller',
-                    'required' => true,
+                    'required' => false,
                     'choice_label' => 'nombre',
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
@@ -100,7 +100,7 @@ class OrdenTrabajoType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('fechaTallerEntrega',DateType::class,array(
                     'label'=>'Fecha Entrega',

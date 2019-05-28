@@ -63,6 +63,8 @@ class DashboardController extends Controller
 
         $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursal($sucursal_id);
 
+        $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findAll_sucursal($sucursal_id);
+
         $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_id, $fecha_now);
         
         return $this->render('dashboard/index.html.twig', array(
@@ -71,7 +73,8 @@ class DashboardController extends Controller
             'cantidadCompras' => count($comprobantesCompras),
             'cantidadOrdenesTrabajo' => count($ordenesTrabajoHoy),
             'cajaDetalles' => $cajaDetalles,
-            'ordenesTrabajo' => $ordenesTrabajo
+            'ordenesTrabajo' => $ordenesTrabajo,
+            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia
         ));
     }
 }
