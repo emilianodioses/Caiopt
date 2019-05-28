@@ -136,6 +136,7 @@ Panel Principal
           <div class="chart tab-pane active" id="pendientes-chart" style="position: relative; height: 300px;">
             <table class="table table-hover">
                   <tr>
+                    <th>Tipo</th>
                     <th>Nro.</th>
                     <th>Cliente</th>
                     <th>Comprobante</th>
@@ -148,6 +149,7 @@ Panel Principal
               {% for ordenTrabajo in ordenesTrabajo %}
                 {% if ordenTrabajo.estado == 'Pendiente' %}
                   <tr>
+                      <td>Orden de Trabajo</td>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
@@ -178,12 +180,47 @@ Panel Principal
                   </tr>
                   {% endif %}
               {% endfor %}
+              {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                {% if ordenTrabajoContactologia.estado == 'Pendiente' %}
+                  <tr>
+                      <td>Contactologia</td>
+                      <td>{{ ordenTrabajoContactologia.id }}</td>
+                      <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                      <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                      {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                      {% endif %}
+                      {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajoContactologia.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajoContactologia.activo %}
+                            <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+                  {% endif %}
+              {% endfor %}
               </tbody>
             </table>
           </div>
           <div class="chart tab-pane" id="marcha-chart" style="position: relative; height: 300px;">
             <table class="table table-hover">
                   <tr>
+                    <th>Tipo</th>
                     <th>Nro.</th>
                     <th>Cliente</th>
                     <th>Comprobante</th>
@@ -196,6 +233,7 @@ Panel Principal
               {% for ordenTrabajo in ordenesTrabajo %}
                 {% if ordenTrabajo.estado != 'Pendiente' and ordenTrabajo.estado != 'Finalizado' %}
                   <tr>
+                      <td>Orden de Trabajo</td>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
@@ -220,6 +258,40 @@ Panel Principal
                             </a>
                         {% else %}
                             <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+                  {% endif %}
+              {% endfor %}
+              {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                {% if ordenTrabajoContactologia.estado != 'Pendiente' and ordenTrabajoContactologia.estado != 'Finalizado' %}
+                  <tr>
+                      <td>Contactologia</td>
+                      <td>{{ ordenTrabajoContactologia.id }}</td>
+                      <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                      <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                      {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                      {% endif %}
+                      {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajoContactologia.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajoContactologia.activo %}
+                            <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                             </a>
                         {% endif %}
                       </td>
@@ -233,6 +305,7 @@ Panel Principal
           <div class="chart tab-pane" id="finalizadas-chart" style="position: relative; height: 300px;">
             <table class="table table-hover">
                   <tr>
+                    <th>Tipo</th>
                     <th>Nro.</th>
                     <th>Cliente</th>
                     <th>Comprobante</th>
@@ -245,6 +318,7 @@ Panel Principal
               {% for ordenTrabajo in ordenesTrabajo %}
                 {% if ordenTrabajo.estado == 'Finalizado' %}
                   <tr>
+                      <td>Orden de Trabajo</td>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
@@ -269,6 +343,40 @@ Panel Principal
                             </a>
                         {% else %}
                             <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                            </a>
+                        {% endif %}
+                      </td>
+                  </tr>
+                  {% endif %}
+              {% endfor %}
+              {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                {% if ordenTrabajoContactologia.estado == 'Finalizado' %}
+                  <tr>
+                      <td>Contactologia</td>
+                      <td>{{ ordenTrabajoContactologia.id }}</td>
+                      <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                      <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                      {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                      {% endif %}
+                      {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                      {% endif %}
+                      <td>{{ ordenTrabajoContactologia.estado }}</td>
+                      <td>
+                        <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if ordenTrabajoContactologia.activo %}
+                            <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                             </a>
                         {% endif %}
                       </td>

@@ -152,7 +152,10 @@ class RolController extends Controller
                 ->getQuery() 
                 ->getResult();
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {             
+        if ($editForm->isSubmitted() && $editForm->isValid()) {  
+
+            dump($request);
+            die;           
             $rol->setUpdatedBy($this->getUser()->getId());
             $rol->setUpdatedAt(new \DateTime("now"));
 
