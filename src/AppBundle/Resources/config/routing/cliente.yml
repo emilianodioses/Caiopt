@@ -22,3 +22,7 @@ cliente_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Cliente:delete" }
     methods:  [GET, POST]
+
+cliente_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Cliente:findSelect2" }

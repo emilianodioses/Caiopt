@@ -247,6 +247,7 @@ class ComprobanteVentaController extends Controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        $em = $this->getDoctrine()->getManager();
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
@@ -277,8 +278,6 @@ class ComprobanteVentaController extends Controller
 
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
-
-        $em = $this->getDoctrine()->getManager();
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
@@ -359,7 +358,6 @@ class ComprobanteVentaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->get('session')->getFlashbag()->add('warning', 'El comprobante ya fue facturado. Edición denegada.');
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
 

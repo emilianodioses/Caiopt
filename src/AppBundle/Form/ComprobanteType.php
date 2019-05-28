@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class ComprobanteType extends AbstractType
 {
@@ -36,6 +37,37 @@ class ComprobanteType extends AbstractType
                                        ->orderBy('ic.descripcion', 'ASC')
                                        ;
                                }
+                  ))
+                  ->add('proveedor', Select2EntityType::class, array(
+                    'label' => 'Proveedor',
+                    'class' => 'AppBundle:Proveedor',
+                    'remote_route' => 'proveedor_find_select2',
+                    'placeholder' => 'Seleccione un proveedor',
+                    'required' => true,
+                    'attr' => [
+                            'class' => 'proveedor',
+                        ],
+                    'primary_key' => 'id',
+                    'text_property' => 'nombre',
+                    'minimum_input_length' => 2,
+                    'page_limit' => 10,
+                    'allow_clear' => false,
+                    'delay' => 250,
+                    'cache' => true,
+                    'cache_timeout' => 60000, // if 'cache' is true
+                    'language' => 'es',
+                    ))
+                    ->add('cliente', EntityType::class, array(
+                      'label' => 'Cliente',
+                      'class' => 'AppBundle:Cliente',
+                      'required' => true,
+                      'choice_label' => 'nombre',
+                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                 return $er->createQueryBuilder('l')
+                                     ->where('l.activo = 1')
+                                     ->orderBy('l.nombre', 'ASC')
+                                     ;
+                             }
                   ));
         }
         else {
@@ -51,7 +83,38 @@ class ComprobanteType extends AbstractType
                                        ->orderBy('ic.descripcion', 'ASC')
                                        ;
                                }
-                  ));
+                  ))
+                  ->add('proveedor', EntityType::class, array(
+                      'label' => 'Proveedor',
+                      'class' => 'AppBundle:Proveedor',
+                      'required' => true,
+                      'choice_label' => 'nombre',
+                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                 return $er->createQueryBuilder('l')
+                                     ->where('l.activo = 1')
+                                     ->orderBy('l.nombre', 'ASC')
+                                     ;
+                             }
+                  ))
+                  ->add('cliente', Select2EntityType::class, array(
+                      'label' => 'Cliente',
+                      'class' => 'AppBundle:Cliente',
+                      'remote_route' => 'cliente_find_select2',
+                      'placeholder' => 'Seleccione un cliente',
+                      'required' => true,
+                      'attr' => [
+                              'class' => 'cliente',
+                          ],
+                      'primary_key' => 'id',
+                      'text_property' => 'nombre',
+                      'minimum_input_length' => 2,
+                      'page_limit' => 10,
+                      'allow_clear' => false,
+                      'delay' => 250,
+                      'cache' => true,
+                      'cache_timeout' => 60000, // if 'cache' is true
+                      'language' => 'es',
+                      ));
         }
       }
       else {
@@ -125,7 +188,7 @@ class ComprobanteType extends AbstractType
                     'attr' => array('rows' => '20')
                 ))
                 ->add('ordenTrabajo', EntityType::class, array(
-                    'label' => 'OrdenTrabajo',
+                    'label' => 'OT Cristales',
                     'class' => 'AppBundle:OrdenTrabajo',
                     'required' => false,
                     'choice_label' => 'id',
@@ -179,30 +242,6 @@ class ComprobanteType extends AbstractType
                 ->add('obraSocial',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('totalCosto',HiddenType::class,array('label'=>'Total Costo'))
                 ->add('totalGanancia',HiddenType::class,array('label'=>'Total Ganancia'))
-                ->add('proveedor', EntityType::class, array(
-                    'label' => 'Proveedor',
-                    'class' => 'AppBundle:Proveedor',
-                    'required' => true,
-                    'choice_label' => 'nombre',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.nombre', 'ASC')
-                                   ;
-                           }
-                ))
-                ->add('cliente', EntityType::class, array(
-                    'label' => 'Cliente',
-                    'class' => 'AppBundle:Cliente',
-                    'required' => true,
-                    'choice_label' => 'nombre',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.nombre', 'ASC')
-                                   ;
-                           }
-                ))
                 ->add('comprobanteDetalles', CollectionType::class, array(
                         'entry_type'   => ComprobanteDetalleType::class,
                         'entry_options' => [

@@ -224,6 +224,7 @@ class ArticuloController extends Controller
                         SELECT r.id as id, r.descripcion as text
                         FROM AppBundle:Articulo r
                         WHERE lower(r.descripcion) LIKE :text_search
+                        AND r.activo = 1
                         ORDER BY r.descripcion ASC
                         ')
                     ->setParameter('text_search', '%'.$text_search.'%')

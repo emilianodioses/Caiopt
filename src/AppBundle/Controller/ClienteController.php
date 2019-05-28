@@ -5,6 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Cliente;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -196,5 +201,29 @@ class ClienteController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function findSelect2Action(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+        
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
+
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
+        }
+
+        $result = $em->createQuery('
+                        SELECT r.id as id, CONCAT(r.nombre, \' (\', r.documentoNumero, \')\')  as text
+                        FROM AppBundle:Cliente r
+                        WHERE (lower(r.nombre) LIKE :text_search OR r.documentoNumero LIKE :text_search)
+                        AND r.activo = 1
+                        ORDER BY r.nombre ASC
+                        ')
+                    ->setParameter('text_search', '%'.$text_search.'%')
+                    ->setMaxResults($pageLimit)
+                ->getArrayResult();
+        
+        return new JsonResponse($result);
     }
 }

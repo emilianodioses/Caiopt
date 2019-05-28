@@ -22,3 +22,7 @@ proveedor_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Proveedor:delete" }
     methods:  [GET, POST]
+
+proveedor_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Proveedor:findSelect2" }

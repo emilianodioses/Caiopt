@@ -175,6 +175,7 @@ class ComprobanteCompraController extends controller
      */
     public function editAction(Request $request, Comprobante $comprobante)
     {
+        $em = $this->getDoctrine()->getManager();
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
@@ -197,8 +198,6 @@ class ComprobanteCompraController extends controller
 
             return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }
-        
-        $em = $this->getDoctrine()->getManager();
 
         $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
