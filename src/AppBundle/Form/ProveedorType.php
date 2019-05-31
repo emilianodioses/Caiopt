@@ -36,11 +36,11 @@ class ProveedorType extends AbstractType
         ));
 
         $builder->add('documentoNumero', null, array(
-            'label' => 'Documento Número',
+            'label' => 'Número Documento',
         ));
 
         $builder->add('ivaCondicion', EntityType::class, array(
-            'label' => 'Condición IVA',
+            'label' => 'Condición de IVA',
             'class' => 'AppBundle:AfipIvaCondicion',
             'required' => true,
             'choice_label' => 'descripcion',
