@@ -188,7 +188,7 @@ class ComprobanteType extends AbstractType
                     'attr' => array('rows' => '20')
                 ))
                 ->add('ordenTrabajo', EntityType::class, array(
-                    'label' => 'OT Cristales',
+                    'label' => 'OT Optica',
                     'class' => 'AppBundle:OrdenTrabajo',
                     'required' => false,
                     'choice_label' => 'id',

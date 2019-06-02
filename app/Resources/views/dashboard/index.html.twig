@@ -36,7 +36,7 @@ Panel Principal
         <div class="icon">
           <i class="fa fa-inbox"></i>
         </div>
-        <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{path('recibo_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -149,7 +149,7 @@ Panel Principal
               {% for ordenTrabajo in ordenesTrabajo %}
                 {% if ordenTrabajo.estado == 'Pendiente' %}
                   <tr>
-                      <td>Orden de Trabajo</td>
+                      <td>Orden Optica</td>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
@@ -233,7 +233,7 @@ Panel Principal
               {% for ordenTrabajo in ordenesTrabajo %}
                 {% if ordenTrabajo.estado != 'Pendiente' and ordenTrabajo.estado != 'Finalizado' %}
                   <tr>
-                      <td>Orden de Trabajo</td>
+                      <td>Orden Optica</td>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
@@ -318,7 +318,7 @@ Panel Principal
               {% for ordenTrabajo in ordenesTrabajo %}
                 {% if ordenTrabajo.estado == 'Finalizado' %}
                   <tr>
-                      <td>Orden de Trabajo</td>
+                      <td>Orden Optica</td>
                       <td>{{ ordenTrabajo.id }}</td>
                       <td>{{ ordenTrabajo.cliente }}</td>
                       <td>{{ ordenTrabajo.comprobante }}</td>
