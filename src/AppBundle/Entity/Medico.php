@@ -136,6 +136,11 @@ class Medico
         return $this->id;
     }
 
+    public function __toString()
+    {
+        return $this->nombre;
+    }
+
     /**
      * Set nombre
      *

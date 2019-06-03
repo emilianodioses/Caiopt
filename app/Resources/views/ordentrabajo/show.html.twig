@@ -65,7 +65,11 @@
                                             </tr>
                                             <tr>
                                                 <th>Medico</th>
-                                                <td>{{ ordenTrabajo.medico }}</td>
+                                                {% if ordenTrabajo.medico is empty %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td><a href="{{ path('medico_show', { 'id': ordenTrabajo.medico.Id }) }}">{{ordenTrabajo.medico}}</a></td>
+                                                {% endif %}
                                             </tr>
                                             <tr>
                                                 <th>Fecha Receta</th>

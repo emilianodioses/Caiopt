@@ -32,6 +32,15 @@ class OrdenTrabajo
      */
     private $cliente;
 
+    /**
+     * @var \Medico
+     *
+     * @ORM\ManyToOne(targetEntity="Medico")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="medico_id", referencedColumnName="id")
+     * })
+     */
+    private $medico;
 
     /**
      * @var \DateTime
@@ -56,13 +65,6 @@ class OrdenTrabajo
      * })
      */
     private $comprobante;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="medico", type="string", length=255, nullable=true)
-     */
-    private $medico;
 
     /**
      * @var \DateTime
@@ -870,29 +872,6 @@ class OrdenTrabajo
         return $this->fechaRecepcion;
     }
 
-    /**
-     * Set medico
-     *
-     * @param string $medico
-     *
-     * @return OrdenTrabajo
-     */
-    public function setMedico($medico)
-    {
-        $this->medico = $medico;
-
-        return $this;
-    }
-
-    /**
-     * Get medico
-     *
-     * @return string
-     */
-    public function getMedico()
-    {
-        return $this->medico;
-    }
 
     /**
      * Set fechaReceta
@@ -1757,5 +1736,29 @@ class OrdenTrabajo
     public function getAntesOjoIzquierdoDnp()
     {
         return $this->antesOjoIzquierdoDnp;
+    }
+
+    /**
+     * Set medico
+     *
+     * @param \AppBundle\Entity\Medico $medico
+     *
+     * @return OrdenTrabajo
+     */
+    public function setMedico(\AppBundle\Entity\Medico $medico = null)
+    {
+        $this->medico = $medico;
+
+        return $this;
+    }
+
+    /**
+     * Get medico
+     *
+     * @return \AppBundle\Entity\Medico
+     */
+    public function getMedico()
+    {
+        return $this->medico;
     }
 }

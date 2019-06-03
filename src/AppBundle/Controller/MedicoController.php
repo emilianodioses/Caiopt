@@ -99,10 +99,19 @@ class MedicoController extends Controller
      */
     public function showAction(Medico $medico)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1, 'medico' => $medico));
+
+        $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findBy(array('activo'=>1, 'medico' => $medico));
+
         $deleteForm = $this->createDeleteForm($medico);
 
         return $this->render('medico/show.html.twig', array(
             'medico' => $medico,
+            'ordenesTrabajo' => $ordenesTrabajo,
+            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia,
             'delete_form' => $deleteForm->createView(),
         ));
     }
