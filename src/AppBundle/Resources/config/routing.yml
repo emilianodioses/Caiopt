@@ -85,3 +85,7 @@ app_ordenpago:
 app_proveedorpago:
     resource: "@AppBundle/Resources/config/routing/proveedorpago.yml"
     prefix:   /proveedorpago   
+
+app_medico:
+    resource: "@AppBundle/Resources/config/routing/medico.yml"
+    prefix:   /medico    
