@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
+
 
 class OrdenTrabajoType extends AbstractType
 {
@@ -26,18 +28,25 @@ class OrdenTrabajoType extends AbstractType
             'Enviado' => 'Enviado',
             'Finalizado' => 'Finalizado');
 
-        $builder->add('cliente', EntityType::class, array(
-                    'label' => 'Cliente',
-                    'class' => 'AppBundle:Cliente',
-                    'required' => true,
-                    'choice_label' => 'nombre',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.nombre', 'ASC')
-                                   ;
-                           }
-                ))
+        $builder->add('cliente', Select2EntityType::class, array(
+                      'label' => 'Cliente',
+                      'class' => 'AppBundle:Cliente',
+                      'remote_route' => 'cliente_find_select2',
+                      'placeholder' => 'Seleccione un cliente',
+                      'required' => true,
+                      'attr' => [
+                              'class' => 'cliente',
+                          ],
+                      'primary_key' => 'id',
+                      'text_property' => 'nombre',
+                      'minimum_input_length' => 2,
+                      'page_limit' => 10,
+                      'allow_clear' => false,
+                      'delay' => 250,
+                      'cache' => true,
+                      'cache_timeout' => 60000, // if 'cache' is true
+                      'language' => 'es',
+                      ))
                 ->add('fechaRecepcion',DateType::class,array(
                     'label'=>'Fecha Recepcion',
                     'widget' => 'single_text',
@@ -65,7 +74,25 @@ class OrdenTrabajoType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('medico', null, array('label' => 'Medico','required' => false,))
+                ->add('medico', Select2EntityType::class, array(
+                      'label' => 'Medico',
+                      'class' => 'AppBundle:Medico',
+                      'remote_route' => 'medico_find_select2',
+                      'placeholder' => 'Seleccione un Medico',
+                      'required' => false,
+                      'attr' => [
+                              'class' => 'medico',
+                          ],
+                      'primary_key' => 'id',
+                      'text_property' => 'nombre',
+                      'minimum_input_length' => 2,
+                      'page_limit' => 10,
+                      'allow_clear' => false,
+                      'delay' => 250,
+                      'cache' => true,
+                      'cache_timeout' => 60000, // if 'cache' is true
+                      'language' => 'es',
+                      ))
                 ->add('fechaReceta',DateType::class,array(
                     'label'=>'Fecha Receta',
                     'widget' => 'single_text',

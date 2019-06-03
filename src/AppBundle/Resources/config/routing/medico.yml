@@ -22,3 +22,7 @@ medico_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Medico:delete" }
     methods:  DELETE
+
+medico_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Medico:findSelect2" }
