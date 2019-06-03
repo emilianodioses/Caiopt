@@ -53,7 +53,11 @@
                                             </tr>
                                             <tr>
                                                 <th>Comprobante</th>
-                                                <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                                                {% if ordenTrabajoContactologia.comprobante is empty %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajoContactologia.comprobante.Id }) }}">{{ordenTrabajoContactologia.comprobante}}</a></td>
+                                                {% endif %}
                                             </tr>
                                             <tr>
                                                 <th>Observaciones</th>
@@ -393,14 +397,14 @@
                                      {% if ordenTrabajoContactologia.comprobante is empty %}
                                         <a href="{{ path('comprobanteventa_new', { 'id': ordenTrabajoContactologia.Id, 'tipo':'contactologia' }) }}" class="btn btn-app pull-right" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
                                         </a>
-                                    {% else %}  
+                                     {% else %}  
                                         {% if ordenTrabajoContactologia.comprobante.pendiente == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
                                             <a href="{{ path('ordentrabajocontactologia_cerrar', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
                                             </a>
                                         {% endif %}  
-                                        {% if ordenTrabajoContactologia.estado != "Finalizado" %}
-                                        <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.comprobante.pendiente}}</b></span>Saldo Pendiente 
-                                        </a>
+                                        {% if ordenTrabajoContactologia.estado != "Finalizado" and ordenTrabajoContactologia.comprobante.pendiente != 0 %}
+                                            <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.comprobante.pendiente}}</b></span>Saldo Pendiente 
+                                            </a>
                                         {% endif %} 
                                     {% endif %}
                                 </div>

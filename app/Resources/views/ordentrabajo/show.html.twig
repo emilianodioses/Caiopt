@@ -53,7 +53,11 @@
                                             </tr>
                                             <tr>
                                                 <th>Comprobante</th>
-                                                <td>{{ ordenTrabajo.comprobante }}</td>
+                                                {% if ordenTrabajo.comprobante is empty %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajo.comprobante.Id }) }}">{{ordenTrabajo.comprobante}}</a></td>
+                                                {% endif %}
                                             </tr>
                                             <tr>
                                                 <th>Observaciones</th>
@@ -353,7 +357,7 @@
                                         <a href="{{ path('ordentrabajo_cerrar', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
                                         </a>
                                         {% endif %}  
-                                        {% if ordenTrabajo.estado != "Finalizado" %}
+                                        {% if ordenTrabajo.estado != "Finalizado" and ordenTrabajo.comprobante.pendiente != 0 %}
                                         <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajo.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajo.comprobante.pendiente}}</b></span>Saldo Pendiente 
                                         </a>
                                         {% endif %}  

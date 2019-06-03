@@ -68,9 +68,13 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'label' => false,
                     'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
                     ))
+                ->add('porcentajeBonificacion',FloatType::class,array(
+                    'label'=>'% Bonificación',
+                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => '% Obra Social/Bonificacion', 'class' => 'porcentajeBonificacion', 'step' => 0.1),
+                        ))
                 ->add('importeBonificacion',FloatType::class,array(
                     'label'=>'Importe Bonificación',
-                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Obra Social/Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Obra Social/Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
                         ))
                 ->add('tipoCristal',ChoiceType::class,array(
                     'label'=>false,

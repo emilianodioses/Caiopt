@@ -92,6 +92,7 @@ $(function(){
         var renglon = articulo.closest("tr");
 
         var total = renglon.find("input.total");
+        var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var importeBonificacion = renglon.find("input.importeBonificacion");
         var precioVenta = renglon.find("input.precioVenta");
 
@@ -105,6 +106,7 @@ $(function(){
                 precioVenta.val(articulo.precioVenta)
                 total.val(articulo.precioVenta)
                 importeBonificacion.val(0);
+                porcentajeBonificacion.val(0);
 
                 fnRenglonChange(renglon);
             }
@@ -113,11 +115,15 @@ $(function(){
         return true;
     }
 
-    function fnRenglonChange(renglon) {
+    function fnRenglonChange(renglon) {    
+        var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
         var r_precioVenta = renglon.find("input.precioVenta");
         var r_total = renglon.find("input.total");
 
+        var importeBonificacion = parseFloat(r_precioVenta.val()*r_porcentajeBonificacion.val()/100).toFixed(2);
+
+        r_importeBonificacion.val(importeBonificacion);
         var total = parseFloat(r_precioVenta.val() - r_importeBonificacion.val()).toFixed(2);
 
         r_total.val(total);   

@@ -51,6 +51,13 @@ class OrdenTrabajoContactologiaDetalle
     /**
      * @var string
      *
+     * @ORM\Column(name="porcentaje_bonificacion", type="decimal", precision=16, scale=2)
+     */
+    private $porcentajeBonificacion;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
      */
     private $total; 
@@ -462,5 +469,29 @@ class OrdenTrabajoContactologiaDetalle
     public function getTipoCristal()
     {
         return $this->tipoCristal;
+    }
+
+    /**
+     * Set porcentajeBonificacion
+     *
+     * @param string $porcentajeBonificacion
+     *
+     * @return OrdenTrabajoContactologiaDetalle
+     */
+    public function setPorcentajeBonificacion($porcentajeBonificacion)
+    {
+        $this->porcentajeBonificacion = $porcentajeBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeBonificacion
+     *
+     * @return string
+     */
+    public function getPorcentajeBonificacion()
+    {
+        return $this->porcentajeBonificacion;
     }
 }

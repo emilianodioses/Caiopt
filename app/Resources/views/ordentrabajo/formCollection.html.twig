@@ -241,10 +241,10 @@
                             <th>Articulo</th>
                             <th>Tipo Cristal</th>
                             <th>Estado</th>
+                            <th>% Obra Social / Bonificación</th>
                             <th>Obra Social / Bonificación</th>
                             <th>Precio Venta</th>
                             <th>Total</th>
-                            <th></th>
                             <th>Fecha Entrega</th>
                         </thead>
                         <tbody>
@@ -263,13 +263,13 @@
 
     {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
     <tr {{ block('widget_attributes') }}>
-        <td width="30%">{{ form_widget(form.articulo) }}</td>
-        <td width="10%">{{ form_widget(form.tipoCristal) }}</td>
+        <td width="25%">{{ form_widget(form.articulo) }}</td>
+        <td width="8%">{{ form_widget(form.tipoCristal) }}</td>
         <td width="10%">{{ form_widget(form.estado) }}</td>
+        <td>{{ form_widget(form.porcentajeBonificacion) }}</td>
         <td>{{ form_widget(form.importeBonificacion) }}</td>
         <td>{{ form_widget(form.precioVenta) }}</td>
-        <td><b>{{ form_widget(form.total) }}</b></td>
-        <td></td>
+        <td width="7%"><b>{{ form_widget(form.total) }}</b></td>
         <td>{{ form_widget(form.fechaEntrega) }}</td>
         <td class="text-center">
             <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
