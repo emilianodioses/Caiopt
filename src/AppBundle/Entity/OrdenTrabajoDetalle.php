@@ -91,9 +91,12 @@ class OrdenTrabajoDetalle
     private $tipoCristal;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * })
      */
     private $createdBy;
 
@@ -105,9 +108,12 @@ class OrdenTrabajoDetalle
     private $createdAt;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="updated_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * })
      */
     private $updatedBy;
 
@@ -160,30 +166,6 @@ class OrdenTrabajoDetalle
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return OrdenTrabajoDetalle
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return integer
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -205,30 +187,6 @@ class OrdenTrabajoDetalle
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return OrdenTrabajoDetalle
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return integer
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**
@@ -469,5 +427,53 @@ class OrdenTrabajoDetalle
     public function getPorcentajeBonificacion()
     {
         return $this->porcentajeBonificacion;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\Usuario $createdBy
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \AppBundle\Entity\Usuario $updatedBy
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }

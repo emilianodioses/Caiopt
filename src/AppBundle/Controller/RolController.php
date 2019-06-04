@@ -107,9 +107,9 @@ class RolController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $rol->setActivo(true);
-            $rol->setCreatedBy($this->getUser()->getId());
+            $rol->setCreatedBy($this->getUser());
             $rol->setCreatedAt(new \DateTime("now"));
-            $rol->setUpdatedBy($this->getUser()->getId());
+            $rol->setUpdatedBy($this->getUser());
             $rol->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($rol);
@@ -156,7 +156,7 @@ class RolController extends Controller
 
             dump($request);
             die;           
-            $rol->setUpdatedBy($this->getUser()->getId());
+            $rol->setUpdatedBy($this->getUser());
             $rol->setUpdatedAt(new \DateTime("now"));
 
             $em->flush();
@@ -193,7 +193,7 @@ class RolController extends Controller
         else
             $rol->setActivo(1);  
 
-        $rol->setUpdatedBy($this->getUser()->getId()); 
+        $rol->setUpdatedBy($this->getUser()); 
         $rol->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($rol);

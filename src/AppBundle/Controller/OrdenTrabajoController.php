@@ -63,9 +63,9 @@ class OrdenTrabajoController extends Controller
         
             $ordenTrabajo->setSucursal($sucursal);
             $ordenTrabajo->setActivo(1);
-            $ordenTrabajo->setCreatedBy($this->getUser()->getId());
+            $ordenTrabajo->setCreatedBy($this->getUser());
             $ordenTrabajo->setCreatedAt(new \DateTime("now"));
-            $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
+            $ordenTrabajo->setUpdatedBy($this->getUser());
             $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($ordenTrabajo);
@@ -76,9 +76,9 @@ class OrdenTrabajoController extends Controller
             foreach($ordentrabajodetalles as $ordentrabajodetalle) {
                 $ordentrabajodetalle->setOrdenTrabajo($ordenTrabajo);
                 $ordentrabajodetalle->setActivo(1);
-                $ordentrabajodetalle->setCreatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setCreatedBy($this->getUser());
                 $ordentrabajodetalle->setCreatedAt(new \DateTime("now"));
-                $ordentrabajodetalle->setUpdatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setUpdatedBy($this->getUser());
                 $ordentrabajodetalle->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordentrabajodetalle);
@@ -148,7 +148,7 @@ class OrdenTrabajoController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $ordenTrabajo->setUpdatedBy($this->getUser()->getId());
+            $ordenTrabajo->setUpdatedBy($this->getUser());
             $ordenTrabajo->setUpdatedAt(new \DateTime("now"));
 
             $ordentrabajodetalle = new OrdenTrabajoDetalle();
@@ -157,9 +157,9 @@ class OrdenTrabajoController extends Controller
             foreach($ordentrabajodetalles as $ordentrabajodetalle) {
                 $ordentrabajodetalle->setOrdenTrabajo($ordenTrabajo);
                 $ordentrabajodetalle->setActivo(1);
-                $ordentrabajodetalle->setCreatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setCreatedBy($this->getUser());
                 $ordentrabajodetalle->setCreatedAt(new \DateTime("now"));
-                $ordentrabajodetalle->setUpdatedBy($this->getUser()->getId());
+                $ordentrabajodetalle->setUpdatedBy($this->getUser());
                 $ordentrabajodetalle->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordentrabajodetalle);
@@ -198,7 +198,7 @@ class OrdenTrabajoController extends Controller
         else
             $ordenTrabajo->setActivo(1);  
 
-        $ordenTrabajo->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajo->setUpdatedBy($this->getUser()); 
         $ordenTrabajo->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($ordenTrabajo);
@@ -224,7 +224,7 @@ class OrdenTrabajoController extends Controller
         $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id);
         $ordenTrabajo->setEstado("Finalizado");  
 
-        $ordenTrabajo->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajo->setUpdatedBy($this->getUser()); 
         $ordenTrabajo->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($ordenTrabajo);

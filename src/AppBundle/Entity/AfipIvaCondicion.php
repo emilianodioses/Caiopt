@@ -43,9 +43,12 @@ class AfipIvaCondicion
     private $activo;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * })
      */
     private $createdBy;
 
@@ -57,9 +60,12 @@ class AfipIvaCondicion
     private $createdAt;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="updated_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * })
      */
     private $updatedBy;
 
@@ -154,30 +160,6 @@ class AfipIvaCondicion
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return AfipIvaCondicion
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -199,30 +181,6 @@ class AfipIvaCondicion
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return AfipIvaCondicion
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return int
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**
@@ -252,5 +210,53 @@ class AfipIvaCondicion
     public function __toString()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\Usuario $createdBy
+     *
+     * @return AfipIvaCondicion
+     */
+    public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \AppBundle\Entity\Usuario $updatedBy
+     *
+     * @return AfipIvaCondicion
+     */
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }

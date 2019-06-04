@@ -72,9 +72,9 @@ class ProveedorController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $proveedor->setActivo(true);
-            $proveedor->setCreatedBy($this->getUser()->getId());
+            $proveedor->setCreatedBy($this->getUser());
             $proveedor->setCreatedAt(new \DateTime("now"));
-            $proveedor->setUpdatedBy($this->getUser()->getId());
+            $proveedor->setUpdatedBy($this->getUser());
             $proveedor->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($proveedor);
@@ -136,7 +136,7 @@ class ProveedorController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $proveedor->setUpdatedBy($this->getUser()->getId());
+            $proveedor->setUpdatedBy($this->getUser());
             $proveedor->setUpdatedAt(new \DateTime("now"));
 
             $this->getDoctrine()->getManager()->flush();
@@ -172,7 +172,7 @@ class ProveedorController extends Controller
         else
             $proveedor->setActivo(1);  
         
-        $proveedor->setUpdatedBy($this->getUser()->getId());
+        $proveedor->setUpdatedBy($this->getUser());
         $proveedor->setUpdatedAt(new \DateTime("now"));
 
         $em->flush($proveedor);

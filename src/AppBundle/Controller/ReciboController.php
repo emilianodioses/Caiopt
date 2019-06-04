@@ -92,9 +92,9 @@ class ReciboController extends Controller
             $recibo->setNumero($max_numero_recibo+1);
             $recibo->setSaldo(0);
             $recibo->setActivo(1);
-            $recibo->setCreatedBy($this->getUser()->getId());
+            $recibo->setCreatedBy($this->getUser());
             $recibo->setCreatedAt(new \DateTime("now"));
-            $recibo->setUpdatedBy($this->getUser()->getId());
+            $recibo->setUpdatedBy($this->getUser());
             $recibo->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($recibo);
@@ -104,9 +104,9 @@ class ReciboController extends Controller
             foreach($clientePagos as $clientePago) {
                 $clientePago->setRecibo($recibo);
                 $clientePago->setActivo(1);
-                $clientePago->setCreatedBy($this->getUser()->getId());
+                $clientePago->setCreatedBy($this->getUser());
                 $clientePago->setCreatedAt(new \DateTime("now"));
-                $clientePago->setUpdatedBy($this->getUser()->getId());
+                $clientePago->setUpdatedBy($this->getUser());
                 $clientePago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($clientePago);
@@ -128,7 +128,7 @@ class ReciboController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
@@ -136,9 +136,9 @@ class ReciboController extends Controller
                 $reciboComprobante->setComprobante($comprobante);
                 $reciboComprobante->setImporte($importe);
                 $reciboComprobante->setActivo(1);
-                $reciboComprobante->setCreatedBy($this->getUser()->getId());
+                $reciboComprobante->setCreatedBy($this->getUser());
                 $reciboComprobante->setCreatedAt(new \DateTime("now"));
-                $reciboComprobante->setUpdatedBy($this->getUser()->getId());
+                $reciboComprobante->setUpdatedBy($this->getUser());
                 $reciboComprobante->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($reciboComprobante);
@@ -220,9 +220,9 @@ class ReciboController extends Controller
             $recibo->setNumero($max_numero_recibo+1);
             $recibo->setSaldo(0);
             $recibo->setActivo(1);
-            $recibo->setCreatedBy($this->getUser()->getId());
+            $recibo->setCreatedBy($this->getUser());
             $recibo->setCreatedAt(new \DateTime("now"));
-            $recibo->setUpdatedBy($this->getUser()->getId());
+            $recibo->setUpdatedBy($this->getUser());
             $recibo->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($recibo);
@@ -232,9 +232,9 @@ class ReciboController extends Controller
             foreach($clientePagos as $clientePago) {
                 $clientePago->setRecibo($recibo);
                 $clientePago->setActivo(1);
-                $clientePago->setCreatedBy($this->getUser()->getId());
+                $clientePago->setCreatedBy($this->getUser());
                 $clientePago->setCreatedAt(new \DateTime("now"));
-                $clientePago->setUpdatedBy($this->getUser()->getId());
+                $clientePago->setUpdatedBy($this->getUser());
                 $clientePago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($clientePago);
@@ -259,7 +259,7 @@ class ReciboController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
@@ -268,9 +268,9 @@ class ReciboController extends Controller
                 $reciboComprobante->setComprobante($comprobante);
                 $reciboComprobante->setImporte($importe);
                 $reciboComprobante->setActivo(1);
-                $reciboComprobante->setCreatedBy($this->getUser()->getId());
+                $reciboComprobante->setCreatedBy($this->getUser());
                 $reciboComprobante->setCreatedAt(new \DateTime("now"));
-                $reciboComprobante->setUpdatedBy($this->getUser()->getId());
+                $reciboComprobante->setUpdatedBy($this->getUser());
                 $reciboComprobante->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($reciboComprobante);
@@ -302,7 +302,7 @@ class ReciboController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
@@ -311,9 +311,9 @@ class ReciboController extends Controller
                 $reciboComprobante->setComprobante($comprobante);
                 $reciboComprobante->setImporte($importe);
                 $reciboComprobante->setActivo(1);
-                $reciboComprobante->setCreatedBy($this->getUser()->getId());
+                $reciboComprobante->setCreatedBy($this->getUser());
                 $reciboComprobante->setCreatedAt(new \DateTime("now"));
-                $reciboComprobante->setUpdatedBy($this->getUser()->getId());
+                $reciboComprobante->setUpdatedBy($this->getUser());
                 $reciboComprobante->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($reciboComprobante);
@@ -400,7 +400,7 @@ class ReciboController extends Controller
             }
 
             $recibo->setSaldo(0);
-            $recibo->setUpdatedBy($this->getUser()->getId());
+            $recibo->setUpdatedBy($this->getUser());
             $recibo->setUpdatedAt(new \DateTime("now"));
 
             //**********************************************************************
@@ -412,7 +412,7 @@ class ReciboController extends Controller
 
             foreach ($clientePagosDelete as $clientePago) {
                 $clientePago->setActivo(0);
-                $clientePago->setUpdatedBy($this->getUser()->getId());
+                $clientePago->setUpdatedBy($this->getUser());
                 $clientePago->setUpdatedAt(new \DateTime("now"));
             }   
             //**********************************************************************
@@ -422,11 +422,11 @@ class ReciboController extends Controller
             foreach($clientePagos as $clientePago) {
                 $clientePago->setRecibo($recibo);
                 $clientePago->setActivo(1);
-                $clientePago->setUpdatedBy($this->getUser()->getId());
+                $clientePago->setUpdatedBy($this->getUser());
                 $clientePago->setUpdatedAt(new \DateTime("now"));
 
                 if (is_null($clientePago->getId())){     
-                    $clientePago->setCreatedBy($this->getUser()->getId());
+                    $clientePago->setCreatedBy($this->getUser());
                     $clientePago->setCreatedAt(new \DateTime("now"));
                     $em->persist($clientePago);
                 }
@@ -448,12 +448,12 @@ class ReciboController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
                 $reciboComprobante->setImporte($importe);
-                $reciboComprobante->setUpdatedBy($this->getUser()->getId());
+                $reciboComprobante->setUpdatedBy($this->getUser());
                 $reciboComprobante->setUpdatedAt(new \DateTime("now"));
             }
 
@@ -489,7 +489,7 @@ class ReciboController extends Controller
 
         foreach($clientePagos as $clientePago) {
             $clientePago->setActivo(false);
-            $clientePago->setUpdatedBy($this->getUser()->getId());
+            $clientePago->setUpdatedBy($this->getUser());
             $clientePago->setUpdatedAt(new \DateTime("now"));
         }
 
@@ -502,12 +502,12 @@ class ReciboController extends Controller
             $comprobante->setPendiente($pendiente);
 
             $reciboComprobante->setActivo(false);
-            $reciboComprobante->setUpdatedBy($this->getUser()->getId());
+            $reciboComprobante->setUpdatedBy($this->getUser());
             $reciboComprobante->setUpdatedAt(new \DateTime("now"));
         }
 
         $recibo->setActivo(false);
-        $recibo->setUpdatedBy($this->getUser()->getId());
+        $recibo->setUpdatedBy($this->getUser());
         $recibo->setUpdatedAt(new \DateTime("now"));
 
         $em->flush();

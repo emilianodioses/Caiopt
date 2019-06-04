@@ -36,9 +36,12 @@ class ArticuloCategoria
     private $activo;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * })
      */
     private $createdBy;
 
@@ -50,9 +53,12 @@ class ArticuloCategoria
     private $createdAt;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="updated_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * })
      */
     private $updatedBy;
 
@@ -128,30 +134,6 @@ class ArticuloCategoria
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return ArticuloCategoria
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return integer
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -176,30 +158,6 @@ class ArticuloCategoria
     }
 
     /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return ArticuloCategoria
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return integer
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
-    }
-
-    /**
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
@@ -221,5 +179,53 @@ class ArticuloCategoria
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\Usuario $createdBy
+     *
+     * @return ArticuloCategoria
+     */
+    public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \AppBundle\Entity\Usuario $updatedBy
+     *
+     * @return ArticuloCategoria
+     */
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }

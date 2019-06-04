@@ -36,9 +36,12 @@ class PagoTipo
     private $activo;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * })
      */
     private $createdBy;
 
@@ -50,9 +53,12 @@ class PagoTipo
     private $createdAt;
 
     /**
-     * @var string
+     * @var \Usuario
      *
-     * @ORM\Column(name="updated_by", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * })
      */
     private $updatedBy;
 
@@ -123,30 +129,6 @@ class PagoTipo
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return PagoTipo
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -168,30 +150,6 @@ class PagoTipo
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param string $updatedBy
-     *
-     * @return PagoTipo
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return string
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**
@@ -217,5 +175,52 @@ class PagoTipo
     {
         return $this->updatedAt;
     }
-}
 
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\Usuario $createdBy
+     *
+     * @return PagoTipo
+     */
+    public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \AppBundle\Entity\Usuario $updatedBy
+     *
+     * @return PagoTipo
+     */
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+}

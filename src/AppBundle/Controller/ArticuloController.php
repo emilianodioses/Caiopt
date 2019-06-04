@@ -73,9 +73,9 @@ class ArticuloController extends Controller
             $em = $this->getDoctrine()->getManager();
             
             $articulo->setUltimoComprobante(null);
-            $articulo->setCreatedBy($this->getUser()->getId());
+            $articulo->setCreatedBy($this->getUser());
             $articulo->setCreatedAt(new \DateTime("now"));
-            $articulo->setUpdatedBy($this->getUser()->getId());
+            $articulo->setUpdatedBy($this->getUser());
             $articulo->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($articulo);
@@ -132,7 +132,7 @@ class ArticuloController extends Controller
             $em = $this->getDoctrine()->getManager();
             
             $articulo->setUltimoComprobante(null);
-            $articulo->setUpdatedBy($this->getUser()->getId());
+            $articulo->setUpdatedBy($this->getUser());
             $articulo->setUpdatedAt(new \DateTime("now"));
 
             $em->flush();
@@ -168,7 +168,7 @@ class ArticuloController extends Controller
         else
             $articulo->setActivo(1);  
 
-        $articulo->setUpdatedBy($this->getUser()->getId()); 
+        $articulo->setUpdatedBy($this->getUser()); 
         $articulo->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($articulo);

@@ -36,27 +36,6 @@ class Provincia
     private $activo;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="created_by", type="integer")
-     */
-    private $createdBy;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="updated_by", type="integer")
-     */
-    private $updatedBy;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
@@ -123,30 +102,6 @@ class Provincia
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return Provincia
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -168,30 +123,6 @@ class Provincia
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return Provincia
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return int
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**

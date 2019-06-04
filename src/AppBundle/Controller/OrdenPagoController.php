@@ -75,9 +75,9 @@ class OrdenPagoController extends Controller
             $ordenPago->setNumero($max_numero_ordenpago+1);
             $ordenPago->setSaldo(0);
             $ordenPago->setActivo(1);
-            $ordenPago->setCreatedBy($this->getUser()->getId());
+            $ordenPago->setCreatedBy($this->getUser());
             $ordenPago->setCreatedAt(new \DateTime("now"));
-            $ordenPago->setUpdatedBy($this->getUser()->getId());
+            $ordenPago->setUpdatedBy($this->getUser());
             $ordenPago->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($ordenPago);
@@ -87,9 +87,9 @@ class OrdenPagoController extends Controller
             foreach($proveedorPagos as $proveedorPago) {
                 $proveedorPago->setOrdenPago($ordenPago);
                 $proveedorPago->setActivo(1);
-                $proveedorPago->setCreatedBy($this->getUser()->getId());
+                $proveedorPago->setCreatedBy($this->getUser());
                 $proveedorPago->setCreatedAt(new \DateTime("now"));
-                $proveedorPago->setUpdatedBy($this->getUser()->getId());
+                $proveedorPago->setUpdatedBy($this->getUser());
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($proveedorPago);
@@ -111,7 +111,7 @@ class OrdenPagoController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
@@ -119,9 +119,9 @@ class OrdenPagoController extends Controller
                 $ordenPagoComprobante->setComprobante($comprobante);
                 $ordenPagoComprobante->setImporte($importe);
                 $ordenPagoComprobante->setActivo(1);
-                $ordenPagoComprobante->setCreatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setCreatedBy($this->getUser());
                 $ordenPagoComprobante->setCreatedAt(new \DateTime("now"));
-                $ordenPagoComprobante->setUpdatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setUpdatedBy($this->getUser());
                 $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordenPagoComprobante);
@@ -196,9 +196,9 @@ class OrdenPagoController extends Controller
             $ordenPago->setNumero($max_numero_ordenpago+1);
             $ordenPago->setSaldo(0);
             $ordenPago->setActivo(1);
-            $ordenPago->setCreatedBy($this->getUser()->getId());
+            $ordenPago->setCreatedBy($this->getUser());
             $ordenPago->setCreatedAt(new \DateTime("now"));
-            $ordenPago->setUpdatedBy($this->getUser()->getId());
+            $ordenPago->setUpdatedBy($this->getUser());
             $ordenPago->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($ordenPago);
@@ -208,9 +208,9 @@ class OrdenPagoController extends Controller
             foreach($proveedorPagos as $proveedorPago) {
                 $proveedorPago->setOrdenPago($ordenPago);
                 $proveedorPago->setActivo(1);
-                $proveedorPago->setCreatedBy($this->getUser()->getId());
+                $proveedorPago->setCreatedBy($this->getUser());
                 $proveedorPago->setCreatedAt(new \DateTime("now"));
-                $proveedorPago->setUpdatedBy($this->getUser()->getId());
+                $proveedorPago->setUpdatedBy($this->getUser());
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($proveedorPago);
@@ -235,7 +235,7 @@ class OrdenPagoController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
@@ -244,9 +244,9 @@ class OrdenPagoController extends Controller
                 $ordenPagoComprobante->setComprobante($comprobante);
                 $ordenPagoComprobante->setImporte($importe);
                 $ordenPagoComprobante->setActivo(1);
-                $ordenPagoComprobante->setCreatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setCreatedBy($this->getUser());
                 $ordenPagoComprobante->setCreatedAt(new \DateTime("now"));
-                $ordenPagoComprobante->setUpdatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setUpdatedBy($this->getUser());
                 $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordenPagoComprobante);
@@ -278,7 +278,7 @@ class OrdenPagoController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
@@ -287,9 +287,9 @@ class OrdenPagoController extends Controller
                 $ordenPagoComprobante->setComprobante($comprobante);
                 $ordenPagoComprobante->setImporte($importe);
                 $ordenPagoComprobante->setActivo(1);
-                $ordenPagoComprobante->setCreatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setCreatedBy($this->getUser());
                 $ordenPagoComprobante->setCreatedAt(new \DateTime("now"));
-                $ordenPagoComprobante->setUpdatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setUpdatedBy($this->getUser());
                 $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordenPagoComprobante);
@@ -362,7 +362,7 @@ class OrdenPagoController extends Controller
             }
 
             $ordenPago->setSaldo(0);
-            $ordenPago->setUpdatedBy($this->getUser()->getId());
+            $ordenPago->setUpdatedBy($this->getUser());
             $ordenPago->setUpdatedAt(new \DateTime("now"));
 
             //**********************************************************************
@@ -374,7 +374,7 @@ class OrdenPagoController extends Controller
 
             foreach ($proveedorPagosDelete as $proveedorPago) {
                 $proveedorPago->setActivo(0);
-                $proveedorPago->setUpdatedBy($this->getUser()->getId());
+                $proveedorPago->setUpdatedBy($this->getUser());
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
             }   
             //**********************************************************************
@@ -384,11 +384,11 @@ class OrdenPagoController extends Controller
             foreach($proveedorPagos as $proveedorPago) {
                 $proveedorPago->setOrdenPago($ordenPago);
                 $proveedorPago->setActivo(1);
-                $proveedorPago->setUpdatedBy($this->getUser()->getId());
+                $proveedorPago->setUpdatedBy($this->getUser());
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
 
                 if (is_null($proveedorPago->getId())){     
-                    $proveedorPago->setCreatedBy($this->getUser()->getId());
+                    $proveedorPago->setCreatedBy($this->getUser());
                     $proveedorPago->setCreatedAt(new \DateTime("now"));
                     $em->persist($proveedorPago);
                 }
@@ -410,12 +410,12 @@ class OrdenPagoController extends Controller
                 }
 
                 $comprobante->setPendiente($pendiente);
-                $comprobante->setUpdatedBy($this->getUser()->getId());
+                $comprobante->setUpdatedBy($this->getUser());
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
                 $ordenPagoComprobante->setImporte($importe);
-                $ordenPagoComprobante->setUpdatedBy($this->getUser()->getId());
+                $ordenPagoComprobante->setUpdatedBy($this->getUser());
                 $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
             }
 
@@ -444,7 +444,7 @@ class OrdenPagoController extends Controller
 
         foreach($proveedorPagos as $proveedorPago) {
             $proveedorPago->setActivo(false);
-            $proveedorPago->setUpdatedBy($this->getUser()->getId());
+            $proveedorPago->setUpdatedBy($this->getUser());
             $proveedorPago->setUpdatedAt(new \DateTime("now"));
         }
 
@@ -457,12 +457,12 @@ class OrdenPagoController extends Controller
             $comprobante->setPendiente($pendiente);
 
             $ordenPagoComprobante->setActivo(false);
-            $ordenPagoComprobante->setUpdatedBy($this->getUser()->getId());
+            $ordenPagoComprobante->setUpdatedBy($this->getUser());
             $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
         }
 
         $ordenPago->setActivo(false);
-        $ordenPago->setUpdatedBy($this->getUser()->getId());
+        $ordenPago->setUpdatedBy($this->getUser());
         $ordenPago->setUpdatedAt(new \DateTime("now"));
 
         $em->flush();

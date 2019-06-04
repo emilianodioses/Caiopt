@@ -125,4 +125,3 @@ class Funcion
         return $this->descripcion;
     }
 }
-

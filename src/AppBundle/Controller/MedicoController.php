@@ -76,9 +76,9 @@ class MedicoController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $medico->setActivo(true);
-            $medico->setCreatedBy($this->getUser()->getId());
+            $medico->setCreatedBy($this->getUser());
             $medico->setCreatedAt(new \DateTime("now"));
-            $medico->setUpdatedBy($this->getUser()->getId());
+            $medico->setUpdatedBy($this->getUser());
             $medico->setUpdatedAt(new \DateTime("now"));
             
             $em->persist($medico);

@@ -62,9 +62,9 @@ class OrdenTrabajoContactologiaController extends Controller
         
             $ordenTrabajoContactologia->setSucursal($sucursal);
             $ordenTrabajoContactologia->setActivo(1);
-            $ordenTrabajoContactologia->setCreatedBy($this->getUser()->getId());
+            $ordenTrabajoContactologia->setCreatedBy($this->getUser());
             $ordenTrabajoContactologia->setCreatedAt(new \DateTime("now"));
-            $ordenTrabajoContactologia->setUpdatedBy($this->getUser()->getId());
+            $ordenTrabajoContactologia->setUpdatedBy($this->getUser());
             $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($ordenTrabajoContactologia);
@@ -75,9 +75,9 @@ class OrdenTrabajoContactologiaController extends Controller
             foreach($ordentrabajocontactologiadetalles as $ordentrabajocontactologiadetalle) {
                 $ordentrabajocontactologiadetalle->setOrdenTrabajoContactologia($ordenTrabajoContactologia);
                 $ordentrabajocontactologiadetalle->setActivo(1);
-                $ordentrabajocontactologiadetalle->setCreatedBy($this->getUser()->getId());
+                $ordentrabajocontactologiadetalle->setCreatedBy($this->getUser());
                 $ordentrabajocontactologiadetalle->setCreatedAt(new \DateTime("now"));
-                $ordentrabajocontactologiadetalle->setUpdatedBy($this->getUser()->getId());
+                $ordentrabajocontactologiadetalle->setUpdatedBy($this->getUser());
                 $ordentrabajocontactologiadetalle->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordentrabajocontactologiadetalle);
@@ -137,7 +137,7 @@ class OrdenTrabajoContactologiaController extends Controller
         $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
         $ordenTrabajoContactologia->setEstado("Finalizado");  
 
-        $ordenTrabajoContactologia->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajoContactologia->setUpdatedBy($this->getUser()); 
         $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($ordenTrabajoContactologia);
@@ -173,7 +173,7 @@ class OrdenTrabajoContactologiaController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $ordenTrabajoContactologia->setUpdatedBy($this->getUser()->getId());
+            $ordenTrabajoContactologia->setUpdatedBy($this->getUser());
             $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($ordenTrabajoContactologia);
@@ -184,9 +184,9 @@ class OrdenTrabajoContactologiaController extends Controller
             foreach($ordentrabajocontactologiadetalles as $ordentrabajocontactologiadetalle) {
                 $ordentrabajocontactologiadetalle->setOrdenTrabajo($ordenTrabajoContactologia);
                 $ordentrabajocontactologiadetalle->setActivo(1);
-                $ordentrabajocontactologiadetalle->setCreatedBy($this->getUser()->getId());
+                $ordentrabajocontactologiadetalle->setCreatedBy($this->getUser());
                 $ordentrabajocontactologiadetalle->setCreatedAt(new \DateTime("now"));
-                $ordentrabajocontactologiadetalle->setUpdatedBy($this->getUser()->getId());
+                $ordentrabajocontactologiadetalle->setUpdatedBy($this->getUser());
                 $ordentrabajocontactologiadetalle->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($ordentrabajocontactologiadetalle);
@@ -225,7 +225,7 @@ class OrdenTrabajoContactologiaController extends Controller
         else
             $ordenTrabajoContactologia->setActivo(1);  
 
-        $ordenTrabajoContactologia->setUpdatedBy($this->getUser()->getId()); 
+        $ordenTrabajoContactologia->setUpdatedBy($this->getUser()); 
         $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($ordenTrabajoContactologia);

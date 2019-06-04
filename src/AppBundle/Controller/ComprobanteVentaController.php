@@ -65,8 +65,8 @@ class ComprobanteVentaController extends Controller
             if($tipo != "contactologia"){
                 $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
                 $comprobante->setOrdenTrabajo($ordenTrabajo);      
+                $comprobante->setCliente($ordenTrabajo->getCliente());
 
-                /*
                 $ordenTrabajoDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(array('ordenTrabajo' => $ordenTrabajo));
 
                 foreach($ordenTrabajoDetalles as $ordenTrabajoDetalle) {  
@@ -75,11 +75,18 @@ class ComprobanteVentaController extends Controller
 
                     $comprobanteDetalle->setArticulo($articulo);
                     $comprobanteDetalle->setMovimiento('Venta');
+                    $comprobanteDetalle->setPorcentajeIva('21.00');
+                    $comprobanteDetalle->setPorcentajeBonificacion('0');
+                    $comprobanteDetalle->setImporteIva('0');
+                    $comprobanteDetalle->setImporteBonificacion('0');
+                    
+                    
+                    $comprobanteDetalle->setPrecioVenta($ordenTrabajoDetalle->getTotal());
+                    $comprobanteDetalle->setTotal($ordenTrabajoDetalle->getTotal());
                     $comprobanteDetalle->setCantidad(1);
 
                     $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
                 }
-                */
             }
             else
             {
@@ -130,9 +137,9 @@ class ComprobanteVentaController extends Controller
             $comprobante->setSaldo(0);
             //$comprobante->setObraSocial($comprobante->getObraSocialPlan()->getObraSocial());
             $comprobante->setActivo(1);
-            $comprobante->setCreatedBy($this->getUser()->getId());
+            $comprobante->setCreatedBy($this->getUser());
             $comprobante->setCreatedAt(new \DateTime("now"));
-            $comprobante->setUpdatedBy($this->getUser()->getId());
+            $comprobante->setUpdatedBy($this->getUser());
             $comprobante->setUpdatedAt(new \DateTime("now"));
 
 
@@ -150,7 +157,7 @@ class ComprobanteVentaController extends Controller
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobanteDetalle->setMovimiento('Venta');
-                $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setUpdatedBy($this->getUser());
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
                 $comprobanteDetalle->setComprobante($comprobante);
                 $comprobanteDetalle->setActivo(1);
@@ -181,9 +188,9 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setMovimiento('Venta');
                 $comprobanteDetalle->setComprobante($comprobante);
                 $comprobanteDetalle->setActivo(1);
-                $comprobanteDetalle->setCreatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setCreatedBy($this->getUser());
                 $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
-                $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setUpdatedBy($this->getUser());
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($comprobanteDetalle);
@@ -320,7 +327,7 @@ class ComprobanteVentaController extends Controller
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobanteDetalle->setMovimiento('Venta');
-                $comprobanteDetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobanteDetalle->setUpdatedBy($this->getUser());
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
                 $comprobanteDetalle->setComprobante($comprobante);
                 $comprobanteDetalle->setActivo(1);
@@ -349,7 +356,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 if (is_null($comprobanteDetalle->getId())){     
-                    $comprobanteDetalle->setCreatedBy($this->getUser()->getId());
+                    $comprobanteDetalle->setCreatedBy($this->getUser());
                     $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobanteDetalle);
                 }
@@ -389,7 +396,7 @@ class ComprobanteVentaController extends Controller
         else
             $comprobante->setActivo(1);  
 
-        $comprobante->setUpdatedBy($this->getUser()->getId()); 
+        $comprobante->setUpdatedBy($this->getUser()); 
         $comprobante->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($comprobante);

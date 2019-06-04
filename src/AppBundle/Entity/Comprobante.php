@@ -260,9 +260,12 @@ class Comprobante
     private $activo;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * })
      */
     private $createdBy;
 
@@ -274,9 +277,12 @@ class Comprobante
     private $createdAt;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="updated_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * })
      */
     private $updatedBy;
 
@@ -782,30 +788,6 @@ class Comprobante
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return Comprobante
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return integer
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -827,30 +809,6 @@ class Comprobante
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return Comprobante
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return integer
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**
@@ -1139,5 +1097,53 @@ class Comprobante
     public function getOrdenTrabajoContactologia()
     {
         return $this->ordenTrabajoContactologia;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\Usuario $createdBy
+     *
+     * @return Comprobante
+     */
+    public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \AppBundle\Entity\Usuario $updatedBy
+     *
+     * @return Comprobante
+     */
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }

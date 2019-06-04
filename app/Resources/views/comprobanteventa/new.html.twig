@@ -82,6 +82,16 @@ $(function(){
          }
     });
 
+    //<< FUNCIONES PARA LOS ComprobanteDetalle YA EXISTENTES
+    $('.articulo').on('change', function(){
+        fnArticuloChange($(this));
+    });
+
+    $('.item').on('change', function(){
+        fnRenglonChange($(this));
+    });
+    //>> FIN FUNCIONES
+
     function fnArticuloChange(articulo) {
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");

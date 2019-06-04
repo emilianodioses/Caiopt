@@ -71,9 +71,9 @@ class ClienteController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $cliente->setActivo(true);
-            $cliente->setCreatedBy($this->getUser()->getId());
+            $cliente->setCreatedBy($this->getUser());
             $cliente->setCreatedAt(new \DateTime("now"));
-            $cliente->setUpdatedBy($this->getUser()->getId());
+            $cliente->setUpdatedBy($this->getUser());
             $cliente->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($cliente);
@@ -143,7 +143,7 @@ class ClienteController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $cliente->setUpdatedBy($this->getUser()->getId());
+            $cliente->setUpdatedBy($this->getUser());
             $cliente->setUpdatedAt(new \DateTime("now"));
 
             $em->flush();
@@ -179,7 +179,7 @@ class ClienteController extends Controller
         else
             $cliente->setActivo(1);  
 
-        $cliente->setUpdatedBy($this->getUser()->getId()); 
+        $cliente->setUpdatedBy($this->getUser()); 
         $cliente->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($cliente);

@@ -76,9 +76,9 @@ class UsuarioController extends AppController
             $usuario->setLoginUltimo(new \DateTime("now"));
             $usuario->setLoginCantidad(0);
             $usuario->setActivo(true);
-            $usuario->setCreatedBy($this->getUser()->getId());
+            $usuario->setCreatedBy($this->getUser());
             $usuario->setCreatedAt(new \DateTime("now"));
-            $usuario->setUpdatedBy($this->getUser()->getId());
+            $usuario->setUpdatedBy($this->getUser());
             $usuario->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($usuario);
@@ -141,7 +141,7 @@ class UsuarioController extends AppController
             $password = $encoder->encodePassword($usuario->getPassword(), $usuario->getSalt());
             $usuario->setPassword($password);
             
-            $usuario->setUpdatedBy($this->getUser()->getId());
+            $usuario->setUpdatedBy($this->getUser());
             $usuario->setUpdatedAt(new \DateTime("now"));
 
             $em->flush();
@@ -177,7 +177,7 @@ class UsuarioController extends AppController
         else
             $usuario->setActivo(1);  
 
-        $usuario->setUpdatedBy($this->getUser()->getId()); 
+        $usuario->setUpdatedBy($this->getUser()); 
         $usuario->setUpdatedAt(new \DateTime("now")); 
         
         $em->flush($usuario);

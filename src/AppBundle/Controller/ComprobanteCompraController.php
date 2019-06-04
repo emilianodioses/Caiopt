@@ -86,9 +86,9 @@ class ComprobanteCompraController extends controller
                 $comprobante->setObservaciones('');
             }
 
-            $comprobante->setCreatedBy($this->getUser()->getId());
+            $comprobante->setCreatedBy($this->getUser());
             $comprobante->setCreatedAt(new \DateTime("now"));
-            $comprobante->setUpdatedBy($this->getUser()->getId());
+            $comprobante->setUpdatedBy($this->getUser());
             $comprobante->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($comprobante);
@@ -111,9 +111,9 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setComprobante($comprobante);
                 $comprobantedetalle->setMovimiento('Compra');
                 $comprobantedetalle->setActivo(1);
-                $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                $comprobantedetalle->setCreatedBy($this->getUser());
                 $comprobantedetalle->setCreatedAt(new \DateTime("now"));
-                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobantedetalle->setUpdatedBy($this->getUser());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($comprobantedetalle);
@@ -249,9 +249,9 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setComprobante($comprobante);
                 $comprobantedetalle->setMovimiento('Compra');
                 $comprobantedetalle->setActivo(1);
-                $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                $comprobantedetalle->setCreatedBy($this->getUser());
                 $comprobantedetalle->setCreatedAt(new \DateTime("now"));
-                $comprobantedetalle->setUpdatedBy($this->getUser()->getId());
+                $comprobantedetalle->setUpdatedBy($this->getUser());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
                 if (is_null($comprobantedetalle->getId())){     
@@ -259,7 +259,7 @@ class ComprobanteCompraController extends controller
                         $comprobantedetalle->setObservaciones('');
                     }
 
-                    $comprobantedetalle->setCreatedBy($this->getUser()->getId());
+                    $comprobantedetalle->setCreatedBy($this->getUser());
                     $comprobantedetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobantedetalle);
                 }

@@ -195,9 +195,12 @@ class Usuario implements AdvancedUserInterface , \Serializable
     private $loginCantidad;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * })
      */
     private $createdBy;
 
@@ -209,9 +212,12 @@ class Usuario implements AdvancedUserInterface , \Serializable
     private $createdAt;
 
     /**
-     * @var int
+     * @var \Usuario
      *
-     * @ORM\Column(name="updated_by", type="integer")
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * })
      */
     private $updatedBy;
 
@@ -378,78 +384,6 @@ class Usuario implements AdvancedUserInterface , \Serializable
     }
 
     /**
-     * Set ultimoLogin
-     *
-     * @param \DateTime $ultimoLogin
-     *
-     * @return Usuario
-     */
-    public function setUltimoLogin($ultimoLogin)
-    {
-        $this->ultimoLogin = $ultimoLogin;
-
-        return $this;
-    }
-
-    /**
-     * Get ultimoLogin
-     *
-     * @return \DateTime
-     */
-    public function getUltimoLogin()
-    {
-        return $this->ultimoLogin;
-    }
-
-    /**
-     * Set cantidadLogin
-     *
-     * @param integer $cantidadLogin
-     *
-     * @return Usuario
-     */
-    public function setCantidadLogin($cantidadLogin)
-    {
-        $this->cantidadLogin = $cantidadLogin;
-
-        return $this;
-    }
-
-    /**
-     * Get cantidadLogin
-     *
-     * @return int
-     */
-    public function getCantidadLogin()
-    {
-        return $this->cantidadLogin;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return Usuario
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -471,30 +405,6 @@ class Usuario implements AdvancedUserInterface , \Serializable
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy
-     *
-     * @return Usuario
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return int
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**
@@ -616,5 +526,53 @@ class Usuario implements AdvancedUserInterface , \Serializable
     public function getRol()
     {
         return $this->rol;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\Usuario $createdBy
+     *
+     * @return Usuario
+     */
+    public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \AppBundle\Entity\Usuario $updatedBy
+     *
+     * @return Usuario
+     */
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }
