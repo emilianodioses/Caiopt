@@ -92,6 +92,10 @@ $(function(){
     });
     //>> FIN FUNCIONES
 
+    window.onload = function() {
+        fnCalcularTotales();
+    }
+
     function fnArticuloChange(articulo) {
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
@@ -145,7 +149,7 @@ $(function(){
         r_importeBonificacion.val(importe_bonificacion);
         r_precioUnitario.val(precio_unitario);
         r_importeIva.val(importe_iva);
-        r_total.val(total);   
+        r_total.val(total);
         
         fnCalcularTotales();
 
@@ -192,7 +196,6 @@ $(function(){
 
         return true;
     }
-
 </script>          
 
 {% endblock %}

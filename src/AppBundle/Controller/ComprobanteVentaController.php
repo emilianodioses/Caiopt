@@ -73,17 +73,20 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle = new ComprobanteDetalle();
                     $articulo = $em->getRepository('AppBundle:Articulo')->find($ordenTrabajoDetalle->getArticulo());
 
-                    $comprobanteDetalle->setArticulo($articulo);
+                    $importe_iva = $ordenTrabajoDetalle->getTotal() * floatval($articulo->getIva()->getDescripcion()) / (100 + floatval($articulo->getIva()->getDescripcion()));
+
+                    $precio_unitario = $ordenTrabajoDetalle->getTotal() - $importe_iva;
+
                     $comprobanteDetalle->setMovimiento('Venta');
-                    $comprobanteDetalle->setPorcentajeIva('21.00');
-                    $comprobanteDetalle->setPorcentajeBonificacion('0');
-                    $comprobanteDetalle->setImporteIva('0');
-                    $comprobanteDetalle->setImporteBonificacion('0');
-                    
-                    
-                    $comprobanteDetalle->setPrecioVenta($ordenTrabajoDetalle->getTotal());
-                    $comprobanteDetalle->setTotal($ordenTrabajoDetalle->getTotal());
+                    $comprobanteDetalle->setArticulo($articulo);
                     $comprobanteDetalle->setCantidad(1);
+                    $comprobanteDetalle->setPrecioVenta($ordenTrabajoDetalle->getTotal());
+                    $comprobanteDetalle->setPorcentajeBonificacion('0');
+                    $comprobanteDetalle->setImporteBonificacion('0');
+                    $comprobanteDetalle->setPorcentajeIva($articulo->getIva()->getDescripcion());
+                    $comprobanteDetalle->setImporteIva($importe_iva);
+                    $comprobanteDetalle->setPrecioUnitario($precio_unitario);
+                    $comprobanteDetalle->setTotal($ordenTrabajoDetalle->getTotal());
 
                     $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
                 }
@@ -92,19 +95,31 @@ class ComprobanteVentaController extends Controller
             {
                 $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id); 
                 $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);      
+                $comprobante->setCliente($ordenTrabajoContactologia->getCliente());
 
-                /*
                 $ordenTrabajoContactologiaDetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(array('ordenTrabajoContactologia' => $ordenTrabajoContactologia));
 
                 foreach($ordenTrabajoContactologiaDetalles as $ordenTrabajoContactologiaDetalle) {  
                     $comprobanteDetalle = new ComprobanteDetalle();
                     $articulo = $em->getRepository('AppBundle:Articulo')->find($ordenTrabajoContactologiaDetalle->getArticulo());
 
+                    $importe_iva = $ordenTrabajoContactologiaDetalle->getTotal() * floatval($articulo->getIva()->getDescripcion()) / (100 + floatval($articulo->getIva()->getDescripcion()));
+
+                    $precio_unitario = $ordenTrabajoContactologiaDetalle->getTotal() - $importe_iva;
+
+                    $comprobanteDetalle->setMovimiento('Venta');
                     $comprobanteDetalle->setArticulo($articulo);
+                    $comprobanteDetalle->setCantidad(1);
+                    $comprobanteDetalle->setPrecioVenta($ordenTrabajoContactologiaDetalle->getTotal());
+                    $comprobanteDetalle->setPorcentajeBonificacion('0');
+                    $comprobanteDetalle->setImporteBonificacion('0');
+                    $comprobanteDetalle->setPorcentajeIva($articulo->getIva()->getDescripcion());
+                    $comprobanteDetalle->setImporteIva($importe_iva);
+                    $comprobanteDetalle->setPrecioUnitario($precio_unitario);
+                    $comprobanteDetalle->setTotal($ordenTrabajoContactologiaDetalle->getTotal());
 
                     $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
                 }
-                */
             }
         }
 
