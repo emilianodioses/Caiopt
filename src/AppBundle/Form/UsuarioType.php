@@ -20,6 +20,7 @@ class UsuarioType extends AbstractType
     {
         $builder->add('usuario', TextType::class, array(
             'label' => 'Usuario',
+            'required' => true
         ));
 
         $builder->add('nombre', TextType::class, array(

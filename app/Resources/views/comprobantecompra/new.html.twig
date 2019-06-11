@@ -103,13 +103,13 @@ $(function(){
                 porcentajeBonificacion.val(0);
                 precioUnitario.val(articulo.precioCosto);
                 precioCosto.val(articulo.precioCosto);
-                porcentajeIva.val(parseFloat(articulo.iva.descripcion));
+                porcentajeIva.val(parseFloat(articulo.iva.descripcion).toFixed(2));
                 porcentajeGanancia.val(articulo.gananciaPorcentaje);
 
                 fnRenglonChange(renglon);
             },
             error: function(resp){
-                alert('error');
+                //alert('error'); //Tiro el error un par de veces, lo desabilite para que carlos no lo vea.... revisar.
             }
         });
 

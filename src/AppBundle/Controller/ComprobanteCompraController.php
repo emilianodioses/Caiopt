@@ -105,7 +105,7 @@ class ComprobanteCompraController extends controller
                 if (is_null($comprobantedetalle->getObservaciones())) {
                     $comprobantedetalle->setObservaciones('');
                 }
-                
+
                 $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
                 
                 $comprobantedetalle->setComprobante($comprobante);

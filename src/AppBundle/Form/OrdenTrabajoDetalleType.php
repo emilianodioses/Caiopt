@@ -58,7 +58,7 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'placeholder' => 'Fecha Entrega', 'autocomplete' => 'off']))
                 ->add('precioVenta',FloatType::class, array(
                     'label' => false,

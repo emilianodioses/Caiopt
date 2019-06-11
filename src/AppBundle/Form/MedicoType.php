@@ -31,8 +31,12 @@ class MedicoType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('matricula', null, array('label' => 'Matricula',))
-                ->add('documentoNumero', null, array('label' => 'Número Documento',))
+                ->add('matricula', null, array(
+                    'label' => 'Matricula',
+                    'required' => true))
+                ->add('documentoNumero', null, array(
+                    'label' => 'Número Documento',
+                    'required' => true))
                 ->add('localidad', EntityType::class, array(
                     'label' => 'Localidad',
                     'class' => 'AppBundle:Localidad',
@@ -45,10 +49,18 @@ class MedicoType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('direccion', TextType::class, array('label' => 'Dirección',))
-                ->add('telefono', null, array('label' => 'Teléfono',))
-                ->add('email', TextType::class, array('label' => 'Email',))
-                ->add('contacto', null, array('label' => 'Contacto',));
+                ->add('direccion', TextType::class, array(
+                    'label' => 'Dirección',
+                    'required' => false))
+                ->add('telefono', null, array(
+                    'label' => 'Teléfono',
+                    'required' => false,))
+                ->add('email', TextType::class, array(
+                    'label' => 'Email',
+                    'required' => false))
+                ->add('contacto', null, array(
+                    'label' => 'Contacto',
+                    'required' => false));
     }/**
      * {@inheritdoc}
      */

@@ -89,7 +89,8 @@ class ComprobanteDetalleType extends AbstractType
                         'label'=> false,
                         'choices' => $porcentajeIva,
                         'choices_as_values' => true,
-                        'attr' => array('class' => 'porcentajeIva',),))
+                        'attr' => array('class' => 'porcentajeIva',),
+                        'required' => true,))
                 ->add('importeIva',HiddenType::class,array(
                     'label'=>'Importe Iva',
                     'attr' => array('class' => 'importeIva')))

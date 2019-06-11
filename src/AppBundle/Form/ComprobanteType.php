@@ -144,7 +144,7 @@ class ComprobanteType extends AbstractType
                         'readonly' => false,
                     )))
                 ->add('numero', IntegerType::class, array(
-                    'required' => false,
+                    'required' => true,
                     'label' => 'N de Comprobante'))
                 ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
@@ -252,7 +252,7 @@ class ComprobanteType extends AbstractType
                         'allow_add' => true,
                         'allow_delete' => true,
                         'prototype'    => true,
-                        'required'     => false,
+                        'required'     => true,
                         'by_reference' => true,
                         'delete_empty' => true,
                         'attr' => [
