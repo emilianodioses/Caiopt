@@ -144,7 +144,13 @@ class ComprobanteVentaController extends Controller
              ->getSingleScalarResult();
 
             $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
-        
+            $comprobante->setClienteRazonSocial($comprobante->getCliente()->getNombre());
+            $comprobante->setClienteDocumentoTipo($comprobante->getCliente()->getDocumentoTipo());
+            $comprobante->setClienteDocumentoNumero($comprobante->getCliente()->getDocumentoNumero());
+            $comprobante->setClienteDomicilio($comprobante->getCliente()->getDireccion());
+            $comprobante->setClienteLocalidad($comprobante->getCliente()->getLocalidad()->getNombre());
+            $comprobante->setClienteIvaCondicion($comprobante->getCliente()->getIvaCondicion()->getDescripcion());
+            
             $comprobante->setSucursal($sucursal);
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
@@ -318,6 +324,13 @@ class ComprobanteVentaController extends Controller
             }
 
             $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+            $comprobante->setClienteRazonSocial($comprobante->getCliente()->getNombre());
+            $comprobante->setClienteDocumentoTipo($comprobante->getCliente()->getDocumentoTipo()->getDescripcion());
+            $comprobante->setClienteDocumentoNumero($comprobante->getCliente()->getDocumentoNumero());
+            $comprobante->setClienteDomicilio($comprobante->getCliente()->getDireccion());
+            $comprobante->setClienteLocalidad($comprobante->getCliente()->getLocalidad()->getNombre());
+            $comprobante->setClienteIvaCondicion($comprobante->getCliente()->getIvaCondicion()->getDescripcion());
+
             $comprobante->setSucursal($sucursal);
             $comprobante->setPendiente($comprobante->getTotal());
             $comprobante->setSaldo(0);
@@ -448,6 +461,13 @@ class ComprobanteVentaController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
+        $comprobante->setClienteRazonSocial($comprobante->getCliente()->getNombre());
+        $comprobante->setClienteDocumentoTipo($comprobante->getCliente()->getDocumentoTipo());
+        $comprobante->setClienteDocumentoNumero($comprobante->getCliente()->getDocumentoNumero());
+        $comprobante->setClienteDomicilio($comprobante->getCliente()->getDireccion());
+        $comprobante->setClienteLocalidad($comprobante->getCliente()->getLocalidad()->getNombre());
+        $comprobante->setClienteIvaCondicion($comprobante->getCliente()->getIvaCondicion()->getDescripcion());
+
         $em = $this->getDoctrine()->getManager();
         $afip = $this->get('AfipFE');
 
@@ -478,7 +498,7 @@ class ComprobanteVentaController extends Controller
         $comprobanteTotalNeto = $comprobante->getTotalNeto();
         $comprobanteImportaIva = $comprobante->getImporteIva();
 
-        $alicuotasIva = $em->getRepository('AppBundle:AfipAlicuota')->findAll();
+        $alicuotasIva = $em->getRepository('AppBundle:AfipAlicuota')->findBy(Array('activo'=>1));
 
         foreach($alicuotasIva as $alicuotaIva) {
             $alicuota['Id'] = $alicuotaIva->getCodigo(); // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
@@ -491,10 +511,13 @@ class ComprobanteVentaController extends Controller
             $articulo = $em->getRepository('AppBundle:Articulo')->findOneBy(array('id' => $cd->getArticulo()->getId()));
             //dump($articulo);
             //die;
-            $alicuota_id = $articulo->getIva()->getId();
+            $alicuota_id = $em->getRepository('AppBundle:AfipAlicuota')->findOneBy(array('activo'=>1, 'descripcion' => $cd->getPorcentajeIva()))->getId();
 
             $alicuotas_all[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();
             $alicuotas_all[$alicuota_id]['Importe'] += $cd->getImporteIva(); 
+
+            dump($alicuotas_all);
+            die;
         }
 
         foreach ($alicuotas_all as $alicuota) {
@@ -555,7 +578,7 @@ class ComprobanteVentaController extends Controller
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('ComprobanteVenta', 'Imprimir', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('ComprobanteVenta', 'FacturaImprimir', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 

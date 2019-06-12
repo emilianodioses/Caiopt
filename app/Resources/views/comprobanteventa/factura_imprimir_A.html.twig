@@ -4,7 +4,7 @@
             <tbody>
                 <tr>
                     <td width="40%" align="center">
-                        <img width="226" height="64" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logo3.jpg')}}"><br>
+                        <img width="226" height="64" src="{{ asset('img/logo3.jpg')}}"><br>
                         <b>OPTICA CONTINI</b><br>
                         <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
                         {{empresaDireccion}}<br>
@@ -42,16 +42,16 @@
         <table width="100%" cellspacing="0" border="0">
             <tbody>
                 <tr>
-                    <td width="60%"><b>Razon Social:</b> {{comprobante.cliente.nombre}}</td>
-                    <td width="40%"><b>{{comprobante.cliente.documentoTipo}}:</b> {{comprobante.cliente.documentoNumero}}</td>
+                    <td width="60%"><b>Razon Social:</b> {{comprobante.clienteRazonSocial}}</td>
+                    <td width="40%"><b>{{comprobante.clienteDocumentoTipo}}:</b> {{comprobante.clienteDocumentoNumero}}</td>
                 </tr>
                 <tr>
-                    <td><b>Domicilio:</b> {{comprobante.cliente.direccion}}</td>
-                    <td><b>Localidad:</b> {{comprobante.cliente.localidad.nombre}}</td>
+                    <td><b>Domicilio:</b> {{comprobante.clienteDomicilio}}</td>
+                    <td><b>Localidad:</b> {{comprobante.clienteLocalidad}}</td>
                 </tr>
                 <tr>
-                    <td><b>Condición de IVA:</b> {{comprobante.cliente.ivaCondicion.descripcion}}</td>
-                    <td><b>Condición de Venta:</b> {{comprobante.condicionVenta}}</td>
+                    <td><b>Condición de IVA:</b> {{comprobante.clienteIvaCondicion}}</td>
+                    
                 </tr>
             </tbody>
         </table>
@@ -94,7 +94,7 @@
             <tbody>
                 <tr>
                     <td width="60%">
-                        <img width="63" height="18" src="{{ app.request.scheme ~'://' ~ 'localhost' ~ asset('img/logoAFIP.jpeg')}}"><br>
+                        <img width="63" height="18" src="{{ asset('img/logoAFIP.jpeg')}}"><br>
                         <span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
                         <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
                         <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}

@@ -216,6 +216,54 @@ class Comprobante
      */
     private $caeNumero;
 
+    //ClienteRazonSocial = Nombre del cliente al momento de hacer la factura
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente_razon_social", type="string", length=255)
+     */
+    private $clienteRazonSocial;
+
+    //ClienteDocumentoTipo = Tipo de documento del cliente al momento de hacer la factura
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente_documento_tipo", type="string", length=255)
+     */
+    private $clienteDocumentoTipo;
+
+    //ClienteDocumentoNumero = Numero de documento del cliente al momento de hacer la factura
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente_documento_numero", type="string", length=255)
+     */
+    private $clienteDocumentoNumero;
+
+    //ClienteDomicilio = Domicilio del cliente al momento de hacer la factura
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente_domicilio", type="string", length=255)
+     */
+    private $clienteDomicilio;
+
+    //ClienteLocalidad = Localidad del cliente al momento de hacer la factura
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente_localidad", type="string", length=255)
+     */
+    private $clienteLocalidad;
+
+    //ClienteIvaCondicion = Condicion de IVA del cliente al momento de hacer la factura
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente_iva_condicion", type="string", length=255)
+     */
+    private $clienteIvaCondicion;    
+
     /**
      * @var \ObraSocial
      *
@@ -1145,5 +1193,149 @@ class Comprobante
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set clienteRazonSocial
+     *
+     * @param string $clienteRazonSocial
+     *
+     * @return Comprobante
+     */
+    public function setClienteRazonSocial($clienteRazonSocial)
+    {
+        $this->clienteRazonSocial = $clienteRazonSocial;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteRazonSocial
+     *
+     * @return string
+     */
+    public function getClienteRazonSocial()
+    {
+        return $this->clienteRazonSocial;
+    }
+
+    /**
+     * Set clienteDocumentoTipo
+     *
+     * @param string $clienteDocumentoTipo
+     *
+     * @return Comprobante
+     */
+    public function setClienteDocumentoTipo($clienteDocumentoTipo)
+    {
+        $this->clienteDocumentoTipo = $clienteDocumentoTipo;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteDocumentoTipo
+     *
+     * @return string
+     */
+    public function getClienteDocumentoTipo()
+    {
+        return $this->clienteDocumentoTipo;
+    }
+
+    /**
+     * Set clienteDocumentoNumero
+     *
+     * @param string $clienteDocumentoNumero
+     *
+     * @return Comprobante
+     */
+    public function setClienteDocumentoNumero($clienteDocumentoNumero)
+    {
+        $this->clienteDocumentoNumero = $clienteDocumentoNumero;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteDocumentoNumero
+     *
+     * @return string
+     */
+    public function getClienteDocumentoNumero()
+    {
+        return $this->clienteDocumentoNumero;
+    }
+
+    /**
+     * Set clienteDomicilio
+     *
+     * @param string $clienteDomicilio
+     *
+     * @return Comprobante
+     */
+    public function setClienteDomicilio($clienteDomicilio)
+    {
+        $this->clienteDomicilio = $clienteDomicilio;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteDomicilio
+     *
+     * @return string
+     */
+    public function getClienteDomicilio()
+    {
+        return $this->clienteDomicilio;
+    }
+
+    /**
+     * Set clienteLocalidad
+     *
+     * @param string $clienteLocalidad
+     *
+     * @return Comprobante
+     */
+    public function setClienteLocalidad($clienteLocalidad)
+    {
+        $this->clienteLocalidad = $clienteLocalidad;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteLocalidad
+     *
+     * @return string
+     */
+    public function getClienteLocalidad()
+    {
+        return $this->clienteLocalidad;
+    }
+
+    /**
+     * Set clienteIvaCondicion
+     *
+     * @param string $clienteIvaCondicion
+     *
+     * @return Comprobante
+     */
+    public function setClienteIvaCondicion($clienteIvaCondicion)
+    {
+        $this->clienteIvaCondicion = $clienteIvaCondicion;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteIvaCondicion
+     *
+     * @return string
+     */
+    public function getClienteIvaCondicion()
+    {
+        return $this->clienteIvaCondicion;
     }
 }
