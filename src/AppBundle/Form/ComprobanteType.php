@@ -68,7 +68,10 @@ class ComprobanteType extends AbstractType
                                      ->orderBy('l.nombre', 'ASC')
                                      ;
                              }
-                  ));
+                  ))
+                  ->add('numero', IntegerType::class, array(
+                    'required' => true,
+                    'label' => 'N de Comprobante'));
         }
         else {
           $builder->add('tipo', EntityType::class, array(
@@ -114,7 +117,10 @@ class ComprobanteType extends AbstractType
                       'cache' => true,
                       'cache_timeout' => 60000, // if 'cache' is true
                       'language' => 'es',
-                      ));
+                      ))
+                  ->add('numero', IntegerType::class, array(
+                    'required' => false,
+                    'label' => 'N de Comprobante'));
         }
       }
       else {
@@ -129,8 +135,12 @@ class ComprobanteType extends AbstractType
                                    ->orderBy('ic.descripcion', 'ASC')
                                    ;
                            }
-                ));
+                ))
+                ->add('numero', IntegerType::class, array(
+                    'required' => true,
+                    'label' => 'N de Comprobante'));
       }
+        
         $builder->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',
@@ -143,9 +153,6 @@ class ComprobanteType extends AbstractType
                     'attr' => array(
                         'readonly' => false,
                     )))
-                ->add('numero', IntegerType::class, array(
-                    'required' => true,
-                    'label' => 'N de Comprobante'))
                 ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'

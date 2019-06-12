@@ -35,11 +35,13 @@ class ReciboType extends AbstractType
                         'readonly' => true),
                     'label' => 'N de Recibo'))
                 ->add('total',FloatType::class, array(
+                    'required' => true,
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total'))
                 ->add('disponible',FloatType::class, array(
+                    'required' => true,
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
                     ),
@@ -74,6 +76,7 @@ class ReciboType extends AbstractType
                     'required'     => false,
                     'by_reference' => true,
                     'delete_empty' => true,
+                    'required' => true,
                     'attr' => [
                         'class' => 'table clientePago-collection',
                     ],

@@ -147,7 +147,14 @@ $(function(){
     }
 
     function submitform() {
-        var comprobantes = JSON.stringify(getComprobantes());
+        var comprobantes = getComprobantes();
+        if (comprobantes.length == 0) {
+            alert ('Debe seleccionar al menos un comprobante');
+            event.preventDefault();
+            return false;
+        }
+
+        comprobantes = JSON.stringify(comprobantes);
 
         var form = document.getElementsByName("OrdenPagoType")[0];
 

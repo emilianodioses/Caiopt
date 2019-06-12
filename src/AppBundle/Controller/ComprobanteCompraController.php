@@ -53,6 +53,7 @@ class ComprobanteCompraController extends controller
         endif;
 
         $comprobante = new Comprobante();
+        $comprobante->setFecha(new \DateTime("now"));
         $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Compra')));
         $form->handleRequest($request);
 
@@ -60,7 +61,7 @@ class ComprobanteCompraController extends controller
             $em = $this->getDoctrine()->getManager();
 
             //INICIO Validacion Comprobante Existente
-            $comprobanteDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('puntoVenta'=>$comprobante->getPuntoVenta(), 'numero'=>$comprobante->getNumero(),  'activo'=>1, 'movimiento' => 'Compra'));
+            $comprobanteDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor' => $comprobante->getProveedor(), 'puntoVenta'=>$comprobante->getPuntoVenta(), 'numero'=>$comprobante->getNumero(),  'activo'=>1, 'movimiento' => 'Compra'));
 
             if (count($comprobanteDuplicado) > 0) {
                 $this->get('session')->getFlashbag()->add('warning', 'El Comprobante ya fue cargado');

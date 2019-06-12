@@ -18,7 +18,8 @@ class DashboardController extends Controller
         $secure = $this->container->get('SecureAction');
         
         if (!$secure->isAuthorized('Dashboard', 'Index', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+            //return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+            return $this->render('dashboard/index_not_authorized.html.twig');
         endif;
 
         $em = $this->getDoctrine()->getManager();

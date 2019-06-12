@@ -35,11 +35,13 @@ class OrdenPagoType extends AbstractType
                         'readonly' => true),
                     'label' => 'N de Orden de Pago'))
                 ->add('total',FloatType::class, array(
+                    'required' => true,
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total'))
                 ->add('disponible',FloatType::class, array(
+                    'required' => true,
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
                     ),
@@ -74,6 +76,7 @@ class OrdenPagoType extends AbstractType
                     'required'     => false,
                     'by_reference' => true,
                     'delete_empty' => true,
+                    'required' => true,
                     'attr' => [
                         'class' => 'table proveedorPago-collection',
                     ],

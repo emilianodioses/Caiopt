@@ -257,7 +257,7 @@ class OrdenTrabajoController extends Controller
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('OrdenTrabajo', 'Imprimir', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('OrdenTrabajo', 'OrdenImprimir', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 

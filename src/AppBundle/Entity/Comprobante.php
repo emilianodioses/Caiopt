@@ -222,7 +222,7 @@ class Comprobante
      *
      * @ORM\Column(name="cliente_razon_social", type="string", length=255)
      */
-    private $clienteRazonSocial;
+    private $clienteRazonSocial = '';
 
     //ClienteDocumentoTipo = Tipo de documento del cliente al momento de hacer la factura
     /**
@@ -230,7 +230,7 @@ class Comprobante
      *
      * @ORM\Column(name="cliente_documento_tipo", type="string", length=255)
      */
-    private $clienteDocumentoTipo;
+    private $clienteDocumentoTipo = '';
 
     //ClienteDocumentoNumero = Numero de documento del cliente al momento de hacer la factura
     /**
@@ -238,7 +238,7 @@ class Comprobante
      *
      * @ORM\Column(name="cliente_documento_numero", type="string", length=255)
      */
-    private $clienteDocumentoNumero;
+    private $clienteDocumentoNumero = '';
 
     //ClienteDomicilio = Domicilio del cliente al momento de hacer la factura
     /**
@@ -246,7 +246,7 @@ class Comprobante
      *
      * @ORM\Column(name="cliente_domicilio", type="string", length=255)
      */
-    private $clienteDomicilio;
+    private $clienteDomicilio = '';
 
     //ClienteLocalidad = Localidad del cliente al momento de hacer la factura
     /**
@@ -254,7 +254,7 @@ class Comprobante
      *
      * @ORM\Column(name="cliente_localidad", type="string", length=255)
      */
-    private $clienteLocalidad;
+    private $clienteLocalidad = '';
 
     //ClienteIvaCondicion = Condicion de IVA del cliente al momento de hacer la factura
     /**
@@ -262,7 +262,7 @@ class Comprobante
      *
      * @ORM\Column(name="cliente_iva_condicion", type="string", length=255)
      */
-    private $clienteIvaCondicion;    
+    private $clienteIvaCondicion = '';
 
     /**
      * @var \ObraSocial
