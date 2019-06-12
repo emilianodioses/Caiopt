@@ -92,6 +92,7 @@ class Usuario implements AdvancedUserInterface , \Serializable
         return $this->getActivo();
     }
 
+/*
     public function isEqualTo(UserInterface $user)
     {
         if ($this->password !== $user->getPassword()) {
@@ -108,7 +109,7 @@ class Usuario implements AdvancedUserInterface , \Serializable
 
         return true;
     }
-
+*/
     /**
      * @var int
      *
