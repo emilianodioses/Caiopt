@@ -48,7 +48,7 @@ class Medico
     /**
      * @var string
      *
-     * @ORM\Column(name="matricula", type="string", unique=true, length=255)
+     * @ORM\Column(name="matricula", type="string", length=255)
      */
     private $matricula;
 
