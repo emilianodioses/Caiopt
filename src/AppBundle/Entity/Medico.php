@@ -41,7 +41,7 @@ class Medico
     /**
      * @var string
      *
-     * @ORM\Column(name="documento_numero", type="string", unique=true, length=255)
+     * @ORM\Column(name="documento_numero", type="string", length=255)
      */
     private $documentoNumero;
 

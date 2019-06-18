@@ -40,6 +40,13 @@ class Localidad
     private $provincia;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo_postal", type="string", length=10)
+     */
+    private $codigoPostal;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -262,5 +269,29 @@ class Localidad
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set codigoPostal
+     *
+     * @param string $codigoPostal
+     *
+     * @return Localidad
+     */
+    public function setCodigoPostal($codigoPostal)
+    {
+        $this->codigoPostal = $codigoPostal;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoPostal
+     *
+     * @return string
+     */
+    public function getCodigoPostal()
+    {
+        return $this->codigoPostal;
     }
 }
