@@ -150,70 +150,70 @@ class OrdenTrabajoContactologia
      *
      * @ORM\Column(name="rc_ojo_derecho_horizontal", type="decimal", precision=16, scale=2)
      */
-    private $rcOjoDerechoHorizontal;
+    private $rcOjoDerechoHorizontal = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="rc_ojo_izquierdo_horizontal", type="decimal", precision=16, scale=2)
      */
-    private $rcOjoIzquierdoHorizontal;
+    private $rcOjoIzquierdoHorizontal = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="rc_ojo_derecho_vertical", type="decimal", precision=16, scale=2)
      */
-    private $rcOjoDerechoVertical;
+    private $rcOjoDerechoVertical = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="rc_ojo_izquierdo_vertical", type="decimal", precision=16, scale=2)
      */
-    private $rcOjoIzquierdoVertical;
+    private $rcOjoIzquierdoVertical = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_derecho_curvas", type="decimal", precision=16, scale=2)
      */
-    private $ojoDerechoCurvas;
+    private $ojoDerechoCurvas = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_izquierdo_curvas", type="decimal", precision=16, scale=2)
      */
-    private $ojoIzquierdoCurvas;
+    private $ojoIzquierdoCurvas = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_derecho_diametro", type="decimal", precision=16, scale=2)
      */
-    private $ojoDerechoDiametro;
+    private $ojoDerechoDiametro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_izquierdo_diametro", type="decimal", precision=16, scale=2)
      */
-    private $ojoIzquierdoDiametro;
+    private $ojoIzquierdoDiametro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_derecho_av", type="decimal", precision=16, scale=2)
      */
-    private $ojoDerechoAV;
+    private $ojoDerechoAV = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_izquierdo_av", type="decimal", precision=16, scale=2)
      */
-    private $ojoIzquierdoAV;
+    private $ojoIzquierdoAV = '0';
 
     /**
      * @var string
@@ -234,196 +234,196 @@ class OrdenTrabajoContactologia
      *
      * @ORM\Column(name="lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoDerechoEje;
+    private $lejosOjoDerechoEje = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="lejos_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoIzquierdoEje;
+    private $lejosOjoIzquierdoEje = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="lejos_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoDerechoCilindro;
+    private $lejosOjoDerechoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="lejos_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoIzquierdoCilindro;
+    private $lejosOjoIzquierdoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="lejos_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoDerechoEsfera;
+    private $lejosOjoDerechoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="lejos_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
      */
-    private $lejosOjoIzquierdoEsfera;
+    private $lejosOjoIzquierdoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="cerca_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
-    private $cercaOjoDerechoEje;
+    private $cercaOjoDerechoEje = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="cerca_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
      */
-    private $cercaOjoIzquierdoEje;
+    private $cercaOjoIzquierdoEje = '0';
 
     /**
      * @var int
      *
      * @ORM\Column(name="cerca_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $cercaOjoDerechoCilindro;
+    private $cercaOjoDerechoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="cerca_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $cercaOjoIzquierdoCilindro;
+    private $cercaOjoIzquierdoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="cerca_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
-    private $cercaOjoDerechoEsfera;
+    private $cercaOjoDerechoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="cerca_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
      */
-    private $cercaOjoIzquierdoEsfera;
+    private $cercaOjoIzquierdoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_derecho_dnp", type="decimal", precision=16, scale=2)
      */
-    private $ojoDerechoDnp;
+    private $ojoDerechoDnp = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ojo_izquierdo_dnp", type="decimal", precision=16, scale=2)
      */
-    private $ojoIzquierdoDnp;
+    private $ojoIzquierdoDnp = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
-    private $antesLejosOjoDerechoEje;
+    private $antesLejosOjoDerechoEje = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_lejos_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
      */
-    private $antesLejosOjoIzquierdoEje;
+    private $antesLejosOjoIzquierdoEje = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_lejos_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $antesLejosOjoDerechoCilindro;
+    private $antesLejosOjoDerechoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_lejos_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $antesLejosOjoIzquierdoCilindro;
+    private $antesLejosOjoIzquierdoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_lejos_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
-    private $antesLejosOjoDerechoEsfera;
+    private $antesLejosOjoDerechoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_lejos_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
      */
-    private $antesLejosOjoIzquierdoEsfera;
+    private $antesLejosOjoIzquierdoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_cerca_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
-    private $antesCercaOjoDerechoEje;
+    private $antesCercaOjoDerechoEje = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_cerca_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
      */
-    private $antesCercaOjoIzquierdoEje;
+    private $antesCercaOjoIzquierdoEje = '0';
 
     /**
      * @var int
      *
      * @ORM\Column(name="antes_cerca_ojo_derecho_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $antesCercaOjoDerechoCilindro;
+    private $antesCercaOjoDerechoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_cerca_ojo_izquierdo_cilindro", type="decimal", precision=16, scale=2)
      */
-    private $antesCercaOjoIzquierdoCilindro;
+    private $antesCercaOjoIzquierdoCilindro = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_cerca_ojo_derecho_esfera", type="decimal", precision=16, scale=2)
      */
-    private $antesCercaOjoDerechoEsfera;
+    private $antesCercaOjoDerechoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_cerca_ojo_izquierdo_esfera", type="decimal", precision=16, scale=2)
      */
-    private $antesCercaOjoIzquierdoEsfera;
+    private $antesCercaOjoIzquierdoEsfera = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_ojo_derecho_dnp", type="decimal", precision=16, scale=2)
      */
-    private $antesOjoDerechoDnp;
+    private $antesOjoDerechoDnp = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="antes_ojo_izquierdo_dnp", type="decimal", precision=16, scale=2)
      */
-    private $antesOjoIzquierdoDnp;
+    private $antesOjoIzquierdoDnp = '0';
 
     /**
      * @var \Usuario

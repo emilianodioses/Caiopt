@@ -22,7 +22,7 @@ class MedicoType extends AbstractType
                 ->add('documentoTipo', EntityType::class, array(
                     'label' => 'Tipo Documento',
                     'class' => 'AppBundle:AfipDocumentoTipo',
-                    'required' => true,
+                    'required' => false,
                     'choice_label' => 'descripcion',
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('ic')
@@ -36,7 +36,7 @@ class MedicoType extends AbstractType
                     'required' => true))
                 ->add('documentoNumero', null, array(
                     'label' => 'Número Documento',
-                    'required' => true))
+                    'required' => false))
                 ->add('localidad', EntityType::class, array(
                     'label' => 'Localidad',
                     'class' => 'AppBundle:Localidad',

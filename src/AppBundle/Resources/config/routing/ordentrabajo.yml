@@ -33,4 +33,8 @@ ordentrabajo_cerrar:
     defaults: { _controller: "AppBundle:OrdenTrabajo:cerrar" }
     methods:  [GET, POST]
 
+ordentrabajo_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:OrdenTrabajo:find" }    
+
     

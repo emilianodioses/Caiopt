@@ -8,6 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\OrdenTrabajoType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 /**
@@ -246,6 +251,41 @@ class OrdenTrabajoController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function findAction(Request $req) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(2);
+        // Add Circular reference handler
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
+        
+        //$statement = $connection->prepare("SELECT max(numero) FROM herramienta h WHERE h.categoria_id = ".$arr['categoria']);          
+
+        $cliente = $em->getRepository('AppBundle:Cliente')->find($req->get('clienteId'));
+
+
+        $query = $em->createQuery('SELECT MAX(o.id) FROM AppBundle:OrdenTrabajo o WHERE o.cliente = :cliente');
+        $query->setParameter('cliente', $cliente);
+
+
+        if ($query->getSingleScalarResult() != null)
+            $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($query->getSingleScalarResult());
+        else
+            $ordenTrabajo = "";
+        
+        $j_ordenTrabajo = $serializer->serialize($ordenTrabajo, 'json');
+
+        //dump($ordenTrabajo);
+        //die;
+
+        return JsonResponse::create(array('ordenTrabajo' => $j_ordenTrabajo));
     }
 
     /**

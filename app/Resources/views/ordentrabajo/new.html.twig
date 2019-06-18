@@ -32,6 +32,12 @@ $(function(){
 {{ form_end(form) }}
 
 <script type="text/javascript">
+
+
+    $('.cliente').change(function() {
+        fnClienteChange($(this));
+    });
+
     $('.ordenTrabajoDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
@@ -42,10 +48,10 @@ $(function(){
         elements_selector: 'tr.item',
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
-            articulo = element.find("select.articulo");
+            articulo = element.find("select.articulo"); 
             entrega = element.find("OrdenTrabajoType_entrega");
             
-            articulo.on('change', function(){
+            articulo.on('change', function(){ 
                 fnArticuloChange($(this));
             });
 
@@ -87,6 +93,41 @@ $(function(){
          }
     });
 
+    function fnClienteChange(cliente) {
+
+        var data = { clienteId: cliente.val() };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('ordentrabajo_find') }}" ,
+            data: data,
+            success: function(resp){
+
+                var ordentrabajo = $.parseJSON(resp.ordentrabajo);
+
+                alert(ordentrabajo);
+            
+                $("#OrdenTrabajoType_antesLejosOjoDerechoEje").val(ordentrabajo.antesLejosOjoDerechoEje);
+                $("#OrdenTrabajoType_antesLejosOjoIzquierdoEje").val(ordentrabajo.antesLejosOjoIzquierdoEje);
+                $("#OrdenTrabajoType_antesLejosOjoDerechoCilindro").val(ordentrabajo.antesLejosOjoDerechoCilindro);
+                $("#OrdenTrabajoType_antesLejosOjoIzquierdoCilindro").val(ordentrabajo.antesLejosOjoIzquierdoCilindro);
+                $("#OrdenTrabajoType_antesLejosOjoDerechoEsfera").val(ordentrabajo.antesLejosOjoDerechoEsfera);
+                $("#OrdenTrabajoType_antesLejosOjoIzquierdoEsfera").val(ordentrabajo.antesLejosOjoIzquierdoEsfera);
+                $("#OrdenTrabajoType_antesCercaOjoDerechoEje").val(ordentrabajo.antesCercaOjoDerechoEje);
+                $("#OrdenTrabajoType_antesCercaOjoIzquierdoEje").val(ordentrabajo.antesCercaOjoIzquierdoEje);
+                $("#OrdenTrabajoType_antesCercaOjoDerechoCilindro").val(ordentrabajo.antesCercaOjoDerechoCilindro);
+                $("#OrdenTrabajoType_antesCercaOjoIzquierdoCilindro").val(ordentrabajo.antesCercaOjoIzquierdoCilindro);
+                $("#OrdenTrabajoType_antesCercaOjoDerechoEsfera").val(ordentrabajo.antesCercaOjoDerechoEsfera);
+                $("#OrdenTrabajoType_antesCercaOjoIzquierdoEsfera").val(ordentrabajo.antesCercaOjoIzquierdoEsfera);
+                $("#OrdenTrabajoType_antesOjoDerechoDnp").val(ordentrabajo.antesOjoDerechoDnp);
+                $("#OrdenTrabajoType_antesOjoIzquierdoDnp").val(ordentrabajo.antesOjoIzquierdoDnp);
+            }
+        });
+        
+
+        return true;
+    }
+
     function fnArticuloChange(articulo) {
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
@@ -103,8 +144,8 @@ $(function(){
             success: function(resp){
                 var articulo = $.parseJSON(resp.articulo);
                 
-                precioVenta.val(articulo.precioVenta)
-                total.val(articulo.precioVenta)
+                precioVenta.val(articulo.precioVenta);
+                total.val(articulo.precioVenta);
                 porcentajeBonificacion.val(0);
                 importeBonificacion.val(0);
 

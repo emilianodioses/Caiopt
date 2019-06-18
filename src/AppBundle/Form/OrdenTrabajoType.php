@@ -161,6 +161,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('lejosOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'lejosOjoDerechoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -168,6 +169,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('lejosOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'lejosOjoIzquierdoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -175,6 +177,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('lejosOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'lejosOjoDerechoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -182,6 +185,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('lejosOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'lejosOjoIzquierdoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -189,6 +193,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('lejosOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'lejosOjoDerechoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -196,6 +201,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('lejosOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'lejosOjoIzquierdoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -203,6 +209,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('cercaOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'cercaOjoDerechoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -210,6 +217,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('cercaOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'cercaOjoIzquierdoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -217,6 +225,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('cercaOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'cercaOjoDerechoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -224,6 +233,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('cercaOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'cercaOjoIzquierdoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -231,6 +241,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('cercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'cercaOjoDerechoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -238,6 +249,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('cercaOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'cercaOjoIzquierdoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -245,6 +257,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('ojoDerechoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'ojoDerechoDnp',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -252,6 +265,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('ojoIzquierdoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'ojoIzquierdoDnp',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -259,6 +273,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesLejosOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesLejosOjoDerechoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -266,6 +281,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesLejosOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesLejosOjoIzquierdoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -273,6 +289,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesLejosOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesLejosOjoDerechoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -280,6 +297,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesLejosOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesLejosOjoIzquierdoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -287,6 +305,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesLejosOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesLejosOjoDerechoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -294,6 +313,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesLejosOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesLejosOjoIzquierdoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -301,6 +321,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesCercaOjoDerechoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesCercaOjoDerechoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -308,6 +329,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesCercaOjoIzquierdoEje',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesCercaOjoIzquierdoEje',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -315,6 +337,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesCercaOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesCercaOjoDerechoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -322,6 +345,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesCercaOjoIzquierdoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesCercaOjoIzquierdoCilindro',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -329,6 +353,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesCercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesCercaOjoDerechoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -336,6 +361,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesCercaOjoIzquierdoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesCercaOjoIzquierdoEsfera',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -343,6 +369,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesOjoDerechoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesOjoDerechoDnp',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
@@ -350,6 +377,7 @@ class OrdenTrabajoType extends AbstractType
                 ->add('antesOjoIzquierdoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
+                    'class' => 'antesOjoIzquierdoDnp',
                     'empty_data' => 0,
                     'step' => 0.01,
                     ),
