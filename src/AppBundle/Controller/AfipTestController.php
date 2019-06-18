@@ -12,7 +12,7 @@ class AfipTestController extends Controller
     {
     	$afip = $this->get('AfipFE');
 
-    	dump($afip->getWS()->ElectronicBilling->GetAliquotTypes());
+    	dump($afip->getWS()->RegisterScopeTen->GetTaxpayerDetails(20313311938));
     	die;
 
     	dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());

@@ -70,6 +70,16 @@ class ClienteController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $cliente_existente = $em->getRepository('AppBundle:Cliente')->findBy(Array('documentoNumero' => $cliente->getDocumentoNumero(), 'activo' => 1));
+
+            if (count($cliente_existente) > 0) {
+                $this->get('session')->getFlashbag()->add('warning', 'Ya existe un cliente con el número de documento ingresado.');
+                return $this->render('cliente/new.html.twig', array(
+                    'cliente' => $cliente,
+                    'form' => $form->createView(),
+                ));
+            }
+            
             $cliente->setActivo(true);
             $cliente->setCreatedBy($this->getUser());
             $cliente->setCreatedAt(new \DateTime("now"));
@@ -142,6 +152,17 @@ class ClienteController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $cliente_existente = $em->getRepository('AppBundle:Cliente')->findBy(Array('documentoNumero' => $cliente->getDocumentoNumero(), 'activo' => 1));
+
+            if(count($cliente_existente) == 1 && $cliente_existente[0]->getId() != $cliente->getId()) {
+                $this->get('session')->getFlashbag()->add('warning', 'Ya existe un cliente con el número de documento ingresado.');
+                return $this->render('cliente/edit.html.twig', array(
+                    'cliente' => $cliente,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
+            }
 
             $cliente->setUpdatedBy($this->getUser());
             $cliente->setUpdatedAt(new \DateTime("now"));

@@ -185,6 +185,8 @@ class ReciboController extends Controller
               ->setParameter('cliente', $cliente)
               ->getResult();
               
+        $reciboComprobantes = array();
+        
         foreach($comprobantes as $comprobante) {
             $reciboComprobante = new ReciboComprobante();
             $reciboComprobante->setComprobante($comprobante);

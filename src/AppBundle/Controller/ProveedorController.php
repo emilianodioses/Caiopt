@@ -71,6 +71,16 @@ class ProveedorController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $proveedor_existente = $em->getRepository('AppBundle:Proveedor')->findBy(Array('documentoNumero' => $proveedor->getDocumentoNumero(), 'activo' => 1));
+
+            if(count($proveedor_existente) > 0) {
+                $this->get('session')->getFlashbag()->add('warning', 'Ya existe un proveedor con el número de documento ingresado.');
+                return $this->render('proveedor/new.html.twig', array(
+                    'proveedor' => $proveedor,
+                    'form' => $form->createView(),
+                ));
+            }
+
             $proveedor->setActivo(true);
             $proveedor->setCreatedBy($this->getUser());
             $proveedor->setCreatedAt(new \DateTime("now"));
@@ -136,6 +146,19 @@ class ProveedorController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $proveedor_existente = $em->getRepository('AppBundle:Proveedor')->findBy(Array('documentoNumero' => $proveedor->getDocumentoNumero(), 'activo' => 1));
+
+            if(count($proveedor_existente) == 1 && $proveedor_existente[0]->getId() != $proveedor->getId()) {
+                $this->get('session')->getFlashbag()->add('warning', 'Ya existe un proveedor con el número de documento ingresado.');
+                return $this->render('proveedor/edit.html.twig', array(
+                    'proveedor' => $proveedor,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
+            }
+
             $proveedor->setUpdatedBy($this->getUser());
             $proveedor->setUpdatedAt(new \DateTime("now"));
 

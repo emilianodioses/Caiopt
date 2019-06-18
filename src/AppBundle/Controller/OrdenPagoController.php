@@ -160,7 +160,9 @@ class OrdenPagoController extends Controller
             AND c.pendiente > 0')
               ->setParameter('proveedor', $proveedor)
               ->getResult();
-              
+        
+        $ordenPagoComprobantes = array();
+          
         foreach($comprobantes as $comprobante) {
             $ordenPagoComprobante = new OrdenPagoComprobante();
             $ordenPagoComprobante->setComprobante($comprobante);

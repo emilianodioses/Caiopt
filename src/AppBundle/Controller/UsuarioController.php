@@ -68,6 +68,16 @@ class UsuarioController extends AppController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $usuario_existente = $em->getRepository('AppBundle:Usuario')->findBy(Array('usuario' => $usuario->getUsuario(), 'activo' => 1));
+
+            if(count($usuario_existente) > 0) {
+                $this->get('session')->getFlashbag()->add('warning', 'Ya existe un usuario con el nombre de usuario ingresado.');
+                return $this->render('usuario/new.html.twig', array(
+                    'usuario' => $usuario,
+                    'form' => $form->createView(),
+                ));
+            }
+
             $factory = $this->container->get('security.encoder_factory');
             $encoder = $factory->getEncoder($usuario);
             $password = $encoder->encodePassword($usuario->getPassword(), $usuario->getSalt());
@@ -133,8 +143,18 @@ class UsuarioController extends AppController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             $em = $this->getDoctrine()->getManager();
+
+            $usuario_existente = $em->getRepository('AppBundle:Usuario')->findBy(Array('usuario' => $usuario->getUsuario(), 'activo' => 1));
+
+            if(count($usuario_existente) == 1 && $usuario_existente[0]->getId() != $usuario->getId()) {
+                $this->get('session')->getFlashbag()->add('warning', 'Ya existe un usuario con el nombre de usuario ingresado.');
+                return $this->render('usuario/edit.html.twig', array(
+                    'usuario' => $usuario,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
+            }
 
             $factory = $this->container->get('security.encoder_factory');
             $encoder = $factory->getEncoder($usuario);
