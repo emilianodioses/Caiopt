@@ -64,6 +64,7 @@ Cliente
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                            <button type="button" class="btn btn-app pull-right" onclick="fnAfipPersonaFind()" title="Buscar datos en AFIP"><i class="glyphicon glyphicon-search"></i>AFIP</button>
                         </div>
                     </div>
                 </div>
@@ -71,5 +72,43 @@ Cliente
         {{ form_end(form) }}
     </div>
 </div>
+
+<script type="text/javascript">
+    function fnAfipPersonaFind() {
+        var cuit = $("#appbundle_cliente_documentoNumero").val();
+
+        if (cuit == '') {
+            alert('Debe ingresar un CUIT para buscar');
+            return false;
+        }
+        else if(cuit.length != 11) {
+            alert('Debe ingresar un CUIT válido para buscar');
+            return false;
+        }
+
+        var data = {'cuit': cuit };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('afip_find_persona') }}" ,
+            data: data,
+            success: function(resp){
+                if (resp.existe) {
+                    var persona = $.parseJSON(resp.persona);
+                    $("#appbundle_cliente_documentoTipo").val(persona.documento_tipo_id);
+                    $("#appbundle_cliente_localidad").val(persona.localidad_id);
+                    $("#appbundle_cliente_nombre").val(persona.apellido+' '+persona.nombre);
+                    $("#appbundle_cliente_direccion").val(persona.domicilio); 
+                }
+                else {
+                    alert('No se pueden encontrar datos con ese CUIT.');
+                }
+                return true;
+            }
+        });
+
+        return true;
+    }
+</script>
 {% endblock %}
 

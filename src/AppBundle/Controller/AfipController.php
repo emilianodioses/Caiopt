@@ -3,12 +3,17 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-
-class AfipTestController extends Controller
+class AfipController extends Controller
 {
-	public function indexAction()
+	public function testAction()
     {
     	$afip = $this->get('AfipFE');
 
@@ -74,6 +79,56 @@ class AfipTestController extends Controller
         dump($res);
         
         die;
+    }
+
+    public function findPersonaAction(Request $req) {
+    	$normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(2);
+        // Add Circular reference handler
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
+
+    	$afip = $this->get('AfipFE');
+
+    	$persona['apellido'] = '';
+    	$persona['nombre'] = '';
+    	$persona['domicilio'] = '';
+    	$persona['localidad_id'] = 0;
+    	$persona['documento_tipo_id'] = 0;
+
+    	$p = $afip->getWS()->RegisterScopeTen->GetTaxpayerDetails($req->get('cuit'));
+    	if (is_null($p)) {
+    		$existe = false;
+    	}
+    	else {
+    		$p = (array) $p;
+    		$d = (array) $p['domicilio'][0];
+
+    		$em = $this->getDoctrine()->getManager();
+
+    		$localidad = $em->getRepository('AppBundle:Localidad')->findOneBy(Array('codigoPostal' => $d['codPostal'], 'nombre' => $d['localidad']));
+
+    		$documento_tipo = $em->getRepository('AppBundle:AfipDocumentoTipo')->findOneBy(Array('descripcion' => $p['tipoClave']));
+
+    		$persona['apellido'] = $p['apellido'];
+	    	$persona['nombre'] = $p['nombre'];
+	    	$persona['domicilio'] = $d['direccion'];
+	    	if (!is_null($localidad)) {
+	    		$persona['localidad_id'] = $localidad->getId();
+	    	}
+	    	if (!is_null($documento_tipo)) {
+	    		$persona['documento_tipo_id'] = $documento_tipo->getId();
+	    	}
+
+	    	$existe = true;
+    	}
+
+    	$j_persona = $serializer->serialize($persona, 'json');
+
+        return JsonResponse::create(array('persona' => $j_persona, 'existe' => $existe, 'cuit' => $req->get('cuit')));
     }
 
 }

@@ -54,9 +54,9 @@ app_sucursal:
     resource: "@AppBundle/Resources/config/routing/sucursal.yml"
     prefix:   /sucursal
 
-afip_test:
-    path:     /afipTest
-    defaults: { _controller: "AppBundle:AfipTest:index" }
+app_afip:
+    resource: "@AppBundle/Resources/config/routing/afip.yml"
+    prefix:   /afip
 
 app_pagotipo:
     resource: "@AppBundle/Resources/config/routing/pagotipo.yml"
