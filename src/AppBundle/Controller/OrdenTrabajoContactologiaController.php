@@ -6,8 +6,13 @@ use AppBundle\Entity\OrdenTrabajoContactologia;
 use AppBundle\Entity\OrdenTrabajoContactologiaDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\OrdenTrabajoContactologiaType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use AppBundle\Form\OrdenTrabajoContactologiaType;
 
 
 /**
@@ -247,6 +252,35 @@ class OrdenTrabajoContactologiaController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function findAction(Request $req) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(2);
+        // Add Circular reference handler
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
+        
+        $cliente = $em->getRepository('AppBundle:Cliente')->find($req->get('clienteId'));
+
+        $query = $em->createQuery('SELECT MAX(o.id) FROM AppBundle:OrdenTrabajoContactologia o WHERE o.cliente = :cliente');
+        $query->setParameter('cliente', $cliente);
+
+
+        if ($query->getSingleScalarResult() != null)
+            $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($query->getSingleScalarResult());
+        else
+            $ordenTrabajoContactologia = "";
+        
+        $j_ordenTrabajoContactologia = $serializer->serialize($ordenTrabajoContactologia, 'json');
+
+        return JsonResponse::create(array('ordenTrabajoContactologia' => $j_ordenTrabajoContactologia));
     }
 
     /**

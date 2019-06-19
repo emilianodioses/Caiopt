@@ -67,7 +67,7 @@ class MedicoController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
         */
-
+        
         $medico = new Medico();
         $form = $this->createForm('AppBundle\Form\MedicoType', $medico);
         $form->handleRequest($request);

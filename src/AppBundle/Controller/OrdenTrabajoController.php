@@ -5,14 +5,14 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\OrdenTrabajo;
 use AppBundle\Entity\OrdenTrabajoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\OrdenTrabajoType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 /**
@@ -266,10 +266,7 @@ class OrdenTrabajoController extends Controller
         $normalizers = array($normalizer);
         $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
         
-        //$statement = $connection->prepare("SELECT max(numero) FROM herramienta h WHERE h.categoria_id = ".$arr['categoria']);          
-
         $cliente = $em->getRepository('AppBundle:Cliente')->find($req->get('clienteId'));
-
 
         $query = $em->createQuery('SELECT MAX(o.id) FROM AppBundle:OrdenTrabajo o WHERE o.cliente = :cliente');
         $query->setParameter('cliente', $cliente);
