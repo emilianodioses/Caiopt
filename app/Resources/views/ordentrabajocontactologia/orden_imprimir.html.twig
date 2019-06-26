@@ -175,8 +175,8 @@
                 <td align="center">
                     OD
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoCilindro }}</td>
                 <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoEje }}</td>
                 <td rowspan="2" align="center">
                 </td>
@@ -186,7 +186,7 @@
                     OI
                 </td>
                 <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoCilindro }}</td>
                 <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEje }}</td>
             </tr>
         </tbody>
@@ -228,16 +228,6 @@
                     LEJOS
                 </td>
                 <td align="center">
-                    OI
-                </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEje }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDnp }}</td>
-            </tr>
-            <tr>
-                
-                <td align="center">
                     OD
                 </td>
                 <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}</td>
@@ -246,23 +236,32 @@
                 <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoDnp }}</td>
             </tr>
             <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDnp }}</td>
+            </tr>
+            <tr>
                 <td rowspan="2" align="center">
                     CERCA
                 </td>
                 <td align="center">
-                    OI
+                    OD
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoEje }}</td>
             </tr>
             <tr>
                 <td align="center">
-                    OD
+                    OI
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoEje }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEsfera }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoCilindro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEje }}</td>
                 <td rowspan="2" align="center"></td>
             </tr>
         </tbody>
@@ -286,17 +285,6 @@
                 <td style="width: 5%"align="center">AV</td>
             </tr>
             <tr>
-                <td align="center">RC - OI</td>
-                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoHorizontal }}</td>
-                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoVertical }}</td>
-                <td align="center"></td>
-                <td align="center">OI</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCurvas }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDiametro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCaracteristicas }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoAV }}</td>
-            </tr>
-            <tr>
                 <td align="center">RC - OD</td>
                 <td align="center">{{ ordenTrabajoContactologia.rcOjoDerechoHorizontal }}</td>
                 <td align="center">{{ ordenTrabajoContactologia.rcOjoDerechoVertical }}</td>
@@ -306,6 +294,17 @@
                 <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoDiametro }}</td>
                 <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoCaracteristicas }}</td>
                 <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoAV }}</td>
+            </tr>
+            <tr>
+                <td align="center">RC - OI</td>
+                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoHorizontal }}</td>
+                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoVertical }}</td>
+                <td align="center"></td>
+                <td align="center">OI</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCurvas }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDiametro }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCaracteristicas }}</td>
+                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoAV }}</td>
             </tr>
         </tbody>
     </table>
