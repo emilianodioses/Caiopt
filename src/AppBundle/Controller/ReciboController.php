@@ -54,6 +54,7 @@ class ReciboController extends Controller
 
         $recibo = new Recibo();
         $recibo->setFecha(new \DateTime("now"));
+        $recibo->setCliente($comprobante->getCliente());
 
         $form = $this->createForm('AppBundle\Form\ReciboType', $recibo);
         $form->handleRequest($request);
@@ -88,6 +89,7 @@ class ReciboController extends Controller
                 $recibo->setObservaciones('');
             }
 
+            $recibo->setCliente($comprobante->getCliente());
             $recibo->setSucursal($sucursal);
             $recibo->setNumero($max_numero_recibo+1);
             $recibo->setSaldo(0);
@@ -172,6 +174,7 @@ class ReciboController extends Controller
         $em = $this->getDoctrine()->getManager();
         $recibo = new Recibo();
         $recibo->setFecha(new \DateTime("now"));
+        $recibo->setCliente($cliente);
         $form = $this->createForm('AppBundle\Form\ReciboType', $recibo);
         $form->handleRequest($request);
 
@@ -218,6 +221,7 @@ class ReciboController extends Controller
                 $recibo->setObservaciones('');
             }
 
+            $recibo->setCliente($cliente);
             $recibo->setSucursal($sucursal);
             $recibo->setNumero($max_numero_recibo+1);
             $recibo->setSaldo(0);

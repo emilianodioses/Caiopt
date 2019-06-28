@@ -38,6 +38,7 @@ class OrdenPagoController extends Controller
     {
         $ordenPago = new OrdenPago();
         $ordenPago->setFecha(new \DateTime("now"));
+        $ordenPago->setProveedor($comprobante->getProveedor());
 
         $form = $this->createForm('AppBundle\Form\OrdenPagoType', $ordenPago);
         $form->handleRequest($request);
@@ -71,6 +72,7 @@ class OrdenPagoController extends Controller
                 $ordenPago->setObservaciones('');
             }
 
+            $ordenPago->setProveedor($comprobante->getProveedor());
             $ordenPago->setSucursal($sucursal);
             $ordenPago->setNumero($max_numero_ordenpago+1);
             $ordenPago->setSaldo(0);
@@ -148,6 +150,7 @@ class OrdenPagoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ordenPago = new OrdenPago();
         $ordenPago->setFecha(new \DateTime("now"));
+        $ordenPago->setProveedor($proveedor);
         $form = $this->createForm('AppBundle\Form\OrdenPagoType', $ordenPago);
         $form->handleRequest($request);
 
@@ -194,6 +197,7 @@ class OrdenPagoController extends Controller
                 $ordenPago->setObservaciones('');
             }
 
+            $ordenPago->setProveedor($proveedor);
             $ordenPago->setSucursal($sucursal);
             $ordenPago->setNumero($max_numero_ordenpago+1);
             $ordenPago->setSaldo(0);

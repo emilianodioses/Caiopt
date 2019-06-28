@@ -128,6 +128,8 @@ $(function(){
         var r_porcentajeGanancia = renglon.find("input.porcentajeGanancia");
         var r_precioVenta = renglon.find("input.precioVenta");
 
+        var porcentajeTarjeta = 1.15; //porcentaje aplicado para guardar SIEMPRE el precio de tarjeta
+
         var importe_bonificacion =  parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
 
         var precio_costo = parseFloat(parseFloat(r_precioUnitario.val()) - parseFloat(importe_bonificacion)).toFixed(2);
@@ -137,7 +139,8 @@ $(function(){
         var total = parseFloat(r_cantidad.val() * (parseFloat(precio_costo) + parseFloat(importe_iva))).toFixed(2);
 
         var precio_costo_iva = parseFloat(precio_costo) + parseFloat(importe_iva);
-        var precio_venta = parseFloat(precio_costo_iva * (1 + r_porcentajeGanancia.val() / 100)).toFixed(2);
+        //var precio_venta = parseFloat(precio_costo_iva * (1 + r_porcentajeGanancia.val() / 100)).toFixed(2);
+        var precio_venta = parseFloat(parseFloat(precio_costo_iva * (1 + r_porcentajeGanancia.val() / 100)) * porcentajeTarjeta).toFixed(2);
         
         r_importeBonificacion.val(importe_bonificacion);
         r_precioCosto.val(precio_costo);

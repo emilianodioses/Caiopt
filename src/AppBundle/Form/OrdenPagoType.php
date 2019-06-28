@@ -51,6 +51,8 @@ class OrdenPagoType extends AbstractType
                     'class' => 'AppBundle:Proveedor',
                     'required' => true,
                     'choice_label' => 'nombre',
+                    'attr' => array(
+                        'disabled' => true),
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')

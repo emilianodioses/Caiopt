@@ -57,6 +57,7 @@ class OrdenTrabajoContactologiaController extends Controller
         endif;
 
         $ordenTrabajoContactologia = new Ordentrabajocontactologia();
+        $ordenTrabajoContactologia->setFechaRecepcion(new \DateTime("now"));
         $form = $this->createForm('AppBundle\Form\OrdenTrabajoContactologiaType', $ordenTrabajoContactologia);
         $form->handleRequest($request);
 
