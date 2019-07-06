@@ -40,6 +40,7 @@ Medicos
                   <th>Teléfono</th>
                   <th>Email</th>
                   <th>Contacto</th>
+                  <th>Estado</th>
                   <th>Acciones</th>
               </tr>
             <tbody>
@@ -53,14 +54,20 @@ Medicos
                   <td>{{ medico.direccion }}</td>
                   <td>{{ medico.telefono }}</td>
                   <td>{{ medico.email }}</td>
-                  <td>{{ medico.contacto }}</td>  
+                  <td>{{ medico.contacto }}</td> 
+                  <td>{% if medico.activo %}
+                      <span class="label label-success">Activo</span>
+                  {% else %}
+                      <span class="label label-danger">Inactivo</span>
+                  {% endif %}
+                  </td>   
                   <td>
                       <a href="{{ path('medico_show', { 'id': medico.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                       </a>
                       <a href="{{ path('medico_edit', { 'id': medico.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                       {% if medico.activo %}
-                          <a href="{{ path('medico_delete', { 'id': medico.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('medico_delete', { 'id': medico.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('medico_delete', { 'id': medico.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>

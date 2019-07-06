@@ -279,9 +279,6 @@ class OrdenTrabajoController extends Controller
         
         $j_ordenTrabajo = $serializer->serialize($ordenTrabajo, 'json');
 
-        //dump($ordenTrabajo);
-        //die;
-
         return JsonResponse::create(array('ordenTrabajo' => $j_ordenTrabajo));
     }
 

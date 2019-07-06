@@ -143,16 +143,21 @@ class MedicoController extends Controller
      * Deletes a medico entity.
      *
      */
-    public function deleteAction(Request $request, Medico $medico)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($medico);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($medico);
-            $em->flush();
-        }
+        $medico = $em->getRepository('AppBundle:Medico')->find($id);
+
+        if ($medico->getActivo() > 0)
+            $medico->setActivo(0);
+        else
+            $medico->setActivo(1); 
+        
+        $medico->setUpdatedBy($this->getUser()); 
+        $medico->setUpdatedAt(new \DateTime("now")); 
+
+        $em->flush($medico);
 
         return $this->redirectToRoute('medico_index');
     }

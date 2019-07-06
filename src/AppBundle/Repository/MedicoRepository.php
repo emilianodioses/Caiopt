@@ -13,10 +13,11 @@ class MedicoRepository extends \Doctrine\ORM\EntityRepository
 	public function findByTexto($texto) {
         $query = 'SELECT c  FROM AppBundle:Medico c ';
 
-        $query .= 'WHERE c.activo = 1';
+        //Quiero que se vean activos e inactivos con el fin de evitar el borrado de medicos.
+        //$query .= 'WHERE c.activo = 1';
         
         if ($texto != '')
-            $query .= ' AND c.nombre LIKE :texto 
+            $query .= ' WHERE c.nombre LIKE :texto 
         				OR c.documentoNumero LIKE :texto 
         				OR c.email LIKE :texto 
         				OR c.contacto LIKE :texto ';

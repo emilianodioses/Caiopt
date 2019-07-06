@@ -103,21 +103,23 @@ $(function(){
             success: function(resp){
 
                 var ordentrabajocontactologia = $.parseJSON(resp.ordenTrabajoContactologia);
-         
-                $("#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEje").val(ordentrabajocontactologia.lejosOjoDerechoEje);
-                $("#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEje").val(ordentrabajocontactologia.lejosOjoIzquierdoEje);
-                $("#OrdenTrabajoContactologiaType_antesLejosOjoDerechoCilindro").val(ordentrabajocontactologia.lejosOjoDerechoCilindro);
-                $("#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoCilindro").val(ordentrabajocontactologia.lejosOjoIzquierdoCilindro);
-                $("#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEsfera").val(ordentrabajocontactologia.lejosOjoDerechoEsfera);
-                $("#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEsfera").val(ordentrabajocontactologia.lejosOjoIzquierdoEsfera);
-                $("#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEje").val(ordentrabajocontactologia.cercaOjoDerechoEje);
-                $("#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEje").val(ordentrabajocontactologia.cercaOjoIzquierdoEje);
-                $("#OrdenTrabajoContactologiaType_antesCercaOjoDerechoCilindro").val(ordentrabajocontactologia.cercaOjoDerechoCilindro);
-                $("#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoCilindro").val(ordentrabajocontactologia.cercaOjoIzquierdoCilindro);
-                $("#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEsfera").val(ordentrabajocontactologia.cercaOjoDerechoEsfera);
-                $("#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEsfera").val(ordentrabajocontactologia.cercaOjoIzquierdoEsfera);
-                $("#OrdenTrabajoContactologiaType_antesOjoDerechoDnp").val(ordentrabajocontactologia.ojoDerechoDnp);
-                $("#OrdenTrabajoContactologiaType_antesOjoIzquierdoDnp").val(ordentrabajocontactologia.ojoIzquierdoDnp);
+
+                if (ordentrabajocontactologia != ""){
+                    $("#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEje").val(ordentrabajocontactologia.lejosOjoDerechoEje);
+                    $("#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEje").val(ordentrabajocontactologia.lejosOjoIzquierdoEje);
+                    $("#OrdenTrabajoContactologiaType_antesLejosOjoDerechoCilindro").val(ordentrabajocontactologia.lejosOjoDerechoCilindro);
+                    $("#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoCilindro").val(ordentrabajocontactologia.lejosOjoIzquierdoCilindro);
+                    $("#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEsfera").val(ordentrabajocontactologia.lejosOjoDerechoEsfera);
+                    $("#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEsfera").val(ordentrabajocontactologia.lejosOjoIzquierdoEsfera);
+                    $("#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEje").val(ordentrabajocontactologia.cercaOjoDerechoEje);
+                    $("#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEje").val(ordentrabajocontactologia.cercaOjoIzquierdoEje);
+                    $("#OrdenTrabajoContactologiaType_antesCercaOjoDerechoCilindro").val(ordentrabajocontactologia.cercaOjoDerechoCilindro);
+                    $("#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoCilindro").val(ordentrabajocontactologia.cercaOjoIzquierdoCilindro);
+                    $("#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEsfera").val(ordentrabajocontactologia.cercaOjoDerechoEsfera);
+                    $("#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEsfera").val(ordentrabajocontactologia.cercaOjoIzquierdoEsfera);
+                    $("#OrdenTrabajoContactologiaType_antesOjoDerechoDnp").val(ordentrabajocontactologia.ojoDerechoDnp);
+                    $("#OrdenTrabajoContactologiaType_antesOjoIzquierdoDnp").val(ordentrabajocontactologia.ojoIzquierdoDnp);
+                 }
             }
         });
         
