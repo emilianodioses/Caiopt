@@ -223,8 +223,12 @@ class ArticuloController extends Controller
         $result = $em->createQuery('
                         SELECT r.id as id, r.descripcion as text
                         FROM AppBundle:Articulo r
-                        WHERE lower(r.descripcion) LIKE :text_search
-                        AND r.activo = 1
+                        INNER JOIN r.marca am
+                        WHERE r.activo = 1 AND (
+                            lower(r.descripcion) LIKE :text_search  OR 
+                            lower(r.codigo) LIKE :text_search  OR 
+                            lower(am.descripcion) LIKE :text_search
+                        )
                         ORDER BY r.descripcion ASC
                         ')
                     ->setParameter('text_search', '%'.$text_search.'%')
