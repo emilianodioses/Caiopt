@@ -14,6 +14,7 @@
                     <b style="font-size:9">N° Ord: {{ ordenTrabajo.id }}</b> | 
                     <b style="font-size:9">N° Comp: {{ ordenTrabajo.comprobante }}</b>
                 </td>
+                {% if pagina_nro == 1 %}
                 <td width="30%" align="left" border="1">
                     <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>TALLER:</u></b>
                     <br>
@@ -27,6 +28,7 @@
                     Fecha Entrega: {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }}
                     <br>
                 </td>
+                {% endif %} 
                 <td width="40%" align="left">
                     Fecha Recepcion: {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}
                     <br>
@@ -108,6 +110,7 @@
             {% endfor %}    
         </tbody>
     </table>
+    {% if pagina_nro == 1 %}
     <br>
     &nbsp;
     <br>
@@ -258,10 +261,20 @@
             </tr>
         </tbody>
     </table>
+    {% endif %}
     <br>
     <br>
-    {% if not loop.last %}
+    <!--{% if not loop.last %}
         <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
+    {% endif %}-->
+    {% if not loop.last %}
+        <br>
+        <br>
+        ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+        <br>
+        <br>
+        <br>
+        <br>
     {% endif %}
     {% endfor %}
 </body>

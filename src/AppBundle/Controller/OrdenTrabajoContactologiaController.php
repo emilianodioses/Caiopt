@@ -291,11 +291,13 @@ class OrdenTrabajoContactologiaController extends Controller
     public function ordenImprimirAction(Request $request, OrdentrabajoContactologia $ordenTrabajoContactologia)
     {
         // Permisos de Usuario para Acciones
+        /*
         $secure = $this->container->get('SecureAction');
         
         if (!$secure->isAuthorized('OrdenTrabajoContactologia', 'OrdenImprimir', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
+        */
 
         $em = $this->getDoctrine()->getManager();
 

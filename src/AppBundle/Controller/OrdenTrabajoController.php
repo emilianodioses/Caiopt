@@ -289,12 +289,13 @@ class OrdenTrabajoController extends Controller
     public function ordenImprimirAction(Request $request, Ordentrabajo $ordenTrabajo)
     {
         // Permisos de Usuario para Acciones
+        /*
         $secure = $this->container->get('SecureAction');
         
         if (!$secure->isAuthorized('OrdenTrabajo', 'OrdenImprimir', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
-
+        */
         $em = $this->getDoctrine()->getManager();
 
         $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($ordenTrabajo);
