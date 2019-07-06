@@ -156,20 +156,43 @@
                 <td align="center">
                     OD
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEje }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesOjoDerechoDnp }}</td>
-                
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesLejosOjoDerechoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesLejosOjoDerechoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesLejosOjoDerechoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesLejosOjoDerechoEje }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesOjoDerechoDnp > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesOjoDerechoDnp }}
+                </td>
             </tr>
             <tr>
                 <td align="center">
                     OI
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEje }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesOjoIzquierdoDnp }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesLejosOjoIzquierdoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesLejosOjoIzquierdoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEje }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesOjoIzquierdoDnp > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesOjoIzquierdoDnp }}
+                </td>
             </tr>
             <tr>
                 <td rowspan="2" align="center">
@@ -178,9 +201,18 @@
                 <td align="center">
                     OD
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoDerechoEje }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesCercaOjoDerechoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesCercaOjoDerechoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesCercaOjoDerechoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesCercaOjoDerechoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesCercaOjoDerechoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesCercaOjoDerechoEje }}
+                </td>
                 <td rowspan="2" align="center">
                 </td>
             </tr>
@@ -188,9 +220,18 @@
                 <td align="center">
                     OI
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEje }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesCercaOjoIzquierdoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesCercaOjoIzquierdoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.antesCercaOjoIzquierdoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEje }}
+                </td>
             </tr>
         </tbody>
     </table>
@@ -233,19 +274,43 @@
                 <td align="center">
                     OD
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEje }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoDnp }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.lejosOjoDerechoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.lejosOjoDerechoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.lejosOjoDerechoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.lejosOjoDerechoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.lejosOjoDerechoEje }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoDerechoDnp > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoDerechoDnp }}
+                </td>
             </tr>
             <tr>
                 <td align="center">
                     OI
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoIzquierdoEje }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDnp }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.lejosOjoIzquierdoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.lejosOjoIzquierdoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.lejosOjoIzquierdoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.lejosOjoIzquierdoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.lejosOjoIzquierdoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.lejosOjoIzquierdoEje }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoIzquierdoDnp > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoIzquierdoDnp }}
+                </td>
             </tr>
             <tr>
                 <td rowspan="2" align="center">
@@ -254,17 +319,35 @@
                 <td align="center">
                     OD
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoDerechoEje }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.cercaOjoDerechoEsfera  > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.cercaOjoDerechoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.cercaOjoDerechoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.cercaOjoDerechoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.cercaOjoDerechoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.cercaOjoDerechoEje }}
+                </td>
             </tr>
             <tr>
                 <td align="center">
                     OI
                 </td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEsfera }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoCilindro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.cercaOjoIzquierdoEje }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.cercaOjoIzquierdoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.cercaOjoIzquierdoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.cercaOjoIzquierdoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.cercaOjoIzquierdoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.cercaOjoIzquierdoEje > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.cercaOjoIzquierdoEje }}
+                </td>
                 <td rowspan="2" align="center"></td>
             </tr>
         </tbody>
@@ -284,30 +367,64 @@
                 <td style="width: 5%" align="center"></td>
                 <td style="width: 8%" align="center">Curvas</td>
                 <td style="width: 9%" align="center">Diametro</td>
-                <td style="width: 45%" align="center">Caracteristicas</td>
-                <td style="width: 5%"align="center">AV</td>
+                <td style="width: 43%" align="center">Caracteristicas</td>
+                <td style="width: 7%"align="center">AV</td>
             </tr>
             <tr>
                 <td align="center">RC - OD</td>
-                <td align="center">{{ ordenTrabajoContactologia.rcOjoDerechoHorizontal }}</td>
-                <td align="center">{{ ordenTrabajoContactologia.rcOjoDerechoVertical }}</td>
+                <td align="center">
+                    {% if ordenTrabajoContactologia.rcOjoDerechoHorizontal > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.rcOjoDerechoHorizontal }}
+                </td>
+                <td align="center">
+                    {% if ordenTrabajoContactologia.rcOjoDerechoVertical > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.rcOjoDerechoVertical }}
+                </td>
                 <td align="center"></td>
                 <td align="center">OD</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoCurvas }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoDiametro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoCaracteristicas }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoDerechoAV }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoDerechoCurvas > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoDerechoCurvas }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoDerechoDiametro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoDerechoDiametro }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajoContactologia.ojoDerechoCaracteristicas }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoDerechoAV > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoDerechoAV }}
+                </td>
             </tr>
             <tr>
                 <td align="center">RC - OI</td>
-                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoHorizontal }}</td>
-                <td align="center">{{ ordenTrabajoContactologia.rcOjoIzquierdoVertical }}</td>
+                <td align="center">
+                    {% if ordenTrabajoContactologia.rcOjoIzquierdoHorizontal > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.rcOjoIzquierdoHorizontal }}
+                </td>
+                <td align="center">
+                    {% if ordenTrabajoContactologia.rcOjoIzquierdoVertical > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.rcOjoIzquierdoVertical }}
+                </td>
                 <td align="center"></td>
                 <td align="center">OI</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCurvas }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoDiametro }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoCaracteristicas }}</td>
-                <td style="text-align: center">{{ ordenTrabajoContactologia.ojoIzquierdoAV }}</td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoIzquierdoCurvas > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoIzquierdoCurvas }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoIzquierdoDiametro > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoIzquierdoDiametro }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajoContactologia.ojoIzquierdoCaracteristicas }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajoContactologia.ojoIzquierdoAV > 0 %}+{% endif %}
+                    {{ ordenTrabajoContactologia.ojoIzquierdoAV }}
+                </td>
             </tr>
         </tbody>
     </table>
