@@ -108,6 +108,14 @@
                                             <th>Total</th>
                                             <td>{{ comprobante.total }}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Total Pagado</th>
+                                            <td>{{ (comprobante.total - comprobante.pendiente) | number_format(2, '.', '')}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pendiente</th>
+                                            <td>{{ comprobante.pendiente }}</td>
+                                        </tr>
                                         {#
                                         <tr>
                                             <th>Total No Gravado</th>
@@ -146,7 +154,8 @@
                                     </a>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <a href="{{ path('comprobantecompra_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                    <a href="{{ path('comprobantecompra_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                                    <a href="{{ path('ordenpago_new', { 'comprobante': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-usd"></span> Nueva Orden de Pago
                                      </a>
                                 </div>
                             </div>
