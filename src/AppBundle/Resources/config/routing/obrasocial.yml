@@ -1,0 +1,24 @@
+obrasocial_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ObraSocial:index" }
+    methods:  GET
+
+obrasocial_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ObraSocial:show" }
+    methods:  GET
+
+obrasocial_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ObraSocial:new" }
+    methods:  [GET, POST]
+
+obrasocial_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ObraSocial:edit" }
+    methods:  [GET, POST]
+
+obrasocial_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ObraSocial:delete" }
+    methods:  [GET, POST]

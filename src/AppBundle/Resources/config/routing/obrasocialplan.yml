@@ -1,0 +1,24 @@
+obrasocialplan_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ObraSocialPlan:index" }
+    methods:  GET
+
+obrasocialplan_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ObraSocialPlan:show" }
+    methods:  GET
+
+obrasocialplan_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ObraSocialPlan:new" }
+    methods:  [GET, POST]
+
+obrasocialplan_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ObraSocialPlan:edit" }
+    methods:  [GET, POST]
+
+obrasocialplan_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ObraSocialPlan:delete" }
+    methods:  [GET, POST]

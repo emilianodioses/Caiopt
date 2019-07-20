@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Taller
+Plan Obra Social
 {% endblock %}
 
 {% block header_description %}
@@ -23,8 +23,8 @@ Taller
                             {{ form_row(form.nombre) }}                            
                         </div>  
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(form.numero) }}
-                        </div>
+                            {{ form_row(form.obraSocial) }}                            
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@ Taller
                 <div class="box-footer">
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <a href="{{ path('taller_index') }}" class="btn btn-app">
+                            <a href="{{ path('obrasocialplan_index') }}" class="btn btn-app">
                                 <i class="fa fa-arrow-left"></i> Volver
                             </a>
                         </div>

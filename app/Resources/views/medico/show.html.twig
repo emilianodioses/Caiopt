@@ -213,8 +213,12 @@ Medico
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <a href="{{ path('medico_index') }}" class="btn btn-app">
-                            <i class="fa fa-arrow-left"></i> Medicos
+                            <i class="fa fa-arrow-left"></i> Volver
                         </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('medico_edit', { 'id': medico.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                         </a>
                     </div>
                 </div>
             </div>

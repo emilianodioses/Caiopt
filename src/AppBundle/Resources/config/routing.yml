@@ -93,3 +93,11 @@ app_medico:
 app_taller:
     resource: "@AppBundle/Resources/config/routing/taller.yml"
     prefix:   /taller    
+
+app_obrasocial:
+    resource: "@AppBundle/Resources/config/routing/obrasocial.yml"
+    prefix:   /obrasocial
+    
+app_obrasocialplan:
+    resource: "@AppBundle/Resources/config/routing/obrasocialplan.yml"
+    prefix:   /obrasocialplan
