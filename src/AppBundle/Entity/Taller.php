@@ -29,6 +29,13 @@ class Taller
     private $nombre;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="numero", type="integer")
+     */
+    private $numero;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -82,7 +89,7 @@ class Taller
 
     public function __toString()
     {
-        return $this->nombre;
+        return $this->nombre ;
     }
 
     /**
@@ -182,11 +189,35 @@ class Taller
     }
 
     /**
+     * Set numero
+     *
+     * @param integer $numero
+     *
+     * @return Comprobante
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
      * Set createdBy
      *
      * @param \AppBundle\Entity\Usuario $createdBy
      *
-     * @return Taller
+     * @return Medico
      */
     public function setCreatedBy(\AppBundle\Entity\Usuario $createdBy = null)
     {
@@ -210,7 +241,7 @@ class Taller
      *
      * @param \AppBundle\Entity\Usuario $updatedBy
      *
-     * @return Taller
+     * @return Medico
      */
     public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
     {

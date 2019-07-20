@@ -89,3 +89,7 @@ app_proveedorpago:
 app_medico:
     resource: "@AppBundle/Resources/config/routing/medico.yml"
     prefix:   /medico    
+
+app_taller:
+    resource: "@AppBundle/Resources/config/routing/taller.yml"
+    prefix:   /taller    

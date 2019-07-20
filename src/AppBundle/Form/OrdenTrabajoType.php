@@ -114,7 +114,9 @@ class OrdenTrabajoType extends AbstractType
                     'label' => 'Taller',
                     'class' => 'AppBundle:Taller',
                     'required' => false,
-                    'choice_label' => 'nombre',
+                    'choice_label' => function ($taller) {
+                        return $taller->getNumero().' - '.$taller->getNombre();
+                    },
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
