@@ -201,7 +201,18 @@ desired effect
               <li><a href="{{path('proveedor_index')}}">Proveedores</a></li>
             </ul>
           </li>
-          <li>
+
+          <li class="treeview">
+            <a href="#" id="comprobantes"><i class="glyphicon glyphicon-briefcase"></i> <span>Ordenes de Trabajo</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('ordentrabajo_index')}}">Ordenes Optica</a></li>
+              <li><a href="{{path('ordentrabajocontactologia_index')}}">Ordenes Contactologia</a></li>
+            </ul>
+          </li>
 
           <li class="treeview">
             <a href="#" id="comprobantes"><i class="glyphicon glyphicon-file"></i> <span>Comprobantes</span>
@@ -216,21 +227,7 @@ desired effect
               <li><a href="{{path('recibo_index')}}">Recibos</a></li>
             </ul>
           </li>
-          <li>  
-
-          <li class="treeview">
-            <a href="#" id="comprobantes"><i class="glyphicon glyphicon-briefcase"></i> <span>Ordenes de Trabajo</span>
-              <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="{{path('ordentrabajo_index')}}">Ordenes Optica</a></li>
-              <li><a href="{{path('ordentrabajocontactologia_index')}}">Ordenes Contactologia</a></li>
-            </ul>
-          </li>
-          <li> 
-
+          
           <li id="articulo"><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a></li>
           {#
           <li class="treeview">

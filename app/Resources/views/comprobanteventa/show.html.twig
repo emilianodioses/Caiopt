@@ -122,6 +122,14 @@
                                             <th>Total</th>
                                             <td>{{ comprobante.total }}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Total Pagado</th>
+                                            <td>{{ (comprobante.total - comprobante.pendiente) | number_format(2, '.', '')}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pendiente</th>
+                                            <td>{{ comprobante.pendiente }}</td>
+                                        </tr>
                                         {#
                                         <tr>
                                             <th>Total No Gravado</th>
@@ -170,6 +178,8 @@
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
                                     </a>
+                                    <a href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-usd"></span> Nuevo Recibo
+                                     </a>
                                     <a href="{{ path('comprobanteventa_enviar_factura', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" title="Enviar Comprobante Interno"><span class="glyphicon glyphicon-envelope"></span>Enviar CI
                                     </a>
                                 </div>
