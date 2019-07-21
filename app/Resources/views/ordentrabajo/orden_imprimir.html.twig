@@ -142,6 +142,12 @@
                 <td align="center">
                     DNP.
                 </td>
+                <td align="center">
+                    HP.
+                </td>
+                <td align="center">
+                    HPU.
+                </td>
             </tr>
             <tr>
                 <td rowspan="2" align="center">
@@ -166,6 +172,14 @@
                     {% if ordenTrabajo.antesOjoDerechoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoDerechoDnp }}
                 </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.antesOjoDerechoHp > 0 %}+{% endif %}
+                    {{ ordenTrabajo.antesOjoDerechoHp }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.antesOjoDerechoHpu > 0 %}+{% endif %}
+                    {{ ordenTrabajo.antesOjoDerechoHpu }}
+                </td>
             </tr>
             <tr>
                 <td align="center">
@@ -186,6 +200,14 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.antesOjoIzquierdoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoIzquierdoDnp }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.antesOjoIzquierdoHp > 0 %}+{% endif %}
+                    {{ ordenTrabajo.antesOjoIzquierdoHp }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.antesOjoIzquierdoHpu > 0 %}+{% endif %}
+                    {{ ordenTrabajo.antesOjoIzquierdoHpu }}
                 </td>
             </tr>
             <tr>
@@ -224,7 +246,6 @@
                     {% if ordenTrabajo.antesCercaOjoIzquierdoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesCercaOjoIzquierdoEje }}
                 </td>
-                <td rowspan="2" align="center"></td>
             </tr>
         </tbody>
     </table>
@@ -259,6 +280,12 @@
                 <td align="center">
                     DNP.
                 </td>
+                <td align="center">
+                    HP.
+                </td>
+                <td align="center">
+                    HPU.
+                </td>
             </tr>
             <tr>
                 <td rowspan="2" align="center">
@@ -283,6 +310,14 @@
                     {% if ordenTrabajo.ojoDerechoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoDerechoDnp }}
                 </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.ojoDerechoHp > 0 %}+{% endif %}
+                    {{ ordenTrabajo.ojoDerechoHp }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.ojoDerechoHpu > 0 %}+{% endif %}
+                    {{ ordenTrabajo.ojoDerechoHpu }}
+                </td>
             </tr>
             <tr>
                 <td align="center">
@@ -303,6 +338,14 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.ojoIzquierdoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoIzquierdoDnp }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.ojoIzquierdoHp > 0 %}+{% endif %}
+                    {{ ordenTrabajo.ojoIzquierdoHp }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.ojoIzquierdoHpu > 0 %}+{% endif %}
+                    {{ ordenTrabajo.ojoIzquierdoHpu }}
                 </td>
             </tr>
             <tr>
@@ -341,7 +384,6 @@
                     {% if ordenTrabajo.cercaOjoIzquierdoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoIzquierdoEje }}
                 </td>
-                <td rowspan="2" align="center"></td>
             </tr>
         </tbody>
     </table>

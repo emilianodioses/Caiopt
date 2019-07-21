@@ -12,11 +12,15 @@ class ArticuloRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function findByTexto($texto) {
         $query = 'SELECT a  FROM AppBundle:Articulo a ';
+        $query.= ' INNER JOIN AppBundle:ArticuloMarca am WITH a.marca = am.id';
 
-        $query .= 'WHERE a.activo = 1';
 
-        if ($texto != '')
-            $query .= ' AND a.codigo LIKE :texto OR a.descripcion LIKE :texto';
+
+        $query .= ' WHERE a.activo = 1';
+
+        if ($texto != ''){
+            $query .= ' AND (a.codigo LIKE :texto OR a.descripcion LIKE :texto OR am.descripcion LIKE :texto)';
+        }
 
         $query .= ' ORDER BY a.codigo ASC ';
 

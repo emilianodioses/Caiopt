@@ -31,6 +31,7 @@ Articulos
           <table class="table table-hover">
               <tr>
                 <th>Codigo</th>
+                <th>Marca</th>
                 <th style="width: 25%">Descripcion</th>
                 <th>Precio Costo</th>
                 <th>Ganancia %</th>
@@ -46,6 +47,7 @@ Articulos
             {% for articulo in pagination %}
                 <tr>
                     <td>{{ articulo.codigo }}</td>
+                    <td>{{ articulo.marca }}</td>
                     <td>{{ articulo.descripcion }}</td>
                     <td>{{ articulo.precioCosto }}</td>
                     <td>{{ articulo.gananciaPorcentaje }}</td>

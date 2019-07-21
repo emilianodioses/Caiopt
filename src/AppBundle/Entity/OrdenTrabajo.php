@@ -254,6 +254,34 @@ class OrdenTrabajo
     /**
      * @var string
      *
+     * @ORM\Column(name="ojo_derecho_hp", type="decimal", precision=16, scale=2)
+     */
+    private $ojoDerechoHp = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_izquierdo_hp", type="decimal", precision=16, scale=2)
+     */
+    private $ojoIzquierdoHp = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_derecho_hpu", type="decimal", precision=16, scale=2)
+     */
+    private $ojoDerechoHpu = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ojo_izquierdo_hpu", type="decimal", precision=16, scale=2)
+     */
+    private $ojoIzquierdoHpu = '0';
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="antes_lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
      */
     private $antesLejosOjoDerechoEje = '0';
@@ -348,6 +376,34 @@ class OrdenTrabajo
      * @ORM\Column(name="antes_ojo_izquierdo_dnp", type="decimal", precision=16, scale=2)
      */
     private $antesOjoIzquierdoDnp = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_ojo_derecho_hp", type="decimal", precision=16, scale=2)
+     */
+    private $antesOjoDerechoHp = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_ojo_izquierdo_hp", type="decimal", precision=16, scale=2)
+     */
+    private $antesOjoIzquierdoHp = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_ojo_derecho_hpu", type="decimal", precision=16, scale=2)
+     */
+    private $antesOjoDerechoHpu = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="antes_ojo_izquierdo_hpu", type="decimal", precision=16, scale=2)
+     */
+    private $antesOjoIzquierdoHpu = '0';
 
     /**
      * @var \Usuario
@@ -471,34 +527,6 @@ class OrdenTrabajo
     }
 
     /**
-     * Set referencia
-     *
-     * @param string $referencia
-     *
-     * @return OrdenTrabajo
-     */
-    /*
-    public function setReferencia($referencia)
-    {
-        $this->referencia = $referencia;
-
-        return $this;
-    }
-    */
-
-    /**
-     * Get referencia
-     *
-     * @return string
-     */
-    /*
-    public function getReferencia()
-    {
-        return $this->referencia;
-    }
-    */
-
-    /**
      * Set estado
      *
      * @param string $estado
@@ -521,62 +549,6 @@ class OrdenTrabajo
     {
         return $this->estado;
     }
-
-    /**
-     * Set cristales
-     *
-     * @param string $cristales
-     *
-     * @return OrdenTrabajo
-     */
-    /*
-    public function setCristales($cristales)
-    {
-        $this->cristales = $cristales;
-
-        return $this;
-    }
-    */
-
-    /**
-     * Get cristales
-     *
-     * @return string
-     */
-    /*
-    public function getCristales()
-    {
-        return $this->cristales;
-    }
-    */
-
-    /**
-     * Set montura
-     *
-     * @param string $montura
-     *
-     * @return OrdenTrabajo
-     */
-    /*
-    public function setMontura($montura)
-    {
-        $this->montura = $montura;
-
-        return $this;
-    }
-    */
-
-    /**
-     * Get montura
-     *
-     * @return string
-     */
-    /*
-    public function getMontura()
-    {
-        return $this->montura;
-    }
-    */
 
     /**
      * Set observaciones
@@ -625,34 +597,6 @@ class OrdenTrabajo
     {
         return $this->otrosTrabajos;
     }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return OrdenTrabajo
-     */
-    /*
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-    */
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    /*
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-    */
 
     /**
      * Set fechaEntrega
@@ -1782,5 +1726,197 @@ class OrdenTrabajo
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set ojoDerechoHp
+     *
+     * @param string $ojoDerechoHp
+     *
+     * @return OrdenTrabajo
+     */
+    public function setOjoDerechoHp($ojoDerechoHp)
+    {
+        $this->ojoDerechoHp = $ojoDerechoHp;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoDerechoHp
+     *
+     * @return string
+     */
+    public function getOjoDerechoHp()
+    {
+        return $this->ojoDerechoHp;
+    }
+
+    /**
+     * Set ojoIzquierdoHp
+     *
+     * @param string $ojoIzquierdoHp
+     *
+     * @return OrdenTrabajo
+     */
+    public function setOjoIzquierdoHp($ojoIzquierdoHp)
+    {
+        $this->ojoIzquierdoHp = $ojoIzquierdoHp;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoIzquierdoHp
+     *
+     * @return string
+     */
+    public function getOjoIzquierdoHp()
+    {
+        return $this->ojoIzquierdoHp;
+    }
+
+    /**
+     * Set ojoDerechoHpu
+     *
+     * @param string $ojoDerechoHpu
+     *
+     * @return OrdenTrabajo
+     */
+    public function setOjoDerechoHpu($ojoDerechoHpu)
+    {
+        $this->ojoDerechoHpu = $ojoDerechoHpu;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoDerechoHpu
+     *
+     * @return string
+     */
+    public function getOjoDerechoHpu()
+    {
+        return $this->ojoDerechoHpu;
+    }
+
+    /**
+     * Set ojoIzquierdoHpu
+     *
+     * @param string $ojoIzquierdoHpu
+     *
+     * @return OrdenTrabajo
+     */
+    public function setOjoIzquierdoHpu($ojoIzquierdoHpu)
+    {
+        $this->ojoIzquierdoHpu = $ojoIzquierdoHpu;
+
+        return $this;
+    }
+
+    /**
+     * Get ojoIzquierdoHpu
+     *
+     * @return string
+     */
+    public function getOjoIzquierdoHpu()
+    {
+        return $this->ojoIzquierdoHpu;
+    }
+
+    /**
+     * Set antesOjoDerechoHp
+     *
+     * @param string $antesOjoDerechoHp
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesOjoDerechoHp($antesOjoDerechoHp)
+    {
+        $this->antesOjoDerechoHp = $antesOjoDerechoHp;
+
+        return $this;
+    }
+
+    /**
+     * Get antesOjoDerechoHp
+     *
+     * @return string
+     */
+    public function getAntesOjoDerechoHp()
+    {
+        return $this->antesOjoDerechoHp;
+    }
+
+    /**
+     * Set antesOjoIzquierdoHp
+     *
+     * @param string $antesOjoIzquierdoHp
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesOjoIzquierdoHp($antesOjoIzquierdoHp)
+    {
+        $this->antesOjoIzquierdoHp = $antesOjoIzquierdoHp;
+
+        return $this;
+    }
+
+    /**
+     * Get antesOjoIzquierdoHp
+     *
+     * @return string
+     */
+    public function getAntesOjoIzquierdoHp()
+    {
+        return $this->antesOjoIzquierdoHp;
+    }
+
+    /**
+     * Set antesOjoDerechoHpu
+     *
+     * @param string $antesOjoDerechoHpu
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesOjoDerechoHpu($antesOjoDerechoHpu)
+    {
+        $this->antesOjoDerechoHpu = $antesOjoDerechoHpu;
+
+        return $this;
+    }
+
+    /**
+     * Get antesOjoDerechoHpu
+     *
+     * @return string
+     */
+    public function getAntesOjoDerechoHpu()
+    {
+        return $this->antesOjoDerechoHpu;
+    }
+
+    /**
+     * Set antesOjoIzquierdoHpu
+     *
+     * @param string $antesOjoIzquierdoHpu
+     *
+     * @return OrdenTrabajo
+     */
+    public function setAntesOjoIzquierdoHpu($antesOjoIzquierdoHpu)
+    {
+        $this->antesOjoIzquierdoHpu = $antesOjoIzquierdoHpu;
+
+        return $this;
+    }
+
+    /**
+     * Get antesOjoIzquierdoHpu
+     *
+     * @return string
+     */
+    public function getAntesOjoIzquierdoHpu()
+    {
+        return $this->antesOjoIzquierdoHpu;
     }
 }
