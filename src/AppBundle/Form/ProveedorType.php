@@ -20,6 +20,7 @@ class ProveedorType extends AbstractType
     {
         $builder->add('nombre', TextType::class, array(
             'label' => 'Nombre',
+            'attr' => array('style' => 'text-transform: uppercase')
         ));
 
         $builder->add('documentoTipo', EntityType::class, array(
@@ -68,6 +69,7 @@ class ProveedorType extends AbstractType
         $builder->add('direccion', TextType::class, array(
             'label' => 'Dirección',
             'required' => false,
+            'attr' => array('style' => 'text-transform: uppercase')
         ));
 
         $builder->add('telefono', null, array(
@@ -83,6 +85,7 @@ class ProveedorType extends AbstractType
         $builder->add('contacto', null, array(
             'label' => 'Contacto',
             'required' => false,
+            'attr' => array('style' => 'text-transform: uppercase')
         ));
 
     }/**

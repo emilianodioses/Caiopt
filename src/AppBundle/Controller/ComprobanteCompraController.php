@@ -123,7 +123,11 @@ class ComprobanteCompraController extends controller
                 $articulo = $comprobantedetalle->getArticulo();
 
                 $iva = $articulo->getIva()->getDescripcion();
-                $articulo_precio_venta_sin_iva = 100 * $comprobantedetalle->getPrecioVenta() / (100+$iva);
+                //calculo el precio con iva sin el porcentaje del 15% de tarjeta
+                $articulo_precio_venta_sin_tarjeta = 100 * $comprobantedetalle->getPrecioVenta() / 115;
+                
+                //calculo el precio sin iva
+                $articulo_precio_venta_sin_iva = 100 * $articulo_precio_venta_sin_tarjeta / (100+$iva);
 
                 $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
                 $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
@@ -269,7 +273,11 @@ class ComprobanteCompraController extends controller
                 $articulo = $comprobantedetalle->getArticulo();
 
                 $iva = $articulo->getAfipAlicuota()->getDescripcion();
-                $articulo_precio_venta_sin_iva = 100 * $comprobantedetalle->getPrecioVenta() / (100+$iva);
+                //calculo el precio con iva sin el porcentaje del 15% de tarjeta
+                $articulo_precio_venta_sin_tarjeta = 100 * $comprobantedetalle->getPrecioVenta() / 115;
+                
+                //calculo el precio sin iva
+                $articulo_precio_venta_sin_iva = 100 * $articulo_precio_venta_sin_tarjeta / (100+$iva);
 
                 if (!is_null($articulo->getUltimoComprobante())) {
                     if ($articulo->getUltimoComprobante()->getId() == $comprobante->getId()) {

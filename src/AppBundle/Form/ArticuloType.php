@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Form\ChoicesListType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
 class ArticuloType extends AbstractType
@@ -36,25 +37,51 @@ class ArticuloType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('codigo', null, array('label' => 'Codigo',))
-                ->add('descripcion', null, array('label' => 'Descripcion',))
+                ->add('codigo', null, array(
+                    'label' => 'Codigo',
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
+                ->add('descripcion', null, array(
+                    'label' => 'Descripcion',
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
                 ->add('precioCosto', null, array('label' => 'Precio Costo',))
                 ->add('gananciaPorcentaje', null, array('label' => 'Ganancia %',))
-                ->add('precioVenta', null, array('label' => 'Precio de Venta','attr' => array('readonly' => true )))
+                ->add('precioVenta', null, array('label' => 'Precio de Venta + 15%','attr' => array('readonly' => true )))
                 ->add('precioVentaSinIva', null, array('label' => 'Precio Venta sin IVA'))
                 ->add('cantidad', null, array('label' => 'Cantidad',))
                 ->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
-                ->add('precioModifica', null, array('label' => 'Precio Modificable',))
-                ->add('ordenTrabajo', null, array('label' => 'Orden de Trabajo',))
+                ->add('precioModifica', HiddenType::class, array('label' => 'Precio Modificable',))
+                ->add('ordenTrabajo', HiddenType::class, array('label' => 'Orden de Trabajo',))
                 ->add('genero',ChoiceType::class,array(
                         'label'=>'Genero',
                         'choices' => $generos,
                             'choices_as_values' => true))  
-                ->add('material', null, array('label' => 'Material','required'=> false,))
-                ->add('forma', null, array('label' => 'Forma','required'=> false,))
-                ->add('estilo', null, array('label' => 'Estilo','required'=> false,))
-                ->add('colorMarco', null, array('label' => 'Color Marco','required'=> false,))
-                ->add('colorCristal', null, array('label' => 'Color Cristal','required'=> false,))
+                ->add('material', null, array(
+                    'label' => 'Material',
+                    'required'=> false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
+                ->add('forma', null, array(
+                    'label' => 'Forma',
+                    'required'=> false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
+                ->add('estilo', null, array(
+                    'label' => 'Estilo',
+                    'required'=> false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
+                ->add('colorMarco', null, array(
+                    'label' => 'Color Marco',
+                    'required'=> false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
+                ->add('colorCristal', null, array(
+                    'label' => 'Color Cristal',
+                    'required'=> false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
                 ->add('activo', null, array('label' => 'Activo',))
                 ->add('categoria', EntityType::class, array(
                     'label' => 'Categoria',

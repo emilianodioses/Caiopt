@@ -229,6 +229,10 @@ class Usuario implements AdvancedUserInterface , \Serializable
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->usuario;
+    }
 
     /**
      * Get id

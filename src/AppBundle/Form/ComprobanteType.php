@@ -23,6 +23,15 @@ class ComprobanteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+      $puntos_venta = array(
+            '1' => '1',
+            '2' => '2',
+            '3' => '3',
+            '4' => '4',
+            '5' => '5',
+            '6' => '6');
+
+
       if ( isset($options['attr']['tipo']) ) {
         if ($options['attr']['tipo'] == 'Compra') {
           $builder->add('tipo', EntityType::class, array(
@@ -71,7 +80,12 @@ class ComprobanteType extends AbstractType
                   ))
                   ->add('numero', IntegerType::class, array(
                     'required' => true,
-                    'label' => 'N de Comprobante'));
+                    'label' => 'N de Comprobante'))
+                  ->add('puntoVenta', null, array(
+                    'label' => 'Punto de Venta',
+                    'attr' => array(
+                        'readonly' => false,
+                    )));
         }
         else {
           $builder->add('tipo', EntityType::class, array(
@@ -120,7 +134,11 @@ class ComprobanteType extends AbstractType
                       ))
                   ->add('numero', IntegerType::class, array(
                     'required' => false,
-                    'label' => 'N de Comprobante'));
+                    'label' => 'N de Comprobante'))
+                  ->add('puntoVenta',ChoiceType::class,array(
+                      'label'=>'Punto de Venta',
+                      'choices' => $puntos_venta,
+                          'choices_as_values' => true));
         }
       }
       else {
@@ -138,7 +156,12 @@ class ComprobanteType extends AbstractType
                 ))
                 ->add('numero', IntegerType::class, array(
                     'required' => true,
-                    'label' => 'N de Comprobante'));
+                    'label' => 'N de Comprobante'))
+                ->add('puntoVenta', null, array(
+                    'label' => 'Punto de Venta',
+                    'attr' => array(
+                        'readonly' => false,
+                    )));
       }
         
         $builder->add('fecha',DateType::class,array(
@@ -148,11 +171,6 @@ class ComprobanteType extends AbstractType
                     'html5' => true,
                     'required' => true,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
-                ->add('puntoVenta', null, array(
-                    'label' => 'Punto de Venta',
-                    'attr' => array(
-                        'readonly' => false,
-                    )))
                 ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'

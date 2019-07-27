@@ -164,8 +164,12 @@ $(document).ready( function() {
         var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
         var r_porcentaje_ganancia = $('#appbundle_articulo_gananciaPorcentaje').val();
 
+        var porcentajeTarjeta = 1.15; //porcentaje aplicado para guardar SIEMPRE el precio de tarjeta
+
         var precio_venta_sin_iva = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
-        var precio_venta = parseFloat(precio_venta_sin_iva) * parseFloat(1+(r_iva/100));
+        var precio_venta_sin_tarjeta = parseFloat(precio_venta_sin_iva) * parseFloat(1+(r_iva/100));
+
+        var precio_venta = parseFloat(precio_venta_sin_tarjeta * porcentajeTarjeta);
 
         if (r_porcentaje_ganancia === '') {
             //var precio_venta = 0;

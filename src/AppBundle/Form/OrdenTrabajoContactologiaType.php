@@ -46,6 +46,17 @@ class OrdenTrabajoContactologiaType extends AbstractType
                       'cache_timeout' => 60000, // if 'cache' is true
                       'language' => 'es',
                       ))
+                ->add('obraSocialPlan', EntityType::class, array(
+                    'label' => 'Obra Social - Plan',
+                    'class' => 'AppBundle:ObraSocialPlan',
+                    'required' => true,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->orderBy('l.nombre', 'ASC')
+                                   ;
+                           }
+                ))
                 ->add('comprobante', EntityType::class, array(
                     'label' => 'Comprobante',
                     'class' => 'AppBundle:Comprobante',

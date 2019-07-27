@@ -52,6 +52,10 @@
                                                 <td>{{ ordenTrabajo.cliente }}</td>
                                             </tr>
                                             <tr>
+                                                <th>Obra Social - Plan</th>
+                                                <td>{{ ordenTrabajo.obraSocialPlan }}</td>
+                                            </tr>
+                                            <tr>
                                                 <th>Comprobante</th>
                                                 {% if ordenTrabajo.comprobante is empty %}
                                                     <td></td>
@@ -171,6 +175,10 @@
                                                 {% else %}
                                                     <td>{{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }}</td>
                                                 {% endif %}
+                                            </tr>
+                                            <tr>
+                                                <th>Número</th>
+                                                <td>{{ ordenTrabajo.numeroTaller }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Necesita Armado</th>

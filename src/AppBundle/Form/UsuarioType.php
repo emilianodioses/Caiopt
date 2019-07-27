@@ -24,11 +24,15 @@ class UsuarioType extends AbstractType
         ));
 
         $builder->add('nombre', TextType::class, array(
-            'label' => 'Nombre', 'required' => true
+            'label' => 'Nombre',
+            'required' => true,
+            'attr' => array('style' => 'text-transform: uppercase')
         ));
 
         $builder->add('apellido', TextType::class, array(
-            'label' => 'Apellido', 'required' => true
+            'label' => 'Apellido', 
+            'required' => true,
+            'attr' => array('style' => 'text-transform: uppercase')
         ));
 
         $builder->add('password', RepeatedType::class, array(

@@ -33,6 +33,16 @@ class OrdenTrabajoContactologia
     private $cliente;
 
     /**
+     * @var \ObraSocialPlan
+     *
+     * @ORM\ManyToOne(targetEntity="ObraSocialPlan")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="obra_social_plan_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $obraSocialPlan;
+
+    /**
      * @var \Medico
      *
      * @ORM\ManyToOne(targetEntity="Medico")
@@ -2009,5 +2019,29 @@ class OrdenTrabajoContactologia
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set obraSocialPlan
+     *
+     * @param \AppBundle\Entity\ObraSocialPlan $obraSocialPlan
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setObraSocialPlan(\AppBundle\Entity\ObraSocialPlan $obraSocialPlan = null)
+    {
+        $this->obraSocialPlan = $obraSocialPlan;
+
+        return $this;
+    }
+
+    /**
+     * Get obraSocialPlan
+     *
+     * @return \AppBundle\Entity\ObraSocialPlan
+     */
+    public function getObraSocialPlan()
+    {
+        return $this->obraSocialPlan;
     }
 }

@@ -66,6 +66,7 @@ class ComprobanteVentaController extends Controller
                 $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
                 $comprobante->setOrdenTrabajo($ordenTrabajo);      
                 $comprobante->setCliente($ordenTrabajo->getCliente());
+                $comprobante->setObraSocialPlan($ordenTrabajo->getObraSocialPlan());
 
                 $ordenTrabajoDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(array('ordenTrabajo' => $ordenTrabajo));
 
@@ -96,6 +97,7 @@ class ComprobanteVentaController extends Controller
                 $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id); 
                 $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);      
                 $comprobante->setCliente($ordenTrabajoContactologia->getCliente());
+                $comprobante->setObraSocialPlan($ordenTrabajoContactologia->getObraSocialPlan());
 
                 $ordenTrabajoContactologiaDetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(array('ordenTrabajoContactologia' => $ordenTrabajoContactologia));
 
@@ -516,8 +518,8 @@ class ComprobanteVentaController extends Controller
             $alicuotas_all[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();
             $alicuotas_all[$alicuota_id]['Importe'] += $cd->getImporteIva(); 
 
-            dump($alicuotas_all);
-            die;
+            //dump($alicuotas_all);
+            //die;
         }
 
         foreach ($alicuotas_all as $alicuota) {

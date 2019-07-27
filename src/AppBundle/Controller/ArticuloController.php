@@ -72,6 +72,8 @@ class ArticuloController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
+            $articulo->setPrecioModifica(1);
+            $articulo->setOrdenTrabajo(1);
             $articulo->setUltimoComprobante(null);
             $articulo->setCreatedBy($this->getUser());
             $articulo->setCreatedAt(new \DateTime("now"));
@@ -131,6 +133,8 @@ class ArticuloController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
+            $articulo->setPrecioModifica(1);
+            $articulo->setOrdenTrabajo(1);
             $articulo->setUltimoComprobante(null);
             $articulo->setUpdatedBy($this->getUser());
             $articulo->setUpdatedAt(new \DateTime("now"));

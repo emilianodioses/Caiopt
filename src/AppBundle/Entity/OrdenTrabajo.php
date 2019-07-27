@@ -33,6 +33,16 @@ class OrdenTrabajo
     private $cliente;
 
     /**
+     * @var \ObraSocialPlan
+     *
+     * @ORM\ManyToOne(targetEntity="ObraSocialPlan")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="obra_social_plan_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $obraSocialPlan;
+
+    /**
      * @var \Medico
      *
      * @ORM\ManyToOne(targetEntity="Medico")
@@ -117,6 +127,13 @@ class OrdenTrabajo
      * @ORM\Column(name="armado", type="boolean")
      */
     private $armado;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numero_taller", type="integer")
+     */
+    private $numeroTaller = '0';
 
     /**
      * @var string
@@ -1918,5 +1935,77 @@ class OrdenTrabajo
     public function getAntesOjoIzquierdoHpu()
     {
         return $this->antesOjoIzquierdoHpu;
+    }
+
+    /**
+     * Set numeroTaller
+     *
+     * @param integer $numeroTaller
+     *
+     * @return OrdenTrabajo
+     */
+    public function setNumeroTaller($numeroTaller)
+    {
+        $this->numeroTaller = $numeroTaller;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroTaller
+     *
+     * @return integer
+     */
+    public function getNumeroTaller()
+    {
+        return $this->numeroTaller;
+    }
+
+    /**
+     * Set obraSocial
+     *
+     * @param \AppBundle\Entity\ObraSocial $obraSocial
+     *
+     * @return OrdenTrabajo
+     */
+    public function setObraSocial(\AppBundle\Entity\ObraSocial $obraSocial = null)
+    {
+        $this->obraSocial = $obraSocial;
+
+        return $this;
+    }
+
+    /**
+     * Get obraSocial
+     *
+     * @return \AppBundle\Entity\ObraSocial
+     */
+    public function getObraSocial()
+    {
+        return $this->obraSocial;
+    }
+
+    /**
+     * Set obraSocialPlan
+     *
+     * @param \AppBundle\Entity\ObraSocialPlan $obraSocialPlan
+     *
+     * @return OrdenTrabajo
+     */
+    public function setObraSocialPlan(\AppBundle\Entity\ObraSocialPlan $obraSocialPlan = null)
+    {
+        $this->obraSocialPlan = $obraSocialPlan;
+
+        return $this;
+    }
+
+    /**
+     * Get obraSocialPlan
+     *
+     * @return \AppBundle\Entity\ObraSocialPlan
+     */
+    public function getObraSocialPlan()
+    {
+        return $this->obraSocialPlan;
     }
 }

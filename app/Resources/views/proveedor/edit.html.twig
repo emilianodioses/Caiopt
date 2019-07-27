@@ -21,20 +21,20 @@ Proveedor
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             {{ form_row(edit_form.nombre) }}                            
-                        </div>  
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(edit_form.ivaCondicion) }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(edit_form.direccion) }}
+                            {{ form_row(edit_form.documentoTipo) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(edit_form.documentoNumero) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(edit_form.documentoTipo) }}
-                        </div> 
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
-                            {{ form_row(edit_form.contacto) }}
+                            {{ form_row(edit_form.localidad) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(edit_form.direccion) }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             {{ form_row(edit_form.telefono) }}
@@ -42,13 +42,13 @@ Proveedor
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(edit_form.documentoNumero) }}
-                        </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(edit_form.localidad) }}
-                        </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             {{ form_row(edit_form.email) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
+                            {{ form_row(edit_form.contacto) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(edit_form.ivaCondicion) }}
                         </div>
                     </div>
                 </div>

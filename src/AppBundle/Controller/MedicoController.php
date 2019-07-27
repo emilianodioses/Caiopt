@@ -75,6 +75,10 @@ class MedicoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            if (is_null($medico->getDocumentoNumero())) {
+                $medico->setDocumentoNumero('');
+            }
+
             $medico->setActivo(true);
             $medico->setCreatedBy($this->getUser());
             $medico->setCreatedAt(new \DateTime("now"));
@@ -127,9 +131,13 @@ class MedicoController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if (is_null($medico->getDocumentoNumero())) {
+                $medico->setDocumentoNumero('');
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('medico_edit', array('id' => $medico->getId()));
+            return $this->redirectToRoute('medico_show', array('id' => $medico->getId()));
         }
 
         return $this->render('medico/edit.html.twig', array(
@@ -189,9 +197,9 @@ class MedicoController extends Controller
         }
 
         $result = $em->createQuery('
-                        SELECT r.id as id, CONCAT(r.nombre, \' (\', r.documentoNumero, \')\')  as text
+                        SELECT r.id as id, CONCAT(r.nombre, \' (\', r.matricula, \')\')  as text
                         FROM AppBundle:Medico r
-                        WHERE (lower(r.nombre) LIKE :text_search OR r.documentoNumero LIKE :text_search)
+                        WHERE (lower(r.nombre) LIKE :text_search OR r.matricula LIKE :text_search)
                         AND r.activo = 1
                         ORDER BY r.nombre ASC
                         ')

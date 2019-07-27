@@ -17,7 +17,10 @@ class ClienteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre', TextType::class, array('label' => 'Nombre',))
+        $builder->add('nombre', TextType::class, array(
+                  'label' => 'Nombre',
+                  'attr' => array('style' => 'text-transform: uppercase')
+                ))
                 ->add('documentoTipo', EntityType::class, array(
                     'label' => 'Tipo Documento',
                     'class' => 'AppBundle:AfipDocumentoTipo',
@@ -58,6 +61,7 @@ class ClienteType extends AbstractType
                 ->add('direccion', TextType::class, array(
                     'label' => 'Dirección',
                     'required' => false,
+                    'attr' => array('style' => 'text-transform: uppercase')
                   ))
                 ->add('telefono', null, array(
                     'label' => 'Teléfono',
@@ -74,6 +78,7 @@ class ClienteType extends AbstractType
                 ->add('contacto', null, array(
                     'label' => 'Contacto',
                     'required' => false,
+                    'attr' => array('style' => 'text-transform: uppercase')
                   ));
     }/**
      * {@inheritdoc}

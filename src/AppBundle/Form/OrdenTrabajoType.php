@@ -47,6 +47,17 @@ class OrdenTrabajoType extends AbstractType
                       'cache_timeout' => 60000, // if 'cache' is true
                       'language' => 'es',
                       ))
+                ->add('obraSocialPlan', EntityType::class, array(
+                    'label' => 'Obra Social - Plan',
+                    'class' => 'AppBundle:ObraSocialPlan',
+                    'required' => true,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->orderBy('l.nombre', 'ASC')
+                                   ;
+                           }
+                ))
                 ->add('fechaRecepcion',DateType::class,array(
                     'label'=>'Fecha Recepcion',
                     'widget' => 'single_text',
@@ -124,6 +135,9 @@ class OrdenTrabajoType extends AbstractType
                                    ;
                            }
                 ))
+                ->add('numeroTaller', IntegerType::class, array(
+                    'label' => 'Número',
+                    'required' => false,))
                 ->add('fechaTallerPedido',DateType::class,array(
                     'label'=>'Fecha Pedido',
                     'widget' => 'single_text',

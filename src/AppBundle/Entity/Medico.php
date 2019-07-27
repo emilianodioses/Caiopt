@@ -43,7 +43,7 @@ class Medico
      *
      * @ORM\Column(name="documento_numero", type="string", length=255)
      */
-    private $documentoNumero;
+    private $documentoNumero = '';
 
     /**
      * @var string

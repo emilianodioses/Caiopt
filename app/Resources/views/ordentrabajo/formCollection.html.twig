@@ -10,15 +10,20 @@
             <div class="box-body">
                 {{ form_errors(form) }}
                 <div class="row">
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         {{ form_row(form.cliente) }}                            
-                    </div>  
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.obraSocialPlan) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.medico) }}
+                    </div>
+                </div>
+                <div class="row">  
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.comprobante) }}                            
                     </div>  
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        {{ form_row(form.medico) }}
-                    </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.fechaReceta) }}
                     </div>
@@ -28,13 +33,13 @@
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.fechaEntrega) }}
                     </div>
-                </div>   
-                <div class="row">
-                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                        {{ form_row(form.observaciones) }}
-                    </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         {{ form_row(form.otrosTrabajos) }}
+                    </div>
+                </div>   
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(form.observaciones) }}
                     </div>
                 </div>
             </div>
@@ -48,18 +53,27 @@
             <div class="box-body">
                 {{ form_errors(form) }}
                 <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         {{ form_row(form.taller) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.fechaTallerPedido) }}
+                    </div>   
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.fechaTallerEntrega) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.numeroTaller) }}
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         {{ form_row(form.estado) }}
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        {{ form_row(form.fechaTallerPedido) }}
-                    </div>   
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        {{ form_row(form.fechaTallerEntrega) }}
-                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.armado) }}
                     </div>

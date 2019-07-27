@@ -18,7 +18,10 @@ class MedicoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre', TextType::class, array('label' => 'Nombre',))
+        $builder->add('nombre', TextType::class, array(
+                    'label' => 'Nombre',
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
                 ->add('documentoTipo', EntityType::class, array(
                     'label' => 'Tipo Documento',
                     'class' => 'AppBundle:AfipDocumentoTipo',
@@ -51,7 +54,9 @@ class MedicoType extends AbstractType
                 ))
                 ->add('direccion', TextType::class, array(
                     'label' => 'Dirección',
-                    'required' => false))
+                    'required' => false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ))
                 ->add('telefono', null, array(
                     'label' => 'Teléfono',
                     'required' => false,))
@@ -60,7 +65,9 @@ class MedicoType extends AbstractType
                     'required' => false))
                 ->add('contacto', null, array(
                     'label' => 'Contacto',
-                    'required' => false));
+                    'required' => false,
+                    'attr' => array('style' => 'text-transform: uppercase')
+                ));
     }/**
      * {@inheritdoc}
      */
