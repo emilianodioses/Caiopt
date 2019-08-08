@@ -33,7 +33,10 @@ class ClienteType extends AbstractType
                                    ;
                            }
                 ))
-                ->add('documentoNumero', null, array('label' => 'Número Documento',))
+                ->add('documentoNumero', null, array(
+                    'label' => 'Número Documento',
+                    'required' => true
+                    ,))
                 ->add('ivaCondicion', EntityType::class, array(
                     'label' => 'Condición de IVA',
                     'class' => 'AppBundle:AfipIvaCondicion',
