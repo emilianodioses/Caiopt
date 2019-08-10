@@ -51,7 +51,7 @@ class OrdenTrabajoDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="porcentaje_bonificacion", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="porcentaje_bonificacion", type="decimal", precision=16, scale=2, nullable=true)
      */
     private $porcentajeBonificacion;
 
