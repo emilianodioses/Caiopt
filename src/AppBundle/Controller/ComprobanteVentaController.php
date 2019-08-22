@@ -206,7 +206,8 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setObservaciones('');
                 }
 
-                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
+                $comprobanteDetalle->setPorcentajeGanancia(0); //según el comentario en la entidad este campo no se utiliza en la venta
+                //$comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 $comprobanteDetalle->setMovimiento('Venta');
                 $comprobanteDetalle->setComprobante($comprobante);
@@ -383,7 +384,8 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setObservaciones('');
                 }
 
-                $comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
+                $comprobanteDetalle->setPorcentajeGanancia(0); //según el comentario en la entidad este campo no se utiliza en la venta
+                //$comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
                 if (is_null($comprobanteDetalle->getId())){     
                     $comprobanteDetalle->setCreatedBy($this->getUser());

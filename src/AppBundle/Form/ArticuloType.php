@@ -60,26 +60,31 @@ class ArticuloType extends AbstractType
                 ->add('material', null, array(
                     'label' => 'Material',
                     'required'=> false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
                 ->add('forma', null, array(
                     'label' => 'Forma',
                     'required'=> false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
                 ->add('estilo', null, array(
                     'label' => 'Estilo',
                     'required'=> false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
                 ->add('colorMarco', null, array(
                     'label' => 'Color Marco',
                     'required'=> false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
                 ->add('colorCristal', null, array(
                     'label' => 'Color Cristal',
                     'required'=> false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
                 ->add('activo', null, array('label' => 'Activo',))

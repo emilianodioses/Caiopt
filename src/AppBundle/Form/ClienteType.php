@@ -64,23 +64,28 @@ class ClienteType extends AbstractType
                 ->add('direccion', TextType::class, array(
                     'label' => 'Dirección',
                     'required' => false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                   ))
                 ->add('telefono', null, array(
                     'label' => 'Teléfono',
                     'required' => false,
+                    'empty_data' => '',
                   ))
                 ->add('telefonoCelular', null, array(
                     'label' => 'Teléfono Celular',
                     'required' => false,
+                    'empty_data' => '',
                   ))
                 ->add('email', TextType::class, array(
                     'label' => 'Email',
                     'required' => false,
+                    'empty_data' => '',
                   ))
                 ->add('contacto', null, array(
                     'label' => 'Contacto',
                     'required' => false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                   ));
     }/**

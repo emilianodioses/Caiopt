@@ -39,7 +39,8 @@ class MedicoType extends AbstractType
                     'required' => true))
                 ->add('documentoNumero', null, array(
                     'label' => 'Número Documento',
-                    'required' => false))
+                    'required' => false,
+                    'empty_data' => '',))
                 ->add('localidad', EntityType::class, array(
                     'label' => 'Localidad',
                     'class' => 'AppBundle:Localidad',
@@ -55,17 +56,21 @@ class MedicoType extends AbstractType
                 ->add('direccion', TextType::class, array(
                     'label' => 'Dirección',
                     'required' => false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
                 ->add('telefono', null, array(
                     'label' => 'Teléfono',
-                    'required' => false,))
+                    'required' => false,
+                    'empty_data' => '',))
                 ->add('email', TextType::class, array(
                     'label' => 'Email',
-                    'required' => false))
+                    'required' => false,
+                    'empty_data' => '',))
                 ->add('contacto', null, array(
                     'label' => 'Contacto',
                     'required' => false,
+                    'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ));
     }/**
