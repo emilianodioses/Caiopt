@@ -652,11 +652,13 @@ class ComprobanteVentaController extends Controller
     public function enviarFacturaAction(Request $request, Comprobante $comprobante)
     {
         // Permisos de Usuario para Acciones
+        /*
         $secure = $this->container->get('SecureAction');
         
         if (!$secure->isAuthorized('ComprobanteVenta', 'EnviarFactura', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
+        */
 
         $em = $this->getDoctrine()->getManager();
 
@@ -716,26 +718,20 @@ class ComprobanteVentaController extends Controller
         $folder = $this->container->getParameter('dir_download');
 
         
-        $filename = str_replace('FACTURA ', 'FACTURA_', ($folder. '/' .$comprobante->getTipo().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero()));
+        $filename = str_replace('FACTURA ', 'FACTURA_', ($folder. '/' .$comprobante->getCliente().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero()));
         
         $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
         $pdf->Output($filename.".pdf",'F'); // This will output the PDF as a response directly
 
-
         $parameters = array('titulo'              => 'Comprobante de Venta',
-                            'descripcion'         => 'Comprobante de Venta',
-                            'fechainicio'         => '',
-                            'horainicio'          => '',
-                            'ubicacion'           => '',
-                            'cliente'             => 'ivanrizzo@gmail.com',
-                            'nombreorganizador'   => '',
-                            'notificaciontipo'    => '',
-                            'eventopersonaid'     => '',
-                            'nombreinvitado'      => $comprobante->getCliente()->getNombre(),
-                            'eventoid'            => '');
+                            'cliente'             => $comprobante->getCliente()->getEmail(),
+                            'nombrecliente'       => $comprobante->getCliente()->getNombre());
         $mailtemplate = 'newemail.html.twig';
+
         
-        Mail::sendEmail($mailtemplate, $parameters, $filename);
+        $emailResult = Mail::sendEmail($mailtemplate, $parameters, $filename);
+
+        $this->get('session')->getFlashbag()->add('success', 'Recibo de pago enviado.');
 
         return $this->redirectToRoute('comprobanteventa_show', 
                 array('id' => $comprobante->getId()));

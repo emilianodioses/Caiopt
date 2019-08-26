@@ -10,15 +10,15 @@ class Mail extends Controller
     {
         $message = \Swift_Message::newInstance();
                     
-        $message->setFrom(array('chachex@gmail.com' => 'Optica contini'))
+        $message->setFrom(array('info@opticacontini.com' => 'Optica contini'))
                 ->setSubject($parameters['titulo'])
                 ->setTo($parameters['cliente'])
                 ->setBody($this->renderView($mailtemplate, $parameters),'text/html');
-        
+
         if(!empty($attachement)){
-            $message->attach(\Swift_Attachment::fromPath($attachement));
+            $message->attach(\Swift_Attachment::fromPath($attachement.'.pdf')->setFilename('Recibo.pdf'));
         }
 
-        $this->get('mailer')->send($message);
+        $result = $this->get('mailer')->send($message);
     }    
 }
