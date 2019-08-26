@@ -225,11 +225,19 @@ class ComprobanteVentaController extends Controller
             if (!is_null($comprobante->getOrdenTrabajo())) {
 
                 $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($comprobante->getOrdenTrabajo()->getId());
-                $ordenTrabajo->setComprobante($comprobante);
+                $ordenTrabajo->setComprobante($comprobante);                
+            }
+            if (!is_null($comprobante->getOrdenTrabajoContactologia())) {
 
-                $em->persist($ordenTrabajo);                
+                $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($comprobante->getOrdenTrabajoContactologia()->getId());
+                $ordenTrabajoContactologia->setComprobante($comprobante);                
             }
 
+            //Actualizo el saldo del cliente
+            $cliente_saldo_actualizado = $comprobante->getCliente()->getSaldo() + $comprobante->getTotal();
+            $cliente = $comprobante->getCliente();
+            $cliente->setSaldo($cliente_saldo_actualizado);
+            
             $em->flush();
 
             $this->get('session')->getFlashbag()->add('success', 'Venta realizada exitosamente.');
@@ -281,6 +289,9 @@ class ComprobanteVentaController extends Controller
         $em = $this->getDoctrine()->getManager();
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
+
+        //Guardo el saldo del cliente antes de editar el comprobante
+        $comprobante_saldo_anterior = $comprobante->getTotal();
         
         if (!$secure->isAuthorized('ComprobanteVenta', 'Edit', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
@@ -321,7 +332,6 @@ class ComprobanteVentaController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             if (is_null($comprobante->getObservaciones())) {
                 $comprobante->setObservaciones('');
             }
@@ -392,6 +402,11 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobanteDetalle);
                 }
+
+                //Actualizo el saldo del cliente
+                $cliente_saldo_actualizado = $comprobante->getCliente()->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
+                $cliente = $comprobante->getCliente();
+                $cliente->setSaldo($cliente_saldo_actualizado);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -429,7 +444,25 @@ class ComprobanteVentaController extends Controller
             $comprobante->setActivo(1);  
 
         $comprobante->setUpdatedBy($this->getUser()); 
-        $comprobante->setUpdatedAt(new \DateTime("now")); 
+        $comprobante->setUpdatedAt(new \DateTime("now"));
+
+        //Si se eligio una orden de trabajo asociada al comprobante, actualizo la orden de Trabajo para que tambien este 
+        //vinculada al comprobante
+        if (!is_null($comprobante->getOrdenTrabajo())) {
+
+            $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($comprobante->getOrdenTrabajo()->getId());
+            $ordenTrabajo->setComprobante(NULL);
+        }
+        if (!is_null($comprobante->getOrdenTrabajoContactologia())) {
+
+            $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($comprobante->getOrdenTrabajoContactologia()->getId());
+            $ordenTrabajoContactologia->setComprobante(NULL);
+        }
+
+        //Actualizo el saldo del cliente
+        $cliente_saldo_actualizado = $comprobante->getCliente()->getSaldo() - $comprobante->getTotal();
+        $cliente = $comprobante->getCliente();
+        $cliente->setSaldo($cliente_saldo_actualizado);
         
         $em->flush($comprobante);
         

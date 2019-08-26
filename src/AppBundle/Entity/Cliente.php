@@ -107,6 +107,14 @@ class Cliente
      */
     private $activo;
 
+    //saldo = importe de la cuenta del cliente
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="saldo", type="decimal", precision=16, scale=2)
+     */
+    private $saldo;
+
     /**
      * @var \Usuario
      *
@@ -529,5 +537,29 @@ class Cliente
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set saldo
+     *
+     * @param string $saldo
+     *
+     * @return Cliente
+     */
+    public function setSaldo($saldo)
+    {
+        $this->saldo = $saldo;
+
+        return $this;
+    }
+
+    /**
+     * Get saldo
+     *
+     * @return string
+     */
+    public function getSaldo()
+    {
+        return $this->saldo;
     }
 }
