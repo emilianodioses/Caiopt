@@ -180,8 +180,10 @@
                                     </a>
                                     <a href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-usd"></span> Nuevo Recibo
                                      </a>
-                                    <a href="{{ path('comprobanteventa_enviar_factura', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" title="Enviar Comprobante Interno"><span class="glyphicon glyphicon-envelope"></span>Enviar CI
-                                    </a>
+                                     {% if comprobante.cliente.email is not empty %}
+                                        <a href="{{ path('comprobanteventa_enviar_factura', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" title="Enviar Comprobante Interno"><span class="glyphicon glyphicon-envelope"></span>Enviar CI
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
