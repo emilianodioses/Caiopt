@@ -75,7 +75,7 @@
                                         </tr>
                                         <tr>
                                             <th>Cliente</th>
-                                            <td>{{ comprobante.cliente }}</td>
+                                            <td><a href="{{ path('cliente_show', { 'id': comprobante.cliente.Id }) }}">{{ comprobante.cliente.nombre }}</a></td>
                                         </tr>
                                         <tr>
                                             <th>Obra Social</th>
@@ -181,7 +181,7 @@
                                     <a href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-usd"></span> Nuevo Recibo
                                      </a>
                                      {% if comprobante.cliente.email is not empty %}
-                                        <a href="{{ path('comprobanteventa_enviar_factura', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" title="Enviar Comprobante Interno"><span class="glyphicon glyphicon-envelope"></span>Enviar CI
+                                        <a href="{{ path('comprobanteventa_enviar_factura', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" title="Enviar Comprobante"><span class="glyphicon glyphicon-envelope"></span>Enviar
                                         </a>
                                     {% endif %}
                                 </div>

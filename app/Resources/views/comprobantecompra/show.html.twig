@@ -59,7 +59,7 @@
                                         </tr>
                                         <tr>
                                             <th>Proveedor</th>
-                                            <td>{{ comprobante.proveedor }}</td>
+                                            <td><a href="{{ path('proveedor_show', { 'id': comprobante.proveedor.Id }) }}">{{ comprobante.proveedor.nombre }}</a></td>
                                         </tr>
                                         <tr>
                                             <th>Fecha</th>

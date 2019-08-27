@@ -11,9 +11,9 @@
                         {{empresaCondicion}}
                     </td>
                     <td width="20%" align="center">
-                        <span style="font-size:28pt"><b>{{ facturaTipo }}</b></span>
+                        <span style="font-size:28pt"><b>{{ comprobante.tipo.letra }}</b></span>
                         <br>
-                        COD. 01
+                        COD. {{"%02d"|format(comprobante.tipo.codigo )}}
                     </td>
                     <td width="40%" align="left">
                         {% if loop.index == 1 %}

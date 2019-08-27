@@ -48,7 +48,7 @@
                                         </tr>
                                         <tr>
                                             <th style="width:30%">Proveedor</th>
-                                            <td>{{ ordenPago.proveedor.nombre }}</td>
+                                            <td><a href="{{ path('proveedor_show', { 'id': ordenPago.proveedor.Id }) }}">{{ ordenPago.proveedor.nombre }}</a></td>
                                         </tr>
                                         <tr>
                                             <th>Fecha</th>
@@ -78,6 +78,23 @@
                                         <tr>
                                             <th style="width:30%">Disponible</th>
                                             <td>{{ ordenPago.disponible }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width:30%">Saldo Actual</th>
+                                            <td>{{ ordenPago.proveedor.saldo }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -159,6 +176,7 @@
                                         <th style="width: 20%">Tipo</th>
                                         <th>Total</th>
                                         <th>Pagado</th>
+                                        <th>Acc</th>
                                     </thead>
                                     <tbody>
                                         {% for ordenPagoComprobante in ordenPagoComprobantes %}
@@ -179,6 +197,7 @@
                                                 <td>{{ comprobante.tipo.descripcion }}</td>
                                                 <td>{{ comprobante.total }}</td>
                                                 <td>{{ ordenPagoComprobante.importe }}</td>
+                                                <td><a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

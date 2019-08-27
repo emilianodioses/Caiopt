@@ -36,6 +36,13 @@ class AfipComprobanteTipo
     private $descripcion;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="letra", type="string", length=255)
+     */
+    private $letra;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_desde", type="datetime")
@@ -381,5 +388,29 @@ class AfipComprobanteTipo
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set letra
+     *
+     * @param string $letra
+     *
+     * @return AfipComprobanteTipo
+     */
+    public function setLetra($letra)
+    {
+        $this->letra = $letra;
+
+        return $this;
+    }
+
+    /**
+     * Get letra
+     *
+     * @return string
+     */
+    public function getLetra()
+    {
+        return $this->letra;
     }
 }

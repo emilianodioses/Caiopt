@@ -87,7 +87,20 @@ class ClienteType extends AbstractType
                     'required' => false,
                     'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
-                  ));
+                  ))
+                ->add('obraSocialPlan', EntityType::class, array(
+                    'label' => 'Obra Social - Plan',
+                    'class' => 'AppBundle:ObraSocialPlan',
+                    'required' => true,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->leftJoin('l.obraSocial', 'os')
+                                   ->orderBy('os.nombre', 'ASC')
+                                   ->addOrderBy('l.nombre', 'ASC');
+                                   ;
+                           }
+                ));
     }/**
      * {@inheritdoc}
      */

@@ -49,7 +49,7 @@
                                             </tr>
                                             <tr>
                                                 <th>Cliente</th>
-                                                <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                                                <td><a href="{{ path('cliente_show', { 'id': ordenTrabajoContactologia.cliente.Id }) }}">{{ ordenTrabajoContactologia.cliente.nombre }}</a></td>
                                             </tr>
                                             <tr>
                                                 <th>Obra Social - Plan</th>

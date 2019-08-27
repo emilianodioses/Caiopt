@@ -28,7 +28,7 @@ $(function(){
 </script>
 
 {% form_theme form 'recibo/formCollection.html.twig' %}
-{{ form(form, {'reciboComprobantes': reciboComprobantes}) }}
+{{ form(form, {'reciboComprobantes': reciboComprobantes, 'recibo': recibo}) }}
 {{ form_end(form) }}
 
 <script type="text/javascript">
@@ -110,9 +110,9 @@ $(function(){
 
             if (x !== null) {
                 if (x.checked) {
-                    if (tipo == 'NOTAS DE CREDITO A' ||
-                        tipo == 'NOTAS DE CREDITO B' || 
-                        tipo == 'NOTAS DE CREDITO C') {
+                    if (tipo == 'NOTA DE CREDITO A' ||
+                        tipo == 'NOTA DE CREDITO B' || 
+                        tipo == 'NOTA DE CREDITO C') {
                         
                         total -= parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
                     }

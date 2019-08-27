@@ -26,3 +26,7 @@ cliente_delete:
 cliente_find_select2:
     path:     /findSelect2
     defaults: { _controller: "AppBundle:Cliente:findSelect2" }
+
+cliente_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:Cliente:find" }    

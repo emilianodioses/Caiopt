@@ -157,7 +157,6 @@ class ComprobanteVentaController extends Controller
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
             $comprobante->setPendiente($comprobante->getTotal());
-            $comprobante->setSaldo(0);
             //$comprobante->setObraSocial($comprobante->getObraSocialPlan()->getObraSocial());
             $comprobante->setActivo(1);
             $comprobante->setCreatedBy($this->getUser());
@@ -234,9 +233,20 @@ class ComprobanteVentaController extends Controller
             }
 
             //Actualizo el saldo del cliente
-            $cliente_saldo_actualizado = $comprobante->getCliente()->getSaldo() + $comprobante->getTotal();
             $cliente = $comprobante->getCliente();
+            if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal();
+            }
+            else {
+                $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
+            }
             $cliente->setSaldo($cliente_saldo_actualizado);
+            $comprobante->setSaldo($cliente_saldo_actualizado);
+            //Actualizo la obra social - plan del cliente
+            $cliente->setObraSocialPlan($comprobante->getObraSocialPlan());
+            $cliente->setUpdatedBy($this->getUser());
+            $cliente->setUpdatedAt(new \DateTime("now"));
+
             
             $em->flush();
 
@@ -346,7 +356,6 @@ class ComprobanteVentaController extends Controller
 
             $comprobante->setSucursal($sucursal);
             $comprobante->setPendiente($comprobante->getTotal());
-            $comprobante->setSaldo(0);
             //$comprobante->setObraSocial($comprobante->getObraSocialPlan()->getObraSocial());
 
 
@@ -402,12 +411,18 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobanteDetalle);
                 }
-
-                //Actualizo el saldo del cliente
-                $cliente_saldo_actualizado = $comprobante->getCliente()->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
-                $cliente = $comprobante->getCliente();
-                $cliente->setSaldo($cliente_saldo_actualizado);
             }
+
+            //Actualizo el saldo del cliente
+            $cliente = $comprobante->getCliente();
+            if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
+            }
+            else {
+                $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal() + $comprobante_saldo_anterior;
+            }
+            $cliente->setSaldo($cliente_saldo_actualizado);
+            $comprobante->setSaldo($cliente_saldo_actualizado);
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();
@@ -460,8 +475,13 @@ class ComprobanteVentaController extends Controller
         }
 
         //Actualizo el saldo del cliente
-        $cliente_saldo_actualizado = $comprobante->getCliente()->getSaldo() - $comprobante->getTotal();
         $cliente = $comprobante->getCliente();
+        if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+            $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
+        }
+        else {
+            $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal();
+        }
         $cliente->setSaldo($cliente_saldo_actualizado);
         
         $em->flush($comprobante);
@@ -625,23 +645,10 @@ class ComprobanteVentaController extends Controller
 
         //Si no fue facturado con el WS, solo podemos hacer una impresion interna
         if (is_null($comprobante->getCaeNumero())){
-            $facturaTemplate = 'comprobanteventa/factura_imprimir_interna.html.twig';
+            $facturaTemplate = 'comprobanteventa/factura_imprimir_X.html.twig';
         }
         else {
-            switch ($comprobante->getTipo()) {
-                case "FACTURA A":
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'A'.'.html.twig';
-                    break;
-                case "FACTURA B":
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
-                    break; 
-                case "FACTURA C": 
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'C'.'.html.twig';
-                    break; 
-                default:
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
-                    break; 
-            }
+            $facturaTemplate = 'comprobanteventa/factura_imprimir_'.$comprobante->getTipo()->getLetra().'.html.twig';
         }
 
         $html = $this->renderView($facturaTemplate, array(
@@ -701,23 +708,10 @@ class ComprobanteVentaController extends Controller
 
         //Si no fue facturado con el WS, solo podemos hacer una impresion interna
         if (is_null($comprobante->getCaeNumero())){
-            $facturaTemplate = 'comprobanteventa/factura_imprimir_interna.html.twig';
+            $facturaTemplate = 'comprobanteventa/factura_imprimir_X.html.twig';
         }
         else {
-            switch ($comprobante->getTipo()) {
-                case "FACTURA A":
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'A'.'.html.twig';
-                    break;
-                case "FACTURA B":
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
-                    break; 
-                case "FACTURA C": 
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'C'.'.html.twig';
-                    break; 
-                default:
-                    $facturaTemplate = 'comprobanteventa/factura_imprimir_'.'B'.'.html.twig';
-                    break; 
-            }
+            $facturaTemplate = 'comprobanteventa/factura_imprimir_'.$comprobante->getTipo()->getLetra().'.html.twig';
         }
 
         $html = $this->renderView($facturaTemplate, array(
@@ -766,7 +760,7 @@ class ComprobanteVentaController extends Controller
         
         $emailResult = Mail::sendEmail($mailtemplate, $parameters, $filename);
 
-        $this->get('session')->getFlashbag()->add('success', 'Recibo de pago enviado.');
+        $this->get('session')->getFlashbag()->add('success', 'Comprobante enviado exitosamente.');
 
         return $this->redirectToRoute('comprobanteventa_show', 
                 array('id' => $comprobante->getId()));

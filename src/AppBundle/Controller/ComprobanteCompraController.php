@@ -73,15 +73,13 @@ class ComprobanteCompraController extends controller
             }
             //FIN Validacion Comprobante Existente
 
-            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
-        
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
+
             $comprobante->setSucursal($sucursal);
             $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
             $comprobante->setPendiente($comprobante->getTotal());
-            $comprobante->setSaldo(0);
             $comprobante->setActivo(1);
-
 
             if (is_null($comprobante->getObservaciones())) {
                 $comprobante->setObservaciones('');
@@ -136,6 +134,17 @@ class ComprobanteCompraController extends controller
                 $articulo->setUltimoComprobante($comprobante);
             }
 
+            //Actualizo el saldo del proveedor
+            $proveedor = $comprobante->getProveedor();
+            if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
+            }
+            else {
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal();
+            }
+            $proveedor->setSaldo($proveedor_saldo_actualizado);
+            $comprobante->setSaldo($proveedor_saldo_actualizado);
+
             $em->flush();
             return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }
@@ -183,6 +192,9 @@ class ComprobanteCompraController extends controller
         $em = $this->getDoctrine()->getManager();
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
+
+        //Guardo el saldo del proveedor antes de editar el comprobante
+        $comprobante_saldo_anterior = $comprobante->getTotal();
         
         if (!$secure->isAuthorized('ComprobanteCompra', 'Edit', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
@@ -227,6 +239,7 @@ class ComprobanteCompraController extends controller
             $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
         
             $comprobante->setSucursal($sucursal);
+            $comprobante->setPendiente($comprobante->getTotal());
             
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
@@ -241,6 +254,7 @@ class ComprobanteCompraController extends controller
             //**********************************************************************
 
             foreach($editForm->getData()->getComprobanteDetalles() as $comprobantedetalle) {
+                $comprobantedetalle->setPrecioNeto(0);
                 $comprobantedetalle->setImporteGanancia(0);
                 $comprobantedetalle->setTotalNoGravado(0);
                 $comprobantedetalle->setImporteIvaExento(0);
@@ -272,7 +286,7 @@ class ComprobanteCompraController extends controller
                 //Actualizo datos en el artículo, solo si corresponde al último ingreso del artículo
                 $articulo = $comprobantedetalle->getArticulo();
 
-                $iva = $articulo->getAfipAlicuota()->getDescripcion();
+                $iva = $articulo->getIva()->getDescripcion();
                 //calculo el precio con iva sin el porcentaje del 15% de tarjeta
                 $articulo_precio_venta_sin_tarjeta = 100 * $comprobantedetalle->getPrecioVenta() / 115;
                 
@@ -289,7 +303,17 @@ class ComprobanteCompraController extends controller
                 }
             }
 
-            $em = $this->getDoctrine()->getManager();
+            //Actualizo el saldo del proveedor
+            $proveedor = $comprobante->getProveedor();
+            if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
+            }
+            else {
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal() + $comprobante_saldo_anterior;
+            }
+            $proveedor->setSaldo($proveedor_saldo_actualizado);
+            $comprobante->setSaldo($proveedor_saldo_actualizado);
+
             $em->flush();
 
             return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
@@ -315,16 +339,30 @@ class ComprobanteCompraController extends controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
-        $form = $this->createDeleteForm($comprobante);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($comprobante);
-            $em->flush();
+        $comprobante = $em->getRepository('AppBundle:Comprobante')->find($id);
+        if ($comprobante->getActivo() > 0)
+            $comprobante->setActivo(0);
+        else
+            $comprobante->setActivo(1);  
+
+        $comprobante->setUpdatedBy($this->getUser()); 
+        $comprobante->setUpdatedAt(new \DateTime("now"));
+
+        //Actualizo el saldo del proveedor
+        $proveedor = $comprobante->getProveedor();
+        if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal();
         }
-
-        return $this->redirectToRoute('comprobantecompra_index');
+        else {
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
+        }
+        $proveedor->setSaldo($proveedor_saldo_actualizado);
+        
+        $em->flush($comprobante);
+        
+        return $this->redirectToRoute('comprobanteventa_index');
     }
 
     /**

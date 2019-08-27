@@ -17,8 +17,8 @@ class AfipController extends Controller
     {
     	$afip = $this->get('AfipFE');
 
-    	dump($afip->getWS()->RegisterScopeTen->GetTaxpayerDetails(20313311938));
-    	die;
+    	//dump($afip->getWS()->RegisterScopeTen->GetTaxpayerDetails(20313311938));
+    	//die;
 
     	dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
     	die;

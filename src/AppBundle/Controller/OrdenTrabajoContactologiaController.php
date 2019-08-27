@@ -89,6 +89,11 @@ class OrdenTrabajoContactologiaController extends Controller
                 $em->persist($ordentrabajocontactologiadetalle);
             }
 
+            $cliente = $ordenTrabajoContactologia->getCliente();
+            $cliente->setObraSocialPlan($ordenTrabajoContactologia->getObraSocialPlan());
+            $cliente->setUpdatedBy($this->getUser());
+            $cliente->setUpdatedAt(new \DateTime("now"));
+
             $em->flush();
 
             return $this->redirectToRoute('ordentrabajocontactologia_show', array('id' => $ordenTrabajoContactologia->getId()));

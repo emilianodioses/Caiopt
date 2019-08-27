@@ -53,7 +53,9 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
-                                   ->orderBy('l.nombre', 'ASC')
+                                   ->leftJoin('l.obraSocial', 'os')
+                                   ->orderBy('os.nombre', 'ASC')
+                                   ->addOrderBy('l.nombre', 'ASC');
                                    ;
                            }
                 ))

@@ -100,6 +100,14 @@ class Proveedor
      */
     private $activo;
 
+    //saldo = importe actual de la cuenta del proveedor
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="saldo", type="decimal", precision=16, scale=2)
+     */
+    private $saldo;
+    
     /**
      * @var \Usuario
      *
@@ -483,5 +491,29 @@ class Proveedor
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set saldo
+     *
+     * @param string $saldo
+     *
+     * @return Proveedor
+     */
+    public function setSaldo($saldo)
+    {
+        $this->saldo = $saldo;
+
+        return $this;
+    }
+
+    /**
+     * Get saldo
+     *
+     * @return string
+     */
+    public function getSaldo()
+    {
+        return $this->saldo;
     }
 }

@@ -80,6 +80,7 @@ class ClienteController extends Controller
                 ));
             }
             
+            $cliente->setSaldo(0);
             $cliente->setActivo(true);
             $cliente->setCreatedBy($this->getUser());
             $cliente->setCreatedAt(new \DateTime("now"));
@@ -246,5 +247,25 @@ class ClienteController extends Controller
                 ->getArrayResult();
         
         return new JsonResponse($result);
+    }
+
+    public function findAction(Request $req) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(2);
+        // Add Circular reference handler
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
+        
+        $cliente = $em->getRepository('AppBundle:Cliente')->find($req->get('clienteId'));
+
+        $j_cliente = $serializer->serialize($cliente, 'json');
+
+        return JsonResponse::create(array('cliente' => $j_cliente));
     }
 }

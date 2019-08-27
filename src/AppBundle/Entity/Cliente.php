@@ -107,13 +107,23 @@ class Cliente
      */
     private $activo;
 
-    //saldo = importe de la cuenta del cliente
+    //saldo = importe actual de la cuenta del cliente
     /**
      * @var string
      *
      * @ORM\Column(name="saldo", type="decimal", precision=16, scale=2)
      */
     private $saldo;
+
+    /**
+     * @var \ObraSocialPlan
+     *
+     * @ORM\ManyToOne(targetEntity="ObraSocialPlan")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="obra_social_plan_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $obraSocialPlan;
 
     /**
      * @var \Usuario
@@ -561,5 +571,29 @@ class Cliente
     public function getSaldo()
     {
         return $this->saldo;
+    }
+
+    /**
+     * Set obraSocialPlan
+     *
+     * @param \AppBundle\Entity\ObraSocialPlan $obraSocialPlan
+     *
+     * @return Cliente
+     */
+    public function setObraSocialPlan(\AppBundle\Entity\ObraSocialPlan $obraSocialPlan = null)
+    {
+        $this->obraSocialPlan = $obraSocialPlan;
+
+        return $this;
+    }
+
+    /**
+     * Get obraSocialPlan
+     *
+     * @return \AppBundle\Entity\ObraSocialPlan
+     */
+    public function getObraSocialPlan()
+    {
+        return $this->obraSocialPlan;
     }
 }

@@ -64,7 +64,7 @@ class OrdenTrabajoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
         
             $ordenTrabajo->setSucursal($sucursal);
             $ordenTrabajo->setActivo(1);
@@ -88,6 +88,11 @@ class OrdenTrabajoController extends Controller
 
                 $em->persist($ordentrabajodetalle);
             }
+
+            $cliente = $ordenTrabajo->getCliente();
+            $cliente->setObraSocialPlan($ordenTrabajo->getObraSocialPlan());
+            $cliente->setUpdatedBy($this->getUser());
+            $cliente->setUpdatedAt(new \DateTime("now"));
 
             $em->flush();
 

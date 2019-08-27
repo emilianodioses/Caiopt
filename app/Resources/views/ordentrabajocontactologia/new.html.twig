@@ -123,6 +123,17 @@ $(function(){
             }
         });
         
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('cliente_find') }}" ,
+            data: data,
+            success: function(resp){
+
+                var cliente = $.parseJSON(resp.cliente);
+
+                $("#OrdenTrabajoType_obraSocialPlan").val(cliente.obraSocialPlan.id);
+            }
+        });
 
         return true;
     }

@@ -195,7 +195,30 @@ $(function(){
         //$("#ComprobanteType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
 
         return true;
-    }
+    };
+
+    $('.cliente').change(function() {
+        fnClienteChange($(this));
+
+    });
+
+    function fnClienteChange(cliente) {
+        var data = { clienteId: cliente.val() };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('cliente_find') }}" ,
+            data: data,
+            success: function(resp){
+
+                var cliente = $.parseJSON(resp.cliente);
+
+                $("#ComprobanteType_obraSocialPlan").val(cliente.obraSocialPlan.id);
+            }
+        });
+
+        return true;
+    };
 </script>          
 
 {% endblock %}

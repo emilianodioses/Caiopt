@@ -75,7 +75,6 @@ class OrdenPagoController extends Controller
             $ordenPago->setProveedor($comprobante->getProveedor());
             $ordenPago->setSucursal($sucursal);
             $ordenPago->setNumero($max_numero_ordenpago+1);
-            $ordenPago->setSaldo(0);
             $ordenPago->setActivo(1);
             $ordenPago->setCreatedBy($this->getUser());
             $ordenPago->setCreatedAt(new \DateTime("now"));
@@ -128,6 +127,12 @@ class OrdenPagoController extends Controller
 
                 $em->persist($ordenPagoComprobante);
             }
+
+            //Actualizo el saldo del proveedor
+            $proveedor = $ordenPago->getProveedor();
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $ordenPago->getTotal();
+            $proveedor->setSaldo($proveedor_saldo_actualizado);
+            $ordenPago->setSaldo($proveedor_saldo_actualizado);
 
             $em->flush();
 
@@ -200,7 +205,6 @@ class OrdenPagoController extends Controller
             $ordenPago->setProveedor($proveedor);
             $ordenPago->setSucursal($sucursal);
             $ordenPago->setNumero($max_numero_ordenpago+1);
-            $ordenPago->setSaldo(0);
             $ordenPago->setActivo(1);
             $ordenPago->setCreatedBy($this->getUser());
             $ordenPago->setCreatedAt(new \DateTime("now"));
@@ -222,21 +226,21 @@ class OrdenPagoController extends Controller
                 $em->persist($proveedorPago);
             }
 
-            //Recorro los comprobantes y sumo todos los pendientes de las notas de credito
+            //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
             $disponible = $ordenPago->getTotal();
             foreach($comprobantes_id_array as $comprobante_id) {
                 $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
 
-                if ($comprobante->getTipo()->getDescripcion() == 'NOTAS DE CREDITO A' ||
-                    $comprobante->getTipo()->getDescripcion() == 'NOTAS DE CREDITO B' ||
-                    $comprobante->getTipo()->getDescripcion() == 'NOTAS DE CREDITO C' ) {
+                if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
 
                     $pendiente = 0;
                     $importe = $comprobante->getPendiente();
                     $disponible += $comprobante->getPendiente();
                 }
                 else {
-                    //En este 1er bucle solo utilizo las notas de credito
+                    //En este 1er bucle solo utilizo las NOTA de credito
                     continue;
                 }
 
@@ -262,11 +266,11 @@ class OrdenPagoController extends Controller
             foreach($comprobantes_id_array as $comprobante_id) {
                 $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
 
-                if ($comprobante->getTipo()->getDescripcion() == 'NOTAS DE CREDITO A' ||
-                    $comprobante->getTipo()->getDescripcion() == 'NOTAS DE CREDITO B' ||
-                    $comprobante->getTipo()->getDescripcion() == 'NOTAS DE CREDITO C' ) {
+                if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
 
-                    //En este 2do bucle utilizo las facturas, notas de debito u otro comprobante
+                    //En este 2do bucle utilizo las facturas, NOTA de debito u otro comprobante
                     //cuyo importe incremente el total a pagar
                     continue;
                 }
@@ -300,6 +304,12 @@ class OrdenPagoController extends Controller
 
                 $em->persist($ordenPagoComprobante);
             }
+
+            //Actualizo el saldo del proveedor
+            $proveedor = $ordenPago->getProveedor();
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $ordenPago->getTotal();
+            $proveedor->setSaldo($proveedor_saldo_actualizado);
+            $ordenPago->setSaldo($proveedor_saldo_actualizado);
 
             $em->flush();
 
@@ -470,6 +480,12 @@ class OrdenPagoController extends Controller
         $ordenPago->setActivo(false);
         $ordenPago->setUpdatedBy($this->getUser());
         $ordenPago->setUpdatedAt(new \DateTime("now"));
+
+        //Actualizo el saldo del proveedor
+        $proveedor = $ordenPago->getProveedor();
+        $proveedor_saldo_actualizado = $proveedor->getSaldo() + $ordenPago->getTotal();
+        $proveedor->setSaldo($proveedor_saldo_actualizado);
+        $ordenPago->setSaldo($proveedor_saldo_actualizado);
 
         $em->flush();
 
