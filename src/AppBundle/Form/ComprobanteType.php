@@ -85,7 +85,19 @@ class ComprobanteType extends AbstractType
                     'label' => 'Punto de Venta',
                     'attr' => array(
                         'readonly' => false,
-                    )));
+                    )))
+                  ->add('usuario', EntityType::class, array(
+                        'label' => 'Usuario',
+                        'class' => 'AppBundle:Usuario',
+                        'required' => true,
+                        'choice_label' => 'usuario',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('ic')
+                                       ->where('ic.activo = 1')
+                                       ->orderBy('ic.usuario', 'ASC')
+                                       ;
+                               }
+                  ));
         }
         else {
           $builder->add('tipo', EntityType::class, array(
@@ -138,7 +150,19 @@ class ComprobanteType extends AbstractType
                   ->add('puntoVenta',ChoiceType::class,array(
                       'label'=>'Punto de Venta',
                       'choices' => $puntos_venta,
-                          'choices_as_values' => true));
+                          'choices_as_values' => true))
+                  ->add('usuario', EntityType::class, array(
+                        'label' => 'Vendedor',
+                        'class' => 'AppBundle:Usuario',
+                        'required' => true,
+                        'choice_label' => 'usuario',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('ic')
+                                       ->where('ic.activo = 1')
+                                       ->orderBy('ic.usuario', 'ASC')
+                                       ;
+                               }
+                  ));
         }
       }
       else {

@@ -83,6 +83,10 @@
                                                     <td>{{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }}</td>
                                                 {% endif %}
                                             </tr>
+                                            <tr>
+                                                <th>Vendedor</th>
+                                                <td>{{ ordenTrabajoContactologia.usuario }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -177,15 +181,15 @@
                                                 <td>{{ ordenTrabajoContactologia.motivacion }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Usolc</th>
+                                                <th>Uso LC</th>
                                                 <td>{{ ordenTrabajoContactologia.usoLC }}</td>
                                             </tr>
                                             <tr>
-                                                <th></th>
+                                                <th>&nbsp;</th>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <th></th>
+                                                <th>&nbsp;</th>
                                                 <td></td>
                                             </tr>
                                         </tbody>

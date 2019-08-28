@@ -58,6 +58,7 @@ class OrdenTrabajoContactologiaController extends Controller
 
         $ordenTrabajoContactologia = new Ordentrabajocontactologia();
         $ordenTrabajoContactologia->setFechaRecepcion(new \DateTime("now"));
+        $ordenTrabajoContactologia->setUsuario($this->getUser());
         $form = $this->createForm('AppBundle\Form\OrdenTrabajoContactologiaType', $ordenTrabajoContactologia);
         $form->handleRequest($request);
 

@@ -481,7 +481,19 @@ class OrdenTrabajoType extends AbstractType
                             'class' => 'table ordenTrabajoDetalle-collection',
                         ],
                     )
-                );
+                )
+                ->add('usuario', EntityType::class, array(
+                        'label' => 'Vendedor',
+                        'class' => 'AppBundle:Usuario',
+                        'required' => true,
+                        'choice_label' => 'usuario',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('ic')
+                                       ->where('ic.activo = 1')
+                                       ->orderBy('ic.usuario', 'ASC')
+                                       ;
+                               }
+                  ));
     }/**
      * {@inheritdoc}
      */

@@ -54,6 +54,7 @@ class ComprobanteCompraController extends controller
 
         $comprobante = new Comprobante();
         $comprobante->setFecha(new \DateTime("now"));
+        $comprobante->setUsuario($this->getUser());
         $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Compra')));
         $form->handleRequest($request);
 

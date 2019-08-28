@@ -58,6 +58,11 @@ class ComprobanteVentaController extends Controller
 
         $comprobante = new Comprobante();
 
+        //Agrego Valor Default dia de la fecha a la fecha de venta
+        $comprobante->setFecha(new \DateTime("now"));
+        $comprobante->setPuntoVenta($this->getUser()->getSucursal()->getId());
+        $comprobante->setUsuario($this->getUser());
+
         //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro y los articulos vinculados a ella.
         $em = $this->getDoctrine()->getManager();
         if($id > 0)
@@ -67,6 +72,7 @@ class ComprobanteVentaController extends Controller
                 $comprobante->setOrdenTrabajo($ordenTrabajo);      
                 $comprobante->setCliente($ordenTrabajo->getCliente());
                 $comprobante->setObraSocialPlan($ordenTrabajo->getObraSocialPlan());
+                $comprobante->setUsuario($ordenTrabajo->getUsuario());
 
                 $ordenTrabajoDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(array('ordenTrabajo' => $ordenTrabajo));
 
@@ -98,6 +104,7 @@ class ComprobanteVentaController extends Controller
                 $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);      
                 $comprobante->setCliente($ordenTrabajoContactologia->getCliente());
                 $comprobante->setObraSocialPlan($ordenTrabajoContactologia->getObraSocialPlan());
+                $comprobante->setUsuario($ordenTrabajoContactologia->getUsuario());
 
                 $ordenTrabajoContactologiaDetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(array('ordenTrabajoContactologia' => $ordenTrabajoContactologia));
 
@@ -124,10 +131,6 @@ class ComprobanteVentaController extends Controller
                 }
             }
         }
-
-        //Agrego Valor Default dia de la fecha a la fecha de venta
-        $comprobante->setFecha(new \DateTime("now"));
-        $comprobante->setPuntoVenta($this->getUser()->getSucursal()->getId());
 
         $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Venta')));
 

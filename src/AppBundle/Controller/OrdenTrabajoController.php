@@ -58,6 +58,7 @@ class OrdenTrabajoController extends Controller
 
         $ordenTrabajo = new Ordentrabajo();
         $ordenTrabajo->setFechaRecepcion(new \DateTime("now"));
+        $ordenTrabajo->setUsuario($this->getUser());
         $form = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
         $form->handleRequest($request);
 

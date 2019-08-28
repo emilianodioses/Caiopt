@@ -83,6 +83,10 @@
                                                     <td>{{ ordenTrabajo.fechaReceta | date('d-m-Y') }}</td>
                                                 {% endif %}
                                             </tr>
+                                            <tr>
+                                                <th>Vendedor</th>
+                                                <td>{{ ordenTrabajo.usuario }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -189,11 +193,11 @@
                                                 <td>{{ ordenTrabajo.otrosTrabajos }}</td>
                                             </tr>
                                             <tr>
-                                                <th></th>
+                                                <th>&nbsp;</th>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <th></th>
+                                                <th>&nbsp;</th>
                                                 <td></td>
                                             </tr>
                                         </tbody>
