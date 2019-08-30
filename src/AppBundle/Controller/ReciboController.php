@@ -147,7 +147,7 @@ class ReciboController extends Controller
 
             //Actualizo el saldo del cliente
             $cliente = $recibo->getCliente();
-            $cliente_saldo_actualizado = $cliente->getSaldo() - $recibo->getTotal();
+            $cliente_saldo_actualizado = $cliente->getSaldo() + $recibo->getTotal();
             $cliente->setSaldo($cliente_saldo_actualizado);
             $recibo->setSaldo($cliente_saldo_actualizado);
 
@@ -332,7 +332,7 @@ class ReciboController extends Controller
 
             //Actualizo el saldo del cliente
             $cliente = $recibo->getCliente();
-            $cliente_saldo_actualizado = $cliente->getSaldo() - $recibo->getTotal();
+            $cliente_saldo_actualizado = $cliente->getSaldo() + $recibo->getTotal();
             $cliente->setSaldo($cliente_saldo_actualizado);
             $recibo->setSaldo($cliente_saldo_actualizado);
 
@@ -530,7 +530,7 @@ class ReciboController extends Controller
 
         //Actualizo el saldo del cliente
         $cliente = $recibo->getCliente();
-        $cliente_saldo_actualizado = $cliente->getSaldo() + $recibo->getTotal();
+        $cliente_saldo_actualizado = $cliente->getSaldo() - $recibo->getTotal();
         $cliente->setSaldo($cliente_saldo_actualizado);
         $recibo->setSaldo($cliente_saldo_actualizado);
 

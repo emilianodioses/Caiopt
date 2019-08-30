@@ -130,7 +130,7 @@ class OrdenPagoController extends Controller
 
             //Actualizo el saldo del proveedor
             $proveedor = $ordenPago->getProveedor();
-            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $ordenPago->getTotal();
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() + $ordenPago->getTotal();
             $proveedor->setSaldo($proveedor_saldo_actualizado);
             $ordenPago->setSaldo($proveedor_saldo_actualizado);
 
@@ -307,7 +307,7 @@ class OrdenPagoController extends Controller
 
             //Actualizo el saldo del proveedor
             $proveedor = $ordenPago->getProveedor();
-            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $ordenPago->getTotal();
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() + $ordenPago->getTotal();
             $proveedor->setSaldo($proveedor_saldo_actualizado);
             $ordenPago->setSaldo($proveedor_saldo_actualizado);
 
@@ -483,7 +483,7 @@ class OrdenPagoController extends Controller
 
         //Actualizo el saldo del proveedor
         $proveedor = $ordenPago->getProveedor();
-        $proveedor_saldo_actualizado = $proveedor->getSaldo() + $ordenPago->getTotal();
+        $proveedor_saldo_actualizado = $proveedor->getSaldo() - $ordenPago->getTotal();
         $proveedor->setSaldo($proveedor_saldo_actualizado);
         $ordenPago->setSaldo($proveedor_saldo_actualizado);
 

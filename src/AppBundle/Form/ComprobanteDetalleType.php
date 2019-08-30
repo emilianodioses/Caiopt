@@ -46,6 +46,7 @@ class ComprobanteDetalleType extends AbstractType
                 */
 
         $porcentajeIva = array(
+            '0.00' => '0.00',
             '10.50' => '10.50',
             '21.00' => '21.00'
         );

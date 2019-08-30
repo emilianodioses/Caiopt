@@ -80,6 +80,7 @@ class ComprobanteCompraController extends controller
             $comprobante->setTotalGanancia(0);
             $comprobante->setMovimiento('Compra');
             $comprobante->setPendiente($comprobante->getTotal());
+            $comprobante->setUsuario($this->getUser());
             $comprobante->setActivo(1);
 
             if (is_null($comprobante->getObservaciones())) {
@@ -138,10 +139,10 @@ class ComprobanteCompraController extends controller
             //Actualizo el saldo del proveedor
             $proveedor = $comprobante->getProveedor();
             if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-                $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal();
             }
             else {
-                $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal();
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
             }
             $proveedor->setSaldo($proveedor_saldo_actualizado);
             $comprobante->setSaldo($proveedor_saldo_actualizado);
@@ -241,6 +242,7 @@ class ComprobanteCompraController extends controller
         
             $comprobante->setSucursal($sucursal);
             $comprobante->setPendiente($comprobante->getTotal());
+            $comprobante->setUsuario($this->getUser());
             
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
@@ -307,10 +309,10 @@ class ComprobanteCompraController extends controller
             //Actualizo el saldo del proveedor
             $proveedor = $comprobante->getProveedor();
             if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-                $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal() + $comprobante_saldo_anterior;
             }
             else {
-                $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal() + $comprobante_saldo_anterior;
+                $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
             }
             $proveedor->setSaldo($proveedor_saldo_actualizado);
             $comprobante->setSaldo($proveedor_saldo_actualizado);
@@ -354,10 +356,10 @@ class ComprobanteCompraController extends controller
         //Actualizo el saldo del proveedor
         $proveedor = $comprobante->getProveedor();
         if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal();
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
         }
         else {
-            $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
+            $proveedor_saldo_actualizado = $proveedor->getSaldo() - $comprobante->getTotal();
         }
         $proveedor->setSaldo($proveedor_saldo_actualizado);
         

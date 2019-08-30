@@ -9,16 +9,13 @@ Sucursales
 
 {% block body %}
 <section class="content">
-	
-		{% set i = 0 %}
+	<div class="row">
+	{% for sucursal in sucursales %}
+			{% set color = ['bg-yellow','bg-green','bg-red', 'bg-aqua', 'bg-navy', 'bg-purple'] %}
 
-		{% for sucursal in sucursales %}
-			<div class="row">
-			{% set color = ['bg-yellow','bg-green','bg-red', 'bg-aqua'] %}		
-
-			<div class="col-lg-4 col-xs-12">
+			<div class="col-lg-4 col-xs-4">
 				<!-- small box -->
-				<div class="small-box {{color[i % 4]}}">
+				<div class="small-box {{color[loop.index0 % (color|length)]}}">
 					<div class="inner">
 						<h3>{{ sucursal.nombre }}</h3>
 						<br>
@@ -30,9 +27,12 @@ Sucursales
 					<a href="" onclick="ElegirSucursal('{{sucursal.id}}')" class="small-box-footer">Elegir Sucursal <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
-			{% set i = i+1 %}
+		{% if (loop.index % 3) == 0 %}
 			</div>
-        {% endfor %}
+			<div class="row">
+		{% endif %}
+    {% endfor %}
+    </div>
 </section>
 <script type="text/javascript">
 

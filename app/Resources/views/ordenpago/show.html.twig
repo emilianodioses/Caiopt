@@ -170,12 +170,11 @@
                                <table class="table table-condensed table-hover input-sm">
                                     <thead>
                                         <th style="width: 15%">Pto. Venta</th>
-                                        <th style="width: 15%">Nº Int.</th>
                                         <th style="width: 15%">Nº Fac.</th>
-                                        <th style="width: 15%">Nº OT.</th>
                                         <th style="width: 20%">Tipo</th>
                                         <th>Total</th>
                                         <th>Pagado</th>
+                                        <th>Pendiente</th>
                                         <th>Acc</th>
                                     </thead>
                                     <tbody>
@@ -184,19 +183,10 @@
                                             <tr class="item">
                                                 <td>{{ comprobante.puntoVenta }}</td>
                                                 <td>{{ comprobante.numero }}</td>
-                                                {% if comprobante.afipNumero is empty %}
-                                                  <td></td>
-                                                {% else %}
-                                                  <td>{{ comprobante.afipNumero }}</td>
-                                                {% endif %}
-                                                {% if comprobante.ordenTrabajo is empty %}
-                                                  <td>-</td>
-                                                {% else %}
-                                                  <td>{{ comprobante.ordenTrabajo.id }}</td>
-                                                {% endif %}
                                                 <td>{{ comprobante.tipo.descripcion }}</td>
                                                 <td>{{ comprobante.total }}</td>
                                                 <td>{{ ordenPagoComprobante.importe }}</td>
+                                                <td>{{ comprobante.pendiente }}</td>
                                                 <td><a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                                             </tr>
                                         {% endfor %}

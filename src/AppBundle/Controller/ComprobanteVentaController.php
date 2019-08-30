@@ -238,10 +238,10 @@ class ComprobanteVentaController extends Controller
             //Actualizo el saldo del cliente
             $cliente = $comprobante->getCliente();
             if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-                $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal();
+                $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
             }
             else {
-                $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
+                $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal();
             }
             $cliente->setSaldo($cliente_saldo_actualizado);
             $comprobante->setSaldo($cliente_saldo_actualizado);
@@ -419,10 +419,10 @@ class ComprobanteVentaController extends Controller
             //Actualizo el saldo del cliente
             $cliente = $comprobante->getCliente();
             if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-                $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
+                $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal() + $comprobante_saldo_anterior;
             }
             else {
-                $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal() + $comprobante_saldo_anterior;
+                $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal() - $comprobante_saldo_anterior;
             }
             $cliente->setSaldo($cliente_saldo_actualizado);
             $comprobante->setSaldo($cliente_saldo_actualizado);
@@ -480,10 +480,10 @@ class ComprobanteVentaController extends Controller
         //Actualizo el saldo del cliente
         $cliente = $comprobante->getCliente();
         if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-            $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
+            $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal();
         }
         else {
-            $cliente_saldo_actualizado = $cliente->getSaldo() + $comprobante->getTotal();
+            $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
         }
         $cliente->setSaldo($cliente_saldo_actualizado);
         

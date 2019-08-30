@@ -85,19 +85,7 @@ class ComprobanteType extends AbstractType
                     'label' => 'Punto de Venta',
                     'attr' => array(
                         'readonly' => false,
-                    )))
-                  ->add('usuario', EntityType::class, array(
-                        'label' => 'Usuario',
-                        'class' => 'AppBundle:Usuario',
-                        'required' => true,
-                        'choice_label' => 'usuario',
-                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                   return $er->createQueryBuilder('ic')
-                                       ->where('ic.activo = 1')
-                                       ->orderBy('ic.usuario', 'ASC')
-                                       ;
-                               }
-                  ));
+                    )));
         }
         else {
           $builder->add('tipo', EntityType::class, array(
@@ -244,9 +232,7 @@ class ComprobanteType extends AbstractType
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
-                                   ->andWhere('l.estado != ?1')
-                                   ->setParameter(1, 'Finalizado')
-                                   ->orderBy('l.id', 'ASC')
+                                   ->orderBy('l.id', 'DESC')
                                    ;
                            }
                 ))
@@ -258,9 +244,7 @@ class ComprobanteType extends AbstractType
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                return $er->createQueryBuilder('l')
                                    ->where('l.activo = 1')
-                                   ->andWhere('l.estado != ?1')
-                                   ->setParameter(1, 'Finalizado')
-                                   ->orderBy('l.id', 'ASC')
+                                   ->orderBy('l.id', 'DESC')
                                    ;
                            }
                 ))

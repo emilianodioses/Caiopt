@@ -41,7 +41,7 @@ Cliente
         <div class="tab-pane fade in active" id="tabs-1">    
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                         <div class="box box-success">
                             <div class="box-header with-border">
                                 <h3 class="box-title"><i class="fa fa-user"></i> Datos Cliente</h3>
@@ -50,7 +50,7 @@ Cliente
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
-                                            <th style="width:10%">Nombre</th>
+                                            <th style="width:20%">Nombre</th>
                                             <td>{{ cliente.nombre }}</td>
                                         </tr>
                                         <tr>
@@ -97,7 +97,21 @@ Cliente
                                 </table>
                             </div>
                         </div>         
-                    </div> 
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                      <div class="box box-success">
+                          <div class="box-header with-border">
+                              <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                          </div>
+                          <div class="box-body">
+                              <div class="row">           
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                      <h1>$ {{cliente.saldo}}</h1>
+                                  </div>
+                              </div>  
+                          </div>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,6 +135,7 @@ Cliente
                                         <th>Cliente</th>
                                         <th>Fecha</th>
                                         <th>Total</th>
+                                        <th>Pendiente</th>
                                         <th>Observaciones</th>
                                         <th style="width: 8%">Acciones</th>
                                     </tr>
@@ -137,12 +152,14 @@ Cliente
                                         {% if comprobante.ordenTrabajo is empty %}
                                           <td>-</td>
                                         {% else %}
-                                          <td>{{ comprobante.ordenTrabajo.id }}</td>
+                                          <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">
+                                            {{ comprobante.ordenTrabajo.id }}</a></td>
                                         {% endif %}
                                         <td>{{ comprobante.tipo }}</td>
                                         <td>{{ comprobante.cliente }}</td>
                                         <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
                                         <td>{{ comprobante.total }}</td>
+                                        <td>{{ comprobante.pendiente }}</td>
                                         <td>{{ comprobante.observaciones }}</td> 
                                         <td>
                                           <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
@@ -248,8 +265,8 @@ Cliente
                                 {% for ordenTrabajo in ordenesTrabajo %}
                                     <tr>
                                         <td>{{ ordenTrabajo.id }}</td>
-                                        <td>{{ ordenTrabajo.cliente }}</td>
-                                        <td>{{ ordenTrabajo.comprobante }}</td>
+                                        <td>{{ ordenTrabajo.cliente.nombre }}</td>
+                                        <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajo.comprobante.Id }) }}">{{ ordenTrabajo.comprobante }}</a></td>
                                         <td>{{ ordenTrabajo.taller }}</td>
                                         {% if ordenTrabajo.fechaRecepcion is empty %}
                                           <td></td>
@@ -303,8 +320,8 @@ Cliente
                                 {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
                                     <tr>
                                         <td>{{ ordenTrabajoContactologia.id }}</td>
-                                        <td>{{ ordenTrabajoContactologia.cliente }}</td>
-                                        <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                                        <td>{{ ordenTrabajoContactologia.cliente.nombre }}</td>
+                                        <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajoContactologia.comprobante.Id }) }}">{{ ordenTrabajoContactologia.comprobante }}</a></td>
                                         {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
                                           <td></td>
                                         {% else %}
