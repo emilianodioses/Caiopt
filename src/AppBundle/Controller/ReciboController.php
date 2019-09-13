@@ -9,6 +9,7 @@ use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ReciboComprobante;
 use AppBundle\Entity\Cliente;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\LibroCajaDetalle;
 
 
 /**
@@ -77,6 +78,14 @@ class ReciboController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
+            $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $recibo->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
+
+            if (is_null($libroCaja)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja con la fecha que ingresó. Debe generar uno antes de cargar recibos.');
+
+                return $this->redirectToRoute('recibo_new', array('request' => $request, 'comprobante' => $comprobante->getId()));
+            }
+
             $max_numero_recibo = $em->createQueryBuilder()
              ->select('MAX(c.numero)')
              ->from('AppBundle:Recibo', 'c')
@@ -111,6 +120,26 @@ class ReciboController extends Controller
                 $clientePago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($clientePago);
+
+                $libroCajaDetalle = new Librocajadetalle();
+                $libroCajaDetalle->setLibroCaja($libroCaja);
+                $libroCajaDetalle->setPagoTipo($clientePago->getPagoTipo());
+                $libroCajaDetalle->setClientePago($clientePago);
+                $libroCajaDetalle->setOrigen('Recibo');
+                $libroCajaDetalle->setTipo('Ingreso a Caja');
+                $libroCajaDetalle->setDescripcion($recibo->getNumero());
+                $libroCajaDetalle->setImporte($clientePago->getImporte());
+                $libroCajaDetalle->setActivo(true);
+                $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
+                $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+                $saldo = $libroCaja->getSaldoFinal();
+                $saldo += $libroCajaDetalle->getImporte();
+                $libroCaja->setSaldoFinal($saldo);
+
+                $em->persist($libroCajaDetalle);
             }
 
             //Recorro los comprobantes y voy pagando mientras haya disponible
@@ -215,6 +244,14 @@ class ReciboController extends Controller
                 return $this->redirectToRoute('recibo_cliente_new', array('request' => $request, 'cliente' => $cliente->getId()));
             }
 
+            $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $recibo->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
+
+            if (is_null($libroCaja)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja con la fecha que ingresó. Debe generar uno antes de cargar recibos.');
+
+                return $this->redirectToRoute('recibo_cliente_new', array('request' => $request, 'cliente' => $cliente->getId()));
+            }
+
             $max_numero_recibo = $em->createQueryBuilder()
              ->select('MAX(c.numero)')
              ->from('AppBundle:Recibo', 'c')
@@ -249,6 +286,26 @@ class ReciboController extends Controller
                 $clientePago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($clientePago);
+
+                $libroCajaDetalle = new Librocajadetalle();
+                $libroCajaDetalle->setLibroCaja($libroCaja);
+                $libroCajaDetalle->setPagoTipo($clientePago->getPagoTipo());
+                $libroCajaDetalle->setClientePago($clientePago);
+                $libroCajaDetalle->setOrigen('Recibo');
+                $libroCajaDetalle->setTipo('Ingreso a Caja');
+                $libroCajaDetalle->setDescripcion($recibo->getNumero());
+                $libroCajaDetalle->setImporte($clientePago->getImporte());
+                $libroCajaDetalle->setActivo(true);
+                $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
+                $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+                $saldo = $libroCaja->getSaldoFinal();
+                $saldo += $libroCajaDetalle->getImporte();
+                $libroCaja->setSaldoFinal($saldo);
+
+                $em->persist($libroCajaDetalle);
             }
 
             //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
@@ -509,6 +566,18 @@ class ReciboController extends Controller
             $clientePago->setActivo(false);
             $clientePago->setUpdatedBy($this->getUser());
             $clientePago->setUpdatedAt(new \DateTime("now"));
+
+            $libroCajaDetalle = $em->getRepository('AppBundle:LibroCajaDetalle')->findOneBy(Array('clientePago' => $clientePago, 'activo' => 1));
+
+            $libroCaja = $libroCajaDetalle->getLibroCaja();
+            
+            $libroCajaDetalle->setActivo(false);
+            $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+            $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+            $saldo = $libroCaja->getSaldoFinal();
+            $saldo -= $libroCajaDetalle->getImporte();
+            $libroCaja->setSaldoFinal($saldo);
         }
 
         $reciboComprobantes = $em->getRepository('AppBundle:ReciboComprobante')->findBy(Array('recibo'=>$recibo, 'activo' => 1));

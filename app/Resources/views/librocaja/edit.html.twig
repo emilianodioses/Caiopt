@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Libro Caja
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        {{ form_start(edit_form) }}
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+            </div>
+            <div class="box-body">
+                {{ form_errors(edit_form) }}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(edit_form.fecha) }}                            
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(edit_form.saldoInicial) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(edit_form.saldoFinal) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(edit_form.caja) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(edit_form.diferencia) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xs-12">
+      <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-user"></i> Caja</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <!--The calendar -->
+          <div id="calendar" style="width: 100%"></div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer text-black">
+          <div class="row">
+            {% for cd in cajaDetalles %}
+              <div class="col-sm-12">
+                <!-- Progress bars -->
+                <div class="clearfix">
+                  <span class="pull-left">{{cd['descripcion']}} $ {{cd['total']}}</span>
+                  <small class="pull-right">{{cd['porcentaje']}}%</small>
+                </div>
+                <div class="progress xs">
+                    {% if cd['total'] >= 0 %}
+                        <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
+                    {% else %}
+                        <div class="progress-bar progress-bar-red" style="width: {{cd['porcentaje'] * -1}}%;"></div>
+                    {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('librocaja_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Libro Caja
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#appbundle_librocaja_caja').change(function() {
+        var saldo_final = $('#appbundle_librocaja_saldoFinal').val();
+        var caja = $('#appbundle_librocaja_caja').val();
+
+        var diferencia = (parseFloat(caja) - parseFloat(saldo_final)) ;
+
+        $('#appbundle_librocaja_diferencia').val(diferencia.toFixed(2));
+
+        return true;
+    });
+</script>
+{% endblock %}

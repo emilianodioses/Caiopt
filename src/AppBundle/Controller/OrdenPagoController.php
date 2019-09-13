@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\OrdenPagoComprobante;
 use AppBundle\Entity\Proveedor;
+use AppBundle\Entity\LibroCajaDetalle;
 
 /**
  * Ordenpago controller.
@@ -60,6 +61,14 @@ class OrdenPagoController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
+            $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $ordenPago->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
+
+            if (is_null($libroCaja)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja con la fecha que ingresó. Debe generar uno antes de cargar ordenes de pago.');
+
+                return $this->redirectToRoute('ordenpago_new', array('request' => $request, 'comprobante' => $comprobante->getId()));
+            }
+
             $max_numero_ordenpago = $em->createQueryBuilder()
              ->select('MAX(c.numero)')
              ->from('AppBundle:OrdenPago', 'c')
@@ -94,6 +103,26 @@ class OrdenPagoController extends Controller
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($proveedorPago);
+
+                $libroCajaDetalle = new Librocajadetalle();
+                $libroCajaDetalle->setLibroCaja($libroCaja);
+                $libroCajaDetalle->setPagoTipo($proveedorPago->getPagoTipo());
+                $libroCajaDetalle->setProveedorPago($proveedorPago);
+                $libroCajaDetalle->setOrigen('Orden de Pago');
+                $libroCajaDetalle->setTipo('Egreso de Caja');
+                $libroCajaDetalle->setDescripcion($ordenPago->getNumero());
+                $libroCajaDetalle->setImporte($proveedorPago->getImporte());
+                $libroCajaDetalle->setActivo(true);
+                $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
+                $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+                $saldo = $libroCaja->getSaldoFinal();
+                $saldo -= $libroCajaDetalle->getImporte();
+                $libroCaja->setSaldoFinal($saldo);
+
+                $em->persist($libroCajaDetalle);
             }
 
             //Recorro los comprobantes y voy pagando mientras haya disponible
@@ -190,6 +219,14 @@ class OrdenPagoController extends Controller
                 return $this->redirectToRoute('ordenpago_proveedor_new', array('request' => $request, 'proveedor' => $proveedor->getId()));
             }
 
+            $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $ordenPago->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
+
+            if (is_null($libroCaja)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja con la fecha que ingresó. Debe generar uno antes de cargar ordenes de pago.');
+
+                return $this->redirectToRoute('ordenpago_proveedor_new', array('request' => $request, 'proveedor' => $proveedor->getId()));
+            }
+
             $max_numero_ordenpago = $em->createQueryBuilder()
              ->select('MAX(c.numero)')
              ->from('AppBundle:OrdenPago', 'c')
@@ -224,6 +261,26 @@ class OrdenPagoController extends Controller
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($proveedorPago);
+
+                $libroCajaDetalle = new Librocajadetalle();
+                $libroCajaDetalle->setLibroCaja($libroCaja);
+                $libroCajaDetalle->setPagoTipo($proveedorPago->getPagoTipo());
+                $libroCajaDetalle->setProveedorPago($proveedorPago);
+                $libroCajaDetalle->setOrigen('Orden de Pago');
+                $libroCajaDetalle->setTipo('Egreso de Caja');
+                $libroCajaDetalle->setDescripcion($ordenPago->getNumero());
+                $libroCajaDetalle->setImporte($proveedorPago->getImporte());
+                $libroCajaDetalle->setActivo(true);
+                $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
+                $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+                $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+                $saldo = $libroCaja->getSaldoFinal();
+                $saldo -= $libroCajaDetalle->getImporte();
+                $libroCaja->setSaldoFinal($saldo);
+
+                $em->persist($libroCajaDetalle);
             }
 
             //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
@@ -462,6 +519,18 @@ class OrdenPagoController extends Controller
             $proveedorPago->setActivo(false);
             $proveedorPago->setUpdatedBy($this->getUser());
             $proveedorPago->setUpdatedAt(new \DateTime("now"));
+
+            $libroCajaDetalle = $em->getRepository('AppBundle:LibroCajaDetalle')->findOneBy(Array('proveedorPago' => $proveedorPago, 'activo' => 1));
+
+            $libroCaja = $libroCajaDetalle->getLibroCaja();
+            
+            $libroCajaDetalle->setActivo(false);
+            $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+            $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+            $saldo = $libroCaja->getSaldoFinal();
+            $saldo += $libroCajaDetalle->getImporte();
+            $libroCaja->setSaldoFinal($saldo);
         }
 
         $ordenPagoComprobantes = $em->getRepository('AppBundle:OrdenPagoComprobante')->findBy(Array('ordenPago'=>$ordenPago, 'activo' => 1));

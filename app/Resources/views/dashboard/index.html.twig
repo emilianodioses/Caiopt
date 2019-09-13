@@ -29,14 +29,14 @@ Panel Principal
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>$ {{totalRecibos}}</h3>
+          <h3>$ {{totalCaja}}</h3>
 
           <p>Caja</p>
         </div>
         <div class="icon">
           <i class="fa fa-inbox"></i>
         </div>
-        <a href="{{path('recibo_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{path('librocaja_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -78,6 +78,7 @@ Panel Principal
 
           <h3 class="box-title">Caja</h3>
           <!-- tools box -->
+          {#
           <div class="pull-right box-tools">
             <!-- button with a dropdown -->
             <div class="btn-group">
@@ -95,6 +96,7 @@ Panel Principal
             <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
             </button>
           </div>
+          #}
           <!-- /. tools -->
         </div>
         <!-- /.box-header -->
@@ -113,7 +115,11 @@ Panel Principal
                   <small class="pull-right">{{cd['porcentaje']}}%</small>
                 </div>
                 <div class="progress xs">
-                  <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
+                  {% if cd['total'] >= 0 %}
+                    <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
+                  {% else %}
+                    <div class="progress-bar progress-bar-red" style="width: {{cd['porcentaje'] * -1}}%;"></div>
+                  {% endif %}
                 </div>
               </div>
             {% endfor %}

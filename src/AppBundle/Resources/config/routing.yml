@@ -101,3 +101,11 @@ app_obrasocial:
 app_obrasocialplan:
     resource: "@AppBundle/Resources/config/routing/obrasocialplan.yml"
     prefix:   /obrasocialplan
+
+app_librocaja:
+    resource: "@AppBundle/Resources/config/routing/librocaja.yml"
+    prefix:   /librocaja
+
+app_librocajadetalle:
+    resource: "@AppBundle/Resources/config/routing/librocajadetalle.yml"
+    prefix:   /librocajadetalle

@@ -56,7 +56,7 @@ Cliente
                             {{ form_row(form.ivaCondicion) }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            {{ form_row(edit_form.obraSocialPlan) }}
+                            {{ form_row(form.obraSocialPlan) }}
                         </div>
                     </div>
                 </div>
@@ -86,11 +86,11 @@ Cliente
         var cuit = $("#appbundle_cliente_documentoNumero").val();
 
         if (cuit == '') {
-            alert('Debe ingresar un CUIT para buscar');
+            alert('Debe ingresar un CUIT/CUIL para buscar');
             return false;
         }
         else if(cuit.length != 11) {
-            alert('Debe ingresar un CUIT válido para buscar');
+            alert('Debe ingresar un CUIT/CUIL válido para buscar');
             return false;
         }
 
@@ -105,11 +105,11 @@ Cliente
                     var persona = $.parseJSON(resp.persona);
                     $("#appbundle_cliente_documentoTipo").val(persona.documento_tipo_id);
                     $("#appbundle_cliente_localidad").val(persona.localidad_id);
-                    $("#appbundle_cliente_nombre").val(persona.apellido+' '+persona.nombre);
+                    $("#appbundle_cliente_nombre").val(persona.nombre);
                     $("#appbundle_cliente_direccion").val(persona.domicilio); 
                 }
                 else {
-                    alert('No se pueden encontrar datos con ese CUIT.');
+                    alert('No se pueden encontrar datos con ese CUIT/CUIL.');
                 }
                 return true;
             }

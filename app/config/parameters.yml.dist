@@ -3,18 +3,28 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_host: 127.0.0.1
-    database_port: ~
-    database_name: symfony
+    database_port: 3306
+    database_name: contini
     database_user: root
-    database_password: ~
-    # You should uncomment this if you want to use pdo_sqlite
-    #database_path: '%kernel.project_dir%/var/data/data.sqlite'
-    dir_upload: ~
-
+    database_password: lala123
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: ~
-    mailer_password: ~
+    mailer_host: smtp.googlemail.com
+    mailer_user: infoopticacontini@gmail.com
+    mailer_password: Contini123!
+    
+    mailer_auth_mode: login
+    mailer_port: 465
+    mailer_encryption: ssl
+    mail_response_host: localhost/
 
-    # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+    dir_upload: /home/fracich/Proyectos/optica-contini/var/uploads
+    dir_download: /home/fracich/Proyectos/optica-contini/var/downloads
+
+    empresa: 'OPTICA CONTINI'
+    empresa_razon_social: 'FLORES, NORA ELINA Y NANZER, MARIA JULIA'
+    empresa_direccion: 'Av. San Martín 1199, San Lorenzo, Santa Fe'
+    empresa_condicion: 'IVA Responsable Inscripto'
+    empresa_cuit: '30715288075'
+    empresa_ingresos_brutos: '091-051680-2'
+    empresa_inicio_actividades: '01-08-2016'

@@ -17,8 +17,12 @@ class AfipController extends Controller
     {
     	$afip = $this->get('AfipFE');
 
-    	//dump($afip->getWS()->RegisterScopeTen->GetTaxpayerDetails(20313311938));
-    	//die;
+    	dump($afip->getWS()->ElectronicBilling->GetDocumentTypes());
+    	die;
+
+    	//27315375415 20313311938 30710931891
+    	dump($afip->getWS()->RegisterScopeThirteen->GetTaxpayerDetails(27315375415));
+    	die;
 
     	dump($afip->getWS()->ElectronicBilling->GetVoucherTypes());
     	die;
@@ -93,37 +97,47 @@ class AfipController extends Controller
 
     	$afip = $this->get('AfipFE');
 
-    	$persona['apellido'] = '';
     	$persona['nombre'] = '';
     	$persona['domicilio'] = '';
     	$persona['localidad_id'] = 0;
     	$persona['documento_tipo_id'] = 0;
 
-    	$p = $afip->getWS()->RegisterScopeTen->GetTaxpayerDetails($req->get('cuit'));
+    	$p = $afip->getWS()->RegisterScopeThirteen->GetTaxpayerDetails($req->get('cuit'));
     	if (is_null($p)) {
     		$existe = false;
     	}
     	else {
     		$p = (array) $p;
-    		$d = (array) $p['domicilio'][0];
 
+    		if (is_array($p['domicilio'])) {
+    			$d = (array) $p['domicilio'][0];
+    		}
+    		else {
+    			$d = (array) $p['domicilio'];
+    		}
+    		
     		$em = $this->getDoctrine()->getManager();
 
-    		$localidad = $em->getRepository('AppBundle:Localidad')->findOneBy(Array('codigoPostal' => $d['codPostal'], 'nombre' => $d['localidad']));
+    		if ($p['tipoPersona'] == 'JURIDICA') {
+	    		$persona['nombre'] = $p['razonSocial'];
+	    	}
+	    	else {
+	    		$persona['nombre'] = $p['apellido'].' '.$p['nombre'];
+	    	}
+
+	    	$existe = true;
+
+    		$localidad = $em->getRepository('AppBundle:Localidad')->findOneBy(Array('codigoPostal' => $d['codigoPostal'], 'nombre' => $d['localidad']));
 
     		$documento_tipo = $em->getRepository('AppBundle:AfipDocumentoTipo')->findOneBy(Array('descripcion' => $p['tipoClave']));
-
-    		$persona['apellido'] = $p['apellido'];
-	    	$persona['nombre'] = $p['nombre'];
+	    	
 	    	$persona['domicilio'] = $d['direccion'];
 	    	if (!is_null($localidad)) {
 	    		$persona['localidad_id'] = $localidad->getId();
 	    	}
 	    	if (!is_null($documento_tipo)) {
 	    		$persona['documento_tipo_id'] = $documento_tipo->getId();
-	    	}
-
-	    	$existe = true;
+	    	}	    	
     	}
 
     	$j_persona = $serializer->serialize($persona, 'json');

@@ -1,0 +1,24 @@
+librocajadetalle_index:
+    path:     /
+    defaults: { _controller: "AppBundle:LibroCajaDetalle:index" }
+    methods:  GET
+
+librocajadetalle_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:LibroCajaDetalle:show" }
+    methods:  GET
+
+librocajadetalle_new:
+    path:     /{libroCaja}/new
+    defaults: { _controller: "AppBundle:LibroCajaDetalle:new" }
+    methods:  [GET, POST]
+
+librocajadetalle_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:LibroCajaDetalle:edit" }
+    methods:  [GET, POST]
+
+librocajadetalle_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:LibroCajaDetalle:delete" }
+    methods:  [GET, POST]

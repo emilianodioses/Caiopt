@@ -38,23 +38,28 @@ class DashboardController extends Controller
             $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = 0;
         }
 
-        //Calculo los totales de las ventas por tipos de pago
-        $total_recibos = 0;
-        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo'=> '1', 'fecha' => $fecha_now, 'sucursal' => $sucursal_id));
-        foreach($recibos as $recibo) {
-            $clientePagos = $em->getRepository('AppBundle:ClientePago')->findBy(Array('recibo' => $recibo->getId(), 'activo'=> '1'));
+        $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $fecha_now, 'sucursal' => $sucursal_id, 'activo' => 1));
 
-            foreach($clientePagos as $clientePago) {
-                $cajaDetalles[$clientePago->getPagoTipo()->getId()]['total'] += $clientePago->getImporte();
+        //Calculo los totales de ingresos por tipos de pago
+        $total_caja = 0;
+        $libroCajaDetalles = $em->getRepository('AppBundle:LibroCajaDetalle')->findBy(Array('libroCaja' => $libroCaja, 'activo' => 1));
+        foreach($libroCajaDetalles as $libroCajaDetalle) {
+            if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
+                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
                 
-                $total_recibos += $clientePago->getImporte();
+                $total_caja += $libroCajaDetalle->getImporte();
+            }
+            else {
+                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] -= $libroCajaDetalle->getImporte();
+                
+                $total_caja -= $libroCajaDetalle->getImporte();
             }
         }
 
         //Calculo los porcentajes de cada condicion de venta, siempre que las haya
-        if ($total_recibos > 0) {
+        if ($total_caja > 0) {
             foreach($pagoTipos as $pagoTipo) {
-                $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = number_format($cajaDetalles[$pagoTipo->getId()]['total'] * 100 / $total_recibos, 2);
+                $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = number_format($cajaDetalles[$pagoTipo->getId()]['total'] * 100 / $total_caja, 2);
             }
         }
 
@@ -70,7 +75,7 @@ class DashboardController extends Controller
         
         return $this->render('dashboard/index.html.twig', array(
             'cantidadVentas' => count($comprobantesVentas),
-            'totalRecibos' => $total_recibos,
+            'totalCaja' => $total_caja,
             'cantidadCompras' => count($comprobantesCompras),
             'cantidadOrdenesTrabajo' => count($ordenesTrabajoHoy),
             'cajaDetalles' => $cajaDetalles,
