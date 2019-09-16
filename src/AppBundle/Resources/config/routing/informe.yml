@@ -1,0 +1,9 @@
+informe_afipventasalicuotas:
+    path:     /afipventasalicuotas
+    defaults: { _controller: "AppBundle:Informe:afipventasalicuotas" }
+    methods:  [GET, POST]
+
+informe_afipventasalicuotasexportar:
+    path:     /afipventasalicuotasexportar
+    defaults: { _controller: "AppBundle:Informe:afipventasalicuotasexportar" }
+    methods:  [GET, POST]

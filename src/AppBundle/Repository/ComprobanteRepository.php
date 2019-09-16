@@ -10,13 +10,14 @@ namespace AppBundle\Repository;
  */
 class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findBy_ventasGeneral($fecha_desde, $fecha_hasta, $punto_venta) {
+	public function findBy_ventasFacturadasGeneral($fecha_desde, $fecha_hasta, $punto_venta) {
         $query = 'SELECT c FROM AppBundle:Comprobante c 
         			WHERE c.activo = 1
                     AND c.movimiento = \'Venta\'
         			AND c.fecha >= :fecha_desde
         			AND c.fecha <= :fecha_hasta
-        			AND c.puntoVenta = :punto_venta ';
+        			AND c.puntoVenta = :punto_venta
+                    AND c.caeNumero IS NOT NULL ';
 
         $qb = $this->getEntityManager()->createQuery($query)
                 ->setParameter('fecha_desde', $fecha_desde)
