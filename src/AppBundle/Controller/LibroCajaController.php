@@ -113,11 +113,45 @@ class LibroCajaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $sucursal_id = $this->getUser()->getSucursal()->getId();
+
+        $pagoTipos = $em->getRepository('AppBundle:PagoTipo')->findBy(Array('activo'=> '1'), array('nombre' => 'ASC'));
+
+        //inicializo el arreglo de los tipos de pago
+        $cajaDetalles = array();
+        foreach($pagoTipos as $pagoTipo) {
+            $cajaDetalles[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
+            $cajaDetalles[$pagoTipo->getId()]['total'] = 0;
+            $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = 0;
+        }
+
+        //Calculo los totales de ingresos por tipos de pago
+        $total_caja = 0;
         $libroCajaDetalles = $em->getRepository('AppBundle:LibroCajaDetalle')->findBy(Array('libroCaja' => $libroCaja, 'activo' => 1));
+        foreach($libroCajaDetalles as $libroCajaDetalle) {
+            if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
+                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
+                
+                $total_caja += $libroCajaDetalle->getImporte();
+            }
+            else {
+                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] -= $libroCajaDetalle->getImporte();
+                
+                $total_caja -= $libroCajaDetalle->getImporte();
+            }
+        }
+
+        //Calculo los porcentajes de cada condicion de venta, siempre que las haya
+        if ($total_caja != 0) {
+            foreach($pagoTipos as $pagoTipo) {
+                $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = number_format($cajaDetalles[$pagoTipo->getId()]['total'] * 100 / $total_caja, 2);
+            }
+        }
 
         return $this->render('librocaja/show.html.twig', array(
             'libroCaja' => $libroCaja,
             'libroCajaDetalles' => $libroCajaDetalles,
+            'cajaDetalles' => $cajaDetalles,
         ));
     }
 
@@ -127,6 +161,8 @@ class LibroCajaController extends Controller
      */
     public function editAction(Request $request, LibroCaja $libroCaja)
     {
+        $saldo_inicial_anterior = $libroCaja->getSaldoInicial();
+
         $libroCaja->setDiferencia($libroCaja->getCaja() - $libroCaja->getSaldoFinal());
         $editForm = $this->createForm('AppBundle\Form\LibroCajaType', $libroCaja);
         $editForm->handleRequest($request);
@@ -180,8 +216,19 @@ class LibroCajaController extends Controller
                 ));
             }
 
+            $saldo = $libroCaja->getSaldoFinal();
+            $saldo -= $saldo_inicial_anterior - $libroCaja->getSaldoInicial();
+
+            $libroCaja->setSaldoFinal($saldo);
             $libroCaja->setUpdatedBy($this->getUser()->getId());
             $libroCaja->setUpdatedAt(new \DateTime("now"));
+
+            $libroCajaDetalle = $em->getRepository('AppBundle:LibroCajaDetalle')->findBy(Array('libroCaja' => $libroCaja, 'activo' => 1))[0];
+
+            $libroCajaDetalle->setImporte($libroCaja->getSaldoInicial());
+            $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+            $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
 
             $em->flush();
 
@@ -191,6 +238,7 @@ class LibroCajaController extends Controller
         return $this->render('librocaja/edit.html.twig', array(
             'libroCaja' => $libroCaja,
             'edit_form' => $editForm->createView(),
+            'libroCajaDetalles' => $libroCajaDetalles,
             'cajaDetalles' => $cajaDetalles,
         ));
     }

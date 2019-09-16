@@ -539,7 +539,7 @@ class ComprobanteVentaController extends Controller
         $comprobanteTipo = $comprobante->getTipo()->getCodigo();
 
         // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
-        $concepto = 1;
+        $concepto = 3;
 
         //dump($afip->getWS()->ElectronicBilling->GetDocumentTypes());
         $cliente = $comprobante->getCliente();
@@ -568,9 +568,6 @@ class ComprobanteVentaController extends Controller
         }
 
         foreach ($comprobanteDetalles as $cd) {
-            $articulo = $em->getRepository('AppBundle:Articulo')->findOneBy(array('id' => $cd->getArticulo()->getId()));
-            //dump($articulo);
-            //die;
             $alicuota_id = $em->getRepository('AppBundle:AfipAlicuota')->findOneBy(array('activo'=>1, 'descripcion' => $cd->getPorcentajeIva()))->getId();
 
             $alicuotas_all[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();

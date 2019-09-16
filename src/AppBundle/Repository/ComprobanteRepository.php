@@ -10,5 +10,32 @@ namespace AppBundle\Repository;
  */
 class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findBy_ventasGeneral($fecha_desde, $fecha_hasta, $punto_venta) {
+        $query = 'SELECT c FROM AppBundle:Comprobante c 
+        			WHERE c.activo = 1
+                    AND c.movimiento = \'Venta\'
+        			AND c.fecha >= :fecha_desde
+        			AND c.fecha <= :fecha_hasta
+        			AND c.puntoVenta = :punto_venta ';
+
+        $qb = $this->getEntityManager()->createQuery($query)
+                ->setParameter('fecha_desde', $fecha_desde)
+                ->setParameter('fecha_hasta', $fecha_hasta)
+                ->setParameter('punto_venta', $punto_venta);
+
+        return $qb->getResult();
+    }
+
+    public function count_alicuotas($comprobante) {
+        $query = 'SELECT cd FROM AppBundle:ComprobanteDetalle cd
+                    WHERE cd.activo = 1
+                    AND cd.comprobante = :comprobante
+                    GROUP BY cd.porcentajeIva ';
+
+        $qb = $this->getEntityManager()->createQuery($query)
+                ->setParameter('comprobante', $comprobante);
+
+        return count($qb->getResult());
+    }
 }
 

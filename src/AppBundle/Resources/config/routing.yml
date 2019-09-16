@@ -109,3 +109,7 @@ app_librocaja:
 app_librocajadetalle:
     resource: "@AppBundle/Resources/config/routing/librocajadetalle.yml"
     prefix:   /librocajadetalle
+
+app_informe:
+    resource: "@AppBundle/Resources/config/routing/informe.yml"
+    prefix:   /informe
