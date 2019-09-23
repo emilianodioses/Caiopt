@@ -150,7 +150,20 @@ class ComprobanteType extends AbstractType
                                        ->orderBy('ic.usuario', 'ASC')
                                        ;
                                }
-                  ));
+                  ))
+                  ->add('comprobanteAsociado', EntityType::class, array(
+                        'label' => 'Comprobante Asociado',
+                        'class' => 'AppBundle:Comprobante',
+                        'required' => false,
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('l')
+                                       ->where('l.activo = 1')
+                                       ->andWhere('l.movimiento = ?1')
+                                       ->setParameter(1, 'Venta')
+                                       ->orderBy('l.id', 'ASC')
+                                       ;
+                               }
+                    ));
         }
       }
       else {

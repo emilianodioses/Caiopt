@@ -97,6 +97,14 @@
                                             <th>Vendedor</th>
                                             <td>{{ comprobante.usuario }}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Comprobante Asociado:</th>
+                                            {% if comprobante.comprobanteAsociado is empty %}
+                                                <td>-</td>
+                                            {% else %}
+                                                <td><a href="{{ path('comprobanteventa_show', { 'id': comprobante.comprobanteAsociado.Id }) }}">{{comprobante.comprobanteAsociado.tipo.descripcion}}: {{comprobante.comprobanteAsociado.puntoVenta}}-{{comprobante.comprobanteAsociado.afipNumero}} (N° Int: {{comprobante.comprobanteAsociado.numero}})</a></td>
+                                            {% endif %}
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

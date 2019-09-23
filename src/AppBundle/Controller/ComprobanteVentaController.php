@@ -539,7 +539,7 @@ class ComprobanteVentaController extends Controller
         $comprobanteTipo = $comprobante->getTipo()->getCodigo();
 
         // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
-        $concepto = 3;
+        $concepto = 1;
 
         //dump($afip->getWS()->ElectronicBilling->GetDocumentTypes());
         $cliente = $comprobante->getCliente();
@@ -583,7 +583,6 @@ class ComprobanteVentaController extends Controller
             }
         }
 
-
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
                 'PtoVta'    => $this->getUser()->getSucursal()->getId(),  // Punto de venta
@@ -602,6 +601,18 @@ class ComprobanteVentaController extends Controller
                 'MonCotiz'  => 1,     // Cotización de la moneda usada (1 para pesos argentinos)
                 'Iva'       => $alicuotas, 
             );
+        if (!is_null($comprobante->getComprobanteAsociado())) {
+            $ca = $comprobante->getComprobanteAsociado();
+            $data['CbtesAsoc'] = array( // (Opcional) Comprobantes asociados
+                        array(
+                            'Tipo'      => $ca->getTipo()->getCodigo(), // Tipo de comprobante (ver tipos disponibles) 
+                            'PtoVta'    => $ca->getPuntoVenta(), // Punto de venta
+                            'Nro'       => $ca->getAfipNumero() // Numero de comprobante
+                            //'Cuit'      => 20111111112 // (Opcional) Cuit del emisor del comprobante
+                            //'CbteFch'   => 20191231 // (Opcional) Fecha del comprobante asociado
+                            )
+                        );
+        }
 
         try {
             $res = $afip->getWS()->ElectronicBilling->CreateNextVoucher($data);

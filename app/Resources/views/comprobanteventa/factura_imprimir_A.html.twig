@@ -51,7 +51,9 @@
                 </tr>
                 <tr>
                     <td><b>Condición de IVA:</b> {{comprobante.clienteIvaCondicion}}</td>
-                    
+                    {% if not comprobante.comprobanteAsociado is empty %}
+                        <td><b>Cbte Asociado:</b> {{comprobante.comprobanteAsociado.tipo.descripcion}}: {{comprobante.comprobanteAsociado.puntoVenta}}-{{comprobante.comprobanteAsociado.afipNumero}}</td>
+                    {% endif %}
                 </tr>
             </tbody>
         </table>

@@ -301,6 +301,16 @@ class Comprobante
     private $saldo;
 
     /**
+     * @var \Comprobante
+     *
+     * @ORM\ManyToOne(targetEntity="Comprobante")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="comprobante_asociado_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $comprobanteAsociado;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -398,7 +408,7 @@ class Comprobante
 
     public function __toString()
     {
-        return $this->puntoVenta.'-'.$this->numero;
+        return $this->tipo->getDescripcion().': '.$this->puntoVenta.'-'.$this->afipNumero.'(N° Int: '.$this->numero.')';
     }
 
     
@@ -1371,5 +1381,29 @@ class Comprobante
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set comprobanteAsociado
+     *
+     * @param \AppBundle\Entity\Comprobante $comprobanteAsociado
+     *
+     * @return Comprobante
+     */
+    public function setComprobanteAsociado(\AppBundle\Entity\Comprobante $comprobanteAsociado = null)
+    {
+        $this->comprobanteAsociado = $comprobanteAsociado;
+
+        return $this;
+    }
+
+    /**
+     * Get comprobanteAsociado
+     *
+     * @return \AppBundle\Entity\Comprobante
+     */
+    public function getComprobanteAsociado()
+    {
+        return $this->comprobanteAsociado;
     }
 }
