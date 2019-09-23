@@ -152,8 +152,7 @@ class RolController extends Controller
         $editForm = $this->createForm('AppBundle\Form\RolType', $rol);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {              
-
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             $permisos_id_array = stripcslashes($request->get('permisos'));
             $permisos_id_array = json_decode($permisos_id_array,TRUE);
 

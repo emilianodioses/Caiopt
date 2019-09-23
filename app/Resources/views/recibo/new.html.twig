@@ -160,6 +160,10 @@ $(function(){
 
         var form = document.getElementsByName("ReciboType")[0];
 
+        alert (form);
+        event.preventDefault();
+        return false;
+
         $('<input />').attr('type', 'hidden')
             .attr('name', "comprobantes")
             .attr('value', comprobantes)
