@@ -10,4 +10,25 @@ namespace AppBundle\Repository;
  */
 class RolRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByAsignado($rol) {
+		$query = 'SELECT f FROM AppBundle:Funcion f ';
+        $query.= 'WHERE f.id IN (SELECT IDENTITY(rf.funcion) FROM AppBundle:RolFuncion rf WHERE rf.rol = :rol) ';
+        $query.= 'ORDER BY f.id ASC ';
+
+        $qb = $this->getEntityManager()->createQuery($query);
+        $qb->setParameter('rol',$rol);
+
+        return $qb;
+    }
+
+    public function findByNoAsignado($rol) {
+		$query = 'SELECT f FROM AppBundle:Funcion f ';
+        $query.= 'WHERE f.id NOT IN (SELECT IDENTITY(rf.funcion) FROM AppBundle:RolFuncion rf WHERE rf.rol = :rol) ';
+        $query.= 'ORDER BY f.id ASC ';
+
+        $qb = $this->getEntityManager()->createQuery($query);
+        $qb->setParameter('rol',$rol);
+
+        return $qb;
+    }
 }

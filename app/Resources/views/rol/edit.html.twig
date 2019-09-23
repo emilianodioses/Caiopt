@@ -12,7 +12,6 @@ Roles
 <form class="form-horizontal" method="POST">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
             {{ form_start(edit_form) }}
                 <div class="box box-success">
                     <div class="box-header with-border">
@@ -21,17 +20,17 @@ Roles
                     <div class="box-body">
                         {{ form_errors(edit_form) }}
                         <div class="row">
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                {{ form_row(edit_form.descripcion) }}
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    {{ form_row(edit_form.descripcion) }}
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                <select multiple="multiple" id='lstBox1' class="form-control" name="lstBox1" style="height:400px;">
-                                    {% for rolFuncion in rolFunciones %}
-                                    <tr>
-                                        <option value="{{rolFuncion.funcion.id}}">{{rolFuncion.funcion.descripcion}}</option>   
-                                    </tr>
+                                <select multiple="multiple" id='selected' class="form-control" name="selected" style="height:400px;">
+                                    {% for funcionAsignado in funcionesAsignados %}
+                                        <option value="{{funcionAsignado.id}}">{{funcionAsignado.descripcion}}</option>   
                                     {% endfor %}  
                                 </select>
                             </div>
@@ -42,8 +41,10 @@ Roles
                                 <input type="button" id="btnAllLeft" value="<<" class="btn btn-default" />
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                <select multiple="multiple" id='lstBox2' class="form-control" name="lstBox2" style="height:400px;">
-                                    
+                                <select multiple="multiple" id='notselected' class="form-control" name="notselected" style="height:400px;">
+                                    {% for funcionNoAsignado in funcionesNoAsignados %}
+                                        <option value="{{funcionNoAsignado.id}}">{{funcionNoAsignado.descripcion}}</option>   
+                                    {% endfor %} 
                                 </select>
                             </div>
                             <div class="clearfix"></div>
@@ -59,7 +60,7 @@ Roles
                                 </a>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -70,44 +71,80 @@ Roles
 </form>
 <script type="text/javascript">
 
+
+    function getPermisos(){
+        var TableData = new Array();
+        var i = 0;
+
+        var permisos = $('#selected')[0];
+
+        for (var i = 0; i < permisos.length; i++) {
+            var opt = permisos[i];
+            TableData[i]={"id": opt.value};
+        }
+
+        return TableData;   
+    }
+
+    function submitform() {
+        
+        var permisos = getPermisos();        
+        
+        permisos = JSON.stringify(permisos);
+
+        var form = document.getElementsByName("RolType")[0];
+        
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "permisos")
+            .attr('value', permisos)
+            .appendTo(form);
+
+        return true;
+
+    };
+    
     (function () {
     $('#btnRight').click(function (e) {
-        var selectedOpts = $('#lstBox1 option:selected');
+        var selectedOpts = $('#selected option:selected');
         if (selectedOpts.length == 0) {
             alert("Nada para mover.");
             e.preventDefault();
         }
-        $('#lstBox2').append($(selectedOpts).clone());
+
+        $('#notselected').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
     });
     $('#btnAllRight').click(function (e) {
-        var selectedOpts = $('#lstBox1 option');
+        var selectedOpts = $('#selected option');
         if (selectedOpts.length == 0) {
-            alert("Nada para move.");
+            alert("Nada para mover.");
             e.preventDefault();
         }
-        $('#lstBox2').append($(selectedOpts).clone());
+
+        $('#notselected').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
     });
     $('#btnLeft').click(function (e) {
-        var selectedOpts = $('#lstBox2 option:selected');
+        var selectedOpts = $('#notselected option:selected');
         if (selectedOpts.length == 0) {
-            alert("Nada para move.");
+            alert("Nada para mover.");
             e.preventDefault();
         }
-        $('#lstBox1').append($(selectedOpts).clone());
+
+        $('#selected').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
     });
     $('#btnAllLeft').click(function (e) {
-        var selectedOpts = $('#lstBox2 option');
+        var selectedOpts = $('#notselected option');
         if (selectedOpts.length == 0) {
-            alert("Nada para move.");
+            alert("Nada para mover.");
             e.preventDefault();
         }
-        $('#lstBox1').append($(selectedOpts).clone());
+        
+        $('#selected').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
     });

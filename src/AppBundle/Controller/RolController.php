@@ -5,6 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Rol;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -52,7 +56,7 @@ class RolController extends Controller
      * Finds and displays a rol entity.
      *
      */
-    public function showAction(Rol $rol)
+    public function showAction(Rol $rol, Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -63,20 +67,17 @@ class RolController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
-
-        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')
-                ->createQueryBuilder('rf')
-                ->innerjoin('rf.funcion','f')
-                ->where('rf.rol = '.$rol->getId())
-                ->orderBy('f.id', 'ASC')
-                ->getQuery() 
-                ->getResult();
-
+        $query = $em->getRepository('AppBundle:Rol')->findByRol($rol->getId());
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
 
         return $this->render('rol/show.html.twig', array(
             'rol' => $rol,
-            'rolFunciones' => $rolFunciones,
+            'pagination' => $pagination,
         ));
     }
 
@@ -138,27 +139,29 @@ class RolController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
+        $em = $this->getDoctrine()->getManager();
+        
+        $funcionesAsignados = $em->getRepository('AppBundle:Rol')->findByAsignado($rol->getId())->getResult();
+        $funcionesNoAsignados = $em->getRepository('AppBundle:Rol')->findByNoAsignado($rol->getId())->getResult();
+
+        foreach($funcionesAsignados as $funcion) {
+            $rol->getFunciones()->add($funcion);
+        }
+
         $deleteForm = $this->createDeleteForm($rol);
         $editForm = $this->createForm('AppBundle\Form\RolType', $rol);
         $editForm->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-        
-        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')
-                ->createQueryBuilder('rf')
-                ->innerjoin('rf.funcion','f')
-                ->where('rf.rol = '.$rol->getId())
-                ->orderBy('f.id', 'ASC')
-                ->getQuery() 
-                ->getResult();
+        if ($editForm->isSubmitted() && $editForm->isValid()) {              
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {  
+            $permisos_id_array = stripcslashes($request->get('permisos'));
+            $permisos_id_array = json_decode($permisos_id_array,TRUE);
 
-            dump($request);
-            die;           
+            dump($permisos_id_array);
+            die;
+
             $rol->setUpdatedBy($this->getUser());
             $rol->setUpdatedAt(new \DateTime("now"));
-
             $em->flush();
 
             return $this->redirectToRoute('rol_index');
@@ -166,7 +169,8 @@ class RolController extends Controller
 
         return $this->render('rol/edit.html.twig', array(
             'rol' => $rol,
-            'rolFunciones' => $rolFunciones,
+            'funcionesAsignados' => $funcionesAsignados,
+            'funcionesNoAsignados' => $funcionesNoAsignados,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -215,5 +219,30 @@ class RolController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function updateAction(Request $request)
+    {                
+        $rol = $request->request->get('rol');
+        $selectedItems = $request->request->get('selectedItems');
+
+        $em = $this->getDoctrine()->getManager();
+        
+        $rol = $em->getRepository('AppBundle:Rol')->find($rol);
+        $rol->setDescripcion($descripcion);
+
+        $rolFuncion = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));          
+
+        foreach($rolFuncion as $funcion) {
+            $em->remove($funcion);
+        }
+        
+        foreach($selectedItems as $funcion) {
+            $em->persist($funcion);
+        }
+
+        $em->flush();
+
+        return true;
     }
 }

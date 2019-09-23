@@ -22,4 +22,3 @@ rolfuncion_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:RolFuncion:delete" }
     methods:  [GET, POST]
-

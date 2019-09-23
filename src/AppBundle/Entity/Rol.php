@@ -71,9 +71,9 @@ class Rol
     private $updatedAt;
 
     /**
-     * @var ArrayCollection RolFuncion
+     * @var ArrayCollection Funcion
      */
-    protected $rolFunciones;
+    protected $funciones;
 
     public function __toString()
     {
@@ -188,25 +188,25 @@ class Rol
 
     public function __construct()
     {
-        $this->rolFunciones = new ArrayCollection();
+        $this->funciones = new ArrayCollection();
     }
     
-    public function getRolFunciones()
+    public function getFunciones()
     {
-        if (is_null($this->rolFunciones)) {
-            $this->rolFunciones = new ArrayCollection();
+        if (is_null($this->funciones)) {
+            $this->funciones = new ArrayCollection();
         }
-        return $this->rolFunciones;
+        return $this->funciones;
     }
 
-    public function addRolFuncion(RolFuncion $rolFuncion)
+    public function addfuncion(Funcion $funcion)
     {
-        $this->rolFunciones->add($rolFuncion);
+        $this->funciones->add($funcion);
     }
 
-    public function removeRolFuncion(RolFuncion $rolFuncion)
+    public function removeFuncion(Funcion $funcion)
     {
-        $this->rolFunciones->remove($rolFuncion);
+        $this->funciones->remove($funcion);
     }
 
     /**

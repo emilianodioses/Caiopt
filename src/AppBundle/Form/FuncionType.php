@@ -11,19 +11,20 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use AppBundle\Form\FuncionType;
 
-
-class RolType extends AbstractType
+class FuncionType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('descripcion', TextType::class, array(
-                'label' => 'descripcion'));
+        $builder->add('modulo', TextType::class, array(
+                'label' => 'Modulo'))
+                ->add('accion', TextType::class, array(
+                    'label' => 'Accion'))
+                ->add('descripcion', TextType::class, array(
+                    'label' => 'Descripción'))
             ;
                        
     }
@@ -34,7 +35,7 @@ class RolType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Rol'
+            'data_class' => 'AppBundle\Entity\Funcion'
         ));
     }
 
@@ -43,7 +44,7 @@ class RolType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'RolType';
+        return 'appbundle_funcion';
     }
 
 

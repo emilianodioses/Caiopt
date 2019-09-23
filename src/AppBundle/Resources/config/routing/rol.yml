@@ -23,6 +23,11 @@ rol_delete:
     defaults: { _controller: "AppBundle:Rol:delete" }
     methods:  [GET, POST]
 
+rol_update:
+    path:     /update
+    defaults: { _controller: "AppBundle:Rol:update" }
+
+
 
 
 
