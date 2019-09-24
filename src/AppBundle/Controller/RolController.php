@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Rol;
+use AppBundle\Entity\RolFuncion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -67,7 +68,7 @@ class RolController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:Rol')->findByRol($rol->getId());
+        $query = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
@@ -99,14 +100,12 @@ class RolController extends Controller
         $form = $this->createForm('AppBundle\Form\RolType', $rol);
         $form->handleRequest($request);
 
-        $rolFunciones = $em->getRepository('AppBundle:RolFuncion')
-                ->createQueryBuilder('rf')
-                ->innerjoin('rf.funcion','f')
-                ->getQuery() 
-                ->getResult();
+        $funcionesAsignados = $em->getRepository('AppBundle:Rol')->findByAsignado($rol->getId())->getResult();
+        $funcionesNoAsignados = $em->getRepository('AppBundle:Rol')->findByNoAsignado($rol->getId())->getResult();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $rol->setActivo(true);
             $rol->setCreatedBy($this->getUser());
             $rol->setCreatedAt(new \DateTime("now"));
@@ -116,12 +115,34 @@ class RolController extends Controller
             $em->persist($rol);
             $em->flush();
 
+            $permisos_id_array = stripcslashes($request->get('permisos'));
+            $permisos_id_array = json_decode($permisos_id_array,TRUE);
+
+            $permisosActuales = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
+
+            foreach($permisosActuales as $permiso) {
+                $em->remove($permiso);
+            }
+
+            foreach($permisos_id_array as $permiso) {
+                $rolFuncion = new RolFuncion();
+
+                $rolActual = $em->getRepository('AppBundle:Rol')->find($rol->getId());
+                $funcionActual = $em->getRepository('AppBundle:Funcion')->find($permiso['id']);
+                $rolFuncion->setRol($rolActual);
+                $rolFuncion->setFuncion($funcionActual);
+                $em->persist($rolFuncion);
+            }
+
+            $em->flush();
+
             return $this->redirectToRoute('rol_show', array('id' => $rol->getId()));
         }
 
         return $this->render('rol/new.html.twig', array(
             'rol' => $rol,
-            'rolFunciones' => $rolFunciones,
+            'funcionesAsignados' => $funcionesAsignados,
+            'funcionesNoAsignados' => $funcionesNoAsignados,
             'form' => $form->createView(),
         ));
     }
@@ -156,8 +177,23 @@ class RolController extends Controller
             $permisos_id_array = stripcslashes($request->get('permisos'));
             $permisos_id_array = json_decode($permisos_id_array,TRUE);
 
-            dump($permisos_id_array);
-            die;
+            $permisosActuales = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));
+
+            
+            foreach($permisosActuales as $permiso) {
+                $em->remove($permiso);
+            }
+
+            foreach($permisos_id_array as $permiso) {
+                $rolFuncion = new RolFuncion();
+
+                $rolActual = $em->getRepository('AppBundle:Rol')->find($rol->getId());
+                $funcionActual = $em->getRepository('AppBundle:Funcion')->find($permiso['id']);
+                $rolFuncion->setRol($rolActual);
+                $rolFuncion->setFuncion($funcionActual);
+                $em->persist($rolFuncion);
+            }
+    
 
             $rol->setUpdatedBy($this->getUser());
             $rol->setUpdatedAt(new \DateTime("now"));
@@ -218,30 +254,5 @@ class RolController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
-    }
-
-    public function updateAction(Request $request)
-    {                
-        $rol = $request->request->get('rol');
-        $selectedItems = $request->request->get('selectedItems');
-
-        $em = $this->getDoctrine()->getManager();
-        
-        $rol = $em->getRepository('AppBundle:Rol')->find($rol);
-        $rol->setDescripcion($descripcion);
-
-        $rolFuncion = $em->getRepository('AppBundle:RolFuncion')->findBy(array('rol' => $rol));          
-
-        foreach($rolFuncion as $funcion) {
-            $em->remove($funcion);
-        }
-        
-        foreach($selectedItems as $funcion) {
-            $em->persist($funcion);
-        }
-
-        $em->flush();
-
-        return true;
     }
 }

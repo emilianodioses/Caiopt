@@ -41,7 +41,6 @@ class RolFuncion
      */
     private $funcion;
 
-
     /**
      * Get id
      *
