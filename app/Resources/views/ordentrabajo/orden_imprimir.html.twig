@@ -8,7 +8,7 @@
                     <img width="150" height="40" src="{{ asset('img/logo3.jpg')}}"><br>
                     <b>OPTICA CONTINI</b>
                     <br>
-                    {{empresaDireccion}}
+                    {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}
                     <br> 
                     &nbsp;
                     <b style="font-size:9">N° Ord: {{ ordenTrabajo.id }}</b> | 
@@ -23,16 +23,18 @@
                     <br>
                     Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %} 
                     <br>
-                    Fecha Pedido: {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }}
+                    Fecha Pedido: {% if not ordenTrabajo.fechaTallerPedido is empty %} {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }} {% endif %}
                     <br>
-                    Fecha Entrega: {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }}
+                    Fecha Entrega: {% if not ordenTrabajo.fechaTallerEntrega is empty %} {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }} {% endif %}
+                    <br>
+                    Número: {{ ordenTrabajo.numeroTaller }}
                     <br>
                 </td>
                 {% endif %} 
                 <td width="40%" align="left">
-                    Fecha Recepcion: {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}
+                    Fecha Recepcion: {% if not ordenTrabajo.fechaRecepcion is empty %} {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }} {% endif %}
                     <br>
-                    Fecha Entrega: {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}
+                    Fecha Entrega: {% if not ordenTrabajo.fechaEntrega is empty %} {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }} {% endif %}
                     <br>
                     <br>
                     <b><u>ATENCION:</u></b>
@@ -68,13 +70,15 @@
                 <td width="70%" align="left">
                     <b>Nombre: </b> {{ ordenTrabajo.cliente.nombre}}
                     <br>
+                    <b>Teléfono: </b> {{ ordenTrabajo.cliente.telefono}}
+                    <br>
                     <b>Direccion: </b> {{ ordenTrabajo.cliente.direccion}}
                     <br>
                     <b>DNI: </b> {{ ordenTrabajo.cliente.documentoNumero}}
                     <br>
                     <b>Medico: </b> {{ ordenTrabajo.medico}}
                     <br>
-                    <b>Fecha Receta: </b> {{ ordenTrabajo.fechaReceta | date('d-m-Y') }}
+                    <b>Fecha Receta: </b> {% if not ordenTrabajo.fechaReceta is empty %} {{ ordenTrabajo.fechaReceta | date('d-m-Y') }} {% endif %}
                     <br>
                     <b>Observaciones: </b> {{ ordenTrabajo.observaciones }}
                 </td>
@@ -87,24 +91,32 @@
     <table width="100%" cellspacing="0" border="1">
         <tbody>
             <tr>
-                <td style="text-align: center"><b>Artículo</b></td>
+                <td style="text-align: center" width="55%"><b>Artículo</b></td>
+                {#
                 <td style="text-align: center">Marca</td>
                 <td style="text-align: center">Material</td>
                 <td style="text-align: center">Forma</td>
                 <td style="text-align: center">Estilo</td>
-                <td style="text-align: center">P. Venta</td>
-                <td style="text-align: center">O.S</td>
-                <td style="text-align: center">Total</td>
+                #}
+                <td style="text-align: center" width="15%">P. Venta</td>
+                {% if pagina_nro == 1 %}
+                    <td style="text-align: center" width="15%">O.S</td>
+                {% endif %}
+                <td style="text-align: center" width="15%">Total</td>
             </tr>
             {% for ordenTrabajoDetalle in ordentrabajodetalles %}
                 <tr>
-                    <td style="text-align: center"><b>{{ ordenTrabajoDetalle.articulo.descripcion }}</b></td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.descripcion }}</td>
+                    {#
                     <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.marca }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.material }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.forma }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.estilo }}</td>
+                    #}
                     <td style="text-align: center">{{ ordenTrabajoDetalle.precioVenta }}</td>
-                    <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
+                    {% if pagina_nro == 1 %}
+                        <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
+                    {% endif %}
                     <td style="text-align: center">{{ ordenTrabajoDetalle.total }}</td>
                 </tr>
             {% endfor %}    
@@ -165,19 +177,15 @@
                     {{ ordenTrabajo.antesLejosOjoDerechoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesLejosOjoDerechoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesLejosOjoDerechoEje }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesOjoDerechoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoDerechoDnp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesOjoDerechoHp > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoDerechoHp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesOjoDerechoHpu > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoDerechoHpu }}
                 </td>
             </tr>
@@ -194,19 +202,15 @@
                     {{ ordenTrabajo.antesLejosOjoIzquierdoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesLejosOjoIzquierdoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesLejosOjoIzquierdoEje }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesOjoIzquierdoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoIzquierdoDnp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesOjoIzquierdoHp > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoIzquierdoHp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesOjoIzquierdoHpu > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesOjoIzquierdoHpu }}
                 </td>
             </tr>
@@ -226,7 +230,6 @@
                     {{ ordenTrabajo.antesCercaOjoDerechoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesCercaOjoDerechoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesCercaOjoDerechoEje }}
                 </td>
             </tr>
@@ -243,7 +246,6 @@
                     {{ ordenTrabajo.antesCercaOjoIzquierdoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.antesCercaOjoIzquierdoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.antesCercaOjoIzquierdoEje }}
                 </td>
             </tr>
@@ -303,19 +305,15 @@
                     {{ ordenTrabajo.lejosOjoDerechoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.lejosOjoDerechoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.lejosOjoDerechoEje }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.ojoDerechoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoDerechoDnp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.ojoDerechoHp > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoDerechoHp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.ojoDerechoHpu > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoDerechoHpu }}
                 </td>
             </tr>
@@ -332,19 +330,15 @@
                     {{ ordenTrabajo.lejosOjoIzquierdoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.lejosOjoIzquierdoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.lejosOjoIzquierdoEje }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.ojoIzquierdoDnp > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoIzquierdoDnp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.ojoIzquierdoHp > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoIzquierdoHp }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.ojoIzquierdoHpu > 0 %}+{% endif %}
                     {{ ordenTrabajo.ojoIzquierdoHpu }}
                 </td>
             </tr>
@@ -364,7 +358,6 @@
                     {{ ordenTrabajo.cercaOjoDerechoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.cercaOjoDerechoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoDerechoEje }}
                 </td>
             </tr>
@@ -381,7 +374,6 @@
                     {{ ordenTrabajo.cercaOjoIzquierdoCilindro }}
                 </td>
                 <td style="text-align: center">
-                    {% if ordenTrabajo.cercaOjoIzquierdoEje > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoIzquierdoEje }}
                 </td>
             </tr>
@@ -390,9 +382,10 @@
     {% endif %}
     <br>
     <br>
-    <!--{% if not loop.last %}
+    {% if not loop.last %}
         <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
-    {% endif %}-->
+    {% endif %}
+    {#
     {% if not loop.last %}
         <br>
         <br>
@@ -402,5 +395,6 @@
         <br>
         <br>
     {% endif %}
+    #}
     {% endfor %}
 </body>

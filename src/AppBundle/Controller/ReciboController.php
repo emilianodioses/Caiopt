@@ -33,7 +33,7 @@ class ReciboController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo' => 1, 'sucursal' => $this->getUser()->getSucursal()));
+        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo' => 1, 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
 
         return $this->render('recibo/index.html.twig', array(
             'recibos' => $recibos,
@@ -648,7 +648,6 @@ class ReciboController extends Controller
             'reciboTotalTexto' => $this->numtoletras($recibo->getTotal()),
             'empresa' => $this->container->getParameter('empresa'),
             'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
-            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
             'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
             'empresaCuit' => $this->container->getParameter('empresa_cuit'),
             'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),

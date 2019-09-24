@@ -173,14 +173,14 @@ class OrdenTrabajo
     /**
      * @var string
      *
-     * @ORM\Column(name="lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="lejos_ojo_derecho_eje", type="integer")
      */
     private $lejosOjoDerechoEje = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lejos_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="lejos_ojo_izquierdo_eje", type="integer")
      */
     private $lejosOjoIzquierdoEje = '0';
 
@@ -215,14 +215,14 @@ class OrdenTrabajo
     /**
      * @var string
      *
-     * @ORM\Column(name="cerca_ojo_derecho_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="cerca_ojo_derecho_eje", type="integer")
      */
     private $cercaOjoDerechoEje = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cerca_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="cerca_ojo_izquierdo_eje", type="integer")
      */
     private $cercaOjoIzquierdoEje = '0';
 
@@ -299,14 +299,14 @@ class OrdenTrabajo
     /**
      * @var string
      *
-     * @ORM\Column(name="antes_lejos_ojo_derecho_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="antes_lejos_ojo_derecho_eje", type="integer")
      */
     private $antesLejosOjoDerechoEje = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="antes_lejos_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="antes_lejos_ojo_izquierdo_eje", type="integer")
      */
     private $antesLejosOjoIzquierdoEje = '0';
 
@@ -341,14 +341,14 @@ class OrdenTrabajo
     /**
      * @var string
      *
-     * @ORM\Column(name="antes_cerca_ojo_derecho_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="antes_cerca_ojo_derecho_eje", type="integer")
      */
     private $antesCercaOjoDerechoEje = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="antes_cerca_ojo_izquierdo_eje", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="antes_cerca_ojo_izquierdo_eje", type="integer")
      */
     private $antesCercaOjoIzquierdoEje = '0';
 

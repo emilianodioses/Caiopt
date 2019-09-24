@@ -32,7 +32,7 @@ class ComprobanteCompraController extends controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
         
         return $this->render('comprobantecompra/index.html.twig', array(
             'comprobantes' => $comprobantes,

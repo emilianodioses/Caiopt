@@ -316,7 +316,6 @@ class OrdenTrabajoContactologiaController extends Controller
         $html = $this->renderView($ordenTemplate, array(
             'ordentrabajocontactologiadetalles' => $ordentrabajocontactologiadetalles,
             'ordenTrabajoContactologia' => $ordenTrabajoContactologia,
-            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
         )
         );
 

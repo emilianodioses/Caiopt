@@ -7,7 +7,7 @@
                         <img width="226" height="64" src="{{ asset('img/logo3.jpg')}}"><br>
                         <b>OPTICA CONTINI</b><br>
                         <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
-                        {{empresaDireccion}}<br>
+                        {{comprobante.sucursal.direccion}} - {{comprobante.sucursal.localidad.nombre}}, {{comprobante.sucursal.localidad.provincia.nombre}}<br>
                         {{empresaCondicion}}
                     </td>
                     <td width="20%" align="center">

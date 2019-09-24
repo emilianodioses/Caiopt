@@ -28,7 +28,7 @@ class InformeController extends Controller
         
         if ($tipo == 'ventas') {
             // Provide a name for your file with extension
-            $filename = 'VENTAS.txt';
+            $filename = 'VENTAS_'.sprintf("%05d", $punto_venta).'_'.$fecha_desde->format('Ymd').'-'.$fecha_hasta->format('Ymd').'.txt';
             
             // The dinamically created content of the file
             $fileContent = "";
@@ -65,8 +65,8 @@ class InformeController extends Controller
         }
         elseif ($tipo == 'alicuotas') {
             // Provide a name for your file with extension
-            $filename = 'ALICUOTAS.txt';
-            
+            $filename = 'ALICUOTAS_'.sprintf("%05d", $punto_venta).'_'.$fecha_desde->format('Ymd').'-'.$fecha_hasta->format('Ymd').'.txt';
+
             $alicuotasIva = $em->getRepository('AppBundle:AfipAlicuota')->findBy(Array('activo'=>1));
 
             // The dinamically created content of the file

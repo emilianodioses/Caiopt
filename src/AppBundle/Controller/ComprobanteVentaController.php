@@ -36,7 +36,7 @@ class ComprobanteVentaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()));
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
 
         return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,
@@ -668,7 +668,6 @@ class ComprobanteVentaController extends Controller
             'facturaTipo' => substr($comprobante->getTipo(),8,1),
             'empresa' => $this->container->getParameter('empresa'),
             'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
-            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
             'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
             'empresaCuit' => $this->container->getParameter('empresa_cuit'),
             'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
@@ -731,7 +730,6 @@ class ComprobanteVentaController extends Controller
             'facturaTipo' => substr($comprobante->getTipo(),8,1),
             'empresa' => $this->container->getParameter('empresa'),
             'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
-            'empresaDireccion' => $this->container->getParameter('empresa_direccion'),
             'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
             'empresaCuit' => $this->container->getParameter('empresa_cuit'),
             'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),

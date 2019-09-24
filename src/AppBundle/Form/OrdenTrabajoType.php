@@ -176,23 +176,21 @@ class OrdenTrabajoType extends AbstractType
                         'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Saldo'))
-                ->add('lejosOjoDerechoEje',FloatType::class, array(
+                ->add('lejosOjoDerechoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'lejosOjoDerechoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('lejosOjoIzquierdoEje',FloatType::class, array(
+                ->add('lejosOjoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'lejosOjoIzquierdoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('lejosOjoDerechoCilindro',FloatType::class, array(
+                ->add('lejosOjoDerechoCilindro',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'lejosOjoDerechoCilindro',
@@ -224,20 +222,18 @@ class OrdenTrabajoType extends AbstractType
                     'step' => 0.25,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('cercaOjoDerechoEje',FloatType::class, array(
+                ->add('cercaOjoDerechoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'cercaOjoDerechoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('cercaOjoIzquierdoEje',FloatType::class, array(
+                ->add('cercaOjoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'cercaOjoIzquierdoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
                 ->add('cercaOjoDerechoCilindro',FloatType::class, array(
@@ -320,20 +316,18 @@ class OrdenTrabajoType extends AbstractType
                     'step' => 0.25,
                     ),
                     'label' => 'HPU OI'))
-                ->add('antesLejosOjoDerechoEje',FloatType::class, array(
+                ->add('antesLejosOjoDerechoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'antesLejosOjoDerechoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('antesLejosOjoIzquierdoEje',FloatType::class, array(
+                ->add('antesLejosOjoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'antesLejosOjoIzquierdoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
                 ->add('antesLejosOjoDerechoCilindro',FloatType::class, array(
@@ -368,20 +362,18 @@ class OrdenTrabajoType extends AbstractType
                     'step' => 0.25,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('antesCercaOjoDerechoEje',FloatType::class, array(
+                ->add('antesCercaOjoDerechoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'antesCercaOjoDerechoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Derecho'))
-                ->add('antesCercaOjoIzquierdoEje',FloatType::class, array(
+                ->add('antesCercaOjoIzquierdoEje',IntegerType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'antesCercaOjoIzquierdoEje',
                     'empty_data' => 0,
-                    'step' => 0.25,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
                 ->add('antesCercaOjoDerechoCilindro',FloatType::class, array(

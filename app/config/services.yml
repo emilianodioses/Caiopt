@@ -42,3 +42,9 @@ services:
         class: AppBundle\Services\SecureAction
         public: true
         arguments: ['@doctrine.orm.entity_manager'] 
+
+    kernel.listener.panel_event_listener:
+        class: AppBundle\EventListener\AppEventListener
+        arguments: ['@service_container', '@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

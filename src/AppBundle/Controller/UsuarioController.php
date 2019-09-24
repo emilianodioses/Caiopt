@@ -24,7 +24,7 @@ class UsuarioController extends AppController
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Usuarios', 'Index', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('Usuario', 'Index', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
@@ -57,7 +57,7 @@ class UsuarioController extends AppController
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Usuarios', 'New', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('Usuario', 'New', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
@@ -112,7 +112,7 @@ class UsuarioController extends AppController
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Usuarios', 'Show', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('Usuario', 'Show', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
@@ -134,7 +134,7 @@ class UsuarioController extends AppController
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Usuarios', 'Edit', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('Usuario', 'Edit', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
@@ -185,7 +185,7 @@ class UsuarioController extends AppController
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Usuarios', 'Delete', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('Usuario', 'Delete', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 

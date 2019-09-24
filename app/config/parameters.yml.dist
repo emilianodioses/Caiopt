@@ -23,7 +23,6 @@ parameters:
 
     empresa: 'OPTICA CONTINI'
     empresa_razon_social: 'FLORES, NORA ELINA Y NANZER, MARIA JULIA'
-    empresa_direccion: 'Av. San Martín 1199, San Lorenzo, Santa Fe'
     empresa_condicion: 'IVA Responsable Inscripto'
     empresa_cuit: '30715288075'
     empresa_ingresos_brutos: '091-051680-2'
