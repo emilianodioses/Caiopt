@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Stock;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -117,6 +118,30 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setUpdatedBy($this->getUser());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
+                // Actualizacion Stock
+                $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobantedetalle->getArticulo()));
+
+                if (empty($stock)){
+                    $stockItem = new Stock();
+                    $stockItem->setArticulo($comprobantedetalle->getArticulo());
+                    $stockItem->setSucursal($this->getUser()->getSucursal());
+                    $stockItem->setCantidadMinima($comprobantedetalle->getArticulo()->getCantidadMinima());
+                    $stockItem->setCantidad($comprobantedetalle->getCantidad());
+                    $stockItem->setActivo(1);
+                    $stockItem->setCreatedBy($this->getUser());
+                    $stockItem->setCreatedAt(new \DateTime("now"));
+                    $stockItem->setUpdatedBy($this->getUser());
+                    $stockItem->setUpdatedAt(new \DateTime("now"));
+                    $em->persist($stockItem);
+                }
+                else{
+                    $cantidad = $stock[0]->getCantidad() + $comprobantedetalle->getCantidad();
+                    $stock[0]->setCantidad($cantidad);
+                    $stock[0]->setUpdatedBy($this->getUser());
+                    $stock[0]->setUpdatedAt(new \DateTime("now"));
+                    $em->persist($stock[0]);
+                }
+
                 $em->persist($comprobantedetalle);
 
                 //Actualizo datos en el artículo
@@ -197,6 +222,8 @@ class ComprobanteCompraController extends controller
 
         //Guardo el saldo del proveedor antes de editar el comprobante
         $comprobante_saldo_anterior = $comprobante->getTotal();
+        $cantidadVieja = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante))[0]->getCantidad();
+        
         
         if (!$secure->isAuthorized('ComprobanteCompra', 'Edit', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
@@ -276,13 +303,29 @@ class ComprobanteCompraController extends controller
                 $comprobantedetalle->setUpdatedBy($this->getUser());
                 $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
 
+                // Actualizacion Stock
+                $difcantidad = $cantidadVieja - $comprobantedetalle->getCantidad();
+
+                if ($difcantidad != 0)
+                {
+                    $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobantedetalle->getArticulo()));
+
+                    $cantidadActual = $stock[0]->getCantidad();
+
+                    $stock[0]->setCantidad($cantidadActual - $difcantidad);
+                    $stock[0]->setUpdatedBy($this->getUser());
+                    $stock[0]->setUpdatedAt(new \DateTime("now"));
+                    $em->persist($stock[0]);
+                }        
+
                 if (is_null($comprobantedetalle->getId())){     
                     if (is_null($comprobantedetalle->getObservaciones())) {
                         $comprobantedetalle->setObservaciones('');
                     }
 
                     $comprobantedetalle->setCreatedBy($this->getUser());
-                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));
+                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));    
+                    
                     $em->persist($comprobantedetalle);
                 }
 

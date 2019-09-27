@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Stock;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
 use AppBundle\Entity\OrdenTrabajo;
@@ -219,6 +220,30 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setUpdatedBy($this->getUser());
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
+                // Actualizacion Stock
+                $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+
+                if (empty($stock)){
+                    $stockItem = new Stock();
+                    $stockItem->setArticulo($comprobanteDetalle->getArticulo());
+                    $stockItem->setSucursal($this->getUser()->getSucursal());
+                    $stockItem->setCantidadMinima($comprobanteDetalle->getArticulo()->getCantidadMinima());
+                    $stockItem->setCantidad($comprobanteDetalle->getCantidad());
+                    $stockItem->setActivo(1);
+                    $stockItem->setCreatedBy($this->getUser());
+                    $stockItem->setCreatedAt(new \DateTime("now"));
+                    $stockItem->setUpdatedBy($this->getUser());
+                    $stockItem->setUpdatedAt(new \DateTime("now"));
+                    $em->persist($stockItem);
+                }
+                else{
+                    $cantidad = $stock[0]->getCantidad() - $comprobanteDetalle->getCantidad();
+                    $stock[0]->setCantidad($cantidad);
+                    $stock[0]->setUpdatedBy($this->getUser());
+                    $stock[0]->setUpdatedAt(new \DateTime("now"));
+                    $em->persist($stock[0]);
+                }
+
                 $em->persist($comprobanteDetalle);
             }
 
@@ -305,6 +330,7 @@ class ComprobanteVentaController extends Controller
 
         //Guardo el saldo del cliente antes de editar el comprobante
         $comprobante_saldo_anterior = $comprobante->getTotal();
+        $cantidadVieja = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante))[0]->getCantidad();
         
         if (!$secure->isAuthorized('ComprobanteVenta', 'Edit', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
@@ -414,6 +440,22 @@ class ComprobanteVentaController extends Controller
                     $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobanteDetalle);
                 }
+
+                // Actualizacion Stock
+                $comprobantedetalleViejo = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante));
+                $difcantidad = $cantidadVieja - $comprobanteDetalle->getCantidad();
+                
+                if ($difcantidad != 0)
+                {
+                    $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+
+                    $cantidadActual = $stock[0]->getCantidad();
+
+                    $stock[0]->setCantidad($cantidadActual + $difcantidad);
+                    $stock[0]->setUpdatedBy($this->getUser());
+                    $stock[0]->setUpdatedAt(new \DateTime("now"));
+                    $em->persist($stock[0]);
+                }     
             }
 
             //Actualizo el saldo del cliente

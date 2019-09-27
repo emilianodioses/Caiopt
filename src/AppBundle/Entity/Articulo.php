@@ -96,13 +96,6 @@ class Articulo
     /**
      * @var string
      *
-     * @ORM\Column(name="cantidad", type="decimal", precision=16, scale=2)
-     */
-    private $cantidad;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="cantidad_minima", type="decimal", precision=16, scale=2)
      */
     private $cantidadMinima;
@@ -439,30 +432,6 @@ class Articulo
     public function getIva()
     {
         return $this->iva;
-    }
-
-    /**
-     * Set cantidad
-     *
-     * @param string $cantidad
-     *
-     * @return Articulo
-     */
-    public function setCantidad($cantidad)
-    {
-        $this->cantidad = $cantidad;
-
-        return $this;
-    }
-
-    /**
-     * Get cantidad
-     *
-     * @return string
-     */
-    public function getCantidad()
-    {
-        return $this->cantidad;
     }
 
     /**
