@@ -51,6 +51,7 @@ Libro Caja
                       </a>
                       <a href="{{ path('librocaja_edit', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
+                      {#
                       {% if librocaja.activo %}
                           <a href="{{ path('librocaja_delete', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
@@ -58,7 +59,7 @@ Libro Caja
                           <a href="{{ path('librocaja_delete', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                           </a>
                       {% endif %}
-                      </a>
+                      #}
                   </td>
                 </tr>
             {% endfor %}

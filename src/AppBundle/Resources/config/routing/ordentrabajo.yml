@@ -9,8 +9,8 @@ ordentrabajo_show:
     methods:  GET
 
 ordentrabajo_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:OrdenTrabajo:new" }
+    path:     /{clienteId}/new
+    defaults: { _controller: "AppBundle:OrdenTrabajo:new", clienteId:0 }
     methods:  [GET, POST]
 
 ordentrabajo_edit:

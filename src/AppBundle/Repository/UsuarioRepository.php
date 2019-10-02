@@ -106,7 +106,6 @@ class UsuarioRepository extends \Doctrine\ORM\EntityRepository
             inner join rf.funcion as f
             where f.modulo = :controller
             and f.accion = :action
-            and rf.rol = 1
             and identity(rf.rol) IN
               (SELECT identity(u.rol) FROM AppBundle:Usuario u
                where u.id = :usuario_id
@@ -116,7 +115,7 @@ class UsuarioRepository extends \Doctrine\ORM\EntityRepository
                   ->setParameter('action', $actionName)
                   ->setParameter('usuario_id', $usuario_id)
                   ->getSingleScalarResult();
-          
+
           return ($permiso_rol > 0);
         }
     }

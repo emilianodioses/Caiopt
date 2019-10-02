@@ -374,8 +374,8 @@ Cliente
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
-                         </a>
+                        <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                        <a href="{{ path('ordentrabajo_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Orden Optica"><span class="glyphicon glyphicon-briefcase"></span>Orden Optica</a>
                     </div>
                 </div>
             </div>

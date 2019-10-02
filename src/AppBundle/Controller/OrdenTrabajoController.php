@@ -47,7 +47,7 @@ class OrdenTrabajoController extends Controller
      * Creates a new ordenTrabajo entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $clienteId)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -56,15 +56,24 @@ class OrdenTrabajoController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
+        $em = $this->getDoctrine()->getManager();
+
         $ordenTrabajo = new Ordentrabajo();
+        
+        if ($clienteId > 0) {
+            $cliente = $em->getRepository('AppBundle:Cliente')->find($clienteId);
+            $ordenTrabajo->setCliente($cliente);
+            if (!is_null($cliente->getObraSocialPlan())) {
+                 $ordenTrabajo->setObraSocialPlan($cliente->getObraSocialPlan());
+            }
+        }
+
         $ordenTrabajo->setFechaRecepcion(new \DateTime("now"));
         $ordenTrabajo->setUsuario($this->getUser());
         $form = $this->createForm(OrdenTrabajoType::class, $ordenTrabajo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
             $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
         
             $ordenTrabajo->setSucursal($sucursal);
