@@ -107,8 +107,26 @@ class ArticuloController extends Controller
 
         $deleteForm = $this->createDeleteForm($articulo);
 
+        $em = $this->getDoctrine()->getManager();
+        $stockSucursales = $em->getRepository('AppBundle:Stock')->findBy(array('articulo' => $articulo));
+        $ventasSucursales = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('articulo' => $articulo, 'movimiento' =>  'Venta'));
+
+        $stock = 0;
+        $ventas = 0;
+
+        foreach ($stockSucursales as $stockSucursal) {
+            $stock = $stock + $stockSucursal->getCantidad();
+        }
+
+        foreach ($ventasSucursales as $ventasSucursales) {
+            $ventas = $ventas + $ventasSucursales->getCantidad();
+        }
+
         return $this->render('articulo/show.html.twig', array(
             'articulo' => $articulo,
+            'ventas' => $ventas,
+            'stock' => $stock,
+            'stockSucursales' => $stockSucursales,
             'delete_form' => $deleteForm->createView(),
         ));
     }
