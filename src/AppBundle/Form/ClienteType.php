@@ -72,11 +72,6 @@ class ClienteType extends AbstractType
                     'required' => false,
                     'empty_data' => '',
                   ))
-                ->add('telefonoCelular', null, array(
-                    'label' => 'Teléfono Celular',
-                    'required' => false,
-                    'empty_data' => '',
-                  ))
                 ->add('email', TextType::class, array(
                     'label' => 'Email',
                     'required' => false,

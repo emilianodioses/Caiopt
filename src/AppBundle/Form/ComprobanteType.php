@@ -16,22 +16,23 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 class ComprobanteType extends AbstractType
 {
+    private $user;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->user = $tokenStorage->getToken()->getUser();
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      $puntos_venta = array(
-            '1' => '1',
-            '2' => '2',
-            '3' => '3',
-            '4' => '4',
-            '5' => '5',
-            '6' => '6');
-
-
       if ( isset($options['attr']['tipo']) ) {
         if ($options['attr']['tipo'] == 'Compra') {
           $builder->add('tipo', EntityType::class, array(
@@ -135,10 +136,20 @@ class ComprobanteType extends AbstractType
                   ->add('numero', IntegerType::class, array(
                     'required' => false,
                     'label' => 'N de Comprobante'))
-                  ->add('puntoVenta',ChoiceType::class,array(
-                      'label'=>'Punto de Venta',
-                      'choices' => $puntos_venta,
-                          'choices_as_values' => true))
+                  ->add('puntoVentaId', EntityType::class, array(
+                        'label' => 'Punto de Venta',
+                        'class' => 'AppBundle:PuntoVenta',
+                        'required' => true,
+                        'choice_label' => 'numero',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('ic')
+                                       ->where('ic.activo = 1')
+                                       ->where('ic.sucursal = ?1')
+                                       ->orderBy('ic.numero', 'ASC')
+                                       ->setParameter(1, $this->user->getSucursal()->getId())
+                                       ;
+                               }
+                  ))
                   ->add('usuario', EntityType::class, array(
                         'label' => 'Vendedor',
                         'class' => 'AppBundle:Usuario',

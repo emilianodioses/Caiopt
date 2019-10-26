@@ -1972,30 +1972,6 @@ class OrdenTrabajo
     }
 
     /**
-     * Set obraSocial
-     *
-     * @param \AppBundle\Entity\ObraSocial $obraSocial
-     *
-     * @return OrdenTrabajo
-     */
-    public function setObraSocial(\AppBundle\Entity\ObraSocial $obraSocial = null)
-    {
-        $this->obraSocial = $obraSocial;
-
-        return $this;
-    }
-
-    /**
-     * Get obraSocial
-     *
-     * @return \AppBundle\Entity\ObraSocial
-     */
-    public function getObraSocial()
-    {
-        return $this->obraSocial;
-    }
-
-    /**
      * Set obraSocialPlan
      *
      * @param \AppBundle\Entity\ObraSocialPlan $obraSocialPlan

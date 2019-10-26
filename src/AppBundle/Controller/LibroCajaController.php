@@ -55,7 +55,7 @@ class LibroCajaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $libroCaja_existente = $em->getRepository('AppBundle:Librocaja')->findBy(Array('fecha' => $libroCaja->getFecha(), 'activo' => 1));
+            $libroCaja_existente = $em->getRepository('AppBundle:Librocaja')->findBy(Array('fecha' => $libroCaja->getFecha(), 'activo' => 1, 'sucursal' => $this->getUser()->getSucursal()));
 
             if (count($libroCaja_existente) > 0) {
                 $this->get('session')->getFlashbag()->add('warning', 'Ya existe un libro caja con la fecha ingresada.');

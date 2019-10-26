@@ -10,6 +10,58 @@ namespace AppBundle\Repository;
  */
 class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByTexto_ventas($sucursalId, $texto) {
+        $query = 'SELECT u  FROM AppBundle:Comprobante u 
+                  INNER JOIN u.cliente c
+                  WHERE u.activo = 1 
+                  AND u.movimiento = \'venta\' ';
+
+        if ($sucursalId > 0)
+            $query .= ' AND u.sucursal = :sucursalId ';
+
+        if ($texto != '')
+            $query .= ' AND (c.nombre LIKE :texto OR c.documentoNumero LIKE :texto) ';
+
+        $query .= ' ORDER BY u.id DESC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($sucursalId > 0)
+            $em->setParameter('sucursalId', $sucursalId);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+        
+        //return $em;
+        return $em->getResult();
+    }
+
+    public function findByTexto_compras($sucursalId, $texto) {
+        $query = 'SELECT u  FROM AppBundle:Comprobante u 
+                  INNER JOIN u.proveedor p
+                  WHERE u.activo = 1 
+                  AND u.movimiento = \'compra\' ';
+
+        if ($sucursalId > 0)
+            $query .= ' AND u.sucursal = :sucursalId ';
+
+        if ($texto != '')
+            $query .= ' AND (p.nombre LIKE :texto OR p.documentoNumero LIKE :texto) ';
+
+        $query .= ' ORDER BY u.id DESC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($sucursalId > 0)
+            $em->setParameter('sucursalId', $sucursalId);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+        
+        //return $em;
+        return $em->getResult();
+    }
+
 	public function findBy_ventasFacturadasGeneral($fecha_desde, $fecha_hasta, $punto_venta) {
         $query = 'SELECT c FROM AppBundle:Comprobante c 
         			WHERE c.activo = 1

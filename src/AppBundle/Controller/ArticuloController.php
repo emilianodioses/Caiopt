@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Stock;
 
 /**
  * Articulo controller.
@@ -72,6 +73,9 @@ class ArticuloController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
+            if ($articulo->getCantidadMinima() == 0) {
+                $articulo->setCantidadMinima(1);
+            }
             $articulo->setPrecioModifica(1);
             $articulo->setOrdenTrabajo(1);
             $articulo->setUltimoComprobante(null);
@@ -81,6 +85,25 @@ class ArticuloController extends Controller
             $articulo->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($articulo);
+
+            $sucursales = $em->getRepository('AppBundle:Sucursal')->findBy(array('activo' => true));
+
+            foreach ($sucursales as $sucursal) {
+                $stock = new Stock();
+
+                $stock->setArticulo($articulo);
+                $stock->setSucursal($sucursal);
+                $stock->setCantidad(0);
+                $stock->setCantidadMinima($articulo->getCantidadMinima());
+                $stock->setActivo(true);
+                $stock->setCreatedBy($this->getUser());
+                $stock->setCreatedAt(new \DateTime("now"));
+                $stock->setUpdatedBy($this->getUser());
+                $stock->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($stock);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('articulo_show', array('id' => $articulo->getId()));

@@ -80,7 +80,8 @@ class ProveedorController extends Controller
                     'form' => $form->createView(),
                 ));
             }
-
+            
+            $proveedor->setSaldo(0);
             $proveedor->setActivo(true);
             $proveedor->setCreatedBy($this->getUser());
             $proveedor->setCreatedAt(new \DateTime("now"));

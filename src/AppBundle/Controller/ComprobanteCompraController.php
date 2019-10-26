@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Stock;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
+use AppBundle\Entity\Articulo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class ComprobanteCompraController extends controller
      * Lists all comprobante entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -33,10 +34,13 @@ class ComprobanteCompraController extends controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento'=>'compra', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
+        $texto = $request->get('texto','');
+
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByTexto_compras($this->getUser()->getSucursal()->getId(), $texto);
         
         return $this->render('comprobantecompra/index.html.twig', array(
             'comprobantes' => $comprobantes,
+            'texto' => $texto,
         ));
     }
 
@@ -63,9 +67,9 @@ class ComprobanteCompraController extends controller
             $em = $this->getDoctrine()->getManager();
 
             //INICIO Validacion Comprobante Existente
-            $comprobanteDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor' => $comprobante->getProveedor(), 'puntoVenta'=>$comprobante->getPuntoVenta(), 'numero'=>$comprobante->getNumero(),  'activo'=>1, 'movimiento' => 'Compra'));
+            $comprobantesDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor' => $comprobante->getProveedor(), 'puntoVenta' => $comprobante->getPuntoVenta(), 'numero' => $comprobante->getNumero(), 'tipo' => $comprobante->getTipo(), 'activo'=>1, 'movimiento' => 'Compra'));
 
-            if (count($comprobanteDuplicado) > 0) {
+            if (count($comprobantesDuplicado) > 0) {
                 $this->get('session')->getFlashbag()->add('warning', 'El Comprobante ya fue cargado');
 
                 return $this->render('comprobantecompra/new.html.twig', array(
@@ -95,69 +99,111 @@ class ComprobanteCompraController extends controller
 
             $em->persist($comprobante);
 
-            $comprobantedetalle = new ComprobanteDetalle();
-            $comprobantedetalles  = $comprobante->getComprobanteDetalles()->toArray();
+            $comprobanteDetalle = new ComprobanteDetalle();
+            $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
-            foreach($comprobantedetalles as $comprobantedetalle) {
-                $comprobantedetalle->setPrecioNeto(0);
-                $comprobantedetalle->setImporteGanancia(0);
-                $comprobantedetalle->setTotalNoGravado(0);
-                $comprobantedetalle->setImporteIvaExento(0);
+            foreach($comprobanteDetalles as $comprobanteDetalle) {
+                //Verifico si hay que agregar el artículo ingresado 
+                if (is_null($comprobanteDetalle->getArticulo()->getId())) {
+                    $articulo = new Articulo();
 
-                if (is_null($comprobantedetalle->getObservaciones())) {
-                    $comprobantedetalle->setObservaciones('');
+                    $categoria = $em->getRepository('AppBundle:ArticuloCategoria')->find(1);
+                    $marca = $em->getRepository('AppBundle:ArticuloMarca')->find(1);
+                    $iva_21 = $em->getRepository('AppBundle:AfipAlicuota')->findOneBy(array('descripcion' => '21.00'));
+
+                    $articulo->setCodigo('S/A');
+                    $articulo->setCategoria($categoria);
+                    $articulo->setMarca($marca);
+                    $articulo->setDescripcion($comprobanteDetalle->getArticulo()->getDescripcion());
+                    $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
+                    $articulo->setCantidadMinima(1);
+                    $articulo->setGenero('');
+                    $articulo->setMaterial('');
+                    $articulo->setForma('');
+                    $articulo->setEstilo('');
+                    $articulo->setColorMarco('');
+                    $articulo->setColorCristal('');
+                    $articulo->setActivo(true);
+                    $articulo->setPrecioModifica(1);
+                    $articulo->setOrdenTrabajo(1);
+                    $articulo->setUltimoComprobante(null);
+                    $articulo->setCreatedBy($this->getUser());
+                    $articulo->setCreatedAt(new \DateTime("now"));
+                    $articulo->setUpdatedBy($this->getUser());
+                    $articulo->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($articulo);
+
+                    $sucursales = $em->getRepository('AppBundle:Sucursal')->findBy(array('activo' => true));
+
+                    foreach ($sucursales as $sucursal) {
+                        $stock = new Stock();
+
+                        $stock->setArticulo($articulo);
+                        $stock->setSucursal($sucursal);
+                        $stock->setCantidad(0);
+                        $stock->setCantidadMinima($articulo->getCantidadMinima());
+                        $stock->setActivo(true);
+                        $stock->setCreatedBy($this->getUser());
+                        $stock->setCreatedAt(new \DateTime("now"));
+                        $stock->setUpdatedBy($this->getUser());
+                        $stock->setUpdatedAt(new \DateTime("now"));
+
+                        $em->persist($stock);
+                    }
+
+                    $comprobanteDetalle->setArticulo($articulo);
+                }
+                
+                $comprobanteDetalle->setPrecioNeto(0);
+                $comprobanteDetalle->setImporteGanancia(0);
+                $comprobanteDetalle->setTotalNoGravado(0);
+                $comprobanteDetalle->setImporteIvaExento(0);
+
+                if (is_null($comprobanteDetalle->getObservaciones())) {
+                    $comprobanteDetalle->setObservaciones('');
                 }
 
-                $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
+                $comprobanteDetalle->setTotalNeto($comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getCantidad());
                 
-                $comprobantedetalle->setComprobante($comprobante);
-                $comprobantedetalle->setMovimiento('Compra');
-                $comprobantedetalle->setActivo(1);
-                $comprobantedetalle->setCreatedBy($this->getUser());
-                $comprobantedetalle->setCreatedAt(new \DateTime("now"));
-                $comprobantedetalle->setUpdatedBy($this->getUser());
-                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setComprobante($comprobante);
+                $comprobanteDetalle->setMovimiento('Compra');
+                $comprobanteDetalle->setActivo(1);
+                $comprobanteDetalle->setCreatedBy($this->getUser());
+                $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setUpdatedBy($this->getUser());
+                $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
                 // Actualizacion Stock
-                $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobantedetalle->getArticulo()));
+                $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
 
-                if (empty($stock)){
-                    $stockItem = new Stock();
-                    $stockItem->setArticulo($comprobantedetalle->getArticulo());
-                    $stockItem->setSucursal($this->getUser()->getSucursal());
-                    $stockItem->setCantidadMinima($comprobantedetalle->getArticulo()->getCantidadMinima());
-                    $stockItem->setCantidad($comprobantedetalle->getCantidad());
-                    $stockItem->setActivo(1);
-                    $stockItem->setCreatedBy($this->getUser());
-                    $stockItem->setCreatedAt(new \DateTime("now"));
-                    $stockItem->setUpdatedBy($this->getUser());
-                    $stockItem->setUpdatedAt(new \DateTime("now"));
-                    $em->persist($stockItem);
+                if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                    $cantidad = $stock->getCantidad() + $comprobanteDetalle->getCantidad();
                 }
-                else{
-                    $cantidad = $stock[0]->getCantidad() + $comprobantedetalle->getCantidad();
-                    $stock[0]->setCantidad($cantidad);
-                    $stock[0]->setUpdatedBy($this->getUser());
-                    $stock[0]->setUpdatedAt(new \DateTime("now"));
-                    $em->persist($stock[0]);
+                else {
+                    $cantidad = $stock->getCantidad() - $comprobanteDetalle->getCantidad();
                 }
+                $stock->setCantidad($cantidad);
+                $stock->setUpdatedBy($this->getUser());
+                $stock->setUpdatedAt(new \DateTime("now"));
+                $em->persist($stock);
 
-                $em->persist($comprobantedetalle);
+                $em->persist($comprobanteDetalle);
 
                 //Actualizo datos en el artículo
-                $articulo = $comprobantedetalle->getArticulo();
+                $articulo = $comprobanteDetalle->getArticulo();
 
                 $iva = $articulo->getIva()->getDescripcion();
                 //calculo el precio con iva sin el porcentaje del 15% de tarjeta
-                $articulo_precio_venta_sin_tarjeta = 100 * $comprobantedetalle->getPrecioVenta() / 115;
+                $articulo_precio_venta_sin_tarjeta = 100 * $comprobanteDetalle->getPrecioVenta() / 115;
                 
                 //calculo el precio sin iva
                 $articulo_precio_venta_sin_iva = 100 * $articulo_precio_venta_sin_tarjeta / (100+$iva);
 
-                $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
-                $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
+                $articulo->setPrecioCosto($comprobanteDetalle->getPrecioCosto());
+                $articulo->setGananciaPorcentaje($comprobanteDetalle->getPorcentajeGanancia());
                 $articulo->setPrecioVentaSinIva($articulo_precio_venta_sin_iva);
-                $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
+                $articulo->setPrecioVenta($comprobanteDetalle->getPrecioVenta());
                 $articulo->setUltimoComprobante($comprobante);
             }
 
@@ -196,7 +242,7 @@ class ComprobanteCompraController extends controller
         endif;
 
         $em = $this->getDoctrine()->getManager();
-        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
         $ordenPagoComprobantes = $em->getRepository('AppBundle:OrdenPagoComprobante')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
@@ -204,7 +250,7 @@ class ComprobanteCompraController extends controller
 
         return $this->render('comprobantecompra/show.html.twig', array(
             'comprobante' => $comprobante,
-            'comprobantedetalles' => $comprobantedetalles,
+            'comprobantedetalles' => $comprobanteDetalles,
             'ordenPagoComprobantes' => $ordenPagoComprobantes,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -217,18 +263,10 @@ class ComprobanteCompraController extends controller
     public function editAction(Request $request, Comprobante $comprobante)
     {
         $em = $this->getDoctrine()->getManager();
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-
+        
         //Guardo el saldo del proveedor antes de editar el comprobante
         $comprobante_saldo_anterior = $comprobante->getTotal();
-        $cantidadVieja = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante))[0]->getCantidad();
         
-        
-        if (!$secure->isAuthorized('ComprobanteCompra', 'Edit', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         //Solo puede editarse si la sucursal elegida es la misma del comprobante.
         if ($comprobante->getSucursal()->getId() != $this->getUser()->getSucursal()->getId()) {
 
@@ -245,21 +283,47 @@ class ComprobanteCompraController extends controller
             return $this->redirectToRoute('comprobantecompra_show', array('id' => $comprobante->getId()));
         }
 
-        $comprobantedetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
+        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
         if (is_null($comprobante->getObservaciones())) {
             $comprobante->setObservaciones('');
         }
 
-        foreach($comprobantedetalles as $comprobantedetalle) {
-            $comprobante->getComprobanteDetalles()->add($comprobantedetalle);
+        $stockComprobante = array();
+        foreach($comprobanteDetalles as $comprobanteDetalle) {
+            $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
+
+            //Guardo el stock de cada artículo devolviendo el stock por si llegase a eliminarse algún item
+            $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+
+            if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                $cantidad = $stock->getCantidad() - $comprobanteDetalle->getCantidad();
+            }
+            else {
+                $cantidad = $stock->getCantidad() + $comprobanteDetalle->getCantidad();
+            }
+            $stock->setCantidad($cantidad);
+            $stockComprobante[$comprobanteDetalle->getArticulo()->getId()] = $stock;
         }
 
-        $deleteForm = $this->createDeleteForm($comprobante);
         $editForm = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Compra')));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            //INICIO Validacion Comprobante Existente
+            $comprobantesDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor' => $comprobante->getProveedor(), 'puntoVenta' => $comprobante->getPuntoVenta(), 'numero' => $comprobante->getNumero(), 'tipo' => $comprobante->getTipo(), 'activo'=>1, 'movimiento' => 'Compra'));
+
+            foreach($comprobantesDuplicado as $comprobanteDuplicado) {
+                if ($comprobante->getId() != $comprobanteDuplicado->getId()) {
+                    $this->get('session')->getFlashbag()->add('warning', 'El Comprobante ya fue cargado');
+
+                    return $this->render('comprobantecompra/edit.html.twig', array(
+                        'comprobante' => $comprobante,
+                        'edit_form' => $editForm->createView(),
+                    ));
+                }
+            }
+            //FIN Validacion Comprobante Existente
 
             if (is_null($comprobante->getObservaciones())) {
                 $comprobante->setObservaciones('');
@@ -270,81 +334,85 @@ class ComprobanteCompraController extends controller
             $comprobante->setSucursal($sucursal);
             $comprobante->setPendiente($comprobante->getTotal());
             $comprobante->setUsuario($this->getUser());
-            
+
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
-            //Basicamente seteo a todos los articulos ya existen en la base de datos con 
-            //Activo = 0
-            $comprobantedetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
-                    ->findBy(array('comprobante' => $comprobante));
+            //Basicamente seteo a todos los articulos del comprobante activos en la base
+            //de datos con Activo = 0
+            $comprobanteDetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
+                    ->findBy(array('comprobante' => $comprobante, 'activo' => true));
 
-            foreach ($comprobantedetalleDelete as $comprobantedetalle) {
-                $comprobantedetalle->setActivo(0);
+            foreach ($comprobanteDetalleDelete as $comprobanteDetalle) {
+                $comprobanteDetalle->setActivo(0);
             }   
             //**********************************************************************
 
-            foreach($editForm->getData()->getComprobanteDetalles() as $comprobantedetalle) {
-                $comprobantedetalle->setPrecioNeto(0);
-                $comprobantedetalle->setImporteGanancia(0);
-                $comprobantedetalle->setTotalNoGravado(0);
-                $comprobantedetalle->setImporteIvaExento(0);
+            foreach($editForm->getData()->getComprobanteDetalles() as $comprobanteDetalle) {
+                $comprobanteDetalle->setPrecioNeto(0);
+                $comprobanteDetalle->setImporteGanancia(0);
+                $comprobanteDetalle->setTotalNoGravado(0);
+                $comprobanteDetalle->setImporteIvaExento(0);
 
-                if (is_null($comprobantedetalle->getObservaciones())) {
-                    $comprobantedetalle->setObservaciones('');
+                if (is_null($comprobanteDetalle->getObservaciones())) {
+                    $comprobanteDetalle->setObservaciones('');
                 }
 
-                $comprobantedetalle->setTotalNeto($comprobantedetalle->getPrecioCosto()*$comprobantedetalle->getCantidad());
+                $comprobanteDetalle->setTotalNeto($comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getCantidad());
                 
-                $comprobantedetalle->setComprobante($comprobante);
-                $comprobantedetalle->setMovimiento('Compra');
-                $comprobantedetalle->setActivo(1);
-                $comprobantedetalle->setCreatedBy($this->getUser());
-                $comprobantedetalle->setCreatedAt(new \DateTime("now"));
-                $comprobantedetalle->setUpdatedBy($this->getUser());
-                $comprobantedetalle->setUpdatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setComprobante($comprobante);
+                $comprobanteDetalle->setMovimiento('Compra');
+                $comprobanteDetalle->setActivo(1);
+                $comprobanteDetalle->setCreatedBy($this->getUser());
+                $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
+                $comprobanteDetalle->setUpdatedBy($this->getUser());
+                $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
                 // Actualizacion Stock
-                $difcantidad = $cantidadVieja - $comprobantedetalle->getCantidad();
+                if (!isset($stockComprobante[$comprobanteDetalle->getArticulo()->getId()])) {
+                    //Si se agregó un item nuevo
+                    $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
 
-                if ($difcantidad != 0)
-                {
-                    $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobantedetalle->getArticulo()));
+                    $stockComprobante[$comprobanteDetalle->getArticulo()->getId()] = $stock;
+                }
+                
+                if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                    $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() + $comprobanteDetalle->getCantidad();
+                }
+                else {
+                    $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() - $comprobanteDetalle->getCantidad();
+                }
 
-                    $cantidadActual = $stock[0]->getCantidad();
+                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setCantidad($cantidadActual);
+                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedBy($this->getUser());
+                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedAt(new \DateTime("now"));
 
-                    $stock[0]->setCantidad($cantidadActual - $difcantidad);
-                    $stock[0]->setUpdatedBy($this->getUser());
-                    $stock[0]->setUpdatedAt(new \DateTime("now"));
-                    $em->persist($stock[0]);
-                }        
-
-                if (is_null($comprobantedetalle->getId())){     
-                    if (is_null($comprobantedetalle->getObservaciones())) {
-                        $comprobantedetalle->setObservaciones('');
+                if (is_null($comprobanteDetalle->getId())){     
+                    if (is_null($comprobanteDetalle->getObservaciones())) {
+                        $comprobanteDetalle->setObservaciones('');
                     }
 
-                    $comprobantedetalle->setCreatedBy($this->getUser());
-                    $comprobantedetalle->setCreatedAt(new \DateTime("now"));    
+                    $comprobanteDetalle->setCreatedBy($this->getUser());
+                    $comprobanteDetalle->setCreatedAt(new \DateTime("now"));    
                     
-                    $em->persist($comprobantedetalle);
+                    $em->persist($comprobanteDetalle);
                 }
 
                 //Actualizo datos en el artículo, solo si corresponde al último ingreso del artículo
-                $articulo = $comprobantedetalle->getArticulo();
+                $articulo = $comprobanteDetalle->getArticulo();
 
                 $iva = $articulo->getIva()->getDescripcion();
                 //calculo el precio con iva sin el porcentaje del 15% de tarjeta
-                $articulo_precio_venta_sin_tarjeta = 100 * $comprobantedetalle->getPrecioVenta() / 115;
+                $articulo_precio_venta_sin_tarjeta = 100 * $comprobanteDetalle->getPrecioVenta() / 115;
                 
                 //calculo el precio sin iva
                 $articulo_precio_venta_sin_iva = 100 * $articulo_precio_venta_sin_tarjeta / (100+$iva);
 
                 if (!is_null($articulo->getUltimoComprobante())) {
                     if ($articulo->getUltimoComprobante()->getId() == $comprobante->getId()) {
-                        $articulo->setPrecioCosto($comprobantedetalle->getPrecioCosto());
-                        $articulo->setGananciaPorcentaje($comprobantedetalle->getPorcentajeGanancia());
+                        $articulo->setPrecioCosto($comprobanteDetalle->getPrecioCosto());
+                        $articulo->setGananciaPorcentaje($comprobanteDetalle->getPorcentajeGanancia());
                         $articulo->setPrecioVentaSinIva($articulo_precio_venta_sin_iva);
-                        $articulo->setPrecioVenta($comprobantedetalle->getPrecioVenta());
+                        $articulo->setPrecioVenta($comprobanteDetalle->getPrecioVenta());
                     }
                 }
             }
@@ -368,7 +436,6 @@ class ComprobanteCompraController extends controller
         return $this->render('comprobantecompra/edit.html.twig', array(
             'comprobante' => $comprobante,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

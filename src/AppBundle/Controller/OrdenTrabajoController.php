@@ -25,7 +25,7 @@ class OrdenTrabajoController extends Controller
      * Lists all ordenTrabajo entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -36,10 +36,13 @@ class OrdenTrabajoController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         
-        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findBy(array('activo'=>1, 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
+        $texto = $request->get('texto','');
+
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
 
         return $this->render('ordentrabajo/index.html.twig', array(
             'ordenesTrabajo' => $ordenesTrabajo,
+            'texto' => $texto
         ));
     }
 
@@ -273,7 +276,7 @@ class OrdenTrabajoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $normalizer = new ObjectNormalizer();
-        $normalizer->setCircularReferenceLimit(2);
+        $normalizer->setCircularReferenceLimit(1);
         // Add Circular reference handler
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getId();

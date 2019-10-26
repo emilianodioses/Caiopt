@@ -38,6 +38,13 @@ class AfipComprobanteTipo
     /**
      * @var string
      *
+     * @ORM\Column(name="descripcion_corta", type="string", length=255)
+     */
+    private $descripcionCorta;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="letra", type="string", length=255)
      */
     private $letra;
@@ -412,5 +419,29 @@ class AfipComprobanteTipo
     public function getLetra()
     {
         return $this->letra;
+    }
+
+    /**
+     * Set descripcionCorta
+     *
+     * @param string $descripcionCorta
+     *
+     * @return AfipComprobanteTipo
+     */
+    public function setDescripcionCorta($descripcionCorta)
+    {
+        $this->descripcionCorta = $descripcionCorta;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionCorta
+     *
+     * @return string
+     */
+    public function getDescripcionCorta()
+    {
+        return $this->descripcionCorta;
     }
 }

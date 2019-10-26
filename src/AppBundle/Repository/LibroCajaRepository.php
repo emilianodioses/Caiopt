@@ -14,13 +14,8 @@ class LibroCajaRepository extends \Doctrine\ORM\EntityRepository
         $query = 'SELECT c FROM AppBundle:LibroCaja c 
                     WHERE c.activo = 1
                     AND c.sucursal = :sucursalId ';
-
-        //Quiero que se vean activos e inactivos con el fin de evitar el borrado de medicos.
-        //$query .= 'WHERE c.activo = 1';
         
-        $texto != '';
-
-        if ($texto != '')
+        if (strtotime($texto) > 0)
             $query .= ' AND c.fecha = :texto';
 
         $query .= ' ORDER BY c.fecha DESC ';
@@ -29,8 +24,10 @@ class LibroCajaRepository extends \Doctrine\ORM\EntityRepository
 
         $em->setParameter('sucursalId', $sucursalId);
 
-        if ($texto != '')
-            $em->setParameter('texto','%' . $texto . '%');
+        if (strtotime($texto) > 0) {
+            $fecha = new \DateTime($texto);
+            $em->setParameter('texto',$fecha->format('Y-m-d'));
+        }
 
         return $em;
     }

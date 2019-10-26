@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
+
 class ComprobanteDetalleType extends AbstractType
 {
     /**
@@ -54,7 +55,7 @@ class ComprobanteDetalleType extends AbstractType
         $builder->add('comprobante',HiddenType::class,array('label'=>'Comprobante'))
                 ->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
-                    'class' => 'AppBundle:Articulo',
+                    'class' => 'AppBundle\Entity\Articulo',
                     'remote_route' => 'articulo_find_select2',
                     'placeholder' => 'Seleccione un artículo',
                     'required' => true,
@@ -70,6 +71,13 @@ class ComprobanteDetalleType extends AbstractType
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
+                    'multiple' => false,
+                    'allow_add' => array(
+                        'enabled' => true,
+                        'new_tag_text' => '',
+                        'new_tag_prefix' => '__',
+                        'tag_separators'=> '[",", ""]'
+                        ),
                     )) 
                 ->add('cantidad',IntegerType::class,array(
                     'required' => true,

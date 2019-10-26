@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1.0">
+    <header>
+        <source>CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</source>
+        <destination>SERIALNUMBER=CUIT 20313311938, CN=fracich</destination>
+        <uniqueId>985643567</uniqueId>
+        <generationTime>2019-10-26T09:15:11.654-03:00</generationTime>
+        <expirationTime>2019-10-26T21:15:11.654-03:00</expirationTime>
+    </header>
+    <credentials>
+        <token>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8c3NvIHZlcnNpb249IjIuMCI+CiAgICA8aWQgc3JjPSJDTj13c2FhaG9tbywgTz1BRklQLCBDPUFSLCBTRVJJQUxOVU1CRVI9Q1VJVCAzMzY5MzQ1MDIzOSIgdW5pcXVlX2lkPSIyNzk2Njg3NDQyIiBnZW5fdGltZT0iMTU3MjA5MjA1MSIgZXhwX3RpbWU9IjE1NzIxMzUzMTEiLz4KICAgIDxvcGVyYXRpb24gdHlwZT0ibG9naW4iIHZhbHVlPSJncmFudGVkIj4KICAgICAgICA8bG9naW4gZW50aXR5PSIzMzY5MzQ1MDIzOSIgc2VydmljZT0id3Nfc3JfcGFkcm9uX2ExMyIgdWlkPSJTRVJJQUxOVU1CRVI9Q1VJVCAyMDMxMzMxMTkzOCwgQ049ZnJhY2ljaCIgYXV0aG1ldGhvZD0iY21zIiByZWdtZXRob2Q9IjIyIj4KICAgICAgICAgICAgPHJlbGF0aW9ucz4KICAgICAgICAgICAgICAgIDxyZWxhdGlvbiBrZXk9IjIwMzEzMzExOTM4IiByZWx0eXBlPSI0Ii8+CiAgICAgICAgICAgIDwvcmVsYXRpb25zPgogICAgICAgIDwvbG9naW4+CiAgICA8L29wZXJhdGlvbj4KPC9zc28+Cg==</token>
+        <sign>QMvzEpiZZs+uWatLzvJ/dlhB7m00yG9FVcZ/JymIGId5oaJU/nuZlgZQyxbyUasJHUKCaEmAqOXKV+Ff/nc5jSC4t3q3tGkkL6v48aSSVlp2FcQA6d1fGzZzCJPmfMMFdbZU+5BFcftoifh18uQZXlOvcSYaROzvnRNTAPDz6mE=</sign>
+    </credentials>
+</loginTicketResponse>

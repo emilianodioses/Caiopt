@@ -192,7 +192,12 @@
                                     <tbody>
                                     {% for comprobantedetalle in comprobantedetalles %}
                                         <tr>
-                                            <td>{{ comprobantedetalle.articulo.descripcion }}</td>
+                                            <td>
+                                                <a href="{{ path('articulo_show', { 'id': comprobantedetalle.articulo.id }) }}">{{ comprobantedetalle.articulo.descripcion }}</a>
+                                                {% if comprobantedetalle.articulo.codigo == 'S/A' %}
+                                                    &nbsp;<a href="{{ path('articulo_edit', { 'id': comprobantedetalle.articulo.id }) }}" target="_blank"><span class="label label-info">Art. Nuevo</span></a>
+                                                {% endif %}
+                                            </td>
                                             <td>{{ comprobantedetalle.cantidad }}</td>
                                             <td>{{ comprobantedetalle.precioUnitario}}</td>
                                             <td>{{ comprobantedetalle.porcentajeBonificacion }}</td>

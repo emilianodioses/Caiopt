@@ -20,14 +20,17 @@ class OrdenPagoController extends Controller
      * Lists all ordenPago entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ordenPagos = $em->getRepository('AppBundle:OrdenPago')->findBy(Array('activo' => 1, 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
+        $texto = $request->get('texto','');
+
+        $ordenPagos = $em->getRepository('AppBundle:OrdenPago')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
         
         return $this->render('ordenpago/index.html.twig', array(
             'ordenPagos' => $ordenPagos,
+            'texto' => $texto,
         ));
     }
 

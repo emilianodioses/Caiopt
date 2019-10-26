@@ -26,7 +26,7 @@ class ComprobanteVentaController extends Controller
      * Lists all comprobante entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -37,10 +37,13 @@ class ComprobanteVentaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy(Array('movimiento' => 'venta', 'activo'=> '1', 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
+        $texto = $request->get('texto','');
+
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByTexto_ventas($this->getUser()->getSucursal()->getId(), $texto);
 
         return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,
+            'texto' => $texto,
         ));
     }
 
@@ -61,7 +64,6 @@ class ComprobanteVentaController extends Controller
 
         //Agrego Valor Default dia de la fecha a la fecha de venta
         $comprobante->setFecha(new \DateTime("now"));
-        $comprobante->setPuntoVenta($this->getUser()->getSucursal()->getId());
         $comprobante->setUsuario($this->getUser());
 
         //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro y los articulos vinculados a ella.
@@ -149,7 +151,8 @@ class ComprobanteVentaController extends Controller
              ->getQuery()
              ->getSingleScalarResult();
 
-            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
+
             $comprobante->setClienteRazonSocial($comprobante->getCliente()->getNombre());
             $comprobante->setClienteDocumentoTipo($comprobante->getCliente()->getDocumentoTipo());
             $comprobante->setClienteDocumentoNumero($comprobante->getCliente()->getDocumentoNumero());
@@ -157,6 +160,7 @@ class ComprobanteVentaController extends Controller
             $comprobante->setClienteLocalidad($comprobante->getCliente()->getLocalidad()->getNombre());
             $comprobante->setClienteIvaCondicion($comprobante->getCliente()->getIvaCondicion()->getDescripcion());
             
+            $comprobante->setPuntoVenta($comprobante->getPuntoVentaId()->getNumero());
             $comprobante->setSucursal($sucursal);
             $comprobante->setNumero($max_numero_comprobante+1);
             $comprobante->setMovimiento('Venta');
@@ -221,28 +225,18 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
                 // Actualizacion Stock
-                $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+                $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
 
-                if (empty($stock)){
-                    $stockItem = new Stock();
-                    $stockItem->setArticulo($comprobanteDetalle->getArticulo());
-                    $stockItem->setSucursal($this->getUser()->getSucursal());
-                    $stockItem->setCantidadMinima($comprobanteDetalle->getArticulo()->getCantidadMinima());
-                    $stockItem->setCantidad($comprobanteDetalle->getCantidad());
-                    $stockItem->setActivo(1);
-                    $stockItem->setCreatedBy($this->getUser());
-                    $stockItem->setCreatedAt(new \DateTime("now"));
-                    $stockItem->setUpdatedBy($this->getUser());
-                    $stockItem->setUpdatedAt(new \DateTime("now"));
-                    $em->persist($stockItem);
+                if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                    $cantidad = $stock->getCantidad() - $comprobanteDetalle->getCantidad();
                 }
-                else{
-                    $cantidad = $stock[0]->getCantidad() - $comprobanteDetalle->getCantidad();
-                    $stock[0]->setCantidad($cantidad);
-                    $stock[0]->setUpdatedBy($this->getUser());
-                    $stock[0]->setUpdatedAt(new \DateTime("now"));
-                    $em->persist($stock[0]);
+                else {
+                    $cantidad = $stock->getCantidad() + $comprobanteDetalle->getCantidad();
                 }
+                $stock->setCantidad($cantidad);
+                $stock->setUpdatedBy($this->getUser());
+                $stock->setUpdatedAt(new \DateTime("now"));
+                $em->persist($stock);
 
                 $em->persist($comprobanteDetalle);
             }
@@ -325,17 +319,11 @@ class ComprobanteVentaController extends Controller
     public function editAction(Request $request, Comprobante $comprobante)
     {
         $em = $this->getDoctrine()->getManager();
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-
+        
         //Guardo el saldo del cliente antes de editar el comprobante
         $comprobante_saldo_anterior = $comprobante->getTotal();
         $cantidadVieja = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante))[0]->getCantidad();
         
-        if (!$secure->isAuthorized('ComprobanteVenta', 'Edit', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         //Valido si el Comprobante fue Facturado, en dicho caso redirect a show
         if (!(is_null($comprobante->getCaeNumero()))) {
 
@@ -362,8 +350,21 @@ class ComprobanteVentaController extends Controller
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo' => 1));
 
+        $stockComprobante = array();
         foreach($comprobanteDetalles as $comprobanteDetalle) {
             $comprobante->getComprobanteDetalles()->add($comprobanteDetalle);
+
+            //Guardo el stock de cada artículo devolviendo el stock por si llegase a eliminarse algún item
+            $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+
+            if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                $cantidad = $stock->getCantidad() + $comprobanteDetalle->getCantidad();
+            }
+            else {
+                $cantidad = $stock->getCantidad() - $comprobanteDetalle->getCantidad();
+            }
+            $stock->setCantidad($cantidad);
+            $stockComprobante[$comprobanteDetalle->getArticulo()->getId()] = $stock;
         }
 
         $deleteForm = $this->createDeleteForm($comprobante);
@@ -383,6 +384,7 @@ class ComprobanteVentaController extends Controller
             $comprobante->setClienteLocalidad($comprobante->getCliente()->getLocalidad()->getNombre());
             $comprobante->setClienteIvaCondicion($comprobante->getCliente()->getIvaCondicion()->getDescripcion());
 
+            $comprobante->setPuntoVenta($comprobante->getPuntoVentaId()->getNumero());
             $comprobante->setSucursal($sucursal);
             $comprobante->setPendiente($comprobante->getTotal());
             //$comprobante->setObraSocial($comprobante->getObraSocialPlan()->getObraSocial());
@@ -390,14 +392,14 @@ class ComprobanteVentaController extends Controller
 
             //**********************************************************************
             //ESTA parte es para que funcione el delete de articulos.
-            //Basicamente seteo a todos los articulos ya existen en la base de datos con 
-            //Activo = 0
+            //Basicamente seteo a todos los articulos del comprobante activos en la base
+            //de datos con Activo = 0
             $comprobanteDetalleDelete = $em->getRepository('AppBundle:ComprobanteDetalle')
-                    ->findBy(array('comprobante' => $comprobante));
+                    ->findBy(array('comprobante' => $comprobante, 'activo' => true));
 
             foreach ($comprobanteDetalleDelete as $comprobanteDetalle) {
                 $comprobanteDetalle->setActivo(0);
-            }   
+            }
             //**********************************************************************
 
             $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
@@ -442,20 +444,23 @@ class ComprobanteVentaController extends Controller
                 }
 
                 // Actualizacion Stock
-                $comprobantedetalleViejo = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante));
-                $difcantidad = $cantidadVieja - $comprobanteDetalle->getCantidad();
-                
-                if ($difcantidad != 0)
-                {
-                    $stock = $em->getRepository('AppBundle:Stock')->findBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+                if (!isset($stockComprobante[$comprobanteDetalle->getArticulo()->getId()])) {
+                    //Si se agregó un item nuevo
+                    $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
 
-                    $cantidadActual = $stock[0]->getCantidad();
+                    $stockComprobante[$comprobanteDetalle->getArticulo()->getId()] = $stock;
+                }
 
-                    $stock[0]->setCantidad($cantidadActual + $difcantidad);
-                    $stock[0]->setUpdatedBy($this->getUser());
-                    $stock[0]->setUpdatedAt(new \DateTime("now"));
-                    $em->persist($stock[0]);
-                }     
+                if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                    $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() - $comprobanteDetalle->getCantidad();
+                }
+                else {
+                    $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() + $comprobanteDetalle->getCantidad();
+                }
+
+                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setCantidad($cantidadActual);
+                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedBy($this->getUser());
+                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedAt(new \DateTime("now"));
             }
 
             //Actualizo el saldo del cliente
@@ -556,12 +561,10 @@ class ComprobanteVentaController extends Controller
      */
     public function facturarAction(Request $request, Comprobante $comprobante)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('ComprobanteVenta', 'Facturar', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
+        if (!$comprobante->getPuntoVentaId()->getFeHabilitada()) {
+            $this->get('session')->getFlashbag()->add('warning', 'El punto de venta del comprobante no se encuentra habilitado para emitir Factura Electrónica');
+            return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+        }
 
         $comprobante->setClienteRazonSocial($comprobante->getCliente()->getNombre());
         $comprobante->setClienteDocumentoTipo($comprobante->getCliente()->getDocumentoTipo());

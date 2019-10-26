@@ -32,6 +32,9 @@ $(function(){
 {{ form_end(form) }}
 
 <script type="text/javascript">
+    window.onload = function() {
+        fnClienteChange($("#OrdenTrabajoType_cliente"));
+    }
 
     $('.cliente').change(function() {
         fnClienteChange($(this));
@@ -93,6 +96,9 @@ $(function(){
     });
 
     function fnClienteChange(cliente) {
+        if (!(cliente.val() > 0)) {
+            return true;
+        }
 
         var data = { clienteId: cliente.val() };
 

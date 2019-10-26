@@ -56,7 +56,6 @@
         <tbody>
             <tr>
                 <td width="30%" align="left">
-                    &nbsp;
                     <br>
                     <b>Total: </b> {{ ordenTrabajo.total}}
                     <br>
@@ -65,9 +64,8 @@
                     <b>Entrega: </b> {{ ordenTrabajo.entrega}}
                     <br>
                     <b>Saldo: </b> {{ ordenTrabajo.saldo}}
-                    <br>
                 </td>
-                <td width="70%" align="left">
+                <td width="35%" align="left">
                     <b>Nombre: </b> {{ ordenTrabajo.cliente.nombre}}
                     <br>
                     <b>Teléfono: </b> {{ ordenTrabajo.cliente.telefono}}
@@ -75,7 +73,8 @@
                     <b>Direccion: </b> {{ ordenTrabajo.cliente.direccion}}
                     <br>
                     <b>DNI: </b> {{ ordenTrabajo.cliente.documentoNumero}}
-                    <br>
+                </td>
+                <td width="35%" align="left">
                     <b>Medico: </b> {{ ordenTrabajo.medico}}
                     <br>
                     <b>Fecha Receta: </b> {% if not ordenTrabajo.fechaReceta is empty %} {{ ordenTrabajo.fechaReceta | date('d-m-Y') }} {% endif %}
@@ -380,21 +379,19 @@
         </tbody>
     </table>
     {% endif %}
-    <br>
-    <br>
+    {#
     {% if not loop.last %}
         <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
     {% endif %}
-    {#
+    #}
     {% if not loop.last %}
+        <br>
         <br>
         <br>
         ---------------------------------------------------------------------------------------------------------------------------------------------------------------
         <br>
         <br>
         <br>
-        <br>
     {% endif %}
-    #}
     {% endfor %}
 </body>

@@ -82,13 +82,6 @@ class Cliente
     /**
      * @var string
      *
-     * @ORM\Column(name="telefono_celular", type="string", length=255, nullable=true)
-     */
-    private $telefonoCelular;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
@@ -302,30 +295,6 @@ class Cliente
     public function getTelefono()
     {
         return $this->telefono;
-    }
-
-    /**
-     * Set telefonoCelular
-     *
-     * @param string $telefonoCelular
-     *
-     * @return Cliente
-     */
-    public function setTelefonoCelular($telefonoCelular)
-    {
-        $this->telefonoCelular = $telefonoCelular;
-
-        return $this;
-    }
-
-    /**
-     * Get telefonoCelular
-     *
-     * @return string
-     */
-    public function getTelefonoCelular()
-    {
-        return $this->telefonoCelular;
     }
 
     /**

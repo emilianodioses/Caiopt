@@ -22,21 +22,20 @@ class ReciboController extends Controller
      * Lists all recibo entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Recibo', 'Index', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $em = $this->getDoctrine()->getManager();
 
-        $recibos = $em->getRepository('AppBundle:Recibo')->findBy(Array('activo' => 1, 'sucursal' => $this->getUser()->getSucursal()), array('id' => 'DESC'));
+        $texto = $request->get('texto','');
+
+        $recibos = $em->getRepository('AppBundle:Recibo')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
 
         return $this->render('recibo/index.html.twig', array(
             'recibos' => $recibos,
+            'texto' => $texto,
         ));
     }
 

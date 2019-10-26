@@ -111,7 +111,7 @@ class OrdenTrabajoType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('estado',ChoiceType::class,array(
                         'label'=>'Estado',
@@ -190,7 +190,7 @@ class OrdenTrabajoType extends AbstractType
                     'empty_data' => 0,
                     ),
                     'label' => 'Eje Ojo Izquierdo'))
-                ->add('lejosOjoDerechoCilindro',IntegerType::class, array(
+                ->add('lejosOjoDerechoCilindro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'class' => 'lejosOjoDerechoCilindro',

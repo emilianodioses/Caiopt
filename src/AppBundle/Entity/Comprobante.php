@@ -96,6 +96,16 @@ class Comprobante
      */
     private $puntoVenta;
 
+    /**
+     * @var \PuntoVenta
+     *
+     * @ORM\ManyToOne(targetEntity="PuntoVenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="punto_venta_id", referencedColumnName="id")
+     * })
+     */
+    private $puntoVentaId;
+
     //Condicion de venta: Efectivo, tarjeta de debito/credito
     /**
      * @var \AfipCondicionVenta
@@ -408,7 +418,7 @@ class Comprobante
 
     public function __toString()
     {
-        return $this->tipo->getDescripcion().': '.$this->puntoVenta.'-'.$this->afipNumero.'(N° Int: '.$this->numero.')';
+        return $this->tipo->getDescripcionCorta().': '.$this->puntoVenta.'-'.$this->afipNumero.'(N° Int: '.$this->numero.')';
     }
 
     
@@ -1405,5 +1415,29 @@ class Comprobante
     public function getComprobanteAsociado()
     {
         return $this->comprobanteAsociado;
+    }
+
+    /**
+     * Set puntoVentaId
+     *
+     * @param \AppBundle\Entity\PuntoVenta $puntoVentaId
+     *
+     * @return Comprobante
+     */
+    public function setPuntoVentaId(\AppBundle\Entity\PuntoVenta $puntoVentaId = null)
+    {
+        $this->puntoVentaId = $puntoVentaId;
+
+        return $this;
+    }
+
+    /**
+     * Get puntoVentaId
+     *
+     * @return \AppBundle\Entity\PuntoVenta
+     */
+    public function getPuntoVentaId()
+    {
+        return $this->puntoVentaId;
     }
 }
