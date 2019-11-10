@@ -182,6 +182,8 @@ class ComprobanteCompraController extends controller
                     $stock = new Stock();
 
                     $cantidadMinima = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo())->getCantidadMinima();
+                    $stock->setSucursal($sucursal);
+                    $stock->setArticulo($comprobanteDetalle->getArticulo());
                     $stock->setCantidadMinima($cantidadMinima);
                     $stock->setActivo(true);
                     $stock->setCreatedBy($this->getUser());
@@ -190,9 +192,7 @@ class ComprobanteCompraController extends controller
                     $stock->setUpdatedAt(new \DateTime("now"));
 
                     $em->persist($stock);
-                    $em->flush();
                 }        
-
 
                 if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
                     $cantidad = $stock->getCantidad() + $comprobanteDetalle->getCantidad();
@@ -232,6 +232,7 @@ class ComprobanteCompraController extends controller
             else {
                 $proveedor_saldo_actualizado = $proveedor->getSaldo() + $comprobante->getTotal();
             }
+
             $proveedor->setSaldo($proveedor_saldo_actualizado);
             $comprobante->setSaldo($proveedor_saldo_actualizado);
 
@@ -471,7 +472,7 @@ class ComprobanteCompraController extends controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $comprobante = $em->getRepository('AppBundle:Comprobante')->find($id);
+        //$comprobante = $em->getRepository('AppBundle:Comprobante')->find($id);
         if ($comprobante->getActivo() > 0)
             $comprobante->setActivo(0);
         else

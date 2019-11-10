@@ -1,48 +1,55 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+Stock
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
 {% block body %}
-    <h1>Stock</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ stock.id }}</td>
-            </tr>
-            <tr>
-                <th>Cantidad</th>
-                <td>{{ stock.cantidad }}</td>
-            </tr>
-            <tr>
-                <th>Cantidadminima</th>
-                <td>{{ stock.cantidadMinima }}</td>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <td>{% if stock.activo %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if stock.createdAt %}{{ stock.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{% if stock.updatedAt %}{{ stock.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('stock_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('stock_edit', { 'id': stock.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos de Obra Social</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th style="width:10%">Sucursal</th>
+                                <td>{{ stock.sucursal }}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:10%">Articulo</th>
+                                <td>{{ stock.articulo }}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:10%">Cantidad</th>
+                                <td>{{ stock.cantidad }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('stock_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('stock_edit', { 'id': stock.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div>
 {% endblock %}

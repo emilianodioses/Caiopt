@@ -53,6 +53,7 @@ Stock
                     </td> 
                     <td>{{ stock.cantidadMinima }}</td>
                     <td>
+                      <a href="{{ path('stock_show', { 'id': stock.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                       <a href="{{ path('stock_edit', { 'id': stock.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                     </td>
