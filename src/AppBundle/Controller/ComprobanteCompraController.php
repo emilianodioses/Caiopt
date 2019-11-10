@@ -177,6 +177,23 @@ class ComprobanteCompraController extends controller
                 // Actualizacion Stock
                 $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
 
+                if (count($stock == 0))
+                {
+                    $stock = new Stock();
+
+                    $cantidadMinima = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo())->getCantidadMinima();
+                    $stock->setCantidadMinima($cantidadMinima);
+                    $stock->setActivo(true);
+                    $stock->setCreatedBy($this->getUser());
+                    $stock->setCreatedAt(new \DateTime("now"));
+                    $stock->setUpdatedBy($this->getUser());
+                    $stock->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($stock);
+                    $em->flush();
+                }        
+
+
                 if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
                     $cantidad = $stock->getCantidad() + $comprobanteDetalle->getCantidad();
                 }
