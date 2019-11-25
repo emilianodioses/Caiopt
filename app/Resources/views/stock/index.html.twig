@@ -42,7 +42,11 @@ Stock
             {% for stock in pagination %}
                 <tr>
                     <td>{{ stock.sucursal }}</td>
-                    <td><a href="{{ path('articulo_show', { 'id': stock.articulo.id }) }}">{{ stock.articulo }}</a></td>
+                    {% if rol == "Administrador" %}
+                      <td><a href="{{ path('articulo_show', { 'id': stock.articulo.id }) }}">{{ stock.articulo }}</a></td>
+                    {% else %}
+                      <td><a>{{ stock.articulo }}</a></td>
+                    {% endif %}
                     <td>{{ stock.articulo.codigo }}</td>
                     <td>{{ stock.articulo.marca }}</td>
                     <td>{% if stock.cantidad < stock.cantidadMinima%}

@@ -20,6 +20,8 @@ class StockController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $rol = $this->getUser()->getRol();
+
         $texto = $request->get('texto','');
 
         $query = $em->getRepository('AppBundle:Stock')->findByTexto($texto);
@@ -33,7 +35,8 @@ class StockController extends Controller
 
         return $this->render('stock/index.html.twig', array(
             'pagination' => $pagination,
-            'texto' => $texto
+            'texto' => $texto,
+            'rol' => $rol->getDescripcion()
         ));
     }
 
