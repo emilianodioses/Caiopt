@@ -117,38 +117,29 @@ class StockController extends Controller
             // Obtengo datos "Not Mapped" (Form)
             $sucursalDestino = $editForm->get("sucursaldestino")->getData();
             $moverstock = $editForm->get("moverstock")->getData();
-            
-            if ($moverstock > $stock->getCantidad()){
-                $this->get('session')->getFlashbag()->add('danger', 'No puede mover una cantidad superior al stock disponible');
-                return $this->render('stock/edit.html.twig', array(
-                    'stock' => $stock,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-                ));
-            }
-                
+                          
 
             if ($sucursalDestino!=null && $sucursalDestino <> $stock->getSucursal() && $moverstock > 0 && $moverstock <= $stock->getCantidad())
             {
                 // Verificar si la sucursal destino tiene stock (si no tiene hay que crear la row)
-                $stockdestino = $em->getRepository('AppBundle:Stock')->findBy(array('articulo' => $stock->getArticulo(), 'sucursal' => $sucursalDestino))[0];
+                $stockdestino = $em->getRepository('AppBundle:Stock')->findBy(array('articulo' => $stock->getArticulo(), 'sucursal' => $sucursalDestino));
 
-                // Si el registro existe en la tabla Stock, actualizo. 
-                // Else lo creo
                 if (count($stockdestino) > 0)
                 {
-                    $stockdestino->setCantidad($stockdestino->getCantidad() + $moverstock);
-                    $stock->setCantidad($stock->getCantidad() - $moverstock);                    
+                    $stockdestino[0]->setCantidad($stockdestino[0]->getCantidad() + $moverstock);
+                    $stock->setCantidad($stock->getCantidad() - $moverstock);  
+                    
+                    $em->persist($stock);
+                    $em->persist($stockdestino[0]);                  
                 }
                 else
                 {
                     $stockdestino = new Stock();
-                    $cantidadMinima = $em->getRepository('AppBundle:Articulo')->find($stock->getArticulo())->getCantidadMinima();
 
                     $stockdestino->setArticulo($stock->getArticulo());
                     $stockdestino->setSucursal($sucursalDestino);
                     $stockdestino->setCantidad($moverstock);
-                    $stockdestino->setCantidadMinima($cantidadMinima);
+                    $stockdestino->setCantidadMinima(0);
                     $stockdestino->setActivo(true);
                     $stockdestino->setCreatedBy($this->getUser());
                     $stockdestino->setCreatedAt(new \DateTime("now"));
@@ -156,10 +147,30 @@ class StockController extends Controller
                     $stockdestino->setUpdatedAt(new \DateTime("now"));
 
                     $stock->setCantidad($stock->getCantidad() - $moverstock);
-                }
 
-                $em->persist($stock);
-                $em->persist($stockdestino);
+                    $em->persist($stock);
+                    $em->persist($stockdestino);
+                }                
+            }
+            else {
+
+                // Error mover stock superior al disponible
+                if ($moverstock > $stock->getCantidad())
+                    $this->get('session')->getFlashbag()->add('danger', 'No puede mover una cantidad superior al stock disponible');
+
+                // Error mover stock superior al disponible
+                if ($sucursalDestino == null)
+                    $this->get('session')->getFlashbag()->add('warning', 'Elija una sucursal destino');
+
+                // Error mover stock superior al disponible
+                if ($sucursalDestino == $stock->getSucursal())
+                    $this->get('session')->getFlashbag()->add('warning', 'Elija una sucursal destino diferente a origen');
+
+                return $this->render('stock/edit.html.twig', array(
+                    'stock' => $stock,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
             }
 
             $em->flush();
