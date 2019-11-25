@@ -49,7 +49,7 @@ class ArticuloType extends AbstractType
                 ->add('gananciaPorcentaje', null, array('label' => 'Ganancia %',))
                 ->add('precioVenta', null, array('label' => 'Precio de Venta + 15%','attr' => array('readonly' => true )))
                 ->add('precioVentaSinIva', null, array('label' => 'Precio Venta sin IVA'))
-                ->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
+                //->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
                 ->add('precioModifica', HiddenType::class, array('label' => 'Precio Modificable',))
                 ->add('ordenTrabajo', HiddenType::class, array('label' => 'Orden de Trabajo',))
                 ->add('genero',ChoiceType::class,array(

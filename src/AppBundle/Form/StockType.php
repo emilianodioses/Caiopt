@@ -61,6 +61,7 @@ class StockType extends AbstractType
                     'mapped' => false,
                     'label' => 'Cantidad a mover',
                     'attr' => array('size' => 3, 'placeholder' => 'Cantidad', 'class' => 'mover')))
+                ->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
                 ->add('sucursaldestino', EntityType::class, array(
                     'label' => 'Sucursal Destino',
                     'class' => 'AppBundle:Sucursal',
