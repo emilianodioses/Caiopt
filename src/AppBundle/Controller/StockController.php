@@ -117,6 +117,16 @@ class StockController extends Controller
             // Obtengo datos "Not Mapped" (Form)
             $sucursalDestino = $editForm->get("sucursaldestino")->getData();
             $moverstock = $editForm->get("moverstock")->getData();
+            
+            if ($moverstock > $stock->getCantidad()){
+                $this->get('session')->getFlashbag()->add('danger', 'No puede mover una cantidad superior al stock disponible');
+                return $this->render('stock/edit.html.twig', array(
+                    'stock' => $stock,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
+            }
+                
 
             if ($sucursalDestino!=null && $sucursalDestino <> $stock->getSucursal() && $moverstock > 0 && $moverstock <= $stock->getCantidad())
             {
