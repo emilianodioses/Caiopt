@@ -24,7 +24,11 @@ app_proveedor:
 
 app_articulo:
     resource: "@AppBundle/Resources/config/routing/articulo.yml"
-    prefix:   /articulo    
+    prefix:   /articulo   
+
+app_stock:
+    resource: "@AppBundle/Resources/config/routing/stock.yml"
+    prefix:   /stock   
 
 app_comprobantecompra:
     resource: "@AppBundle/Resources/config/routing/comprobantecompra.yml"

@@ -14,8 +14,6 @@ class ArticuloRepository extends \Doctrine\ORM\EntityRepository
         $query = 'SELECT a  FROM AppBundle:Articulo a ';
         $query.= ' INNER JOIN AppBundle:ArticuloMarca am WITH a.marca = am.id';
 
-
-
         $query .= ' WHERE a.activo = 1';
 
         if ($texto != ''){
