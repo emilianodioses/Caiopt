@@ -37,7 +37,6 @@ Articulos
                 <th>Ganancia %</th>
                 <th>Precio Venta</th>
                 <th>IVA</th>
-                <th>Cantidad Minima</th>
                 <th>Precio Modificable</th>
                 <th>Necesita Orden de Trabajo</th>
                 <th>Acciones</th>
@@ -52,7 +51,6 @@ Articulos
                     <td>{{ articulo.gananciaPorcentaje }}</td>
                     <td>{{ articulo.precioVenta }}</td>
                     <td>{{ articulo.iva }}</td>
-                    <td>{{ articulo.cantidadMinima }}</td>
                     <td>{% if articulo.precioModifica %}
                           <span class="label label-success">Si</span>
                             {% else %}

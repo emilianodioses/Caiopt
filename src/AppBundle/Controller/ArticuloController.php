@@ -73,9 +73,6 @@ class ArticuloController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
-            if ($articulo->getCantidadMinima() == 0) {
-                $articulo->setCantidadMinima(1);
-            }
             $articulo->setPrecioModifica(1);
             $articulo->setOrdenTrabajo(1);
             $articulo->setUltimoComprobante(null);

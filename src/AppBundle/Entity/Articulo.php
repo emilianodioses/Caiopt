@@ -96,13 +96,6 @@ class Articulo
     /**
      * @var string
      *
-     * @ORM\Column(name="cantidad_minima", type="decimal", precision=16, scale=2)
-     */
-    private $cantidadMinima;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="precio_modifica", type="boolean")
      */
     private $precioModifica;
@@ -432,30 +425,6 @@ class Articulo
     public function getIva()
     {
         return $this->iva;
-    }
-
-    /**
-     * Set cantidadMinima
-     *
-     * @param string $cantidadMinima
-     *
-     * @return Articulo
-     */
-    public function setCantidadMinima($cantidadMinima)
-    {
-        $this->cantidadMinima = $cantidadMinima;
-
-        return $this;
-    }
-
-    /**
-     * Get cantidadMinima
-     *
-     * @return string
-     */
-    public function getCantidadMinima()
-    {
-        return $this->cantidadMinima;
     }
 
     /**
