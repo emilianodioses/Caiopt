@@ -171,7 +171,7 @@ Articulo
                         <span class="progress-number"><b>{{stockSucursal.Cantidad}}</b></span>
 
                         <div class="progress sm">
-                        {% if articulo.cantidadMinima < stockSucursal.Cantidad %}
+                        {% if stockSucursal.cantidadMinima < stockSucursal.Cantidad %}
                             <div class="progress-bar {{color[loop.index0 % (color|length)]}}" style="width: 100%"></div>
                         {% else %}
                             
