@@ -172,10 +172,9 @@ Articulo
 
                         <div class="progress sm">
                         {% if stockSucursal.cantidadMinima < stockSucursal.Cantidad %}
-                            <div class="progress-bar {{color[loop.index0 % (color|length)]}}" style="width: 100%"></div>
+                            <div class="progress-bar progress-bar-green" style="width: 100%"></div>
                         {% else %}
-                            
-                            <div class="progress-bar {{color[loop.index0 % (color|length)]}}" style="width: {{stockSucursal.Cantidad / articulo.cantidadMinima * 100}}%"></div>
+                            <div class="progress-bar progress-bar-red" style="width: {{stockSucursal.Cantidad / stockSucursal.cantidadMinima * 100}}%"></div>
                         {% endif %}
                         </div>
                     </div>
