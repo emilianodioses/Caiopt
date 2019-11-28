@@ -204,7 +204,7 @@ class ClienteController extends Controller
         $cliente->setUpdatedBy($this->getUser()); 
         $cliente->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($cliente);
+        $em->flush();
         
         return $this->redirectToRoute('cliente_index');
     }

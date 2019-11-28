@@ -200,7 +200,7 @@ class UsuarioController extends AppController
         $usuario->setUpdatedBy($this->getUser()); 
         $usuario->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($usuario);
+        $em->flush();
         
         return $this->redirectToRoute('usuario_index');
     }

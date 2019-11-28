@@ -224,7 +224,7 @@ class OrdenTrabajoController extends Controller
         $ordenTrabajo->setUpdatedBy($this->getUser()); 
         $ordenTrabajo->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($ordenTrabajo);
+        $em->flush();
         
         return $this->redirectToRoute('ordentrabajo_index');
     }
@@ -250,7 +250,7 @@ class OrdenTrabajoController extends Controller
         $ordenTrabajo->setUpdatedBy($this->getUser()); 
         $ordenTrabajo->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($ordenTrabajo);
+        $em->flush();
         
         return $this->redirectToRoute('ordentrabajo_show', array('id' => $ordenTrabajo->getId()));
     }

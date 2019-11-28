@@ -152,7 +152,7 @@ class OrdenTrabajoContactologiaController extends Controller
         $ordenTrabajoContactologia->setUpdatedBy($this->getUser()); 
         $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($ordenTrabajoContactologia);
+        $em->flush();
         
         return $this->redirectToRoute('ordentrabajocontactologia_show', array('id' => $ordenTrabajoContactologia->getId()));
     }
@@ -240,7 +240,7 @@ class OrdenTrabajoContactologiaController extends Controller
         $ordenTrabajoContactologia->setUpdatedBy($this->getUser()); 
         $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($ordenTrabajoContactologia);
+        $em->flush();
         
         return $this->redirectToRoute('ordentrabajocontactologia_index');
     }

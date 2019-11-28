@@ -491,7 +491,7 @@ class ComprobanteCompraController extends controller
         }
         $proveedor->setSaldo($proveedor_saldo_actualizado);
         
-        $em->flush($comprobante);
+        $em->flush();
         
         return $this->redirectToRoute('comprobanteventa_index');
     }

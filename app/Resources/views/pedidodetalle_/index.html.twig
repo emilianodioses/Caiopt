@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pedidodetalles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cantidad</th>
+                <th>Preciounitario</th>
+                <th>Total</th>
+                <th>Observaciones</th>
+                <th>Activo</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pedidoDetalle in pedidoDetalles %}
+            <tr>
+                <td><a href="{{ path('pedidodetalle_show', { 'id': pedidoDetalle.id }) }}">{{ pedidoDetalle.id }}</a></td>
+                <td>{{ pedidoDetalle.cantidad }}</td>
+                <td>{{ pedidoDetalle.precioUnitario }}</td>
+                <td>{{ pedidoDetalle.total }}</td>
+                <td>{{ pedidoDetalle.observaciones }}</td>
+                <td>{% if pedidoDetalle.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{% if pedidoDetalle.createdAt %}{{ pedidoDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if pedidoDetalle.updatedAt %}{{ pedidoDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pedidodetalle_show', { 'id': pedidoDetalle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pedidodetalle_edit', { 'id': pedidoDetalle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pedidodetalle_new') }}">Create a new pedidoDetalle</a>
+        </li>
+    </ul>
+{% endblock %}

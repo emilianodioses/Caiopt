@@ -117,3 +117,11 @@ app_librocajadetalle:
 app_informe:
     resource: "@AppBundle/Resources/config/routing/informe.yml"
     prefix:   /informe
+
+app_pedido:
+    resource: "@AppBundle/Resources/config/routing/pedido.yml"
+    prefix:   /pedido
+
+app_pedidodetalle:
+    resource: "@AppBundle/Resources/config/routing/pedidodetalle.yml"
+    prefix:   /pedidodetalle

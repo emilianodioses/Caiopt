@@ -534,7 +534,7 @@ class ComprobanteVentaController extends Controller
         }
         $cliente->setSaldo($cliente_saldo_actualizado);
         
-        $em->flush($comprobante);
+        $em->flush();
         
         return $this->redirectToRoute('comprobanteventa_index');
     }
