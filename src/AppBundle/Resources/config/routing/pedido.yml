@@ -22,3 +22,8 @@ pedido_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Pedido:delete" }
     methods:  DELETE
+
+pedido_imprimir:
+    path:     /{id}/imprimir
+    defaults: { _controller: "AppBundle:Pedido:imprimir" }
+    methods:  [GET, POST]

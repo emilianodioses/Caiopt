@@ -84,6 +84,11 @@
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <a href="{{ path('pedido_edit', { 'id': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                                    {% if pedido.proveedor.email is not empty %}
+                                        <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" title="Enviar"><span class="glyphicon glyphicon-envelope"></span>Enviar
+                                        </a>
+                                    {% endif %}
+                                    <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Imprimir"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
                                 </div>
                             </div>
                         </div>
@@ -133,8 +138,12 @@
                                     </a>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <a href="{{ path('pedido_edit', { 'id': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
-                                     </a>
+                                    <a href="{{ path('pedido_edit', { 'id': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                                    {% if pedido.proveedor.email is not empty %}
+                                        <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" title="Enviar"><span class="glyphicon glyphicon-envelope"></span>Enviar
+                                        </a>
+                                    {% endif %}
+                                    <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Imprimir"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
                                 </div>
                             </div>
                         </div>
