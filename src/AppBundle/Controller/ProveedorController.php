@@ -199,7 +199,7 @@ class ProveedorController extends Controller
         $proveedor->setUpdatedBy($this->getUser());
         $proveedor->setUpdatedAt(new \DateTime("now"));
 
-        $em->flush($proveedor);
+        $em->flush();
 
         return $this->redirectToRoute('proveedor_index');
     }

@@ -235,7 +235,7 @@ class RolController extends Controller
         $rol->setUpdatedBy($this->getUser()); 
         $rol->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($rol);
+        $em->flush();
         
         return $this->redirectToRoute('rol_index');
     }

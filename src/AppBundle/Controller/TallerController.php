@@ -123,7 +123,7 @@ class TallerController extends Controller
         $taller->setUpdatedBy($this->getUser()); 
         $taller->setUpdatedAt(new \DateTime("now")); 
 
-        $em->flush($taller);
+        $em->flush();
 
         return $this->redirectToRoute('taller_index');
     }

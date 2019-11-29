@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pedidodetalle</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pedidoDetalle.id }}</td>
+            </tr>
+            <tr>
+                <th>Cantidad</th>
+                <td>{{ pedidoDetalle.cantidad }}</td>
+            </tr>
+            <tr>
+                <th>Preciounitario</th>
+                <td>{{ pedidoDetalle.precioUnitario }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ pedidoDetalle.total }}</td>
+            </tr>
+            <tr>
+                <th>Observaciones</th>
+                <td>{{ pedidoDetalle.observaciones }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if pedidoDetalle.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if pedidoDetalle.createdAt %}{{ pedidoDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if pedidoDetalle.updatedAt %}{{ pedidoDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pedidodetalle_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('pedidodetalle_edit', { 'id': pedidoDetalle.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

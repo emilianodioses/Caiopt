@@ -165,7 +165,7 @@ class MedicoController extends Controller
         $medico->setUpdatedBy($this->getUser()); 
         $medico->setUpdatedAt(new \DateTime("now")); 
 
-        $em->flush($medico);
+        $em->flush();
 
         return $this->redirectToRoute('medico_index');
     }

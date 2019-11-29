@@ -1,0 +1,224 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Pedido
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Pedido</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Detalles Pedido</a>
+    </li>
+    {#
+    <li class="nav">
+        <a href="#tabs-3" data-toggle="tab">Ordenes de Pago</a>
+    </li>
+    #}
+</ul>
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Pedido</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width:30%">Nº Pedido</th>
+                                            <td>{{ pedido.numero }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Proveedor</th>
+                                            <td><a href="{{ path('proveedor_show', { 'id': pedido.proveedor.Id }) }}">{{ pedido.proveedor.nombre }}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <td>{% if pedido.fecha %}{{ pedido.fecha|date('d-m-Y') }}{% endif %}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Observaciones</th>
+                                            <td>{{ pedido.observaciones }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <td>{{ pedido.usuario }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('pedido_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Pedidos
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('pedido_edit', { 'id': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                                    {% if pedido.proveedor.email is not empty %}
+                                        <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" title="Enviar"><span class="glyphicon glyphicon-envelope"></span>Enviar
+                                        </a>
+                                    {% endif %}
+                                    <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Imprimir"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>              
+                </div> 
+            </div> 
+        </div>
+        <div class="tab-pane" id="tabs-2">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
+                                <table class="table table-condensed table-hover input-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Artículo</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for pedidodetalle in pedidodetalles %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('articulo_show', { 'id': pedidodetalle.articulo.id }) }}">{{ pedidodetalle.articulo.descripcion }}</a>
+                                                {% if pedidodetalle.articulo.codigo == 'S/A' %}
+                                                    &nbsp;<a href="{{ path('articulo_edit', { 'id': pedidodetalle.articulo.id }) }}" target="_blank"><span class="label label-info">Art. Nuevo</span></a>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ pedidodetalle.cantidad }}</td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>        
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('pedido_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Pedidos
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <a href="{{ path('pedido_edit', { 'id': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                                    {% if pedido.proveedor.email is not empty %}
+                                        <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" title="Enviar"><span class="glyphicon glyphicon-envelope"></span>Enviar
+                                        </a>
+                                    {% endif %}
+                                    <a href="{{ path('pedido_imprimir', { 'id': pedido.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Imprimir"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>              
+                </div>
+            </div>
+        </div>
+        {#
+        <div class="tab-pane" id="tabs-3">  
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Ordenes de Pago</h3>
+                                <table class="table table-condensed table-hover input-sm">
+                                    <tr>
+                                        <th style="width: 10%">Nº Orden de Pago</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Disponible</th>
+                                        <th>Observaciones</th>
+                                        <th>Importe Pedido</th>
+                                        <th style="width: 5%">Acciones</th>
+                                    </tr>
+                                    <tbody>
+                                    {% for ordenPagoPedido in ordenPagoPedidos %}
+                                        {% set ordenPago = ordenPagoPedido.ordenPago %}
+                                        <tr>
+                                            <td>{{ ordenPago.numero }}</td>
+                                            <td>{{ ordenPago.proveedor }}</td>
+                                            <td>{{ ordenPago.fecha|date('d-m-Y') }}</td>
+                                            <td>{{ ordenPago.total }}</td>
+                                            <td>{{ ordenPago.disponible }}</td>
+                                            <td>{{ ordenPago.observaciones }}</td> 
+                                            <td>{{ ordenPagoPedido.importe }}
+                                            <td>
+                                              <a href="{{ path('ordenpago_show', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                              </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('pedidoventa_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Pedidos
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('ordenpago_new', { 'pedido': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-usd"></span> Nueva Orden de Pago
+                                     </a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('pedidoventa_edit', { 'id': pedido.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>            
+                </div>
+            </div>
+        </div>
+        #}
+    </div>
+</div> 
+{% endblock %}
+
+

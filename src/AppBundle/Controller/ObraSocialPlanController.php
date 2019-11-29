@@ -123,7 +123,7 @@ class ObraSocialPlanController extends Controller
         $obrasocialplan->setUpdatedBy($this->getUser()); 
         $obrasocialplan->setUpdatedAt(new \DateTime("now")); 
 
-        $em->flush($obrasocialplan);
+        $em->flush();
 
         return $this->redirectToRoute('obrasocialplan_index');
     }

@@ -213,7 +213,7 @@ class ArticuloController extends Controller
         $articulo->setUpdatedBy($this->getUser()); 
         $articulo->setUpdatedAt(new \DateTime("now")); 
         
-        $em->flush($articulo);
+        $em->flush();
         
         return $this->redirectToRoute('articulo_index');
     }

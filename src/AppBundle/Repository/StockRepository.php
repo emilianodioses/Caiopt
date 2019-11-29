@@ -22,7 +22,7 @@ class StockRepository extends \Doctrine\ORM\EntityRepository
             $query .= ' AND (su.nombre LIKE :texto OR a.codigo LIKE :texto OR a.descripcion LIKE :texto OR am.descripcion LIKE :texto)';
          }
 
-        $query .= ' ORDER BY a.codigo ASC ';
+        $query .= ' ORDER BY a.descripcion ASC, su.nombre ASC ';
 
         $qb = $this->getEntityManager()->createQuery($query);
 
