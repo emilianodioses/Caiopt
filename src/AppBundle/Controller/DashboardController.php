@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 
 
 class DashboardController extends Controller
@@ -72,6 +73,27 @@ class DashboardController extends Controller
         $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findAll_sucursal($sucursal_id);
 
         $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_id, $fecha_now);
+
+        // Google Charts 
+            $pieChart = new PieChart();
+            $pieChart->getData()->setArrayToDataTable(
+                [['Task', 'Hours per Day'],
+                ['Work',     11],
+                ['Eat',      2],
+                ['Commute',  2],
+                ['Watch TV', 2],
+                ['Sleep',    7]
+                ]
+            );
+            $pieChart->getOptions()->setTitle('My Daily Activities');
+            $pieChart->getOptions()->setHeight(500);
+            $pieChart->getOptions()->setWidth(900);
+            $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+            $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+            $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
+            $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+            $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
+        // Google Charts 
         
         return $this->render('dashboard/index.html.twig', array(
             'cantidadVentas' => count($comprobantesVentas),
@@ -80,7 +102,8 @@ class DashboardController extends Controller
             'cantidadOrdenesTrabajo' => count($ordenesTrabajoHoy),
             'cajaDetalles' => $cajaDetalles,
             'ordenesTrabajo' => $ordenesTrabajo,
-            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia
+            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia,
+            'piechart' => $pieChart
         ));
     }
 }
