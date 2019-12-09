@@ -75,20 +75,38 @@ class DashboardController extends Controller
         $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_id, $fecha_now);
 
         // Google Charts 
+            $ventasCategoria = $em->getRepository('AppBundle:ComprobanteDetalle')
+                ->createQueryBuilder('comprobantedetalle')
+                ->join('comprobantedetalle.articulo','articulo')
+                ->join('articulo.categoria','articuloCategoria')
+                ->join('articulo.marca','articuloMarca')
+                ->select('articuloCategoria.descripcion as categoria, SUM(comprobantedetalle.cantidad) as cantidad')
+                ->where('comprobantedetalle.movimiento = :movimiento')
+                ->groupBy('categoria')
+                ->orderBy('cantidad', 'DESC')    
+                //->setMaxResults(10)
+                ->setParameter('movimiento', "Venta")
+                ->getQuery()
+                ->getArrayResult();
+
+            $datapie = array();
+            $header = array('Categoria', 'Cantidad');
+            array_push($datapie, $header);
+
+            foreach($ventasCategoria as $categoria) {
+                $item = array($categoria["categoria"], (int)$categoria["cantidad"]);
+                array_push($datapie, $item);
+            }
+
             $pieChart = new PieChart();
-            $pieChart->getData()->setArrayToDataTable(
-                [['Task', 'Hours per Day'],
-                ['Work',     11],
-                ['Eat',      2],
-                ['Commute',  2],
-                ['Watch TV', 2],
-                ['Sleep',    7]
-                ]
-            );
-            $pieChart->getOptions()->setTitle('My Daily Activities');
+            $pieChart->getData()->setArrayToDataTable($datapie);
+
+            $pieChart->getOptions()->setTitle('Ventas por Categoria');
             $pieChart->getOptions()->setHeight(500);
-            $pieChart->getOptions()->setWidth(900);
+            $pieChart->getOptions()->setWidth(600);
             $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+            $pieChart->getOptions()->setis3D(true);
+            $pieChart->getOptions()->getLegend()->setPosition('left');
             $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
             $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
             $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
