@@ -93,7 +93,6 @@ class PedidoController extends controller
                     $articulo->setMarca($marca);
                     $articulo->setDescripcion($pedidoDetalle->getArticulo()->getDescripcion());
                     $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
-                    $articulo->setCantidadMinima(1);
                     $articulo->setGenero('');
                     $articulo->setMaterial('');
                     $articulo->setForma('');
@@ -119,7 +118,7 @@ class PedidoController extends controller
                         $stock->setArticulo($articulo);
                         $stock->setSucursal($sucursal);
                         $stock->setCantidad(0);
-                        $stock->setCantidadMinima($articulo->getCantidadMinima());
+                        $stock->setCantidadMinima(1);
                         $stock->setActivo(true);
                         $stock->setCreatedBy($this->getUser());
                         $stock->setCreatedAt(new \DateTime("now"));

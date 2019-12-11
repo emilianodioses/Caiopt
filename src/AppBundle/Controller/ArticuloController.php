@@ -91,7 +91,7 @@ class ArticuloController extends Controller
                 $stock->setArticulo($articulo);
                 $stock->setSucursal($sucursal);
                 $stock->setCantidad(0);
-                $stock->setCantidadMinima($articulo->getCantidadMinima());
+                $stock->setCantidadMinima(1);
                 $stock->setActivo(true);
                 $stock->setCreatedBy($this->getUser());
                 $stock->setCreatedAt(new \DateTime("now"));

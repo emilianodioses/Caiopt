@@ -57,8 +57,6 @@ class StockController extends Controller
 
             if (count($stockdestino) == 0)
             {
-                //$cantidadMinima = $em->getRepository('AppBundle:Articulo')->find($stock->getArticulo())->getCantidadMinima();
-                //$stock->setCantidadMinima($cantidadMinima);
                 $stock->setActivo(true);
                 $stock->setCreatedBy($this->getUser());
                 $stock->setCreatedAt(new \DateTime("now"));

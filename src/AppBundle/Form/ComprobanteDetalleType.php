@@ -52,8 +52,10 @@ class ComprobanteDetalleType extends AbstractType
             '21.00' => '21.00'
         );
 
-        $builder->add('comprobante',HiddenType::class,array('label'=>'Comprobante'))
-                ->add('articulo', Select2EntityType::class, array(
+        if (false) {
+        //if ($options['attr']['tipo'] == 'Compra') {
+            //Falla ----NO FUNCIONA EL SELECT2 CUANDO SE AGREGA DINAMICAMENTE
+            $builder->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
                     'class' => 'AppBundle\Entity\Articulo',
                     'remote_route' => 'articulo_find_select2',
@@ -78,7 +80,31 @@ class ComprobanteDetalleType extends AbstractType
                         'new_tag_prefix' => '__',
                         'tag_separators'=> '[",", ""]'
                         ),
-                    )) 
+                    ));
+        }
+        else {
+            $builder->add('articulo', Select2EntityType::class, array(
+                    'label' => 'Articulo',
+                    'class' => 'AppBundle\Entity\Articulo',
+                    'remote_route' => 'articulo_find_select2',
+                    'placeholder' => 'Seleccione un artículo',
+                    'required' => true,
+                    'attr' => [
+                            'class' => 'articulo',
+                        ],
+                    'primary_key' => 'id',
+                    'text_property' => 'descripcion',
+                    'minimum_input_length' => 2,
+                    'page_limit' => 10,
+                    'allow_clear' => false,
+                    'delay' => 250,
+                    'cache' => true,
+                    'cache_timeout' => 60000, // if 'cache' is true
+                    'language' => 'es',
+                    'multiple' => false,
+                    ));
+        }
+        $builder->add('comprobante',HiddenType::class,array('label'=>'Comprobante'))
                 ->add('cantidad',IntegerType::class,array(
                     'required' => true,
                     'label' => false,

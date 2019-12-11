@@ -33,7 +33,10 @@ class ComprobanteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+      $comprobanteDetallesTipo = '';
+
       if ( isset($options['attr']['tipo']) ) {
+        $comprobanteDetallesTipo = $options['attr']['tipo'] == 'Compra';
         if ($options['attr']['tipo'] == 'Compra') {
           $builder->add('tipo', EntityType::class, array(
                         'label' => 'Tipo',
@@ -306,6 +309,7 @@ class ComprobanteType extends AbstractType
                         'entry_options' => [
                             'attr' => [
                                 'class' => 'item', // we want to use 'tr.item' as collection elements' selector
+                                'tipo' => $comprobanteDetallesTipo,
                             ],
                         ],
                         'allow_add' => true,

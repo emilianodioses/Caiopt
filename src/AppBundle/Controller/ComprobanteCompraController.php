@@ -116,7 +116,6 @@ class ComprobanteCompraController extends controller
                     $articulo->setMarca($marca);
                     $articulo->setDescripcion($comprobanteDetalle->getArticulo()->getDescripcion());
                     $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
-                    $articulo->setCantidadMinima(1);
                     $articulo->setGenero('');
                     $articulo->setMaterial('');
                     $articulo->setForma('');
@@ -142,7 +141,7 @@ class ComprobanteCompraController extends controller
                         $stock->setArticulo($articulo);
                         $stock->setSucursal($sucursal);
                         $stock->setCantidad(0);
-                        $stock->setCantidadMinima($articulo->getCantidadMinima());
+                        $stock->setCantidadMinima(1);
                         $stock->setActivo(true);
                         $stock->setCreatedBy($this->getUser());
                         $stock->setCreatedAt(new \DateTime("now"));
@@ -177,14 +176,13 @@ class ComprobanteCompraController extends controller
                 // Actualizacion Stock
                 $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
 
-                if (count($stock == 0))
+                if (is_null($stock))
                 {
                     $stock = new Stock();
 
-                    $cantidadMinima = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo())->getCantidadMinima();
                     $stock->setSucursal($sucursal);
                     $stock->setArticulo($comprobanteDetalle->getArticulo());
-                    $stock->setCantidadMinima($cantidadMinima);
+                    $stock->setCantidadMinima(1);
                     $stock->setActivo(true);
                     $stock->setCreatedBy($this->getUser());
                     $stock->setCreatedAt(new \DateTime("now"));
@@ -327,7 +325,7 @@ class ComprobanteCompraController extends controller
         $editForm = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Compra')));
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($editForm->isSubmitted()) {
             //INICIO Validacion Comprobante Existente
             $comprobantesDuplicado = $em->getRepository('AppBundle:Comprobante')->findBy(Array('proveedor' => $comprobante->getProveedor(), 'puntoVenta' => $comprobante->getPuntoVenta(), 'numero' => $comprobante->getNumero(), 'tipo' => $comprobante->getTipo(), 'activo'=>1, 'movimiento' => 'Compra'));
 
@@ -365,7 +363,60 @@ class ComprobanteCompraController extends controller
             }   
             //**********************************************************************
 
+            //dump($editForm->getData()->getComprobanteDetalles());
+            //die;
             foreach($editForm->getData()->getComprobanteDetalles() as $comprobanteDetalle) {
+                //Verifico si hay que agregar el artículo ingresado
+                if (is_null($comprobanteDetalle->getArticulo()->getId())) {
+                    $articulo = new Articulo();
+
+                    $categoria = $em->getRepository('AppBundle:ArticuloCategoria')->find(1);
+                    $marca = $em->getRepository('AppBundle:ArticuloMarca')->find(1);
+                    $iva_21 = $em->getRepository('AppBundle:AfipAlicuota')->findOneBy(array('descripcion' => '21.00'));
+
+                    $articulo->setCodigo('S/A');
+                    $articulo->setCategoria($categoria);
+                    $articulo->setMarca($marca);
+                    $articulo->setDescripcion($comprobanteDetalle->getArticulo()->getDescripcion());
+                    $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
+                    $articulo->setGenero('');
+                    $articulo->setMaterial('');
+                    $articulo->setForma('');
+                    $articulo->setEstilo('');
+                    $articulo->setColorMarco('');
+                    $articulo->setColorCristal('');
+                    $articulo->setActivo(true);
+                    $articulo->setPrecioModifica(1);
+                    $articulo->setOrdenTrabajo(1);
+                    $articulo->setUltimoComprobante(null);
+                    $articulo->setCreatedBy($this->getUser());
+                    $articulo->setCreatedAt(new \DateTime("now"));
+                    $articulo->setUpdatedBy($this->getUser());
+                    $articulo->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($articulo);
+
+                    $sucursales = $em->getRepository('AppBundle:Sucursal')->findBy(array('activo' => true));
+
+                    foreach ($sucursales as $sucursal) {
+                        $stock = new Stock();
+
+                        $stock->setArticulo($articulo);
+                        $stock->setSucursal($sucursal);
+                        $stock->setCantidad(0);
+                        $stock->setCantidadMinima(1);
+                        $stock->setActivo(true);
+                        $stock->setCreatedBy($this->getUser());
+                        $stock->setCreatedAt(new \DateTime("now"));
+                        $stock->setUpdatedBy($this->getUser());
+                        $stock->setUpdatedAt(new \DateTime("now"));
+
+                        $em->persist($stock);
+                    }
+
+                    $comprobanteDetalle->setArticulo($articulo);
+                }
+
                 $comprobanteDetalle->setPrecioNeto(0);
                 $comprobanteDetalle->setImporteGanancia(0);
                 $comprobanteDetalle->setTotalNoGravado(0);
