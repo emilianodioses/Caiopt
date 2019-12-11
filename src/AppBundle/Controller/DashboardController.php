@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 
 
 class DashboardController extends Controller
@@ -72,6 +73,45 @@ class DashboardController extends Controller
         $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findAll_sucursal($sucursal_id);
 
         $ordenesTrabajoHoy = $em->getRepository('AppBundle:OrdenTrabajo')->findAll_sucursalFecha($sucursal_id, $fecha_now);
+
+        // Google Charts 
+            $ventasCategoria = $em->getRepository('AppBundle:ComprobanteDetalle')
+                ->createQueryBuilder('comprobantedetalle')
+                ->join('comprobantedetalle.articulo','articulo')
+                ->join('articulo.categoria','articuloCategoria')
+                ->join('articulo.marca','articuloMarca')
+                ->select('articuloCategoria.descripcion as categoria, SUM(comprobantedetalle.cantidad) as cantidad')
+                ->where('comprobantedetalle.movimiento = :movimiento')
+                ->groupBy('categoria')
+                ->orderBy('cantidad', 'DESC')    
+                //->setMaxResults(10)
+                ->setParameter('movimiento', "Venta")
+                ->getQuery()
+                ->getArrayResult();
+
+            $datapie = array();
+            $header = array('Categoria', 'Cantidad');
+            array_push($datapie, $header);
+
+            foreach($ventasCategoria as $categoria) {
+                $item = array($categoria["categoria"], (int)$categoria["cantidad"]);
+                array_push($datapie, $item);
+            }
+
+            $pieChart = new PieChart();
+            $pieChart->getData()->setArrayToDataTable($datapie);
+
+            $pieChart->getOptions()->setTitle('Ventas por Categoria');
+            $pieChart->getOptions()->setHeight(500);
+            $pieChart->getOptions()->setWidth(600);
+            $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+            $pieChart->getOptions()->setis3D(true);
+            $pieChart->getOptions()->getLegend()->setPosition('left');
+            $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+            $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
+            $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+            $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
+        // Google Charts 
         
         return $this->render('dashboard/index.html.twig', array(
             'cantidadVentas' => count($comprobantesVentas),
@@ -80,7 +120,8 @@ class DashboardController extends Controller
             'cantidadOrdenesTrabajo' => count($ordenesTrabajoHoy),
             'cajaDetalles' => $cajaDetalles,
             'ordenesTrabajo' => $ordenesTrabajo,
-            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia
+            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia,
+            'piechart' => $pieChart
         ));
     }
 }
