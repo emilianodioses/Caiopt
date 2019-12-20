@@ -121,9 +121,11 @@ class OrdenPagoController extends Controller
                 $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
                 $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
 
-                $saldo = $libroCaja->getSaldoFinal();
-                $saldo -= $libroCajaDetalle->getImporte();
-                $libroCaja->setSaldoFinal($saldo);
+                if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                    $saldo = $libroCaja->getSaldoFinal();
+                    $saldo -= $libroCajaDetalle->getImporte();
+                    $libroCaja->setSaldoFinal($saldo);
+                }
 
                 $em->persist($libroCajaDetalle);
             }
@@ -279,9 +281,11 @@ class OrdenPagoController extends Controller
                 $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
                 $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
 
-                $saldo = $libroCaja->getSaldoFinal();
-                $saldo -= $libroCajaDetalle->getImporte();
-                $libroCaja->setSaldoFinal($saldo);
+                if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                    $saldo = $libroCaja->getSaldoFinal();
+                    $saldo -= $libroCajaDetalle->getImporte();
+                    $libroCaja->setSaldoFinal($saldo);
+                }
 
                 $em->persist($libroCajaDetalle);
             }
@@ -531,9 +535,11 @@ class OrdenPagoController extends Controller
             $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
             $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
 
-            $saldo = $libroCaja->getSaldoFinal();
-            $saldo += $libroCajaDetalle->getImporte();
-            $libroCaja->setSaldoFinal($saldo);
+            if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                $saldo = $libroCaja->getSaldoFinal();
+                $saldo += $libroCajaDetalle->getImporte();
+                $libroCaja->setSaldoFinal($saldo);
+            }
         }
 
         $ordenPagoComprobantes = $em->getRepository('AppBundle:OrdenPagoComprobante')->findBy(Array('ordenPago'=>$ordenPago, 'activo' => 1));

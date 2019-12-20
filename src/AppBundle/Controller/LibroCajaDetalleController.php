@@ -56,7 +56,9 @@ class LibroCajaDetalleController extends Controller
             else {
                 $saldo -= $libroCajaDetalle->getImporte();
             }
-            $libroCaja->setSaldoFinal($saldo);
+            if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                $libroCaja->setSaldoFinal($saldo);
+            }
 
             $em->persist($libroCajaDetalle);
             $em->flush();
@@ -92,6 +94,7 @@ class LibroCajaDetalleController extends Controller
     {
         $tipo_anterior = $libroCajaDetalle->getTipo();
         $importe_anterior = $libroCajaDetalle->getImporte();
+        $pago_tipo_anterior = $libroCajaDetalle->getPagoTipo()->getNombre();
 
         $deleteForm = $this->createDeleteForm($libroCajaDetalle);
         $editForm = $this->createForm('AppBundle\Form\LibroCajaDetalleType', $libroCajaDetalle);
@@ -105,24 +108,52 @@ class LibroCajaDetalleController extends Controller
 
             $libroCaja = $libroCajaDetalle->getLibroCaja();
             $saldo = $libroCaja->getSaldoFinal();
-            if ($tipo_anterior == $libroCajaDetalle->getTipo()) {
-                if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
-                    $saldo += $libroCajaDetalle->getImporte() - $importe_anterior;
+
+            if ($pago_tipo_anterior == $libroCajaDetalle->getPagoTipo()->getNombre()) {
+                //No cambia el tipo de pago
+                if ($tipo_anterior == $libroCajaDetalle->getTipo()) {
+                    if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
+                        $saldo += $libroCajaDetalle->getImporte() - $importe_anterior;
+                    }
+                    else {
+                        $saldo -= $libroCajaDetalle->getImporte() - $importe_anterior;
+                    }    
                 }
                 else {
-                    $saldo -= $libroCajaDetalle->getImporte() - $importe_anterior;
+                    if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
+                        $saldo += $importe_anterior + $libroCajaDetalle->getImporte();
+                    }
+                    else {
+                        $saldo -= $importe_anterior + $libroCajaDetalle->getImporte();
+                    }
+                }
+
+                if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                    $libroCaja->setSaldoFinal($saldo);
+                }
+            }
+            elseif ($pago_tipo_anterior == ' Efectivo') {
+                //El pago anterior era efectivo entonces hay q restar el importe anterior    
+                if ($tipo_anterior == 'Ingreso a Caja') {
+                    $saldo -= $importe_anterior;
+                }
+                else {
+                    $saldo += $importe_anterior;
                 }    
+
+                $libroCaja->setSaldoFinal($saldo);
             }
-            else {
+            elseif ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                //El pago actual es efectivo entonces hay q sumar el importe anterior
                 if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
-                    $saldo += $importe_anterior + $libroCajaDetalle->getImporte();
+                    $saldo += $libroCajaDetalle->getImporte();
                 }
                 else {
-                    $saldo -= $importe_anterior + $libroCajaDetalle->getImporte();
-                }
+                    $saldo -= $libroCajaDetalle->getImporte();
+                }    
+
+                $libroCaja->setSaldoFinal($saldo);
             }
-            
-            $libroCaja->setSaldoFinal($saldo);
 
             $em->flush();
 
@@ -160,7 +191,9 @@ class LibroCajaDetalleController extends Controller
             $saldo += $libroCajaDetalle->getImporte();
         }    
         
-        $libroCaja->setSaldoFinal($saldo);
+        if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+            $libroCaja->setSaldoFinal($saldo);
+        }
         
         $em->flush();
 
