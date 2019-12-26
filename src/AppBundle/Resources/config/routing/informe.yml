@@ -6,4 +6,4 @@ informe_afipventasalicuotas:
 informe_afipventasalicuotasexportar:
     path:     /afipventasalicuotasexportar
     defaults: { _controller: "AppBundle:Informe:afipventasalicuotasexportar" }
-    methods:  [GET, POST]
+    methods:  [GET, POST]    

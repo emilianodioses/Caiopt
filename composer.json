@@ -17,6 +17,7 @@
         "php": ">=5.5.9",
         "afipsdk/afip.php": "^0.6.0",
         "almasaeed2010/adminlte": "~2.4",
+        "beberlei/doctrineextensions": "^1.1",
         "cmen/google-charts-bundle": "^3.2",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",

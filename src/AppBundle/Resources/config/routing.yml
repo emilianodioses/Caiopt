@@ -118,6 +118,10 @@ app_informe:
     resource: "@AppBundle/Resources/config/routing/informe.yml"
     prefix:   /informe
 
+app_estadistica:
+    resource: "@AppBundle/Resources/config/routing/estadistica.yml"
+    prefix:   /estadistica    
+
 app_pedido:
     resource: "@AppBundle/Resources/config/routing/pedido.yml"
     prefix:   /pedido
