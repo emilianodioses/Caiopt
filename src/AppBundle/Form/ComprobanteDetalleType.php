@@ -52,8 +52,8 @@ class ComprobanteDetalleType extends AbstractType
             '21.00' => '21.00'
         );
 
-        if (false) {
-        //if ($options['attr']['tipo'] == 'Compra') {
+        //if (false) {
+        if ($options['attr']['tipo'] == 'Compra') {
             //Falla ----NO FUNCIONA EL SELECT2 CUANDO SE AGREGA DINAMICAMENTE
             $builder->add('articulo', Select2EntityType::class, array(
                     'label' => 'Articulo',
