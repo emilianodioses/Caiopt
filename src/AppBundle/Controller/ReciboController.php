@@ -134,9 +134,11 @@ class ReciboController extends Controller
                 $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
                 $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
 
-                $saldo = $libroCaja->getSaldoFinal();
-                $saldo += $libroCajaDetalle->getImporte();
-                $libroCaja->setSaldoFinal($saldo);
+                if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                    $saldo = $libroCaja->getSaldoFinal();
+                    $saldo += $libroCajaDetalle->getImporte();
+                    $libroCaja->setSaldoFinal($saldo);
+                }
 
                 $em->persist($libroCajaDetalle);
             }
@@ -300,9 +302,11 @@ class ReciboController extends Controller
                 $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
                 $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
 
-                $saldo = $libroCaja->getSaldoFinal();
-                $saldo += $libroCajaDetalle->getImporte();
-                $libroCaja->setSaldoFinal($saldo);
+                if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                    $saldo = $libroCaja->getSaldoFinal();
+                    $saldo += $libroCajaDetalle->getImporte();
+                    $libroCaja->setSaldoFinal($saldo);
+                }
 
                 $em->persist($libroCajaDetalle);
             }
@@ -574,9 +578,11 @@ class ReciboController extends Controller
             $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
             $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
 
-            $saldo = $libroCaja->getSaldoFinal();
-            $saldo -= $libroCajaDetalle->getImporte();
-            $libroCaja->setSaldoFinal($saldo);
+            if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                $saldo = $libroCaja->getSaldoFinal();
+                $saldo -= $libroCajaDetalle->getImporte();
+                $libroCaja->setSaldoFinal($saldo);
+            }
         }
 
         $reciboComprobantes = $em->getRepository('AppBundle:ReciboComprobante')->findBy(Array('recibo'=>$recibo, 'activo' => 1));

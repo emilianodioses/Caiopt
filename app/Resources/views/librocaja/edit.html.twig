@@ -71,10 +71,10 @@ Libro Caja
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="box box-success">
                             <div class="box-header with-border">
-                                <h3 class="box-title"><i class="fa fa-user"></i> Caja</h3>
+                                <h3 class="box-title"><i class="fa fa-user"></i> Ingresos</h3>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body no-padding">
@@ -84,7 +84,7 @@ Libro Caja
                             <!-- /.box-body -->
                             <div class="box-footer text-black">
                                 <div class="row">
-                                    {% for cd in cajaDetalles %}
+                                    {% for cd in ingresos %}
                                         <div class="col-sm-12">
                                             <!-- Progress bars -->
                                             <div class="clearfix">
@@ -92,11 +92,7 @@ Libro Caja
                                               <small class="pull-right">{{cd['porcentaje']}}%</small>
                                             </div>
                                             <div class="progress xs">
-                                                {% if cd['total'] >= 0 %}
-                                                    <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
-                                                {% else %}
-                                                    <div class="progress-bar progress-bar-red" style="width: {{cd['porcentaje'] * -1}}%;"></div>
-                                                {% endif %}
+                                                <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -104,7 +100,36 @@ Libro Caja
                             </div>
                         </div>
                     </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Egresos</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <!--The calendar -->
+                                <div id="calendar" style="width: 100%"></div>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer text-black">
+                                <div class="row">
+                                    {% for cd in egresos %}
+                                        <div class="col-sm-12">
+                                            <!-- Progress bars -->
+                                            <div class="clearfix">
+                                              <span class="pull-left">{{cd['descripcion']}} $ {{cd['total']}}</span>
+                                              <small class="pull-right">{{cd['porcentaje']}}%</small>
+                                            </div>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-red" style="width: {{cd['porcentaje']}}%;"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
             </div>
         </div>
 

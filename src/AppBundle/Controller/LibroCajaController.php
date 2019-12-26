@@ -118,40 +118,53 @@ class LibroCajaController extends Controller
         $pagoTipos = $em->getRepository('AppBundle:PagoTipo')->findBy(Array('activo'=> '1'), array('nombre' => 'ASC'));
 
         //inicializo el arreglo de los tipos de pago
-        $cajaDetalles = array();
+        $ingresos = array();
+        $egresos = array();
         foreach($pagoTipos as $pagoTipo) {
-            $cajaDetalles[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
-            $cajaDetalles[$pagoTipo->getId()]['total'] = 0;
-            $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = 0;
+            $ingresos[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
+            $ingresos[$pagoTipo->getId()]['total'] = 0;
+            $ingresos[$pagoTipo->getId()]['porcentaje'] = 0;
+
+            $egresos[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
+            $egresos[$pagoTipo->getId()]['total'] = 0;
+            $egresos[$pagoTipo->getId()]['porcentaje'] = 0;
         }
 
         //Calculo los totales de ingresos por tipos de pago
-        $total_caja = 0;
+        $total_ingresos = 0;
+        $total_egresos = 0;
         $libroCajaDetalles = $em->getRepository('AppBundle:LibroCajaDetalle')->findBy(Array('libroCaja' => $libroCaja, 'activo' => 1));
         foreach($libroCajaDetalles as $libroCajaDetalle) {
             if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
-                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
+                $ingresos[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
                 
-                $total_caja += $libroCajaDetalle->getImporte();
+                $total_ingresos += $libroCajaDetalle->getImporte();
             }
             else {
-                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] -= $libroCajaDetalle->getImporte();
+                $egresos[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
                 
-                $total_caja -= $libroCajaDetalle->getImporte();
+                $total_egresos += $libroCajaDetalle->getImporte();
             }
         }
 
         //Calculo los porcentajes de cada condicion de venta, siempre que las haya
-        if ($total_caja != 0) {
+        if ($total_ingresos != 0) {
             foreach($pagoTipos as $pagoTipo) {
-                $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = number_format($cajaDetalles[$pagoTipo->getId()]['total'] * 100 / $total_caja, 2);
+                $ingresos[$pagoTipo->getId()]['porcentaje'] = number_format($ingresos[$pagoTipo->getId()]['total'] * 100 / $total_ingresos, 2);
+            }
+        }
+
+        if ($total_egresos != 0) {
+            foreach($pagoTipos as $pagoTipo) {
+                $egresos[$pagoTipo->getId()]['porcentaje'] = number_format($egresos[$pagoTipo->getId()]['total'] * 100 / $total_egresos, 2);
             }
         }
 
         return $this->render('librocaja/show.html.twig', array(
             'libroCaja' => $libroCaja,
             'libroCajaDetalles' => $libroCajaDetalles,
-            'cajaDetalles' => $cajaDetalles,
+            'ingresos' => $ingresos,
+            'egresos' => $egresos,
         ));
     }
 
@@ -174,33 +187,45 @@ class LibroCajaController extends Controller
         $pagoTipos = $em->getRepository('AppBundle:PagoTipo')->findBy(Array('activo'=> '1'), array('nombre' => 'ASC'));
 
         //inicializo el arreglo de los tipos de pago
-        $cajaDetalles = array();
+        $ingresos = array();
+        $egresos = array();
         foreach($pagoTipos as $pagoTipo) {
-            $cajaDetalles[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
-            $cajaDetalles[$pagoTipo->getId()]['total'] = 0;
-            $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = 0;
+            $ingresos[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
+            $ingresos[$pagoTipo->getId()]['total'] = 0;
+            $ingresos[$pagoTipo->getId()]['porcentaje'] = 0;
+
+            $egresos[$pagoTipo->getId()]['descripcion'] = $pagoTipo->getNombre();
+            $egresos[$pagoTipo->getId()]['total'] = 0;
+            $egresos[$pagoTipo->getId()]['porcentaje'] = 0;
         }
 
         //Calculo los totales de ingresos por tipos de pago
-        $total_caja = 0;
+        $total_ingresos = 0;
+        $total_egresos = 0;
         $libroCajaDetalles = $em->getRepository('AppBundle:LibroCajaDetalle')->findBy(Array('libroCaja' => $libroCaja, 'activo' => 1));
         foreach($libroCajaDetalles as $libroCajaDetalle) {
             if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
-                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
+                $ingresos[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
                 
-                $total_caja += $libroCajaDetalle->getImporte();
+                $total_ingresos += $libroCajaDetalle->getImporte();
             }
             else {
-                $cajaDetalles[$libroCajaDetalle->getPagoTipo()->getId()]['total'] -= $libroCajaDetalle->getImporte();
+                $egresos[$libroCajaDetalle->getPagoTipo()->getId()]['total'] += $libroCajaDetalle->getImporte();
                 
-                $total_caja -= $libroCajaDetalle->getImporte();
+                $total_egresos += $libroCajaDetalle->getImporte();
             }
         }
 
         //Calculo los porcentajes de cada condicion de venta, siempre que las haya
-        if ($total_caja != 0) {
+        if ($total_ingresos != 0) {
             foreach($pagoTipos as $pagoTipo) {
-                $cajaDetalles[$pagoTipo->getId()]['porcentaje'] = number_format($cajaDetalles[$pagoTipo->getId()]['total'] * 100 / $total_caja, 2);
+                $ingresos[$pagoTipo->getId()]['porcentaje'] = number_format($ingresos[$pagoTipo->getId()]['total'] * 100 / $total_ingresos, 2);
+            }
+        }
+
+        if ($total_egresos != 0) {
+            foreach($pagoTipos as $pagoTipo) {
+                $egresos[$pagoTipo->getId()]['porcentaje'] = number_format($egresos[$pagoTipo->getId()]['total'] * 100 / $total_egresos, 2);
             }
         }
 
@@ -239,7 +264,8 @@ class LibroCajaController extends Controller
             'libroCaja' => $libroCaja,
             'edit_form' => $editForm->createView(),
             'libroCajaDetalles' => $libroCajaDetalles,
-            'cajaDetalles' => $cajaDetalles,
+            'ingresos' => $ingresos,
+            'egresos' => $egresos,
         ));
     }
 
