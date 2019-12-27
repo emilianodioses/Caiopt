@@ -6,6 +6,12 @@ use AppBundle\Entity\Stock;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
 use AppBundle\Entity\OrdenTrabajo;
+
+use AppBundle\Entity\Recibo;
+use AppBundle\Entity\ReciboComprobante;
+use AppBundle\Entity\Cliente;
+use AppBundle\Entity\LibroCajaDetalle;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ComprobanteType;
@@ -135,11 +141,21 @@ class ComprobanteVentaController extends Controller
             }
         }
 
-        $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Venta')));
+        $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Venta', 'op' => 'New')));
 
         $form->handleRequest($request);        
 
         if ($form->isSubmitted()) {
+
+            /*
+            $clientePagos = $form->get('clientePagos')->getData();
+            foreach($clientePagos as $clientePago) {
+                echo ($clientePago->getImporte());
+                //dump($clientePago);
+            }
+            //dump($clientePagos);
+            die;
+            */
 
             $em = $this->getDoctrine()->getManager();
 
@@ -270,6 +286,140 @@ class ComprobanteVentaController extends Controller
             $cliente->setUpdatedAt(new \DateTime("now"));
 
             
+            //Verifico si hay pagos
+            //$clientePagos = $comprobante->getClientePagos()->toArray();
+            $clientePagos = $form->get('clientePagos')->getData();
+
+            if (count($clientePagos) > 0) {
+                $recibo_total = 0;
+                foreach($clientePagos as $clientePago) {
+                    $recibo_total += $clientePago->getImporte();
+                }
+                
+                $recibo_disponible = $recibo_total - $comprobante->getTotal();
+                if ($recibo_disponible < 0) {
+                    $recibo_disponible = 0;
+                }
+
+                if ($recibo_total > $comprobante->getTotal()) {
+                    $this->get('session')->getFlashbag()->add('warning', 'El total de los pagos no puede superar el total del comprobante.');
+
+                    return $this->render('comprobanteventa/new.html.twig', array(
+                        'comprobante' => $comprobante,
+                        'form' => $form->createView(),
+                    ));
+                }
+
+                $recibo = new Recibo();
+                $recibo->setTotal($recibo_total);
+                $recibo->setDisponible($recibo_disponible);
+                $recibo->setFecha($comprobante->getFecha());
+                $recibo->setCliente($comprobante->getCliente());
+
+                $reciboComprobante = new ReciboComprobante();
+                $reciboComprobante->setComprobante($comprobante);
+                $reciboComprobante->setImporte($comprobante->getPendiente());
+
+                $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $recibo->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
+
+                if (is_null($libroCaja)) {
+                    $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja con la fecha que ingresó. Debe generar uno antes de cargar recibos.');
+
+                    return $this->render('comprobanteventa/new.html.twig', array(
+                        'comprobante' => $comprobante,
+                        'form' => $form->createView(),
+                    ));
+                }
+
+                $max_numero_recibo = $em->createQueryBuilder()
+                 ->select('MAX(c.numero)')
+                 ->from('AppBundle:Recibo', 'c')
+                 ->getQuery()
+                 ->getSingleScalarResult();
+
+                $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
+
+                $recibo->setObservaciones('');
+                $recibo->setCliente($comprobante->getCliente());
+                $recibo->setSucursal($sucursal);
+                $recibo->setNumero($max_numero_recibo+1);
+                $recibo->setActivo(1);
+                $recibo->setCreatedBy($this->getUser());
+                $recibo->setCreatedAt(new \DateTime("now"));
+                $recibo->setUpdatedBy($this->getUser());
+                $recibo->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($recibo);
+
+                foreach($clientePagos as $clientePago) {
+                    $clientePago->setRecibo($recibo);
+                    $clientePago->setActivo(1);
+                    $clientePago->setCreatedBy($this->getUser());
+                    $clientePago->setCreatedAt(new \DateTime("now"));
+                    $clientePago->setUpdatedBy($this->getUser());
+                    $clientePago->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($clientePago);
+
+                    $libroCajaDetalle = new Librocajadetalle();
+                    $libroCajaDetalle->setLibroCaja($libroCaja);
+                    $libroCajaDetalle->setPagoTipo($clientePago->getPagoTipo());
+                    $libroCajaDetalle->setClientePago($clientePago);
+                    $libroCajaDetalle->setOrigen('Recibo');
+                    $libroCajaDetalle->setTipo('Ingreso a Caja');
+                    $libroCajaDetalle->setDescripcion($recibo->getNumero());
+                    $libroCajaDetalle->setImporte($clientePago->getImporte());
+                    $libroCajaDetalle->setActivo(true);
+                    $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
+                    $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
+                    $libroCajaDetalle->setUpdatedBy($this->getUser()->getId());
+                    $libroCajaDetalle->setUpdatedAt(new \DateTime("now"));
+
+                    if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                        $saldo = $libroCaja->getSaldoFinal();
+                        $saldo += $libroCajaDetalle->getImporte();
+                        $libroCaja->setSaldoFinal($saldo);
+                    }
+
+                    $em->persist($libroCajaDetalle);
+                }
+
+                //Recorro los comprobantes y voy pagando mientras haya disponible
+                $disponible = $recibo->getTotal();
+                if ($disponible >= $comprobante->getPendiente()) {
+                    $pendiente = 0;
+                    $importe = $comprobante->getPendiente();
+                    $disponible -= $comprobante->getPendiente();
+                }
+                else {
+                    $pendiente = $comprobante->getPendiente() - $disponible;
+                    $importe = $disponible;
+                    $disponible = 0;
+                }
+
+                $comprobante->setPendiente($pendiente);
+                //$comprobante->setUpdatedBy($this->getUser());
+                //$comprobante->setUpdatedAt(new \DateTime("now"));
+
+                //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                $reciboComprobante->setRecibo($recibo);
+                $reciboComprobante->setComprobante($comprobante);
+                $reciboComprobante->setImporte($importe);
+                $reciboComprobante->setActivo(1);
+                $reciboComprobante->setCreatedBy($this->getUser());
+                $reciboComprobante->setCreatedAt(new \DateTime("now"));
+                $reciboComprobante->setUpdatedBy($this->getUser());
+                $reciboComprobante->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($reciboComprobante);
+
+                //Actualizo el saldo del cliente
+                $cliente = $recibo->getCliente();
+                $cliente_saldo_actualizado = $cliente->getSaldo() + $recibo->getTotal();
+                $cliente->setSaldo($cliente_saldo_actualizado);
+                $recibo->setSaldo($cliente_saldo_actualizado);
+            }
+
             $em->flush();
 
             $this->get('session')->getFlashbag()->add('success', 'Venta realizada exitosamente.');

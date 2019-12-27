@@ -14,7 +14,7 @@ Editar Comprobante de Venta
 {% block body %}    
 
 {% form_theme edit_form 'comprobanteventa/formCollection.html.twig' %}
-{{ form(edit_form) }}
+{{ form(edit_form, {'op': 'Edit'}) }}
 {{ form_end(edit_form) }}
 
 <script type="text/javascript">
