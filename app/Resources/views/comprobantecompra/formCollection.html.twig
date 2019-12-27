@@ -145,6 +145,7 @@
                     <table {{ block('widget_attributes') }}>
                         <thead>
                             <th width="20%">Artículo</th>
+                            <th hidden>Observaciones</th>
                             <th>Cantidad</th>
                             <th>P. Unitario</th>
                             <th>Bonificación %</th>
@@ -181,6 +182,7 @@
     {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
     <tr {{ block('widget_attributes') }}>
         <td>{{ form_widget(form.articulo) }}</td>
+        <td hidden>{{ form_widget(form.observaciones) }}</td>
         <td>{{ form_widget(form.cantidad) }}</td>
         <td>{{ form_widget(form.precioUnitario) }}</td>
         <td>{{ form_widget(form.porcentajeBonificacion) }}</td>

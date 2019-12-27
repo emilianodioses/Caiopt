@@ -80,7 +80,7 @@ class ComprobanteDetalleType extends AbstractType
                         'new_tag_prefix' => '__',
                         'tag_separators'=> '[",", ""]'
                         ),
-                    ));
+                ));
         }
         else {
             $builder->add('articulo', Select2EntityType::class, array(
@@ -153,8 +153,12 @@ class ComprobanteDetalleType extends AbstractType
                     ))
                 ->add('totalNoGravado',HiddenType::class,array('label'=>'Total no Gravado'))
                 ->add('importeIvaExento',HiddenType::class,array('label'=>'Importe Iva Exento'))
-                ->add('observaciones',HiddenType::class,array('label'=>'Observaciones'))
-                ;
+                ->add('observaciones',HiddenType::class,array(
+                    'label'=>'Observaciones',
+                    'attr' => [
+                        'class' => 'observaciones',
+                    ],
+                ));
     }/**
      * {@inheritdoc}
      */
