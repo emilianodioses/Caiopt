@@ -82,6 +82,15 @@ $(function(){
          }
     });
 
+    function fnArticuloDescripcionCopiar(renglon) {
+        var observaciones = renglon.find("input.observaciones");
+
+        var descripcion = articulo.select2('data')[0].text;
+        observaciones.val(descripcion);
+
+        return true;
+    };
+
     function fnArticuloChange(articulo) {
         var data = { articuloId: articulo.val() };
         var renglon = articulo.closest("tr");
@@ -91,6 +100,8 @@ $(function(){
         var precioCosto = renglon.find("input.precioCosto");
         var porcentajeIva = renglon.find("select.porcentajeIva");
         var porcentajeGanancia = renglon.find("input.porcentajeGanancia");
+
+        fnArticuloDescripcionCopiar(renglon);
         
         $.ajax({
             type: 'POST',
@@ -127,6 +138,8 @@ $(function(){
         var r_total = renglon.find("input.total");
         var r_porcentajeGanancia = renglon.find("input.porcentajeGanancia");
         var r_precioVenta = renglon.find("input.precioVenta");
+
+        fnArticuloDescripcionCopiar(renglon);
 
         var porcentajeTarjeta = 1.15; //porcentaje aplicado para guardar SIEMPRE el precio de tarjeta
 

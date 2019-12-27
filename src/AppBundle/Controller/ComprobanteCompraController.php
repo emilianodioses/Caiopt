@@ -103,8 +103,15 @@ class ComprobanteCompraController extends controller
             $comprobanteDetalles  = $comprobante->getComprobanteDetalles()->toArray();
 
             foreach($comprobanteDetalles as $comprobanteDetalle) {
-                //Verifico si hay que agregar el artículo ingresado 
-                if (is_null($comprobanteDetalle->getArticulo()->getId())) {
+                //Verifico si hay que agregar el artículo ingresado
+                $crear_articulo = false;
+                if (is_null($comprobanteDetalle->getArticulo())) {
+                    $crear_articulo = true;
+                }
+                elseif (is_null($comprobanteDetalle->getArticulo()->getId())) {
+                    $crear_articulo = true;
+                }
+                if ($crear_articulo) {
                     $articulo = new Articulo();
 
                     $categoria = $em->getRepository('AppBundle:ArticuloCategoria')->find(1);
@@ -114,7 +121,7 @@ class ComprobanteCompraController extends controller
                     $articulo->setCodigo('S/A');
                     $articulo->setCategoria($categoria);
                     $articulo->setMarca($marca);
-                    $articulo->setDescripcion($comprobanteDetalle->getArticulo()->getDescripcion());
+                    $articulo->setDescripcion($comprobanteDetalle->getObservaciones());
                     $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
                     $articulo->setGenero('');
                     $articulo->setMaterial('');
@@ -158,11 +165,8 @@ class ComprobanteCompraController extends controller
                 $comprobanteDetalle->setImporteGanancia(0);
                 $comprobanteDetalle->setTotalNoGravado(0);
                 $comprobanteDetalle->setImporteIvaExento(0);
-
-                if (is_null($comprobanteDetalle->getObservaciones())) {
-                    $comprobanteDetalle->setObservaciones('');
-                }
-
+                $comprobanteDetalle->setObservaciones('');
+                
                 $comprobanteDetalle->setTotalNeto($comprobanteDetalle->getPrecioCosto()*$comprobanteDetalle->getCantidad());
                 
                 $comprobanteDetalle->setComprobante($comprobante);
