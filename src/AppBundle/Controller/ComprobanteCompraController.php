@@ -132,7 +132,7 @@ class ComprobanteCompraController extends controller
                     $articulo->setActivo(true);
                     $articulo->setPrecioModifica(1);
                     $articulo->setOrdenTrabajo(1);
-                    $articulo->setUltimoComprobante(null);
+                    $articulo->setUltimoComprobante($comprobante);
                     $articulo->setCreatedBy($this->getUser());
                     $articulo->setCreatedAt(new \DateTime("now"));
                     $articulo->setUpdatedBy($this->getUser());
@@ -371,7 +371,14 @@ class ComprobanteCompraController extends controller
             //die;
             foreach($editForm->getData()->getComprobanteDetalles() as $comprobanteDetalle) {
                 //Verifico si hay que agregar el artículo ingresado
-                if (is_null($comprobanteDetalle->getArticulo()->getId())) {
+                $crear_articulo = false;
+                if (is_null($comprobanteDetalle->getArticulo())) {
+                    $crear_articulo = true;
+                }
+                elseif (is_null($comprobanteDetalle->getArticulo()->getId())) {
+                    $crear_articulo = true;
+                }
+                if ($crear_articulo) {
                     $articulo = new Articulo();
 
                     $categoria = $em->getRepository('AppBundle:ArticuloCategoria')->find(1);
@@ -381,7 +388,7 @@ class ComprobanteCompraController extends controller
                     $articulo->setCodigo('S/A');
                     $articulo->setCategoria($categoria);
                     $articulo->setMarca($marca);
-                    $articulo->setDescripcion($comprobanteDetalle->getArticulo()->getDescripcion());
+                    $articulo->setDescripcion($comprobanteDetalle->getObservaciones());
                     $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
                     $articulo->setGenero('');
                     $articulo->setMaterial('');
@@ -392,7 +399,7 @@ class ComprobanteCompraController extends controller
                     $articulo->setActivo(true);
                     $articulo->setPrecioModifica(1);
                     $articulo->setOrdenTrabajo(1);
-                    $articulo->setUltimoComprobante(null);
+                    $articulo->setUltimoComprobante($comprobante);
                     $articulo->setCreatedBy($this->getUser());
                     $articulo->setCreatedAt(new \DateTime("now"));
                     $articulo->setUpdatedBy($this->getUser());
@@ -441,23 +448,18 @@ class ComprobanteCompraController extends controller
                 $comprobanteDetalle->setUpdatedAt(new \DateTime("now"));
 
                 // Actualizacion Stock
-                if (!isset($stockComprobante[$comprobanteDetalle->getArticulo()->getId()])) {
-                    //Si se agregó un item nuevo
-                    $stock = $em->getRepository('AppBundle:Stock')->findOneBy(array('sucursal' => $this->getUser()->getSucursal(), 'articulo' => $comprobanteDetalle->getArticulo()));
+                if (!$crear_articulo) {
+                    if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
+                        $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() + $comprobanteDetalle->getCantidad();
+                    }
+                    else {
+                        $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() - $comprobanteDetalle->getCantidad();
+                    }
 
-                    $stockComprobante[$comprobanteDetalle->getArticulo()->getId()] = $stock;
+                    $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setCantidad($cantidadActual);
+                    $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedBy($this->getUser());
+                    $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedAt(new \DateTime("now"));
                 }
-                
-                if (strpos($comprobante->getTipo()->getDescripcion(), 'NOTA DE CREDITO') === false) {
-                    $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() + $comprobanteDetalle->getCantidad();
-                }
-                else {
-                    $cantidadActual = $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->getCantidad() - $comprobanteDetalle->getCantidad();
-                }
-
-                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setCantidad($cantidadActual);
-                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedBy($this->getUser());
-                $stockComprobante[$comprobanteDetalle->getArticulo()->getId()]->setUpdatedAt(new \DateTime("now"));
 
                 if (is_null($comprobanteDetalle->getId())){     
                     if (is_null($comprobanteDetalle->getObservaciones())) {
