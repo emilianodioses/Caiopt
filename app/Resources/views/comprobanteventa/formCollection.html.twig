@@ -101,6 +101,12 @@
                 </div>
             </div>
         </div>
+        {% if op == 'New' %}
+            <div class="row">
+                {% form_theme form.clientePagos 'clientepago/formCollection.html.twig' %}
+                {{ form_widget(form.clientePagos) }}
+            </div>
+        {% endif %}
     </div>
     <div class="tab-pane" id="tabs-2">          
         {{ form_row(form.observaciones)}}

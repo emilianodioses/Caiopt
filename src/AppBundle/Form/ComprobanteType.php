@@ -178,6 +178,29 @@ class ComprobanteType extends AbstractType
                                        ;
                                }
                     ));
+          if ( isset($options['attr']['op']) ) {
+            if ($options['attr']['op'] == 'New') {
+              $builder->add('clientePagos', CollectionType::class, array(
+                    'mapped' => false,
+                    'entry_type'   => ClientePagoType::class,
+                    'entry_options' => [
+                        'attr' => [
+                            'class' => 'item', // we want to use 'tr.item' as collection elements' selector
+                        ],
+                    ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype'    => true,
+                    'required'     => false,
+                    'by_reference' => true,
+                    'delete_empty' => true,
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'table clientePago-collection',
+                    ],
+                ));
+            }
+          }
         }
       }
       else {

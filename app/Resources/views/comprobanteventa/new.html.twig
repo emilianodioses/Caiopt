@@ -27,11 +27,39 @@ $(function(){
   });
 </script>  
 
+
+
 {% form_theme form 'comprobanteventa/formCollection.html.twig' %}
-{{ form(form) }}
+{{ form(form, {'op': 'New'}) }}
 {{ form_end(form) }}
 
+
+
 <script type="text/javascript">
+    $('.clientePago-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 0,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Agregar Pago"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            //element.on('change', function(){
+            //    fnRenglonChange($(this));
+            //});
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            //fnCalcularTotales();
+
+            return true;
+         }
+    });
+
     $('.comprobanteDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
