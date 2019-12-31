@@ -26,9 +26,112 @@ class EstadisticaController extends Controller
             'ventasXCategoria' => $this->ventasXCategoria($request),
             'ventasXVendedor' => $this->ventasXVendedor($request),
             'ventasXMes' => $this->ventasXMes($request),
+            'ventasXSucursal' => $this->ventasXSucursal($request),
+            'ventasXMediosPago' => $this->ventasXMediosPago($request),
             'usuarios' => $usuarios
             //'texto' => $texto
         ));
+    }
+
+    private function ventasXMediosPago(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        //$usuarioId = $request->get('usuario');
+
+        // Google Charts - Venta por Categoria
+        $ventasXMediosPago = $em->getRepository('AppBundle:ClientePago')
+        ->createQueryBuilder('clientepago')
+        ->join('clientepago.pagoTipo','pagoTipo')
+        ->join('clientepago.recibo','recibo')
+        ->select('pagoTipo.nombre as medio, SUM(clientepago.importe) as total')
+        ->where('recibo.fecha >= :fechaDesde')
+        ->andWhere('recibo.fecha <= :fechaHasta')
+        ->groupBy('medio')
+        ->orderBy('total', 'DESC')    
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta)
+        ->getQuery()
+        ->getArrayResult();
+
+        $datapie = array();
+        $header = array('Medio de Pago', 'Total');
+        array_push($datapie, $header);
+
+        foreach($ventasXMediosPago as $medio) {
+            $item = array($medio["medio"], (int)$medio["total"]);
+            array_push($datapie, $item);
+        }
+        
+        $ventasXMediosPago = new PieChart();
+        $ventasXMediosPago->getData()->setArrayToDataTable($datapie);
+
+        $ventasXMediosPago->getOptions()->setTitle('Ventas por Medios de Pagos');
+        $ventasXMediosPago->getOptions()->setHeight(300);
+        $ventasXMediosPago->getOptions()->setWidth(300);
+        $ventasXMediosPago->getOptions()->getTitleTextStyle()->setBold(true);
+        $ventasXMediosPago->getOptions()->setis3D(true);
+        $ventasXMediosPago->getOptions()->getLegend()->setPosition('top');
+        $ventasXMediosPago->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $ventasXMediosPago->getOptions()->getTitleTextStyle()->setItalic(true);
+        $ventasXMediosPago->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $ventasXMediosPago->getOptions()->getTitleTextStyle()->setFontSize(15);
+
+        return $ventasXMediosPago;
+    // Google Charts 
+    }
+
+    private function ventasXSucursal(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        //$usuarioId = $request->get('usuario');
+
+        // Google Charts - Venta por Categoria
+        $ventasXSucursal = $em->getRepository('AppBundle:ComprobanteDetalle')
+        ->createQueryBuilder('comprobantedetalle')
+        ->join('comprobantedetalle.comprobante','comprobante')
+        ->join('comprobante.sucursal','sucursal')
+        ->select('sucursal.nombre as sucursalNombre, SUM(comprobantedetalle.total) as total')
+        ->where('comprobantedetalle.movimiento = :movimiento')
+        ->andWhere('comprobante.fecha >= :fechaDesde')
+        ->andWhere('comprobante.fecha <= :fechaHasta')
+        ->groupBy('sucursalNombre')
+        ->orderBy('total', 'DESC')    
+        //->setMaxResults(10)
+        ->setParameter('movimiento', "Venta")
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta)
+        ->getQuery()
+        ->getArrayResult();
+
+        $datapie = array();
+        $header = array('Sucursal', 'Total');
+        array_push($datapie, $header);
+
+        foreach($ventasXSucursal as $sucursal) {
+            $item = array($sucursal["sucursalNombre"], (int)$sucursal["total"]);
+            array_push($datapie, $item);
+        }
+        
+        $ventasXSucursal = new PieChart();
+        $ventasXSucursal->getData()->setArrayToDataTable($datapie);
+
+        $ventasXSucursal->getOptions()->setTitle('Ventas por Sucursal');
+        $ventasXSucursal->getOptions()->setHeight(300);
+        $ventasXSucursal->getOptions()->setWidth(300);
+        $ventasXSucursal->getOptions()->getTitleTextStyle()->setBold(true);
+        $ventasXSucursal->getOptions()->setis3D(true);
+        $ventasXSucursal->getOptions()->getLegend()->setPosition('top');
+        $ventasXSucursal->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $ventasXSucursal->getOptions()->getTitleTextStyle()->setItalic(true);
+        $ventasXSucursal->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $ventasXSucursal->getOptions()->getTitleTextStyle()->setFontSize(15);
+
+        return $ventasXSucursal;
+    // Google Charts 
     }
 
     private function ventasXCategoria(Request $request)

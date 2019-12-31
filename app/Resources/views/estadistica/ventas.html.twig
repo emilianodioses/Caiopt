@@ -66,6 +66,29 @@ Ventas
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-4 col-xs-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <div id="div_chart_sucursal"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-xs-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <div id="div_chart_medios"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-xs-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <div id="div_chart_mes"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -73,6 +96,8 @@ Ventas
     {{ gc_draw(ventasXCategoria, 'div_chart_categoria') }}
     {{ gc_draw(ventasXVendedor, 'div_chart_vendedor') }}
     {{ gc_draw(ventasXMes, 'div_chart_mes') }}
+    {{ gc_draw(ventasXSucursal, 'div_chart_sucursal') }}
+    {{ gc_draw(ventasXMediosPago, 'div_chart_medios') }}
 </script>
 {% endblock %}
 
