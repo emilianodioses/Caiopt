@@ -202,7 +202,17 @@ desired effect
             </ul>
           </li>
 
-          <li><a href="{{path('librocaja_index')}}"><i class="glyphicon glyphicon-usd"></i> <span>Libro Caja</span></a></li>
+          <li class="treeview">
+            <a href="#" id="librocaja"><i class="glyphicon glyphicon-usd"></i> <span>Libro Caja</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('librocaja_index')}}">Libro Caja</a></li>
+              <li><a href="{{path('movimientocategoria_index')}}">Categorías de Movimientos</a></li>
+            </ul>
+          </li>
 
           <li class="treeview">
             <a href="#" id="comprobantes"><i class="glyphicon glyphicon-briefcase"></i> <span>Ordenes de Trabajo</span>
@@ -253,16 +263,6 @@ desired effect
             </a>
             <ul class="treeview-menu">
               <li><a href="{{path('informe_afipventasalicuotas')}}">Afip Ventas y Alícuotas</a></li>
-            </ul>
-          </li>
-
-          <li class="treeview">
-            <a href="#" id="personas"><i class="glyphicon glyphicon-info-sign"></i> <span>Estadistica</span>
-              <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
               <li><a href="{{path('estadistica_ventas')}}">Ventas</a></li>
             </ul>
           </li>

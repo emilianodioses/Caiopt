@@ -361,6 +361,8 @@ class ComprobanteVentaController extends Controller
 
                     $em->persist($clientePago);
 
+                    $categoria_ingreso_recibo = $em->getRepository('AppBundle:MovimientoCategoria')->find(1);
+
                     $libroCajaDetalle = new Librocajadetalle();
                     $libroCajaDetalle->setLibroCaja($libroCaja);
                     $libroCajaDetalle->setPagoTipo($clientePago->getPagoTipo());
@@ -369,6 +371,7 @@ class ComprobanteVentaController extends Controller
                     $libroCajaDetalle->setTipo('Ingreso a Caja');
                     $libroCajaDetalle->setDescripcion($recibo->getNumero());
                     $libroCajaDetalle->setImporte($clientePago->getImporte());
+                    $libroCajaDetalle->setMovimientoCategoria($categoria_ingreso_recibo);
                     $libroCajaDetalle->setActivo(true);
                     $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
                     $libroCajaDetalle->setCreatedAt(new \DateTime("now"));

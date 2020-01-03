@@ -1,0 +1,24 @@
+movimientocategoria_index:
+    path:     /
+    defaults: { _controller: "AppBundle:MovimientoCategoria:index" }
+    methods:  GET
+
+movimientocategoria_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:MovimientoCategoria:show" }
+    methods:  GET
+
+movimientocategoria_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:MovimientoCategoria:new" }
+    methods:  [GET, POST]
+
+movimientocategoria_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:MovimientoCategoria:edit" }
+    methods:  [GET, POST]
+
+movimientocategoria_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:MovimientoCategoria:delete" }
+    methods:  [GET, POST]

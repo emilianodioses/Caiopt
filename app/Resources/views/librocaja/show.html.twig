@@ -148,6 +148,7 @@ Libro Caja
                                       <th>Origen</th>
                                       <th>Descripción</th>
                                       <th>Tipo de Pago</th>
+                                      <th>Categoría</th>
                                       <th>Ingreso</th>
                                       <th>Egreso</th>
                                       <th style="width: 5%">Acciones</th>
@@ -159,6 +160,7 @@ Libro Caja
                                             <td>{{ libroCajaDetalle.origen}}</td>
                                             <td>{{ libroCajaDetalle.descripcion }}</td>
                                             <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
                                             {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                                 <td></td>
@@ -174,6 +176,7 @@ Libro Caja
                                             <td>{{ libroCajaDetalle.origen}}</td>
                                             <td>Recibo N° {{ libroCajaDetalle.descripcion }}</td>
                                             <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
                                             {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                                 <td></td>
@@ -183,11 +186,13 @@ Libro Caja
                                             {% endif %}
                                             <td>
                                                 <a href="{{ path('recibo_show', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                <a href="{{ path('recibo_delete', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
                                             </td>
                                         {% else %}
                                             <td>{{ libroCajaDetalle.origen}}</td>
                                             <td>Orden de Pago N° {{ libroCajaDetalle.descripcion }}</td>
                                             <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
                                             {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                                 <td></td>
@@ -197,6 +202,7 @@ Libro Caja
                                             {% endif %}
                                             <td>
                                                 <a href="{{ path('ordenpago_show', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                <a href="{{ path('ordenpago_delete', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
                                             </td>
                                         {% endif %}
                                     </tr>

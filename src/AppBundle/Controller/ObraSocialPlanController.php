@@ -93,7 +93,12 @@ class ObraSocialPlanController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+
+            $obrasocialplan->setUpdatedBy($this->getUser());
+            $obrasocialplan->setUpdatedAt(new \DateTime("now"));
+            
+            $em->flush();
 
             return $this->redirectToRoute('obrasocialplan_show', array('id' => $obrasocialplan->getId()));
         }

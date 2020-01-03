@@ -45,8 +45,25 @@ class LibroCajaDetalleType extends AbstractType
                                    ->where('l.activo = 1')
                                    ->orderBy('l.nombre', 'ASC')
                                    ;
-                           }
-                ));
+                           },
+                    'attr' => [
+                            'class' => 'pagoTipo',
+                        ],
+                    ))
+                ->add('movimientoCategoria', EntityType::class, array(
+                    'label' => 'Categoría',
+                    'class' => 'AppBundle:MovimientoCategoria',
+                    'required' => true,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->addOrderBy('l.nombre', 'ASC')
+                                   ;
+                           },
+                    'attr' => [
+                            'class' => 'movimientoCategoria',
+                        ],
+                    ));
                 /*
                 ->add('activo')
                 ->add('createdBy')

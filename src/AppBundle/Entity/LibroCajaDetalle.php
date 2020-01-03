@@ -90,6 +90,16 @@ class LibroCajaDetalle
     private $proveedorPago;
 
     /**
+     * @var \MovimientoCategoria
+     *
+     * @ORM\ManyToOne(targetEntity="MovimientoCategoria")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="movimiento_categoria_id", referencedColumnName="id")
+     * })
+     */
+    private $movimientoCategoria;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -444,5 +454,29 @@ class LibroCajaDetalle
     public function getTipo()
     {
         return $this->tipo;
+    }
+
+    /**
+     * Set movimientoCategoria
+     *
+     * @param \AppBundle\Entity\MovimientoCategoria $movimientoCategoria
+     *
+     * @return LibroCajaDetalle
+     */
+    public function setMovimientoCategoria(\AppBundle\Entity\MovimientoCategoria $movimientoCategoria = null)
+    {
+        $this->movimientoCategoria = $movimientoCategoria;
+
+        return $this;
+    }
+
+    /**
+     * Get movimientoCategoria
+     *
+     * @return \AppBundle\Entity\MovimientoCategoria
+     */
+    public function getMovimientoCategoria()
+    {
+        return $this->movimientoCategoria;
     }
 }

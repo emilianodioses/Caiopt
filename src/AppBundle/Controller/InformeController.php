@@ -11,7 +11,12 @@ class InformeController extends Controller
 {
     public function afipventasalicuotasAction(Request $request)
     {
-    	return $this->render('informe/afipventasalicuotas.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+
+        $puntos_venta = $em->getRepository('AppBundle:PuntoVenta')->findBy(array('activo' => true),array('numero' => 'ASC'));
+
+    	return $this->render('informe/afipventasalicuotas.html.twig', array(
+                'puntos_venta' => $puntos_venta));
         //return $this->render('AppBundle:Informe:afipventasalicuotas.html.twig', array());
     }
 

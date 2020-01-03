@@ -27,7 +27,11 @@ AFIP Ventas y Alícuotas
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <label class="control-label required" for="fecha">Punto de Venta</label>
-                            <select id="punto_venta" name="punto_venta" class="form-control"><option value="1" selected="selected">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
+                            <select id="punto_venta" name="punto_venta" class="form-control">
+                                {% for pv in puntos_venta %}
+                                    <option value="{{pv.numero}}">{{pv.numero}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                 </div>

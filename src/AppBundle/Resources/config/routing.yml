@@ -129,3 +129,7 @@ app_pedido:
 app_pedidodetalle:
     resource: "@AppBundle/Resources/config/routing/pedidodetalle.yml"
     prefix:   /pedidodetalle
+
+app_movimientocategoria:
+    resource: "@AppBundle/Resources/config/routing/movimientocategoria.yml"
+    prefix:   /movimientocategoria

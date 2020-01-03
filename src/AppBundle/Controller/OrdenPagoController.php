@@ -107,6 +107,8 @@ class OrdenPagoController extends Controller
 
                 $em->persist($proveedorPago);
 
+                $categoria_egreso_orden_pago = $em->getRepository('AppBundle:MovimientoCategoria')->find(2);
+
                 $libroCajaDetalle = new Librocajadetalle();
                 $libroCajaDetalle->setLibroCaja($libroCaja);
                 $libroCajaDetalle->setPagoTipo($proveedorPago->getPagoTipo());
@@ -115,6 +117,7 @@ class OrdenPagoController extends Controller
                 $libroCajaDetalle->setTipo('Egreso de Caja');
                 $libroCajaDetalle->setDescripcion($ordenPago->getNumero());
                 $libroCajaDetalle->setImporte($proveedorPago->getImporte());
+                $libroCajaDetalle->setMovimientoCategoria($categoria_egreso_orden_pago);
                 $libroCajaDetalle->setActivo(true);
                 $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
                 $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
@@ -267,6 +270,8 @@ class OrdenPagoController extends Controller
 
                 $em->persist($proveedorPago);
 
+                $categoria_egreso_orden_pago = $em->getRepository('AppBundle:MovimientoCategoria')->find(2);
+
                 $libroCajaDetalle = new Librocajadetalle();
                 $libroCajaDetalle->setLibroCaja($libroCaja);
                 $libroCajaDetalle->setPagoTipo($proveedorPago->getPagoTipo());
@@ -275,6 +280,7 @@ class OrdenPagoController extends Controller
                 $libroCajaDetalle->setTipo('Egreso de Caja');
                 $libroCajaDetalle->setDescripcion($ordenPago->getNumero());
                 $libroCajaDetalle->setImporte($proveedorPago->getImporte());
+                $libroCajaDetalle->setMovimientoCategoria($categoria_egreso_orden_pago);
                 $libroCajaDetalle->setActivo(true);
                 $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
                 $libroCajaDetalle->setCreatedAt(new \DateTime("now"));

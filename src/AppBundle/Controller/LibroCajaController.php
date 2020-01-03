@@ -79,6 +79,7 @@ class LibroCajaController extends Controller
             $libroCajaDetalle = new LibroCajaDetalle();
 
             $pagoTipo_efectivo = $em->getRepository('AppBundle:PagoTipo')->find(1);
+            $categoria_ingreso_sin_especificar = $em->getRepository('AppBundle:MovimientoCategoria')->find(6);
 
             $libroCajaDetalle->setLibroCaja($libroCaja);
             $libroCajaDetalle->setPagoTipo($pagoTipo_efectivo);
@@ -86,6 +87,7 @@ class LibroCajaController extends Controller
             $libroCajaDetalle->setTipo('Ingreso a Caja');
             $libroCajaDetalle->setDescripcion('Inicio de Caja');
             $libroCajaDetalle->setImporte($libroCaja->getSaldoInicial());
+            $libroCajaDetalle->setMovimientoCategoria($categoria_ingreso_sin_especificar);
             $libroCajaDetalle->setActivo(true);
             $libroCajaDetalle->setCreatedBy($this->getUser()->getId());
             $libroCajaDetalle->setCreatedAt(new \DateTime("now"));
