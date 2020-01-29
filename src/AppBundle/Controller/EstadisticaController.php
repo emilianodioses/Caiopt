@@ -34,7 +34,6 @@ class EstadisticaController extends Controller
             'ventasXMes' => $this->ventasXMes($request),
             'ventasXSucursal' => $this->ventasXSucursal($request),
             'ventasXMediosPago' => $this->ventasXMediosPago($request),
-            'ivaDebitoCreditoXMes' => $this->ivaDebitoCreditoXMes($request),
             'ventasXMedico' => $this->ventasXMedico($request),
             'fecha_desde' => $fechaDesde,
             'fecha_hasta' => $fechaHasta,
@@ -349,91 +348,6 @@ class EstadisticaController extends Controller
         $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
         $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
         
-        return $chart;
-    // Google Charts 
-    }
-
-    private function ivaDebitoCreditoXMes(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
-        $sucursalId = $request->get('sucursal');
-        //$usuarioId = $request->get('usuario');
-
-        $query = $em->getRepository('AppBundle:Comprobante')
-        ->createQueryBuilder('comprobante')
-        ->select('MONTH(comprobante.fecha) as mes, YEAR(comprobante.fecha) as anio, comprobante.movimiento as movimiento, SUM(comprobante.importeIva) as sumaTotal')
-        ->where('comprobante.activo = 1')
-        ->andWhere('comprobante.fecha >= :fechaDesde')
-        ->andWhere('comprobante.fecha <= :fechaHasta')
-        ->groupBy('anio')
-        ->addGroupBy('mes')
-        ->addGroupBy('movimiento')
-        ->orderBy('anio', 'ASC')
-        ->addOrderBy('mes', 'ASC')
-        //->orderBy('sumaTotal', 'DESC')
-        //->setMaxResults(10)
-        //->setParameter('movimiento', "Venta")
-        ->setParameter('fechaDesde', $fechaDesde)
-        ->setParameter('fechaHasta', $fechaHasta);
-
-        if ($sucursalId > 0) {
-            $query = $query
-                ->andWhere('comprobante.sucursal = :sucursalId')
-                ->setParameter('sucursalId', $sucursalId);
-        }
-
-        $query = $query->getQuery()
-            ->getArrayResult();
-
-        $query_datos = array();
-        //Inicializo el array en cero
-        foreach($query as $key => $xx) {
-            $query_datos[$xx["mes"].'-'.$xx["anio"]]["mes"] = $xx["mes"].'-'.$xx["anio"];
-            $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_credito"] = 0;
-            $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_debito"] = 0;
-        }
-
-        foreach($query as $key => $xx) {
-            if ($xx["movimiento"] == "Compra"){
-                $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_credito"] += $xx["sumaTotal"] ;
-            }
-            else {
-                $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_debito"] += $xx["sumaTotal"] ;
-            }
-        }
-
-        $data = array();
-        $header = array('Mes', 'IVA Crédito', 'IVA Débito');
-        array_push($data, $header);
-
-        foreach($query_datos as $mes) {
-            $item = array($mes["mes"], (int)$mes["iva_credito"], (int)$mes["iva_debito"]);
-            array_push($data, $item);
-        }
-        //dump($query);
-        //die;
-
-        $chart = new ColumnChart();
-        $chart->getData()->setArrayToDataTable($data);
-        
-        $chart->getOptions()->setTitle('IVA Débito/Crédito por Mes');
-        $chart->getOptions()->setHeight(400);
-        //$chart->getOptions()->setWidth(300);
-        $chart->getOptions()->getHAxis()->setTitle('Mes');
-        $chart->getOptions()->getHAxis()->setSlantedText(true);
-        $chart->getOptions()->getHAxis()->setSlantedTextAngle('90');
-        $chart->getOptions()->getHAxis()->getTextStyle()->setFontSize(10);
-        //$chart->getOptions()->getChartArea()->setHeight('40%');
-        //$chart->getOptions()->getChartArea()->setTop('70');
-        //$chart->getOptions()->getLegend()->setPosition('left');
-        //$chart->getOptions()->getLegend()->setAlignment('vertical');
-        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
-        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
-        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
-        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
-
         return $chart;
     // Google Charts 
     }

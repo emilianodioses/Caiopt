@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Ventas
+Gastos
 {% endblock %}
 
 {% block header_description %}
 {% endblock %}
 
 {% block body %}
-<form id="myform" action="{{ path('estadistica_ventas') }}" method='POST'>
+<form id="myform" action="{{ path('informe_gastos') }}" method='POST'>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-success">
@@ -58,48 +58,14 @@ Ventas
         <div class="col-lg-6 col-xs-12">
             <div class="box box-success">
                 <div class="box-body">
-                    <div id="div_chart_categoria"></div>
+                    <div id="div_chart_gastos_categoria"></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-xs-12">
             <div class="box box-success">
                 <div class="box-body">
-                    <div id="div_chart_vendedor"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 col-xs-12">
-            <div class="box box-success">
-                <div class="box-body">
-                    <div id="div_chart_medios"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-xs-12">
-            <div class="box box-success">
-                <div class="box-body">
-                    <div id="div_chart_sucursal"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-xs-12">
-            <div class="box box-success">
-                <div class="box-body">
-                    <div id="div_chart_mes"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-xs-12">
-            <div class="box box-success">
-                <div class="box-body">
-                    <div id="div_chart_medico"></div>
+                    <div id="div_chart_gastos_sucursal"></div>
                 </div>
             </div>
         </div>
@@ -108,12 +74,8 @@ Ventas
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    {{ gc_draw(ventasXCategoria, 'div_chart_categoria') }}
-    {{ gc_draw(ventasXVendedor, 'div_chart_vendedor') }}
-    {{ gc_draw(ventasXMes, 'div_chart_mes') }}
-    {{ gc_draw(ventasXSucursal, 'div_chart_sucursal') }}
-    {{ gc_draw(ventasXMediosPago, 'div_chart_medios') }}
-    {{ gc_draw(ventasXMedico, 'div_chart_medico') }}
+    {{ gc_draw(gastosXCategoria, 'div_chart_gastos_categoria') }}
+    {{ gc_draw(gastosXSucursal, 'div_chart_gastos_sucursal') }}
 </script>
 {% endblock %}
 
