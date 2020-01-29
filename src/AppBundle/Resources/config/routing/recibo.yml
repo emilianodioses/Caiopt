@@ -32,3 +32,7 @@ recibo_imprimir:
     path:     /{id}/reciboImprimir
     defaults: { _controller: "AppBundle:Recibo:imprimir" }
     methods:  [GET, POST]
+
+recibo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Recibo:findSelect2" }

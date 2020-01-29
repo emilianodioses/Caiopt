@@ -194,12 +194,9 @@ class ComprobanteDetalle
     private $activo;
 
     /**
-     * @var \Usuario
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Usuario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="created_by", type="integer")
      */
     private $createdBy;
 
@@ -211,12 +208,9 @@ class ComprobanteDetalle
     private $createdAt;
 
     /**
-     * @var \Usuario
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Usuario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="updated_by", type="integer")
      */
     private $updatedBy;
     /**

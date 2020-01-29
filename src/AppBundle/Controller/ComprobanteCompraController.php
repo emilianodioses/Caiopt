@@ -9,9 +9,12 @@ use AppBundle\Entity\Articulo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use AppBundle\Form\ComprobanteType;
+use Symfony\Component\Serializer\Serializer;
 use AppBundle\Form\ComprobanteDetalleType;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Comprobante controller.
@@ -551,6 +554,29 @@ class ComprobanteCompraController extends controller
         $em->flush();
         
         return $this->redirectToRoute('comprobanteventa_index');
+    }
+
+    public function findSelect2Action(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+        
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
+
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
+        }
+
+        $result = $em->createQuery('
+                        SELECT r.id as id, r.id as text
+                        FROM AppBundle:Comprobante r
+                        WHERE r.activo = 1 AND r.id LIKE :text_search
+                        ORDER BY r.id ASC
+                        ')
+                    ->setParameter('text_search', '%'.$text_search.'%')
+                    ->setMaxResults($pageLimit)
+                ->getArrayResult();
+        
+        return new JsonResponse($result);
     }
 
     /**

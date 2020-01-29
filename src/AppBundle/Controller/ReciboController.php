@@ -10,6 +10,7 @@ use AppBundle\Entity\ReciboComprobante;
 use AppBundle\Entity\Cliente;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\LibroCajaDetalle;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 /**
@@ -848,5 +849,28 @@ class ReciboController extends Controller
             $xsub = "MIL";
         //
         return $xsub;
+    }
+
+    public function findSelect2Action(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+        
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
+
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
+        }
+
+        $result = $em->createQuery('
+                        SELECT r.id as id, r.id as text
+                        FROM AppBundle:Recibo r
+                        WHERE r.activo = 1 AND r.id LIKE :text_search
+                        ORDER BY r.id ASC
+                        ')
+                    ->setParameter('text_search', '%'.$text_search.'%')
+                    ->setMaxResults($pageLimit)
+                ->getArrayResult();
+        
+        return new JsonResponse($result);
     }
 }
