@@ -22,3 +22,7 @@ comprobantecompra_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:ComprobanteCompra:delete" }
     methods:  [GET, POST] 
+
+comprobantecompra_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:ComprobanteCompra:findSelect2" }
