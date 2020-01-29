@@ -97,7 +97,16 @@ Ventas
         <div class="col-lg-6 col-xs-12">
             <div class="box box-success">
                 <div class="box-body">
-                    <div id="div_chart_mes"></div>
+                    <div id="div_chart_iva"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <div id="div_chart_medico"></div>
                 </div>
             </div>
         </div>
@@ -111,6 +120,8 @@ Ventas
     {{ gc_draw(ventasXMes, 'div_chart_mes') }}
     {{ gc_draw(ventasXSucursal, 'div_chart_sucursal') }}
     {{ gc_draw(ventasXMediosPago, 'div_chart_medios') }}
+    {{ gc_draw(ivaDebitoCreditoXMes, 'div_chart_iva') }}
+    {{ gc_draw(ventasXMedico, 'div_chart_medico') }}
 </script>
 {% endblock %}
 
