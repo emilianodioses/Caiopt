@@ -94,7 +94,7 @@ class MovimientoInternoController extends Controller
 
             $em->persist($movimiento);
             $em->flush();
-            
+
             // Libro de caja Sucursal Origen
             $libroCajaOrigenDetalle = new Librocajadetalle();
             $libroCajaOrigenDetalle->setLibroCaja($libroCajaOrigen);
@@ -126,7 +126,7 @@ class MovimientoInternoController extends Controller
             $libroCajaDestinoDetalle->setDescripcion($movimiento->getId());
             $libroCajaDestinoDetalle->setImporte($movimiento->getMonto());
             $libroCajaDestinoDetalle->setMovimientoCategoria($movimiento->getMovimientoCategoria());
-            $libroCajaOrigenDetalle->setMovimientoInterno($movimiento);
+            $libroCajaDestinoDetalle->setMovimientoInterno($movimiento);
             $libroCajaDestinoDetalle->setActivo(true);
             $libroCajaDestinoDetalle->setCreatedBy($this->getUser()->getId());
             $libroCajaDestinoDetalle->setCreatedAt(new \DateTime("now"));
