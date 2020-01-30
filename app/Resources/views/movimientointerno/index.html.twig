@@ -18,7 +18,7 @@ Movimiento Internos
           <div class="box-tools">
             <div class="input-group input-group-sm" style="width: 500px;">
               <input id="btn-input" type="text" class="form-control input-sm" 
-                 name="texto" placeholder="Buscar por Sucursal/Categoria/Recibo/Comprobante" value="{{texto}}"/>
+                 name="texto" placeholder="Buscar por Sucursal/Categoria/Comprobante" value="{{texto}}"/>
               <span class="input-group-btn">
                   <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   <a type="button" class="btn btn-primary btn-md" href="{{ path('movimientointerno_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
@@ -34,7 +34,7 @@ Movimiento Internos
                 <th>Sucursal Destino</th>
                 <th>Monto</th>
                 <th>Categoria Movimiento</th>
-                <th>Recibo</th>
+                <th>Pago Tipo</th>
                 <th>Comprobante</th>
                 <th>Observaciones</th>
                 <th>Acciones</th>
@@ -46,13 +46,11 @@ Movimiento Internos
                     <td>{{ movimiento.sucursalDestino }}</td>
                     <td>{{ movimiento.monto }}</td>
                     <td>{{ movimiento.movimientoCategoria }}</td>
-                    <td>{{ movimiento.recibo }}</td>
+                    <td>{{ movimiento.pagoTipo }}</td>
                     <td>{{ movimiento.comprobante }}</td>
                     <td>{{ movimiento.observaciones }}</td>                                            
                     <td>
                       <a href="{{ path('movimientointerno_show', { 'id': movimiento.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
-                      </a>
-                      <a href="{{ path('movimientointerno_edit', { 'id': movimiento.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                       <a href="{{ path('movimientointerno_delete', { 'id': movimiento.Id }) }}" onclick="return confirm('¿Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                       </a>

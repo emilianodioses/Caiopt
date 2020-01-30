@@ -97,25 +97,18 @@ class MovimientoInternoType extends AbstractType
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
                     ))
-                ->add('recibo', Select2EntityType::class, array(
-                    'label' => 'Recibo',
-                    'class' => 'AppBundle:Recibo',
-                    'remote_route' => 'recibo_find_select2',
-                    'placeholder' => 'Seleccione un Recibo',
-                    'required' => false,
-                    'attr' => [
-                            'class' => 'recibo',
-                        ],
-                    'primary_key' => 'id',
-                    'text_property' => 'id',
-                    'minimum_input_length' => 1,
-                    'page_limit' => 10,
-                    'allow_clear' => false,
-                    'delay' => 250,
-                    'cache' => true,
-                    'cache_timeout' => 60000, // if 'cache' is true
-                    'language' => 'es',
-                    ))
+                ->add('pagoTipo', EntityType::class, array(
+                    'label' => 'Tipo Pago',
+                    'class' => 'AppBundle:PagoTipo',
+                    'required' => true,
+                    'choice_label' => 'nombre',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('l')
+                            ->where('l.activo = 1')
+                            ->orderBy('l.id', 'DESC')
+                            ;
+                    }
+                ))
                 ->add('fecha',DateType::class,array(
                     'label'=>'Fecha',
                     'widget' => 'single_text',

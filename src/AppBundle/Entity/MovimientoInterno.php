@@ -65,6 +65,16 @@ class MovimientoInterno
     private $movimientoCategoria;
 
     /**
+     * @var \PagoTipo
+     *
+     * @ORM\ManyToOne(targetEntity="PagoTipo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pago_tipo", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $pagoTipo;
+
+    /**
      * @var \Comprobante
      *
      * @ORM\ManyToOne(targetEntity="Comprobante")
@@ -73,17 +83,7 @@ class MovimientoInterno
      * })
      */
     private $comprobante;
-
-    /**
-     * @var \Recibo
-     *
-     * @ORM\ManyToOne(targetEntity="Recibo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="recibo", referencedColumnName="id", nullable=true)
-     * })
-     */
-    private $recibo;
-    
+  
     /**
      * @var \DateTime
      *
@@ -262,11 +262,35 @@ class MovimientoInterno
     /**
      * Get movimientoCategoria
      *
-     * @return int
+     * @return MovimientoInterno
      */
     public function getMovimientoCategoria()
     {
         return $this->movimientoCategoria;
+    }
+
+    /**
+     * Set pagoTipo
+     *
+     * @param integer $pagoTipo
+     *
+     * @return PagoTipo
+     */
+    public function setPagoTipo($pagoTipo)
+    {
+        $this->pagoTipo = $pagoTipo;
+
+        return $this;
+    }
+
+    /**
+     * Get movimientoCategoria
+     *
+     * @return PagoTipo
+     */
+    public function getPagoTipo()
+    {
+        return $this->pagoTipo;
     }
 
     /**
@@ -291,30 +315,6 @@ class MovimientoInterno
     public function getComprobante()
     {
         return $this->comprobante;
-    }
-
-    /**
-     * Set recibo
-     *
-     * @param integer $recibo
-     *
-     * @return MovimientoInterno
-     */
-    public function setRecibo($recibo)
-    {
-        $this->recibo = $recibo;
-
-        return $this;
-    }
-
-    /**
-     * Get recibo
-     *
-     * @return int
-     */
-    public function getRecibo()
-    {
-        return $this->recibo;
     }
 
     /**

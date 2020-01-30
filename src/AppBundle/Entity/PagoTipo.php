@@ -69,6 +69,11 @@ class PagoTipo
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->nombre;
+    }
+    
 
     /**
      * Get id

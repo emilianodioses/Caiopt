@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\MovimientoInterno;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\LibroCajaDetalle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -69,6 +70,21 @@ class MovimientoInternoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            //$fecha_now = new \DateTime("now");
+            $libroCajaOrigen = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $movimiento->getFecha(), 'sucursal' => $movimiento->getSucursalOrigen(), 'activo' => 1));
+            $libroCajaDestino = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $movimiento->getFecha(), 'sucursal' => $movimiento->getSucursalDestino(), 'activo' => 1));
+
+            if (is_null($libroCajaOrigen)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja para la sucursal de Origen. Debe generar uno antes de cargar movimientos internos.');
+
+                return $this->redirectToRoute('movimientointerno_new', array('request' => $request, 'movimiento' => $movimiento->getId()));
+            }
+
+            if (is_null($libroCajaDestino)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No existe ningún libro caja para la sucursal de Destino. Debe generar uno antes de cargar movimientos internos.');
+
+                return $this->redirectToRoute('movimientointerno_new', array('request' => $request, 'movimiento' => $movimiento->getId()));
+            }
            
             $movimiento->setActivo(true);
             $movimiento->setCreatedBy($this->getUser());
@@ -78,12 +94,61 @@ class MovimientoInternoController extends Controller
 
             $em->persist($movimiento);
             $em->flush();
+            
+            // Libro de caja Sucursal Origen
+            $libroCajaOrigenDetalle = new Librocajadetalle();
+            $libroCajaOrigenDetalle->setLibroCaja($libroCajaOrigen);
+            $libroCajaOrigenDetalle->setPagoTipo($movimiento->getPagoTipo());
+            $libroCajaOrigenDetalle->setOrigen('Movimiento Interno');
+            $libroCajaOrigenDetalle->setTipo('Egreso de Caja');
+            $libroCajaOrigenDetalle->setDescripcion($movimiento->getId());
+            $libroCajaOrigenDetalle->setImporte($movimiento->getMonto());
+            $libroCajaOrigenDetalle->setMovimientoCategoria($movimiento->getMovimientoCategoria());
+            $libroCajaOrigenDetalle->setMovimientoInterno($movimiento);
+            $libroCajaOrigenDetalle->setActivo(true);
+            $libroCajaOrigenDetalle->setCreatedBy($this->getUser()->getId());
+            $libroCajaOrigenDetalle->setCreatedAt(new \DateTime("now"));
+            $libroCajaOrigenDetalle->setUpdatedBy($this->getUser()->getId());
+            $libroCajaOrigenDetalle->setUpdatedAt(new \DateTime("now"));
+
+            if ($libroCajaOrigenDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                $saldo = $libroCajaOrigen->getSaldoFinal();
+                $saldo -= $libroCajaOrigenDetalle->getImporte();
+                $libroCajaOrigen->setSaldoFinal($saldo);
+            }
+
+            // Libro de caja Sucursal Destino
+            $libroCajaDestinoDetalle = new Librocajadetalle();
+            $libroCajaDestinoDetalle->setLibroCaja($libroCajaDestino);
+            $libroCajaDestinoDetalle->setPagoTipo($movimiento->getPagoTipo());
+            $libroCajaDestinoDetalle->setOrigen('Movimiento Interno');
+            $libroCajaDestinoDetalle->setTipo('Ingreso a Caja');
+            $libroCajaDestinoDetalle->setDescripcion($movimiento->getId());
+            $libroCajaDestinoDetalle->setImporte($movimiento->getMonto());
+            $libroCajaDestinoDetalle->setMovimientoCategoria($movimiento->getMovimientoCategoria());
+            $libroCajaOrigenDetalle->setMovimientoInterno($movimiento);
+            $libroCajaDestinoDetalle->setActivo(true);
+            $libroCajaDestinoDetalle->setCreatedBy($this->getUser()->getId());
+            $libroCajaDestinoDetalle->setCreatedAt(new \DateTime("now"));
+            $libroCajaDestinoDetalle->setUpdatedBy($this->getUser()->getId());
+            $libroCajaDestinoDetalle->setUpdatedAt(new \DateTime("now"));
+
+            if ($libroCajaDestinoDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                $saldo = $libroCajaDestino->getSaldoFinal();
+                $saldo += $libroCajaDestinoDetalle->getImporte();
+                $libroCajaDestino->setSaldoFinal($saldo);
+            }
+
+            $em->persist($libroCajaOrigenDetalle);
+            $em->persist($libroCajaDestinoDetalle);
+
+            $em->flush();
 
             return $this->redirectToRoute('movimientointerno_show', array('id' => $movimiento->getId()));
         }
 
         return $this->render('movimientointerno/new.html.twig', array(
-            'cliente' => $movimiento,
+            'movimiento' => $movimiento,
             'form' => $form->createView(),
         ));
     }
@@ -134,6 +199,30 @@ class MovimientoInternoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $movimiento = $em->getRepository('AppBundle:MovimientoInterno')->find($id);
+
+        $libroCajaDetalles= $em->getRepository('AppBundle:LibroCajaDetalle')->findBy(array('movimientoInterno'=> $movimiento->getId()));
+
+        foreach($libroCajaDetalles as $libroCajaDetalle) {
+            $libroCajaDetalle->setActivo(false);
+            $libroCajaDetalle->setUpdatedBy($this->getUser()->getId()); 
+            $libroCajaDetalle->setUpdatedAt(new \DateTime("now")); 
+
+            $libroCaja = $libroCajaDetalle->getLibroCaja();
+            $saldo = $libroCaja->getSaldoFinal();
+            
+            if ($libroCajaDetalle->getTipo() == 'Ingreso a Caja') {
+                $saldo -= $libroCajaDetalle->getImporte();
+            }
+            else {
+                $saldo += $libroCajaDetalle->getImporte();
+            }    
+            
+            if ($libroCajaDetalle->getPagoTipo()->getNombre() == ' Efectivo') {
+                $libroCaja->setSaldoFinal($saldo);
+            }
+            
+            $em->flush();
+        }
 
         if ($movimiento->getActivo() > 0)
             $movimiento->setActivo(0);
