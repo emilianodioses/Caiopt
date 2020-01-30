@@ -7,3 +7,14 @@ informe_afipventasalicuotasexportar:
     path:     /afipventasalicuotasexportar
     defaults: { _controller: "AppBundle:Informe:afipventasalicuotasexportar" }
     methods:  [GET, POST]    
+
+informe_ivadebitocredito:
+    path:     /ivadebitocredito
+    defaults: { _controller: "AppBundle:Informe:ivadebitocredito" }
+    methods:  [GET, POST]
+    
+informe_gastos:
+    path:     /gastos
+    defaults: { _controller: "AppBundle:Informe:gastos" }
+    methods:  [GET, POST]
+    

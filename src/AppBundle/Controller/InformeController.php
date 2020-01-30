@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 
 class InformeController extends Controller
 {
@@ -125,5 +127,257 @@ class InformeController extends Controller
 
         // Dispatch request
         return $response;
+    }
+
+    public function ivadebitocreditoAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $sucursalId = $request->get('sucursal');
+
+        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+        $sucursales = $em->getRepository('AppBundle:Sucursal')->findAll();
+
+        return $this->render('informe/ivaDebitoCredito.html.twig', array(
+            'ivaDebitoCreditoXMes' => $this->fnIvaDebitoCreditoXMesChart($request),
+            'fecha_desde' => $fechaDesde,
+            'fecha_hasta' => $fechaHasta,
+            'sucursal_id' => $sucursalId,
+            'usuarios' => $usuarios,
+            'sucursales' => $sucursales,
+            //'texto' => $texto
+        ));
+    }
+
+    private function fnIvaDebitoCreditoXMesChart(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $sucursalId = $request->get('sucursal');
+        //$usuarioId = $request->get('usuario');
+
+        $query = $em->getRepository('AppBundle:Comprobante')
+        ->createQueryBuilder('comprobante')
+        ->select('MONTH(comprobante.fecha) as mes, YEAR(comprobante.fecha) as anio, comprobante.movimiento as movimiento, SUM(comprobante.importeIva) as sumaTotal')
+        ->where('comprobante.activo = 1')
+        ->andWhere('comprobante.fecha >= :fechaDesde')
+        ->andWhere('comprobante.fecha <= :fechaHasta')
+        ->groupBy('anio')
+        ->addGroupBy('mes')
+        ->addGroupBy('movimiento')
+        ->orderBy('anio', 'ASC')
+        ->addOrderBy('mes', 'ASC')
+        //->orderBy('sumaTotal', 'DESC')
+        //->setMaxResults(10)
+        //->setParameter('movimiento', "Venta")
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query = $query
+                ->andWhere('comprobante.sucursal = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $query = $query->getQuery()
+            ->getArrayResult();
+
+        $query_datos = array();
+        //Inicializo el array en cero
+        foreach($query as $key => $xx) {
+            $query_datos[$xx["mes"].'-'.$xx["anio"]]["mes"] = $xx["mes"].'-'.$xx["anio"];
+            $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_credito"] = 0;
+            $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_debito"] = 0;
+        }
+
+        foreach($query as $key => $xx) {
+            if ($xx["movimiento"] == "Compra"){
+                $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_credito"] += $xx["sumaTotal"] ;
+            }
+            else {
+                $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_debito"] += $xx["sumaTotal"] ;
+            }
+        }
+
+        $data = array();
+        $header = array('Mes', 'IVA Crédito', 'IVA Débito');
+        array_push($data, $header);
+
+        foreach($query_datos as $mes) {
+            $item = array($mes["mes"], (int)$mes["iva_credito"], (int)$mes["iva_debito"]);
+            array_push($data, $item);
+        }
+        //dump($query);
+        //die;
+
+        $chart = new ColumnChart();
+        $chart->getData()->setArrayToDataTable($data);
+        
+        $chart->getOptions()->setTitle('IVA Débito/Crédito por Mes');
+        $chart->getOptions()->setHeight(400);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getHAxis()->setTitle('Mes');
+        $chart->getOptions()->getHAxis()->setSlantedText(true);
+        $chart->getOptions()->getHAxis()->setSlantedTextAngle('90');
+        $chart->getOptions()->getHAxis()->getTextStyle()->setFontSize(10);
+        //$chart->getOptions()->getChartArea()->setHeight('40%');
+        //$chart->getOptions()->getChartArea()->setTop('70');
+        //$chart->getOptions()->getLegend()->setPosition('left');
+        //$chart->getOptions()->getLegend()->setAlignment('vertical');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
+
+        return $chart;
+    // Google Charts 
+    }
+
+    public function gastosAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $sucursalId = $request->get('sucursal');
+
+        $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
+        $sucursales = $em->getRepository('AppBundle:Sucursal')->findAll();
+
+        return $this->render('informe/gastos.html.twig', array(
+            'gastosXCategoria' => $this->fnGastosXCategoriaChart($request),
+            'gastosXSucursal' => $this->fnGastosXSucursalChart($request),
+            'fecha_desde' => $fechaDesde,
+            'fecha_hasta' => $fechaHasta,
+            'sucursal_id' => $sucursalId,
+            'usuarios' => $usuarios,
+            'sucursales' => $sucursales,
+            //'texto' => $texto
+        ));
+    }
+
+    private function fnGastosXCategoriaChart(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $sucursalId = $request->get('sucursal');
+        //$usuarioId = $request->get('usuario');
+
+        // Google Charts - Venta por Categoria
+        $query = $em->getRepository('AppBundle:LibroCajaDetalle')
+        ->createQueryBuilder('lcd')
+        ->join('lcd.libroCaja','lc')
+        ->join('lcd.movimientoCategoria','mc')
+        ->select('mc.nombre as categoriaNombre, SUM(lcd.importe) as sumaTotal')
+        ->where('lcd.tipo = :tipo')
+        ->andWhere('lcd.activo = 1')
+        ->andWhere('lc.fecha >= :fechaDesde')
+        ->andWhere('lc.fecha <= :fechaHasta')
+        ->groupBy('categoriaNombre')
+        ->orderBy('sumaTotal', 'DESC')    
+        //->setMaxResults(10)
+        ->setParameter('tipo', "Egreso de Caja")
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query = $query
+                ->andWhere('lc.sucursal = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $query = $query->getQuery()
+            ->getArrayResult();
+
+        $data = array();
+        $header = array('Categoría', 'Suma Total');
+        array_push($data, $header);
+
+        foreach($query as $xx) {
+            $item = array($xx["categoriaNombre"], (int)$xx["sumaTotal"]);
+            array_push($data, $item);
+        }
+        
+        $chart = new PieChart();
+        $chart->getData()->setArrayToDataTable($data);
+
+        $chart->getOptions()->setTitle('Gastos por Categoría en $');
+        $chart->getOptions()->setHeight(400);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getTitleTextStyle()->setBold(true);
+        $chart->getOptions()->setis3D(true);
+        $chart->getOptions()->getLegend()->setPosition('left');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
+
+        return $chart;
+    // Google Charts 
+    }
+
+    private function fnGastosXSucursalChart(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $sucursalId = $request->get('sucursal');
+        //$usuarioId = $request->get('usuario');
+
+        // Google Charts - Venta por Categoria
+        $query = $em->getRepository('AppBundle:LibroCajaDetalle')
+        ->createQueryBuilder('lcd')
+        ->join('lcd.libroCaja','lc')
+        ->join('lc.sucursal','s')
+        ->select('s.nombre as sucursalNombre, SUM(lcd.importe) as sumaTotal')
+        ->where('lcd.tipo = :tipo')
+        ->andWhere('lcd.activo = 1')
+        ->andWhere('lc.fecha >= :fechaDesde')
+        ->andWhere('lc.fecha <= :fechaHasta')
+        ->groupBy('lc.sucursal')
+        ->orderBy('sumaTotal', 'DESC')    
+        //->setMaxResults(10)
+        ->setParameter('tipo', "Egreso de Caja")
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query = $query
+                ->andWhere('lc.sucursal = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $query = $query->getQuery()
+            ->getArrayResult();
+
+        $data = array();
+        $header = array('Sucursal', 'Suma Total');
+        array_push($data, $header);
+
+        foreach($query as $xx) {
+            $item = array($xx["sucursalNombre"], (int)$xx["sumaTotal"]);
+            array_push($data, $item);
+        }
+        
+        $chart = new PieChart();
+        $chart->getData()->setArrayToDataTable($data);
+
+        $chart->getOptions()->setTitle('Gastos por Sucursal en $');
+        $chart->getOptions()->setHeight(400);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getTitleTextStyle()->setBold(true);
+        $chart->getOptions()->setis3D(true);
+        $chart->getOptions()->getLegend()->setPosition('left');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
+
+        return $chart;
+    // Google Charts 
     }
 }

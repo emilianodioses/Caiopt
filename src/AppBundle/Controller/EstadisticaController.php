@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 
 /**
  * Articulo controller.
@@ -33,6 +34,7 @@ class EstadisticaController extends Controller
             'ventasXMes' => $this->ventasXMes($request),
             'ventasXSucursal' => $this->ventasXSucursal($request),
             'ventasXMediosPago' => $this->ventasXMediosPago($request),
+            'ventasXMedico' => $this->ventasXMedico($request),
             'fecha_desde' => $fechaDesde,
             'fecha_hasta' => $fechaHasta,
             'sucursal_id' => $sucursalId,
@@ -73,17 +75,17 @@ class EstadisticaController extends Controller
         $ventasXMediosPago = $ventasXMediosPago->getQuery()
             ->getArrayResult();
 
-        $datapie = array();
+        $data = array();
         $header = array('Medio de Pago', 'Total');
-        array_push($datapie, $header);
+        array_push($data, $header);
 
         foreach($ventasXMediosPago as $medio) {
             $item = array($medio["medio"], (int)$medio["total"]);
-            array_push($datapie, $item);
+            array_push($data, $item);
         }
         
         $ventasXMediosPago = new PieChart();
-        $ventasXMediosPago->getData()->setArrayToDataTable($datapie);
+        $ventasXMediosPago->getData()->setArrayToDataTable($data);
 
         $ventasXMediosPago->getOptions()->setTitle('Ventas por Medios de Pagos');
         $ventasXMediosPago->getOptions()->setHeight(400);
@@ -133,17 +135,17 @@ class EstadisticaController extends Controller
         $ventasXSucursal = $ventasXSucursal->getQuery()
         ->getArrayResult();
 
-        $datapie = array();
+        $data = array();
         $header = array('Sucursal', 'Total');
-        array_push($datapie, $header);
+        array_push($data, $header);
 
         foreach($ventasXSucursal as $sucursal) {
             $item = array($sucursal["sucursalNombre"], (int)$sucursal["total"]);
-            array_push($datapie, $item);
+            array_push($data, $item);
         }
         
         $ventasXSucursal = new PieChart();
-        $ventasXSucursal->getData()->setArrayToDataTable($datapie);
+        $ventasXSucursal->getData()->setArrayToDataTable($data);
 
         $ventasXSucursal->getOptions()->setTitle('Ventas por Sucursal');
         $ventasXSucursal->getOptions()->setHeight(400);
@@ -197,17 +199,17 @@ class EstadisticaController extends Controller
         $ventasCategoria = $ventasCategoria->getQuery()
         ->getArrayResult();
 
-        $datapie = array();
+        $data = array();
         $header = array('Categoria', 'Suma Total');
-        array_push($datapie, $header);
+        array_push($data, $header);
 
         foreach($ventasCategoria as $categoria) {
             $item = array($categoria["categoria"], (int)$categoria["sumaTotal"]);
-            array_push($datapie, $item);
+            array_push($data, $item);
         }
         
         $ventaCategoria = new PieChart();
-        $ventaCategoria->getData()->setArrayToDataTable($datapie);
+        $ventaCategoria->getData()->setArrayToDataTable($data);
 
         $ventaCategoria->getOptions()->setTitle('Ventas por Categoria en $');
         $ventaCategoria->getOptions()->setHeight(400);
@@ -257,17 +259,17 @@ class EstadisticaController extends Controller
         $ventasXVendedor = $ventasXVendedor->getQuery()
             ->getArrayResult();
 
-        $datapie = array();
+        $data = array();
         $header = array('Vendedor', 'Suma Total');
-        array_push($datapie, $header);
+        array_push($data, $header);
 
         foreach($ventasXVendedor as $vendedor) {
             $item = array($vendedor["usuario"], (int)$vendedor["sumaTotal"]);
-            array_push($datapie, $item);
+            array_push($data, $item);
         }
         
         $ventasXVendedor = new PieChart();
-        $ventasXVendedor->getData()->setArrayToDataTable($datapie);
+        $ventasXVendedor->getData()->setArrayToDataTable($data);
 
         $ventasXVendedor->getOptions()->setTitle('Ventas por Vendedor en $');
         $ventasXVendedor->getOptions()->setHeight(400);
@@ -293,53 +295,143 @@ class EstadisticaController extends Controller
         //$usuarioId = $request->get('usuario');
 
         // Google Charts - Venta por Categoria
-        $ventasXMes = $em->getRepository('AppBundle:Comprobante')
+        $query = $em->getRepository('AppBundle:Comprobante')
         ->createQueryBuilder('comprobante')
-        ->select('MONTH(comprobante.fecha) as mes, SUM(comprobante.total) as sumaTotal')
+        ->select('MONTH(comprobante.fecha) as mes, YEAR(comprobante.fecha) as anio, SUM(comprobante.total) as sumaTotal')
         ->where('comprobante.movimiento = :movimiento')
         ->andWhere('comprobante.activo = 1')
         ->andWhere('comprobante.fecha >= :fechaDesde')
         ->andWhere('comprobante.fecha <= :fechaHasta')
-        ->groupBy('mes')
-        ->orderBy('sumaTotal', 'DESC')
+        ->groupBy('anio')
+        ->addGroupBy('mes')
+        ->orderBy('anio', 'ASC')
+        ->addOrderBy('mes', 'ASC')
         //->setMaxResults(10)
         ->setParameter('movimiento', "Venta")
         ->setParameter('fechaDesde', $fechaDesde)
         ->setParameter('fechaHasta', $fechaHasta);
 
         if ($sucursalId > 0) {
-            $ventasXMes = $ventasXMes
+            $query = $query
                 ->andWhere('comprobante.sucursal = :sucursalId')
                 ->setParameter('sucursalId', $sucursalId);
         }
 
-        $ventasXMes = $ventasXMes->getQuery()
+        $query = $query->getQuery()
             ->getArrayResult();
 
-        $datapie = array();
-        $header = array('Mes', 'Suma Total');
-        array_push($datapie, $header);
+        $data = array();
+        $header = array('Mes', 'Total $');
+        array_push($data, $header);
 
-        foreach($ventasXMes as $mes) {
-            $item = array($mes["mes"], (int)$mes["sumaTotal"]);
-            array_push($datapie, $item);
+        foreach($query as $mes) {
+            $item = array($mes["mes"]."-".$mes["anio"], (int)$mes["sumaTotal"]);
+            array_push($data, $item);
         }
+
+        $chart = new ColumnChart();
+        $chart->getData()->setArrayToDataTable($data);
+
+        $chart->getOptions()->setTitle('Ventas por Mes en $');
+        $chart->getOptions()->setHeight(400);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getHAxis()->setTitle('Mes');
+        $chart->getOptions()->getHAxis()->setSlantedText(true);
+        $chart->getOptions()->getHAxis()->setSlantedTextAngle('90');
+        $chart->getOptions()->getHAxis()->getTextStyle()->setFontSize(10);
+        //$chart->getOptions()->getChartArea()->setHeight('40%');
+        //$chart->getOptions()->getChartArea()->setTop('70');
+        //$chart->getOptions()->getLegend()->setPosition('left');
+        //$chart->getOptions()->getLegend()->setAlignment('vertical');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
         
-        $ventasXMes = new PieChart();
-        $ventasXMes->getData()->setArrayToDataTable($datapie);
-
-        $ventasXMes->getOptions()->setTitle('Ventas por Mes en $');
-        $ventasXMes->getOptions()->setHeight(400);
-        //$ventasXMes->getOptions()->setWidth(300);
-        $ventasXMes->getOptions()->getTitleTextStyle()->setBold(true);
-        $ventasXMes->getOptions()->setis3D(true);
-        $ventasXMes->getOptions()->getLegend()->setPosition('left');
-        $ventasXMes->getOptions()->getTitleTextStyle()->setColor('#009900');
-        $ventasXMes->getOptions()->getTitleTextStyle()->setItalic(true);
-        $ventasXMes->getOptions()->getTitleTextStyle()->setFontName('Arial');
-        $ventasXMes->getOptions()->getTitleTextStyle()->setFontSize(15);
-
-        return $ventasXMes;
+        return $chart;
     // Google Charts 
     }
+
+    private function ventasXMedico(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde'));
+        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $sucursalId = $request->get('sucursal');
+        //$usuarioId = $request->get('usuario');
+
+        // Google Charts - Venta por Categoria
+        $query = $em->getRepository('AppBundle:Comprobante')
+        ->createQueryBuilder('comprobante')
+        ->join('comprobante.usuario','usuario')
+        ->join('comprobante.ordenTrabajo', 'ordenTrabajo')
+        ->join('ordenTrabajo.medico', 'medico')
+        ->select('medico.nombre as medico_nombre, SUM(comprobante.total) as sumaTotal')
+        ->where('comprobante.movimiento = :movimiento')
+        ->andWhere('comprobante.activo = 1')
+        ->andWhere('comprobante.fecha >= :fechaDesde')
+        ->andWhere('comprobante.fecha <= :fechaHasta')
+        ->groupBy('medico')
+        ->orderBy('sumaTotal', 'DESC')    
+        //->setMaxResults(10)
+        ->setParameter('movimiento', "Venta")
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query = $query
+                ->andWhere('comprobante.sucursal = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $query = $query->getQuery()
+            ->getArrayResult();
+
+        $data = array();
+        $header = array('Médico', 'Total $');
+        array_push($data, $header);
+
+        foreach($query as $vendedor) {
+            $item = array($vendedor["medico_nombre"], (int)$vendedor["sumaTotal"]);
+            array_push($data, $item);
+        }
+
+        $chart = new ColumnChart();
+        $chart->getData()->setArrayToDataTable($data);
+        
+        $chart->getOptions()->setTitle('Ventas por Medico en $');
+        $chart->getOptions()->setHeight(500);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getHAxis()->setTitle('Médico');
+        $chart->getOptions()->getHAxis()->setSlantedText(true);
+        $chart->getOptions()->getHAxis()->setSlantedTextAngle('90');
+        $chart->getOptions()->getHAxis()->getTextStyle()->setFontSize(10);
+        $chart->getOptions()->getChartArea()->setHeight('40%');
+        $chart->getOptions()->getChartArea()->setTop('70');
+        //$chart->getOptions()->getLegend()->setPosition('left');
+        $chart->getOptions()->getLegend()->setAlignment('vertical');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
+        
+        /*
+        $chart = new PieChart();
+        $chart->getData()->setArrayToDataTable($data);
+
+        $chart->getOptions()->setTitle('Ventas por Vendedor en $');
+        $chart->getOptions()->setHeight(400);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getTitleTextStyle()->setBold(true);
+        $chart->getOptions()->setis3D(true);
+        $chart->getOptions()->getLegend()->setPosition('left');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
+        */
+        return $chart;
+    // Google Charts 
+    }
+
 }
