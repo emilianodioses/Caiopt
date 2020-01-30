@@ -50,6 +50,20 @@ class LibroCajaDetalleType extends AbstractType
                             'class' => 'pagoTipo',
                         ],
                     ))
+                ->add('movimientoInterno', EntityType::class, array(
+                    'label' => 'Movimiento Interno',
+                    'class' => 'AppBundle:MovimientoInterno',
+                    'required' => true,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                return $er->createQueryBuilder('l')
+                                    ->where('l.activo = 1')
+                                    ->addOrderBy('l.id', 'ASC')
+                                    ;
+                            },
+                    'attr' => [
+                            'class' => 'movimientoInterno',
+                        ],
+                    ))
                 ->add('movimientoCategoria', EntityType::class, array(
                     'label' => 'Categoría',
                     'class' => 'AppBundle:MovimientoCategoria',

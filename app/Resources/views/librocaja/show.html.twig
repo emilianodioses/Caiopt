@@ -185,8 +185,27 @@ Libro Caja
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                             {% endif %}
                                             <td>
-                                                <a href="{{ path('recibo_show', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                                <a href="{{ path('recibo_delete', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% if libroCajaDetalle.clientePago != null %}
+                                                    <a href="{{ path('recibo_show', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    <a href="{{ path('recibo_delete', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% endif %}
+                                            </td>
+                                        {% elseif libroCajaDetalle.origen == 'Movimiento Interno'%}
+                                            <td>{{ libroCajaDetalle.origen}}</td>
+                                            <td>Movimiento Interno N° {{ libroCajaDetalle.descripcion }}</td>
+                                            <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
+                                            {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                                <td></td>
+                                            {% else %}
+                                                <td></td>
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                            {% endif %}
+                                            <td>
+                                                {% if libroCajaDetalle.movimientoInterno != null %}
+                                                    <a href="{{ path('movimientointerno_show', { 'id': libroCajaDetalle.movimientoInterno.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                {% endif %}
                                             </td>
                                         {% else %}
                                             <td>{{ libroCajaDetalle.origen}}</td>
@@ -201,8 +220,10 @@ Libro Caja
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                             {% endif %}
                                             <td>
-                                                <a href="{{ path('ordenpago_show', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                                <a href="{{ path('ordenpago_delete', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% if libroCajaDetalle.proveedorPago != null %}
+                                                    <a href="{{ path('ordenpago_show', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    <a href="{{ path('ordenpago_delete', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% endif %}
                                             </td>
                                         {% endif %}
                                     </tr>

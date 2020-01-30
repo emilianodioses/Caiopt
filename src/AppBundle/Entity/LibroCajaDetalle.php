@@ -90,6 +90,16 @@ class LibroCajaDetalle
     private $proveedorPago;
 
     /**
+     * @var \MovimientoInterno
+     *
+     * @ORM\ManyToOne(targetEntity="MovimientoInterno")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="movimiento_interno", referencedColumnName="id")
+     * })
+     */
+    private $movimientoInterno;
+
+    /**
      * @var \MovimientoCategoria
      *
      * @ORM\ManyToOne(targetEntity="MovimientoCategoria")
@@ -478,5 +488,29 @@ class LibroCajaDetalle
     public function getMovimientoCategoria()
     {
         return $this->movimientoCategoria;
+    }
+
+    /**
+     * Set movimientoInterno
+     *
+     * @param \AppBundle\Entity\MovimientoInterno $movimientoInterno
+     *
+     * @return LibroCajaDetalle
+     */
+    public function setMovimientoInterno(\AppBundle\Entity\MovimientoInterno $movimientoInterno = null)
+    {
+        $this->movimientoInterno = $movimientoInterno;
+
+        return $this;
+    }
+
+    /**
+     * Get movimientoInterno
+     *
+     * @return \AppBundle\Entity\MovimientoInterno
+     */
+    public function getMovimientoInterno()
+    {
+        return $this->movimientoInterno;
     }
 }
