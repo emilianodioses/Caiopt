@@ -162,9 +162,11 @@ class InformeController extends Controller
         $query = $em->getRepository('AppBundle:Comprobante')
         ->createQueryBuilder('comprobante')
         ->select('MONTH(comprobante.fecha) as mes, YEAR(comprobante.fecha) as anio, comprobante.movimiento as movimiento, SUM(comprobante.importeIva) as sumaTotal')
+        ->join('comprobante.tipo','tipo')
         ->where('comprobante.activo = 1')
         ->andWhere('comprobante.fecha >= :fechaDesde')
         ->andWhere('comprobante.fecha <= :fechaHasta')
+        ->andWhere('tipo.descripcion != \'REMITO\'')
         ->groupBy('anio')
         ->addGroupBy('mes')
         ->addGroupBy('movimiento')
@@ -207,7 +209,7 @@ class InformeController extends Controller
         array_push($data, $header);
 
         foreach($query_datos as $mes) {
-            $item = array($mes["mes"], (int)$mes["iva_credito"], (int)$mes["iva_debito"]);
+            $item = array($mes["mes"], (int)$mes["iva_credito"], (float)$mes["iva_debito"]);
             array_push($data, $item);
         }
         //dump($query);

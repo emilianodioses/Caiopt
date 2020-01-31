@@ -40,7 +40,7 @@ class ReciboType extends AbstractType
                         'readonly' => true, 'step' => 0.01
                     ),
                     'label' => 'Total'))
-                ->add('disponible',HiddenType::class, array(
+                ->add('disponible',FloatType::class, array(
                     'required' => true,
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01

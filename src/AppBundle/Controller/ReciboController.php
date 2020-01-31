@@ -46,13 +46,6 @@ class ReciboController extends Controller
      */
     public function newAction(Request $request, Comprobante $comprobante)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('Recibo', 'New', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $recibo = new Recibo();
         $recibo->setFecha(new \DateTime("now"));
         $recibo->setCliente($comprobante->getCliente());
@@ -64,7 +57,6 @@ class ReciboController extends Controller
         $reciboComprobante = new ReciboComprobante();
         $reciboComprobante->setComprobante($comprobante);
         $reciboComprobante->setImporte($comprobante->getPendiente());
-        
         
         $reciboComprobantes[] = $reciboComprobante;
 
@@ -204,13 +196,6 @@ class ReciboController extends Controller
      */
     public function clienteNewAction(Request $request, Cliente $cliente)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('Recibo', 'New', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $em = $this->getDoctrine()->getManager();
         $recibo = new Recibo();
         $recibo->setFecha(new \DateTime("now"));
@@ -241,13 +226,6 @@ class ReciboController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $comprobantes_id_array = stripcslashes($request->get('comprobantes'));
             $comprobantes_id_array = json_decode($comprobantes_id_array,TRUE);
-
-            //Por el momento no permito dejar plata a cuenta
-            if ($recibo->getDisponible() > 0) {
-                $this->get('session')->getFlashbag()->add('warning', 'El total de los pagos no puede superar el total pendiente.');
-
-                return $this->redirectToRoute('recibo_cliente_new', array('request' => $request, 'cliente' => $cliente->getId()));
-            }
 
             $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $recibo->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
 
@@ -409,6 +387,190 @@ class ReciboController extends Controller
         }
         
         return $this->render('recibo/new.html.twig', array(
+            'recibo' => $recibo,
+            'form' => $form->createView(),
+            'reciboComprobantes' => $reciboComprobantes,
+            'cliente' => $recibo->getCliente(),
+        ));
+    }
+
+    public function clienteEditAction(Request $request, Recibo $recibo)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cliente = $recibo->getCliente();
+        $cliente_backup = $recibo->getCliente();
+        $clientePagos = $em->getRepository('AppBundle:ClientePago')->findBy(Array('recibo' => $recibo, 'activo' => 1));
+
+        foreach($clientePagos as $clientePago) {
+            $recibo->getClientePagos()->add($clientePago);
+        }
+
+        $form = $this->createForm('AppBundle\Form\ReciboType', $recibo);
+        $form->handleRequest($request);
+
+        //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+        $reciboComprobantes = $em->getRepository('AppBundle:ReciboComprobante')->findBy(Array('recibo' => $recibo, 'activo' => 1));
+
+        $comprobantes = $em->createQuery('SELECT c
+            FROM AppBundle:Comprobante c
+            WHERE c.cliente = :cliente
+            AND c.activo = 1
+            AND c.movimiento = \'Venta\'
+            AND c.pendiente > 0')
+              ->setParameter('cliente', $cliente)
+              ->getResult();
+              
+        //$reciboComprobantes = array();
+        
+        foreach($comprobantes as $comprobante) {
+            $reciboComprobante = new ReciboComprobante();
+            $reciboComprobante->setComprobante($comprobante);
+            $reciboComprobante->setImporte($comprobante->getPendiente());
+            
+            $reciboComprobantes[] = $reciboComprobante;
+        }
+
+        if ($form->isSubmitted()) {
+            $comprobantes_id_array = stripcslashes($request->get('comprobantes'));
+            $comprobantes_id_array = json_decode($comprobantes_id_array,TRUE);
+
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
+
+            if (is_null($recibo->getObservaciones())) {
+                $recibo->setObservaciones('');
+            }
+
+            $recibo->setCliente($cliente_backup);
+            $recibo->setUpdatedBy($this->getUser());
+            $recibo->setUpdatedAt(new \DateTime("now"));
+
+            $em->persist($recibo);
+
+            //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
+            $disponible = $recibo->getTotal();
+            foreach($comprobantes_id_array as $comprobante_id) {
+                if ($comprobante_id['recibo_comprobante_id'] == 0) {
+                    //Se trata de un comprobante que estoy agregando
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        $pendiente = 0;
+                        $importe = $comprobante->getPendiente();
+                        $disponible += $comprobante->getPendiente();
+                    }
+                    else {
+                        //En este 1er bucle solo utilizo las NOTA de credito
+                        continue;
+                    }
+
+                    $comprobante->setPendiente($pendiente);
+                    $comprobante->setUpdatedBy($this->getUser());
+                    $comprobante->setUpdatedAt(new \DateTime("now"));
+
+                    //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                    $reciboComprobante = new ReciboComprobante();
+                    $reciboComprobante->setRecibo($recibo);
+                    $reciboComprobante->setComprobante($comprobante);
+                    $reciboComprobante->setImporte($importe);
+                    $reciboComprobante->setActivo(1);
+                    $reciboComprobante->setCreatedBy($this->getUser());
+                    $reciboComprobante->setCreatedAt(new \DateTime("now"));
+                    $reciboComprobante->setUpdatedBy($this->getUser());
+                    $reciboComprobante->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($reciboComprobante);
+                }
+                else {
+                    //Se trata de un comprobante que ya había agregado anteriormente
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        $disponible += $comprobante->getPendiente();
+                    }
+                    else {
+                        //En este 1er bucle solo utilizo las NOTA de credito
+                        continue;
+                    }
+                }
+            }
+
+            //Recorro los comprobantes y voy pagando mientras haya disponible
+            foreach($comprobantes_id_array as $comprobante_id) {
+                if ($comprobante_id['recibo_comprobante_id'] == 0) {
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        //En este 2do bucle utilizo las facturas, NOTA de debito u otro comprobante
+                        //cuyo importe incremente el total a pagar
+                        continue;
+                    }
+                    else {
+                        if ($disponible >= $comprobante->getPendiente()) {
+                            $pendiente = 0;
+                            $importe = $comprobante->getPendiente();
+                            $disponible -= $comprobante->getPendiente();
+                        }
+                        else {
+                            $pendiente = $comprobante->getPendiente() - $disponible;
+                            $importe = $disponible;
+                            $disponible = 0;
+                        }
+                    }
+
+                    $comprobante->setPendiente($pendiente);
+                    $comprobante->setUpdatedBy($this->getUser());
+                    $comprobante->setUpdatedAt(new \DateTime("now"));
+
+                    //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                    $reciboComprobante = new ReciboComprobante();
+                    $reciboComprobante->setRecibo($recibo);
+                    $reciboComprobante->setComprobante($comprobante);
+                    $reciboComprobante->setImporte($importe);
+                    $reciboComprobante->setActivo(1);
+                    $reciboComprobante->setCreatedBy($this->getUser());
+                    $reciboComprobante->setCreatedAt(new \DateTime("now"));
+                    $reciboComprobante->setUpdatedBy($this->getUser());
+                    $reciboComprobante->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($reciboComprobante);
+                }
+                else {
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        //En este 2do bucle utilizo las facturas, NOTA de debito u otro comprobante
+                        //cuyo importe incremente el total a pagar
+                        continue;
+                    }
+                    else {
+                        if ($disponible >= $comprobante->getPendiente()) {
+                            $disponible -= $comprobante->getPendiente();
+                        }
+                        else {
+                            $disponible = 0;
+                        }
+                    }
+                }
+            }
+
+            $em->flush();
+
+            return $this->redirectToRoute('recibo_show', array('id' => $recibo->getId()));
+        }
+        
+        return $this->render('recibo/edit.html.twig', array(
             'recibo' => $recibo,
             'form' => $form->createView(),
             'reciboComprobantes' => $reciboComprobantes,
@@ -618,6 +780,30 @@ class ReciboController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('recibo_index');
+    }
+
+    public function clienteDeleteAction(Request $request, ReciboComprobante $reciboComprobante)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobante = $reciboComprobante->getComprobante();
+        $recibo = $reciboComprobante->getRecibo();
+
+        $pendiente = $comprobante->getPendiente() + $reciboComprobante->getImporte();
+        $comprobante->setPendiente($pendiente);
+
+        $disponible = $recibo->getDisponible() + $reciboComprobante->getImporte();
+        $recibo->setDisponible($disponible);
+        $recibo->setUpdatedBy($this->getUser());
+        $recibo->setUpdatedAt(new \DateTime("now"));
+
+        $reciboComprobante->setActivo(false);
+        $reciboComprobante->setUpdatedBy($this->getUser());
+        $reciboComprobante->setUpdatedAt(new \DateTime("now"));
+        
+        $em->flush();
+
+        return $this->redirectToRoute('recibo_show', array('id' => $recibo->getId()));
     }
 
     /**

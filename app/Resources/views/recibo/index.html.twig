@@ -64,6 +64,9 @@ Recibos
                           <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                           </a>
                       {% endif %}
+                      {% if recibo.disponible > 0%}
+                        <a href="{{ path('recibo_cliente_edit', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
+                      {% endif %}
                     </td>
                 </tr>
             {% endfor %}
