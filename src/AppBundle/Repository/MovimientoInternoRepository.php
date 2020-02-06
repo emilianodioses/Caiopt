@@ -21,7 +21,7 @@ class MovimientoInternoRepository extends \Doctrine\ORM\EntityRepository
             $query .= ' AND (so.nombre LIKE :texto OR sd.nombre LIKE :texto OR mc.nombre LIKE :texto)';
         }
 
-        $query .= ' ORDER BY a.id ASC ';
+        $query .= ' ORDER BY a.id DESC ';
 
         $qb = $this->getEntityManager()->createQuery($query);
 

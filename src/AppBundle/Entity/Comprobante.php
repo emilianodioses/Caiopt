@@ -418,7 +418,12 @@ class Comprobante
 
     public function __toString()
     {
-        return $this->tipo->getDescripcionCorta().': '.$this->puntoVenta.'-'.$this->afipNumero.'(N° Int: '.$this->numero.')';
+        if ($this->movimiento == 'Venta') {
+            return $this->tipo->getDescripcionCorta().': '.$this->puntoVenta.'-'.$this->afipNumero.'(N° Int: '.$this->numero.')';
+        }
+        else {
+            return $this->tipo->getDescripcionCorta().': '.$this->puntoVenta.'-'.$this->numero;
+        }
     }
 
     

@@ -19,14 +19,14 @@ class MovimientoInternoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('monto',FloatType::class, array(
-                    'label' => false,
+                    'label' => 'Importe',
                     'required' => true,
-                    'attr' => array('size' => 3, 'placeholder' => 'Monto', 'class' => 'monto', 'step' => 0.01),
+                    'attr' => array('size' => 3, 'placeholder' => 'Importe', 'class' => 'monto', 'step' => 0.01),
                     ))
                 ->add('observaciones',TextareaType::class,array(
                     'label'=>'Observaciones',
                     'required' => false,
-                    'attr' => array('rows' => '8')
+                    'attr' => array('rows' => '16')
                     ))
                 ->add('sucursalOrigen', EntityType::class, array(
                     'label' => 'Sucursal Origen',
@@ -105,7 +105,7 @@ class MovimientoInternoType extends AbstractType
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                         return $er->createQueryBuilder('l')
                             ->where('l.activo = 1')
-                            ->orderBy('l.id', 'DESC')
+                            ->orderBy('l.nombre', 'ASC')
                             ;
                     }
                 ))

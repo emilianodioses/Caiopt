@@ -139,6 +139,11 @@ class MovimientoInterno
      */
     private $activo;
 
+    public function __toString()
+    {
+        return $this->id.' ';
+    }
+
     /**
      * Set activo
      *

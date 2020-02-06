@@ -191,7 +191,10 @@
                                                 <td>{{ comprobante.total }}</td>
                                                 <td>{{ ordenPagoComprobante.importe }}</td>
                                                 <td>{{ comprobante.pendiente }}</td>
-                                                <td><a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                                                <td>
+                                                    <a href="{{ path('comprobantecompra_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    <a href="{{ path('ordenpago_proveedor_delete', { 'ordenPagoComprobante': ordenPagoComprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

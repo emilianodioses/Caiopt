@@ -64,6 +64,9 @@ Ordenes de Pago
                           <a href="{{ path('ordenpago_delete', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                           </a>
                       {% endif %}
+                      {% if ordenPago.disponible > 0%}
+                        <a href="{{ path('ordenpago_proveedor_edit', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
+                      {% endif %}
                     </td>
                 </tr>
             {% endfor %}

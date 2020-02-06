@@ -26,7 +26,7 @@ recibo_cliente_edit:
 recibo_cliente_delete:
     path:     /{reciboComprobante}/clienteDelete
     defaults: { _controller: "AppBundle:Recibo:clienteDelete" }
-    methods:  [GET, POST] 
+    methods:  [GET, POST]
 
 recibo_edit:
     path:     /{id}/edit

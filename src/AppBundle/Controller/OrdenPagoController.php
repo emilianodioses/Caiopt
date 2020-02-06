@@ -55,13 +55,6 @@ class OrdenPagoController extends Controller
         $ordenPagoComprobantes[] = $ordenPagoComprobante;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //Por el momento no permito dejar plata a cuenta
-            if ($ordenPago->getDisponible() > 0) {
-                $this->get('session')->getFlashbag()->add('warning', 'El total de los pagos no puede superar el total pendiente.');
-
-                return $this->redirectToRoute('ordenpago_new', array('request' => $request, 'comprobante' => $comprobante->getId()));
-            }
-
             $em = $this->getDoctrine()->getManager();
 
             $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $ordenPago->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
@@ -219,13 +212,6 @@ class OrdenPagoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $comprobantes_id_array = stripcslashes($request->get('comprobantes'));
             $comprobantes_id_array = json_decode($comprobantes_id_array,TRUE);
-
-            //Por el momento no permito dejar plata a cuenta
-            if ($ordenPago->getDisponible() > 0) {
-                $this->get('session')->getFlashbag()->add('warning', 'El total de los pagos no puede superar el total pendiente.');
-
-                return $this->redirectToRoute('ordenpago_proveedor_new', array('request' => $request, 'proveedor' => $proveedor->getId()));
-            }
 
             $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $ordenPago->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
 
@@ -387,6 +373,188 @@ class OrdenPagoController extends Controller
         }
         
         return $this->render('ordenpago/new.html.twig', array(
+            'ordenPago' => $ordenPago,
+            'form' => $form->createView(),
+            'ordenPagoComprobantes' => $ordenPagoComprobantes,
+        ));
+    }
+
+    public function proveedorEditAction(Request $request, OrdenPago $ordenPago)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $proveedor = $ordenPago->getProveedor();
+        $proveedor_backup = $ordenPago->getProveedor();
+        $proveedorPagos = $em->getRepository('AppBundle:ProveedorPago')->findBy(Array('ordenPago' => $ordenPago, 'activo' => 1));
+
+        foreach($proveedorPagos as $proveedorPago) {
+            $ordenPago->getProveedorPagos()->add($proveedorPago);
+        }
+
+        $form = $this->createForm('AppBundle\Form\OrdenPagoType', $ordenPago);
+        $form->handleRequest($request);
+
+        //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+        $ordenPagoComprobantes = $em->getRepository('AppBundle:OrdenPagoComprobante')->findBy(Array('ordenPago' => $ordenPago, 'activo' => 1));
+
+        $comprobantes = $em->createQuery('SELECT c
+            FROM AppBundle:Comprobante c
+            WHERE c.proveedor = :proveedor
+            AND c.activo = 1
+            AND c.movimiento = \'Compra\'
+            AND c.pendiente > 0')
+              ->setParameter('proveedor', $proveedor)
+              ->getResult();
+        
+        //$ordenPagoComprobantes = array();
+          
+        foreach($comprobantes as $comprobante) {
+            $ordenPagoComprobante = new OrdenPagoComprobante();
+            $ordenPagoComprobante->setComprobante($comprobante);
+            $ordenPagoComprobante->setImporte($comprobante->getPendiente());
+            
+            $ordenPagoComprobantes[] = $ordenPagoComprobante;
+        }
+
+        if ($form->isSubmitted()) {
+            $comprobantes_id_array = stripcslashes($request->get('comprobantes'));
+            $comprobantes_id_array = json_decode($comprobantes_id_array,TRUE);
+
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
+
+            if (is_null($ordenPago->getObservaciones())) {
+                $ordenPago->setObservaciones('');
+            }
+
+            $ordenPago->setProveedor($proveedor_backup);
+            $ordenPago->setUpdatedBy($this->getUser());
+            $ordenPago->setUpdatedAt(new \DateTime("now"));
+
+            //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
+            $disponible = $ordenPago->getTotal();
+            foreach($comprobantes_id_array as $comprobante_id) {
+                if ($comprobante_id['ordenpago_comprobante_id'] == 0) {
+                    //Se trata de un comprobante que estoy agregando
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        $pendiente = 0;
+                        $importe = $comprobante->getPendiente();
+                        $disponible += $comprobante->getPendiente();
+                    }
+                    else {
+                        //En este 1er bucle solo utilizo las NOTA de credito
+                        continue;
+                    }
+
+                    $comprobante->setPendiente($pendiente);
+                    $comprobante->setUpdatedBy($this->getUser());
+                    $comprobante->setUpdatedAt(new \DateTime("now"));
+
+                    //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                    $ordenPagoComprobante = new OrdenPagoComprobante();
+                    $ordenPagoComprobante->setOrdenPago($ordenPago);
+                    $ordenPagoComprobante->setComprobante($comprobante);
+                    $ordenPagoComprobante->setImporte($importe);
+                    $ordenPagoComprobante->setActivo(1);
+                    $ordenPagoComprobante->setCreatedBy($this->getUser());
+                    $ordenPagoComprobante->setCreatedAt(new \DateTime("now"));
+                    $ordenPagoComprobante->setUpdatedBy($this->getUser());
+                    $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($ordenPagoComprobante);
+                }
+                else {
+                    //Se trata de un comprobante que ya había agregado anteriormente
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        $disponible += $comprobante->getPendiente();
+                    }
+                    else {
+                        //En este 1er bucle solo utilizo las NOTA de credito
+                        continue;
+                    }
+                }
+            }
+
+            //Recorro los comprobantes y voy pagando mientras haya disponible
+            foreach($comprobantes_id_array as $comprobante_id) {
+                if ($comprobante_id['ordenpago_comprobante_id'] == 0) {
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        //En este 2do bucle utilizo las facturas, NOTA de debito u otro comprobante
+                        //cuyo importe incremente el total a pagar
+                        continue;
+                    }
+                    else {
+                        if ($disponible >= $comprobante->getPendiente()) {
+                            $pendiente = 0;
+                            $importe = $comprobante->getPendiente();
+                            $disponible -= $comprobante->getPendiente();
+                        }
+                        else {
+                            $pendiente = $comprobante->getPendiente() - $disponible;
+                            $importe = $disponible;
+                            $disponible = 0;
+                        }
+                    }
+
+                    $comprobante->setPendiente($pendiente);
+                    $comprobante->setUpdatedBy($this->getUser());
+                    $comprobante->setUpdatedAt(new \DateTime("now"));
+
+                    //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                    $ordenPagoComprobante = new OrdenPagoComprobante();
+                    $ordenPagoComprobante->setOrdenPago($ordenPago);
+                    $ordenPagoComprobante->setComprobante($comprobante);
+                    $ordenPagoComprobante->setImporte($importe);
+                    $ordenPagoComprobante->setActivo(1);
+                    $ordenPagoComprobante->setCreatedBy($this->getUser());
+                    $ordenPagoComprobante->setCreatedAt(new \DateTime("now"));
+                    $ordenPagoComprobante->setUpdatedBy($this->getUser());
+                    $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($ordenPagoComprobante);
+                }
+                else {
+                    $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                    if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                        $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                        //En este 2do bucle utilizo las facturas, NOTA de debito u otro comprobante
+                        //cuyo importe incremente el total a pagar
+                        continue;
+                    }
+                    else {
+                        if ($disponible >= $comprobante->getPendiente()) {
+                            $disponible -= $comprobante->getPendiente();
+                        }
+                        else {
+                            $disponible = 0;
+                        }
+                    }
+                }
+            }
+
+            $em->flush();
+
+            return $this->redirectToRoute('ordenpago_show', array('id' => $ordenPago->getId()));
+        }
+        
+        return $this->render('ordenpago/edit.html.twig', array(
             'ordenPago' => $ordenPago,
             'form' => $form->createView(),
             'ordenPagoComprobantes' => $ordenPagoComprobantes,
@@ -574,6 +742,30 @@ class OrdenPagoController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('ordenpago_index');
+    }
+
+    public function proveedorDeleteAction(Request $request, OrdenPagoComprobante $ordenPagoComprobante)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comprobante = $ordenPagoComprobante->getComprobante();
+        $ordenPago = $ordenPagoComprobante->getOrdenPago();
+
+        $pendiente = $comprobante->getPendiente() + $ordenPagoComprobante->getImporte();
+        $comprobante->setPendiente($pendiente);
+
+        $disponible = $ordenPago->getDisponible() + $ordenPagoComprobante->getImporte();
+        $ordenPago->setDisponible($disponible);
+        $ordenPago->setUpdatedBy($this->getUser());
+        $ordenPago->setUpdatedAt(new \DateTime("now"));
+
+        $ordenPagoComprobante->setActivo(false);
+        $ordenPagoComprobante->setUpdatedBy($this->getUser());
+        $ordenPagoComprobante->setUpdatedAt(new \DateTime("now"));
+        
+        $em->flush();
+
+        return $this->redirectToRoute('ordenpago_show', array('id' => $ordenPago->getId()));
     }
 
     /**

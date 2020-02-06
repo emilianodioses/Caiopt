@@ -64,6 +64,8 @@ class MovimientoInternoController extends Controller
         */
 
         $movimiento = new MovimientoInterno();
+        $movimiento->setFecha(new \DateTime("now"));
+        $movimiento->setSucursalOrigen($this->getUser()->getSucursal());
         $form = $this->createForm('AppBundle\Form\MovimientoInternoType', $movimiento);
         $form->handleRequest($request);
 

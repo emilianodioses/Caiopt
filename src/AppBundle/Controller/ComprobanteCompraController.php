@@ -566,12 +566,18 @@ class ComprobanteCompraController extends controller
             $pageLimit = 10;
         }
 
-        $result = $em->createQuery('
-                        SELECT r.id as id, r.id as text
+        //return $this->tipo->getDescripcionCorta().': '.$this->puntoVenta.'-'.$this->afipNumero.'(N° Int: '.$this->numero.')';
+
+        $result = $em->createQuery("
+                        SELECT r.id as id, CONCAT(t.descripcionCorta, ': ', r.puntoVenta, '-', r.numero, ' (', p.nombre, ')') as text
                         FROM AppBundle:Comprobante r
-                        WHERE r.activo = 1 AND r.id LIKE :text_search
+                        INNER JOIN r.proveedor p
+                        INNER JOIN r.tipo t
+                        WHERE r.activo = 1 
+                        AND (p.nombre LIKE :text_search OR r.numero LIKE :text_search)
+                        AND r.movimiento = 'Compra'
                         ORDER BY r.id ASC
-                        ')
+                        ")
                     ->setParameter('text_search', '%'.$text_search.'%')
                     ->setMaxResults($pageLimit)
                 ->getArrayResult();

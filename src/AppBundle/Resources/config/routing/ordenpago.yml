@@ -18,6 +18,16 @@ ordenpago_proveedor_new:
     defaults: { _controller: "AppBundle:OrdenPago:proveedorNew" }
     methods:  [GET, POST]
 
+ordenpago_proveedor_edit:
+    path:     /{id}/proveedorEdit
+    defaults: { _controller: "AppBundle:OrdenPago:proveedorEdit" }
+    methods:  [GET, POST]
+
+ordenpago_proveedor_delete:
+    path:     /{ordenPagoComprobante}/proveedorDelete
+    defaults: { _controller: "AppBundle:OrdenPago:proveedorDelete" }
+    methods:  [GET, POST] 
+
 ordenpago_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:OrdenPago:edit" }

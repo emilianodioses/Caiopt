@@ -61,13 +61,6 @@ class ReciboController extends Controller
         $reciboComprobantes[] = $reciboComprobante;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //Por el momento no permito dejar plata a cuenta
-            if ($recibo->getDisponible() > 0) {
-                $this->get('session')->getFlashbag()->add('warning', 'El total de los pagos no puede superar el total pendiente.');
-
-                return $this->redirectToRoute('recibo_new', array('request' => $request, 'comprobante' => $comprobante->getId()));
-            }
-
             $em = $this->getDoctrine()->getManager();
 
             $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $recibo->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
@@ -443,8 +436,6 @@ class ReciboController extends Controller
             $recibo->setCliente($cliente_backup);
             $recibo->setUpdatedBy($this->getUser());
             $recibo->setUpdatedAt(new \DateTime("now"));
-
-            $em->persist($recibo);
 
             //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
             $disponible = $recibo->getTotal();
