@@ -1,4 +1,4 @@
-<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:9pt">
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
     {% for pagina_nro in 1..2 %}
         <table width="100%" cellspacing="0" border="0">
             <tbody>
@@ -24,7 +24,7 @@
                         <br>
                         <br>
                         <b>{{comprobante.tipo}}</b><br>
-                        <b>{{"%04d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.afipNumero)}}</b><br>
+                        <b>{{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.afipNumero)}}</b><br>
                         <b>{{comprobante.fecha | date('d-m-Y')}}</b><br>
                         <br>
                         <b>CUIT:</b> {{ empresaCuit }}<br>
@@ -69,7 +69,7 @@
                     <th width="9%"><b>Cantidad</b></th>
                     <th width="9%"><b>Precio U.</b></th>
                     <th width="9%"><b>Bonif. %</b></th>
-                    <th width="9%"><b>Iva. %</b></th>
+                    <th width="9%"><b>IVA %</b></th>
                     <th width="9%"><b>Subtotal</b></th>
                 </tr>
                 {% for comprobanteDetalle in comprobanteDetalles %}
@@ -98,6 +98,8 @@
                     <td width="60%">
                         <img width="63" height="18" src="{{ asset('img/logoAFIP.jpeg')}}"><br>
                         <span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
+                        <img width="235" height="39" src="{{ asset('upload/barcode/'~codigo_barra_archivo)}}"><br>
+                        {{ codigo_barra }}<br>
                         <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
                         <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
                     </td>

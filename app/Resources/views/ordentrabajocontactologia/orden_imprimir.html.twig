@@ -1,4 +1,4 @@
-<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:9pt">
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
     {% for pagina_nro in 1..2 %}
 
     <table width="100%" cellspacing="0" border="0">
@@ -11,8 +11,8 @@
                     {{ordenTrabajoContactologia.sucursal.direccion}} - {{ordenTrabajoContactologia.sucursal.localidad.nombre}}, {{ordenTrabajoContactologia.sucursal.localidad.provincia.nombre}}
                     <br> 
                     &nbsp;
-                    <b style="font-size:9">N° Ord: {{ ordenTrabajoContactologia.id }}</b> | 
-                    <b style="font-size:9">N° Comp: {{ ordenTrabajoContactologia.comprobante }}</b>
+                    <b style="font-size:8">N° Ord: {{ ordenTrabajoContactologia.id }}</b> | 
+                    <b style="font-size:8">N° Comp: {{ ordenTrabajoContactologia.comprobante }}</b>
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="40%" align="left" border="1">
