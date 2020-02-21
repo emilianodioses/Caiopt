@@ -161,7 +161,7 @@ class InformeController extends Controller
 
         $query = $em->getRepository('AppBundle:Comprobante')
         ->createQueryBuilder('comprobante')
-        ->select('MONTH(comprobante.fecha) as mes, YEAR(comprobante.fecha) as anio, comprobante.movimiento as movimiento, SUM(comprobante.importeIva) as sumaTotal')
+        ->select('MONTH(comprobante.fecha) as mes, YEAR(comprobante.fecha) as anio, comprobante.movimiento as movimiento, SUM(comprobante.importeIva) as sumaTotal, tipo.letra as comprobanteLetra')
         ->join('comprobante.tipo','tipo')
         ->where('comprobante.activo = 1')
         ->andWhere('comprobante.fecha >= :fechaDesde')
@@ -196,10 +196,10 @@ class InformeController extends Controller
         }
 
         foreach($query as $key => $xx) {
-            if ($xx["movimiento"] == "Compra"){
+            if ($xx["movimiento"] == "Compra" && $xx['comprobanteLetra'] == 'A'){
                 $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_credito"] += $xx["sumaTotal"] ;
             }
-            else {
+            elseif ($xx["movimiento"] == "Venta") {
                 $query_datos[$xx["mes"].'-'.$xx["anio"]]["iva_debito"] += $xx["sumaTotal"] ;
             }
         }

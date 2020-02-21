@@ -236,7 +236,7 @@ class ArticuloController extends Controller
 
     public function findAction(Request $req) {
         $normalizer = new ObjectNormalizer();
-        $normalizer->setCircularReferenceLimit(2);
+        $normalizer->setCircularReferenceLimit(0);
         // Add Circular reference handler
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getId();

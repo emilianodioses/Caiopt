@@ -21,6 +21,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Services\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
+use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
+use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
 
 /**
  * Comprobante controller.
@@ -841,6 +843,7 @@ class ComprobanteVentaController extends Controller
     public function facturaImprimirAction(Request $request, Comprobante $comprobante)
     {
 
+
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
@@ -855,10 +858,44 @@ class ComprobanteVentaController extends Controller
         //Si no fue facturado con el WS, solo podemos hacer una impresion interna
         if (is_null($comprobante->getCaeNumero())){
             $facturaTemplate = 'comprobanteventa/factura_imprimir_X.html.twig';
+            $codigo_barra = '';
+            $codigo_barra_archivo = '';
         }
         else {
             $facturaTemplate = 'comprobanteventa/factura_imprimir_'.$comprobante->getTipo()->getLetra().'.html.twig';
+            
+            //Genero el código de barras
+            $codigo_barra = sprintf("%11d", $this->container->getParameter('empresa_cuit'));
+            $codigo_barra .= sprintf("%03d", $comprobante->getTipo()->getCodigo());
+            $codigo_barra .= sprintf("%05d", $comprobante->getPuntoVenta());
+            $codigo_barra .= sprintf("%14d", $comprobante->getCaeNumero());
+            $codigo_barra .= sprintf("%08d", $comprobante->getCaeFechaVencimiento()->format('Ymd'));
+            $codigo_barra .= $this->fnCodigoBarraCalcularDigitoVerificador($codigo_barra);
+
+            $myBarcode = new barCode();
+            $myBarcode->savePath = $this->get('kernel')->getProjectDir().'/web/upload/barcode/';
+            $bcPathAbs = $myBarcode->getBarcodePNGPath($codigo_barra, 'I25', 2, 100);
+            //El formato en HTML no sale bien xq tcpdf no admite el style inline "positioin:absolute"
+            //$bcHTMLRaw = $myBarcode->getBarcodeHTML($codigo_barra, 'I25', 2, 100);
+
+            $codigo_barra_archivo = 'I25_'.$codigo_barra.'.png';
         }
+
+        /*
+        return $this->render($facturaTemplate, array(
+            'comprobante' => $comprobante,
+            'comprobanteDetalles' => $comprobanteDetalles,
+            'facturaTipo' => substr($comprobante->getTipo(),8,1),
+            'empresa' => $this->container->getParameter('empresa'),
+            'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
+            'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
+            'empresaCuit' => $this->container->getParameter('empresa_cuit'),
+            'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
+            'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
+            'codigo_barra' => $codigo_barra,
+            'codigo_barra_archivo' => $codigo_barra_archivo,
+        ));
+        */
 
         $html = $this->renderView($facturaTemplate, array(
             'comprobante' => $comprobante,
@@ -870,7 +907,9 @@ class ComprobanteVentaController extends Controller
             'empresaCuit' => $this->container->getParameter('empresa_cuit'),
             'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
             'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
-        )
+            'codigo_barra' => $codigo_barra,
+            'codigo_barra_archivo' => $codigo_barra_archivo,
+            )
         );
 
         //set_time_limit(30); uncomment this line according to your needs
@@ -917,9 +956,27 @@ class ComprobanteVentaController extends Controller
         //Si no fue facturado con el WS, solo podemos hacer una impresion interna
         if (is_null($comprobante->getCaeNumero())){
             $facturaTemplate = 'comprobanteventa/factura_imprimir_X.html.twig';
+            $codigo_barra = '';
+            $codigo_barra_archivo = '';
         }
         else {
             $facturaTemplate = 'comprobanteventa/factura_imprimir_'.$comprobante->getTipo()->getLetra().'.html.twig';
+            
+            //Genero el código de barras
+            $codigo_barra = sprintf("%11d", $this->container->getParameter('empresa_cuit'));
+            $codigo_barra .= sprintf("%03d", $comprobante->getTipo()->getCodigo());
+            $codigo_barra .= sprintf("%05d", $comprobante->getPuntoVenta());
+            $codigo_barra .= sprintf("%14d", $comprobante->getCaeNumero());
+            $codigo_barra .= sprintf("%08d", $comprobante->getCaeFechaVencimiento()->format('Ymd'));
+            $codigo_barra .= $this->fnCodigoBarraCalcularDigitoVerificador($codigo_barra);
+
+            $myBarcode = new barCode();
+            $myBarcode->savePath = $this->get('kernel')->getProjectDir().'/web/upload/barcode/';
+            $bcPathAbs = $myBarcode->getBarcodePNGPath($codigo_barra, 'I25', 2, 100);
+            //El formato en HTML no sale bien xq tcpdf no admite el style inline "positioin:absolute"
+            //$bcHTMLRaw = $myBarcode->getBarcodeHTML($codigo_barra, 'I25', 2, 100);
+
+            $codigo_barra_archivo = 'I25_'.$codigo_barra.'.png';
         }
 
         $html = $this->renderView($facturaTemplate, array(
@@ -932,6 +989,8 @@ class ComprobanteVentaController extends Controller
             'empresaCuit' => $this->container->getParameter('empresa_cuit'),
             'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
             'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
+            'codigo_barra' => $codigo_barra,
+            'codigo_barra_archivo' => $codigo_barra_archivo,
         )
         );
 
@@ -973,4 +1032,67 @@ class ComprobanteVentaController extends Controller
                 array('id' => $comprobante->getId()));
     }
 
+    private function fnCodigoBarraCalcularDigitoVerificador($codigo_barra)
+    {
+        /*
+        Rutina para el cálculo del dígito verificador:
+
+        Se considera para efectuar el cálculo el siguiente ejemplo:
+
+        01234567890
+
+        Etapa 1: comenzar desde la izquierda, sumar todos los caracteres ubicados en las posiciones impares.
+
+        0 + 2 + 4 + 6 + 8 + 0 = 20
+
+        Etapa 2: multiplicar la suma obtenida en la etapa 1 por el número 3.
+
+        20 x 3 = 60
+
+        Etapa 3: comenzar desde la izquierda, sumar todos los caracteres que están ubicados en las posiciones pares.
+
+        1 + 3 + 5 + 7 + 9 = 25
+
+        Etapa 4: sumar los resultados obtenidos en las etapas 2 y 3.
+
+        60 + 25 = 85
+
+        Etapa 5: buscar el menor número que sumado al resultado obtenido en la etapa 4 dé un número múltiplo de 10. Este será el valor del dígito verificador del módulo 10.
+
+        85 + 5 = 90
+
+        De esta manera se llega a que el número 5 es el dígito verificador módulo 10 para el código 01234567890
+
+        Siendo el resultado final:
+
+        012345678905
+
+        Fuente: https://archivo.consejo.org.ar/Bib_elect/diciembre04_CT/documentos/rafip1702.htm
+        */
+
+        $etapa1 = 0;
+        $etapa3 = 0;
+        for ($i = 0; $i < strlen($codigo_barra); $i++) {
+            if ($i%2 == 0) {
+                //Posición impar
+                //echo 'impar'.$i.'='.$codigo_barra[$i].'<br>';
+                $etapa1 += $codigo_barra[$i];
+            }
+            else {
+                //Posición par
+                //echo 'par'.$i.'='.$codigo_barra[$i].'<br>';
+                $etapa3 += $codigo_barra[$i];
+            }
+        }
+
+        $etapa2 = $etapa1 * 3;
+        $etapa4 = $etapa2 + $etapa3;
+        $etapa5 = 10 - ($etapa4 % 10);
+
+        if ($etapa5 == 10) {
+            $etapa5 = 0;
+        }
+
+        return (string)$etapa5;
+    }
 }

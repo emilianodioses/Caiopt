@@ -1,4 +1,4 @@
-<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:9pt">
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
     {% for pagina_nro in 1..2 %}
         <table width="100%" cellspacing="0" border="0">
             <tbody>
@@ -24,7 +24,7 @@
                         <br>
                         <br>
                         <b>COMPROBANTE INTERNO</b><br>
-                        <b>{{"%04d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
+                        <b>{{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
                         <b>{{comprobante.fecha | date('d-m-Y')}}</b><br>
                         <br>
                         <b>CUIT:</b> {{ empresaCuit }}<br>
