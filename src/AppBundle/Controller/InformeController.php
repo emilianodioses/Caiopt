@@ -25,8 +25,8 @@ class InformeController extends Controller
     public function afipventasalicuotasexportarAction(Request $request)
     {
         $tipo = $request->get('submit');
-        $fecha_desde = new \DateTime($request->get('fecha_desde'));
-        $fecha_hasta = new \DateTime($request->get('fecha_hasta'));
+        $fecha_desde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fecha_hasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $punto_venta = $request->get('punto_venta');
 
         $em = $this->getDoctrine()->getManager();
@@ -133,8 +133,8 @@ class InformeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
@@ -154,8 +154,8 @@ class InformeController extends Controller
     private function fnIvaDebitoCreditoXMesChart(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -242,8 +242,8 @@ class InformeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
@@ -264,8 +264,8 @@ class InformeController extends Controller
     private function fnGastosXCategoriaChart(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -325,8 +325,8 @@ class InformeController extends Controller
     private function fnGastosXSucursalChart(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
