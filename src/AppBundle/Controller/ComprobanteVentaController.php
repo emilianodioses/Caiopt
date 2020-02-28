@@ -36,22 +36,21 @@ class ComprobanteVentaController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('ComprobanteVenta', 'Index', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $em = $this->getDoctrine()->getManager();
 
-        $texto = $request->get('texto','');
+        $fecha_desde = $request->get('fecha_desde','');
+        $fecha_hasta = $request->get('fecha_hasta','');
+        $cliente = $request->get('cliente','');
+        $pagado = $request->get('pagado','');
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByTexto_ventas($this->getUser()->getSucursal()->getId(), $texto);
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByGeneral_ventas($this->getUser()->getSucursal()->getId(), $fecha_desde, $fecha_hasta, $cliente, $pagado);
 
         return $this->render('comprobanteventa/index.html.twig', array(
             'comprobantes' => $comprobantes,
-            'texto' => $texto,
+            'fecha_desde' => $fecha_desde,
+            'fecha_hasta' => $fecha_hasta,
+            'cliente' => $cliente,
+            'pagado' => $pagado,
         ));
     }
 
@@ -785,7 +784,7 @@ class ComprobanteVentaController extends Controller
 
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
-                'PtoVta'    => $this->getUser()->getSucursal()->getId(),  // Punto de venta
+                'PtoVta'    => $comprobante->getPuntoVenta(),  // Punto de venta
                 'CbteTipo'  => $comprobanteTipo,  // Tipo de comprobante (ver tipos disponibles) 
                 'Concepto'  => $concepto,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'   => $clienteDocumentoTipo, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)

@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findByTexto_ventas($sucursalId, $texto) {
+    public function findByGeneral_ventas($sucursalId, $fecha_desde, $fecha_hasta, $cliente, $pagado) {
         $query = 'SELECT u  FROM AppBundle:Comprobante u 
                   INNER JOIN u.cliente c
                   WHERE u.activo = 1 
@@ -19,8 +19,21 @@ class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
         if ($sucursalId > 0)
             $query .= ' AND u.sucursal = :sucursalId ';
 
-        if ($texto != '')
-            $query .= ' AND (c.nombre LIKE :texto OR c.documentoNumero LIKE :texto) ';
+        if ($fecha_desde != '')
+            $query .= ' AND u.fecha >= :fecha_desde ';
+
+        if ($fecha_hasta != '')
+            $query .= ' AND u.fecha <= :fecha_hasta ';
+
+        if ($cliente != '')
+            $query .= ' AND (c.nombre LIKE :cliente OR c.documentoNumero LIKE :cliente) ';
+
+        if ($pagado == 'SI') {
+            $query .= ' AND u.pendiente = 0 ';
+        }
+        elseif ($pagado == 'NO') {
+            $query .= ' AND u.pendiente > 0 ';
+        }
 
         $query .= ' ORDER BY u.id DESC ';
 
@@ -29,14 +42,20 @@ class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
         if ($sucursalId > 0)
             $em->setParameter('sucursalId', $sucursalId);
 
-        if ($texto != '')
-            $em->setParameter('texto','%' . $texto . '%');
+        if ($fecha_desde != '')
+            $em->setParameter('fecha_desde', new \DateTime($fecha_desde));
+
+        if ($fecha_hasta != '')
+            $em->setParameter('fecha_hasta', new \DateTime($fecha_hasta));
+
+        if ($cliente != '')
+            $em->setParameter('cliente','%' . $cliente . '%');
         
         //return $em;
         return $em->getResult();
     }
 
-    public function findByTexto_compras($sucursalId, $texto) {
+    public function findByGeneral_compras($sucursalId, $fecha_desde, $fecha_hasta, $proveedor, $pagado) {
         $query = 'SELECT u  FROM AppBundle:Comprobante u 
                   INNER JOIN u.proveedor p
                   WHERE u.activo = 1 
@@ -45,8 +64,21 @@ class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
         if ($sucursalId > 0)
             $query .= ' AND u.sucursal = :sucursalId ';
 
-        if ($texto != '')
-            $query .= ' AND (p.nombre LIKE :texto OR p.documentoNumero LIKE :texto) ';
+        if ($fecha_desde != '')
+            $query .= ' AND u.fecha >= :fecha_desde ';
+
+        if ($fecha_hasta != '')
+            $query .= ' AND u.fecha <= :fecha_hasta ';
+
+        if ($proveedor != '')
+            $query .= ' AND (p.nombre LIKE :proveedor OR p.documentoNumero LIKE :proveedor) ';
+
+        if ($pagado == 'SI') {
+            $query .= ' AND u.pendiente = 0 ';
+        }
+        elseif ($pagado == 'NO') {
+            $query .= ' AND u.pendiente > 0 ';
+        }
 
         $query .= ' ORDER BY u.id DESC ';
 
@@ -55,8 +87,14 @@ class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
         if ($sucursalId > 0)
             $em->setParameter('sucursalId', $sucursalId);
 
-        if ($texto != '')
-            $em->setParameter('texto','%' . $texto . '%');
+        if ($fecha_desde != '')
+            $em->setParameter('fecha_desde', new \DateTime($fecha_desde));
+
+        if ($fecha_hasta != '')
+            $em->setParameter('fecha_hasta', new \DateTime($fecha_hasta));
+
+        if ($proveedor != '')
+            $em->setParameter('proveedor','%' . $proveedor . '%');
         
         //return $em;
         return $em->getResult();

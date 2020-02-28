@@ -28,22 +28,21 @@ class ComprobanteCompraController extends controller
      */
     public function indexAction(Request $request)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('ComprobanteCompra', 'Index', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $em = $this->getDoctrine()->getManager();
 
-        $texto = $request->get('texto','');
+        $fecha_desde = $request->get('fecha_desde','');
+        $fecha_hasta = $request->get('fecha_hasta','');
+        $proveedor = $request->get('cliente','');
+        $pagado = $request->get('pagado','');
 
-        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByTexto_compras($this->getUser()->getSucursal()->getId(), $texto);
-        
+        $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByGeneral_compras($this->getUser()->getSucursal()->getId(), $fecha_desde, $fecha_hasta, $proveedor, $pagado);
+
         return $this->render('comprobantecompra/index.html.twig', array(
             'comprobantes' => $comprobantes,
-            'texto' => $texto,
+            'fecha_desde' => $fecha_desde,
+            'fecha_hasta' => $fecha_hasta,
+            'proveedor' => $proveedor,
+            'pagado' => $pagado,
         ));
     }
 
