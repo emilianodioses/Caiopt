@@ -21,8 +21,8 @@ class EstadisticaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
@@ -47,8 +47,8 @@ class EstadisticaController extends Controller
     private function ventasXMediosPago(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -105,8 +105,8 @@ class EstadisticaController extends Controller
     private function ventasXSucursal(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -165,8 +165,8 @@ class EstadisticaController extends Controller
     private function ventasXCategoria(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -229,8 +229,8 @@ class EstadisticaController extends Controller
     private function ventasXVendedor(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -289,8 +289,8 @@ class EstadisticaController extends Controller
     private function ventasXMes(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
@@ -355,8 +355,8 @@ class EstadisticaController extends Controller
     private function ventasXMedico(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde'));
-        $fechaHasta = new \DateTime($request->get('fecha_hasta'));
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $sucursalId = $request->get('sucursal');
         //$usuarioId = $request->get('usuario');
 
