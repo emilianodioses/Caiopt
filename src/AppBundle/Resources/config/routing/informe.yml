@@ -18,3 +18,7 @@ informe_gastos:
     defaults: { _controller: "AppBundle:Informe:gastos" }
     methods:  [GET, POST]
     
+informe_recibosVentasMedicos:
+    path:     /recibosVentasMedicos
+    defaults: { _controller: "AppBundle:Informe:recibosVentasMedicos" }
+    methods:  [GET, POST]

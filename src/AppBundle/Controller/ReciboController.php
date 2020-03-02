@@ -61,6 +61,9 @@ class ReciboController extends Controller
         $reciboComprobantes[] = $reciboComprobante;
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $comprobantes_id_array = stripcslashes($request->get('comprobantes'));
+            $comprobantes_id_array = json_decode($comprobantes_id_array,TRUE);
+
             $em = $this->getDoctrine()->getManager();
 
             $libroCaja = $em->getRepository('AppBundle:LibroCaja')->findOneBy(Array('fecha' => $recibo->getFecha(), 'sucursal' => $this->getUser()->getSucursal(), 'activo' => 1));
@@ -132,19 +135,22 @@ class ReciboController extends Controller
                 $em->persist($libroCajaDetalle);
             }
 
-            //Recorro los comprobantes y voy pagando mientras haya disponible
+            //Recorro los comprobantes y sumo todos los pendientes de las NOTA de credito
             $disponible = $recibo->getTotal();
-            foreach($reciboComprobantes as $reciboComprobante) {
-                $comprobante = $reciboComprobante->getComprobante();
-                if ($disponible >= $comprobante->getPendiente()) {
+            foreach($comprobantes_id_array as $comprobante_id) {
+                $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
                     $pendiente = 0;
                     $importe = $comprobante->getPendiente();
-                    $disponible -= $comprobante->getPendiente();
+                    $disponible += $comprobante->getPendiente();
                 }
                 else {
-                    $pendiente = $comprobante->getPendiente() - $disponible;
-                    $importe = $disponible;
-                    $disponible = 0;
+                    //En este 1er bucle solo utilizo las NOTA de credito
+                    continue;
                 }
 
                 $comprobante->setPendiente($pendiente);
@@ -152,6 +158,50 @@ class ReciboController extends Controller
                 $comprobante->setUpdatedAt(new \DateTime("now"));
 
                 //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                $reciboComprobante = new ReciboComprobante();
+                $reciboComprobante->setRecibo($recibo);
+                $reciboComprobante->setComprobante($comprobante);
+                $reciboComprobante->setImporte($importe);
+                $reciboComprobante->setActivo(1);
+                $reciboComprobante->setCreatedBy($this->getUser());
+                $reciboComprobante->setCreatedAt(new \DateTime("now"));
+                $reciboComprobante->setUpdatedBy($this->getUser());
+                $reciboComprobante->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($reciboComprobante);
+            }
+
+            //Recorro los comprobantes y voy pagando mientras haya disponible
+            foreach($comprobantes_id_array as $comprobante_id) {
+                $comprobante = $em->getRepository('AppBundle:Comprobante')->find($comprobante_id['id']);
+
+                if ($comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO A' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO B' ||
+                    $comprobante->getTipo()->getDescripcion() == 'NOTA DE CREDITO C' ) {
+
+                    //En este 2do bucle utilizo las facturas, NOTA de debito u otro comprobante
+                    //cuyo importe incremente el total a pagar
+                    continue;
+                }
+                else {
+                    if ($disponible >= $comprobante->getPendiente()) {
+                        $pendiente = 0;
+                        $importe = $comprobante->getPendiente();
+                        $disponible -= $comprobante->getPendiente();
+                    }
+                    else {
+                        $pendiente = $comprobante->getPendiente() - $disponible;
+                        $importe = $disponible;
+                        $disponible = 0;
+                    }
+                }
+
+                $comprobante->setPendiente($pendiente);
+                $comprobante->setUpdatedBy($this->getUser());
+                $comprobante->setUpdatedAt(new \DateTime("now"));
+
+                //Esto por ahora lo dejo así pero habría que ver si hay que hacerlo "bien"
+                $reciboComprobante = new ReciboComprobante();
                 $reciboComprobante->setRecibo($recibo);
                 $reciboComprobante->setComprobante($comprobante);
                 $reciboComprobante->setImporte($importe);

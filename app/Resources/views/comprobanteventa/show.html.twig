@@ -78,6 +78,10 @@
                                             <td><a href="{{ path('cliente_show', { 'id': comprobante.cliente.Id }) }}">{{ comprobante.cliente.nombre }}</a></td>
                                         </tr>
                                         <tr>
+                                            <th>Médico</th>
+                                            <td><a href="{{ path('medico_show', { 'id': comprobante.medico.Id }) }}">{{ comprobante.medico.nombre }}</a></td>
+                                        </tr>
+                                        <tr>
                                             <th>Obra Social</th>
                                             <td>{{ comprobante.obraSocialPlan.obraSocial.nombre }}</td>
                                         </tr>
