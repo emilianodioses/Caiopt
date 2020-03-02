@@ -137,3 +137,7 @@ app_movimientocategoria:
 app_movimientointerno:
     resource: "@AppBundle/Resources/config/routing/movimientointerno.yml"
     prefix:   /movimientointerno
+
+app_puntoventa:
+    resource: "@AppBundle/Resources/config/routing/puntoventa.yml"
+    prefix:   /puntoventa

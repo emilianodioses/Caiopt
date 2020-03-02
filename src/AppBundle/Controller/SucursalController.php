@@ -25,7 +25,7 @@ class SucursalController extends Controller
      * Lists all sucursal entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -36,10 +36,21 @@ class SucursalController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $sucursals = $em->getRepository('AppBundle:Sucursal')->findAll();
+        $texto = $request->get('texto','');
+
+        $query = $em->getRepository('AppBundle:Sucursal')->findByTexto($texto);
+
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
 
         return $this->render('sucursal/index.html.twig', array(
-            'sucursals' => $sucursals,
+            'pagination' => $pagination,
+            'texto' => $texto
         ));
     }
 
@@ -49,19 +60,19 @@ class SucursalController extends Controller
      */
     public function newAction(Request $request)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('Sucursal', 'New', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $sucursal = new Sucursal();
         $form = $this->createForm('AppBundle\Form\SucursalType', $sucursal);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $sucursal->setActivo(true);
+            $sucursal->setCreatedBy($this->getUser());
+            $sucursal->setCreatedAt(new \DateTime("now"));
+            $sucursal->setUpdatedBy($this->getUser());
+            $sucursal->setUpdatedAt(new \DateTime("now"));
+            
             $em->persist($sucursal);
             $em->flush();
 
@@ -101,13 +112,6 @@ class SucursalController extends Controller
      */
     public function editAction(Request $request, Sucursal $sucursal)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('Sucursal', 'Edit', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $deleteForm = $this->createDeleteForm($sucursal);
         $editForm = $this->createForm('AppBundle\Form\SucursalType', $sucursal);
         $editForm->handleRequest($request);
@@ -115,7 +119,7 @@ class SucursalController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('sucursal_edit', array('id' => $sucursal->getId()));
+            return $this->redirectToRoute('sucursal_show', array('id' => $sucursal->getId()));
         }
 
         return $this->render('sucursal/edit.html.twig', array(
@@ -129,23 +133,21 @@ class SucursalController extends Controller
      * Deletes a sucursal entity.
      *
      */
-    public function deleteAction(Request $request, Sucursal $sucursal)
+    public function deleteAction($id)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
+        $em = $this->getDoctrine()->getManager();
+
+        $sucursal = $em->getRepository('AppBundle:Sucursal')->find($id);
+
+        if ($sucursal->getActivo() > 0)
+            $sucursal->setActivo(0);
+        else
+            $sucursal->setActivo(1); 
         
-        if (!$secure->isAuthorized('Sucursal', 'Delete', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
+        $sucursal->setUpdatedBy($this->getUser()); 
+        $sucursal->setUpdatedAt(new \DateTime("now")); 
 
-        $form = $this->createDeleteForm($sucursal);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($sucursal);
-            $em->flush();
-        }
+        $em->flush();
 
         return $this->redirectToRoute('sucursal_index');
     }

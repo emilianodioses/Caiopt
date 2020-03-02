@@ -186,7 +186,21 @@ desired effect
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-          <li id="sucursal"><a href="{{path('homepage')}}"><i class="glyphicon glyphicon-home"></i> <span>Cambiar de Sucursal</span></a></li>
+          
+
+          <li class="treeview">
+            <a href="#" id="sucursal"><i class="glyphicon glyphicon-home"></i> <span>Sucursales</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('sucursal_index')}}">Sucursales</a></li>
+              <li><a href="{{path('puntoventa_index')}}">Puntos de Ventas</a></li>
+              <li><a href="{{path('homepage')}}">Cambiar de Sucursal</a></li>
+            </ul>
+          </li>
+
           <li><a href="{{path('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Panel General</span></a></li>
           <li class="treeview">
             <a href="#" id="personas"><i class="glyphicon glyphicon-user"></i> <span>Personas</span>

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Sucursales
+Puntos de Ventas
 {% endblock %}
 
 {% block header_description %}
@@ -9,7 +9,7 @@ Sucursales
 
 {% block body %}
 
-<form class="form-horizontal" action="{{path('sucursal_index')}}" method="GET">
+<form class="form-horizontal" action="{{path('puntoventa_index')}}" method="GET">
   <div class="row"> 
     <div class="col-xs-12">
       <div class="box">
@@ -18,11 +18,11 @@ Sucursales
           <div class="box-tools">
             <div class="input-group input-group-sm" style="width: 500px;">
               <input id="btn-input" type="text" class="form-control input-sm" 
-                 name="texto" placeholder="Buscar por sucursal" value="{{texto}}"/>
+                 name="texto" placeholder="Buscar por Punto de Venta" value="{{texto}}"/>
 
               <span class="input-group-btn">
                   <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  <a type="button" class="btn btn-primary btn-md" href="{{ path('sucursal_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('puntoventa_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
               </span>
             </div>
           </div>
@@ -32,30 +32,32 @@ Sucursales
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
             <tr>
-                <th>Nombre</th>
+                <th>Numero</th>
+                <th>Fecha Habilitada</th>
                 <th width="10%">Estado</th>
                 <th width="10%">Acciones</th>
             </tr>
             <tbody>
-            {% for sucursal in pagination %}
+            {% for puntoVenta in pagination %}
                 <tr>
-                    <td>{{ sucursal.nombre }}</td>
-                    <td>{% if sucursal.activo %}
+                    <td>{{ puntoVenta.numero }}</td>
+                    <td>{{ puntoVenta.feHabilitada | date('d-m-Y')}}</td>
+                    <td>{% if puntoVenta.activo %}
                         <span class="label label-success">Activo</span>
                     {% else %}
                         <span class="label label-danger">Inactivo</span>
                     {% endif %}
                     </td>  
                     <td>
-                        <a href="{{ path('sucursal_show', { 'id': sucursal.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        <a href="{{ path('puntoventa_show', { 'id': puntoVenta.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a href="{{ path('sucursal_edit', { 'id': sucursal.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        <a href="{{ path('puntoventa_edit', { 'id': puntoVenta.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        {% if sucursal.activo %}
-                          <a href="{{ path('sucursal_delete', { 'id': sucursal.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                        {% if puntoVenta.activo %}
+                          <a href="{{ path('puntoventa_delete', { 'id': puntoVenta.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                         {% else %}
-                          <a href="{{ path('sucursal_delete', { 'id': sucursal.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          <a href="{{ path('puntoventa_delete', { 'id': puntoVenta.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
                         </a>
 
                         {% endif %}

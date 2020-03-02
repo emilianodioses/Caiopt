@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class SucursalRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByTexto($texto) {
+        $query = 'SELECT a  FROM AppBundle:Sucursal a ';
+
+        if ($texto != ''){
+            $query .= ' WHERE a.nombre LIKE :texto';
+        }
+
+        $query .= ' ORDER BY a.nombre ASC ';
+
+        $qb = $this->getEntityManager()->createQuery($query);
+
+        if ($texto != '')
+            $qb->setParameter('texto','%' . $texto . '%');
+
+
+        return $qb;
+    }
 }

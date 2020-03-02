@@ -26,4 +26,4 @@ sucursal_elegirsucursal:
 sucursal_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Sucursal:delete" }
-    methods:  DELETE
+    methods:  [GET, POST] 
