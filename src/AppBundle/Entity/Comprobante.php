@@ -73,6 +73,15 @@ class Comprobante
      */
     private $ordenTrabajoContactologia;
 
+    /**
+     * @var \Medico
+     *
+     * @ORM\ManyToOne(targetEntity="Medico")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="medico_id", referencedColumnName="id")
+     * })
+     */
+    private $medico;
 
     //Movimiento = Tipo de movimiento, "Compra" o "Venta"
     /**
@@ -1444,5 +1453,29 @@ class Comprobante
     public function getPuntoVentaId()
     {
         return $this->puntoVentaId;
+    }
+
+    /**
+     * Set medico
+     *
+     * @param \AppBundle\Entity\Medico $medico
+     *
+     * @return Comprobante
+     */
+    public function setMedico(\AppBundle\Entity\Medico $medico = null)
+    {
+        $this->medico = $medico;
+
+        return $this;
+    }
+
+    /**
+     * Get medico
+     *
+     * @return \AppBundle\Entity\Medico
+     */
+    public function getMedico()
+    {
+        return $this->medico;
     }
 }
