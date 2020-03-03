@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class PuntoVentaType extends AbstractType
 {
@@ -19,7 +20,8 @@ class PuntoVentaType extends AbstractType
         $builder->add('numero', IntegerType::class, array(
                     'required' => true,
                     'label' => 'N° Punto de Venta'))
-                ->add('feHabilitada')
+                ->add('feHabilitada', CheckboxType::class, array(
+                    'label' => 'Factura Electronica'))
                 ->add('sucursal', EntityType::class, array(
                     'label' => 'Sucursal',
                     'class' => 'AppBundle:Sucursal',

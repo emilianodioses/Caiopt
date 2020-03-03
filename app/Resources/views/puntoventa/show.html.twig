@@ -27,11 +27,20 @@ Punto de Venta
                                 <td>{{ puntoVenta.sucursal }}</td>
                             </tr>
                             <tr>
-                                <th>Activo</th>
+                                <th>Factura Electronica</th>
                                 <td>{% if puntoVenta.feHabilitada %}
-                                  <span class="label label-danger">Deshabilitada</span>
-                                {% else %}
                                   <span class="label label-success">Habilitada</span>
+                                {% else %}
+                                  <span class="label label-danger">Deshabilitada</span>
+                                {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Activo</th>
+                                <td>{% if puntoVenta.activo %}
+                                  <span class="label label-success">Activo</span>
+                                {% else %}
+                                  <span class="label label-danger">Inactivo</span>
                                 {% endif %}
                                 </td>
                             </tr>
