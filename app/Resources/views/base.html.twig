@@ -12,6 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   
+  <link href="{{ asset('select2/css/select2.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/css/bootstrap.min.css') }}"/>        
   <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
   <!-- Font Awesome -->
@@ -59,10 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
   <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js')}}"></script>
 
-
   <script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>
-
-  <link href="{{ asset('select2/css/select2.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
   
   <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
 
@@ -281,6 +279,7 @@ desired effect
               <li><a href="{{path('estadistica_ventas')}}">Ventas</a></li>
               <li><a href="{{path('informe_gastos')}}">Gastos</a></li>
               <li><a href="{{path('informe_ivadebitocredito')}}">IVA Débito/Crédito</a></li>
+              <li><a href="{{path('informe_recibosVentasMedicos')}}">Comprobantes por Médico</a></li>
             </ul>
           </li>
 

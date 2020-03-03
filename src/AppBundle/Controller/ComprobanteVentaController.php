@@ -81,6 +81,7 @@ class ComprobanteVentaController extends Controller
                 $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
                 $comprobante->setOrdenTrabajo($ordenTrabajo);      
                 $comprobante->setCliente($ordenTrabajo->getCliente());
+                $comprobante->setMedico($ordenTrabajo->getMedico());
                 $comprobante->setObraSocialPlan($ordenTrabajo->getObraSocialPlan());
                 $comprobante->setUsuario($ordenTrabajo->getUsuario());
 
@@ -113,6 +114,7 @@ class ComprobanteVentaController extends Controller
                 $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id); 
                 $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);      
                 $comprobante->setCliente($ordenTrabajoContactologia->getCliente());
+                $comprobante->setMedico($ordenTrabajoContactologia->getMedico());
                 $comprobante->setObraSocialPlan($ordenTrabajoContactologia->getObraSocialPlan());
                 $comprobante->setUsuario($ordenTrabajoContactologia->getUsuario());
 

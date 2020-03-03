@@ -382,4 +382,59 @@ class InformeController extends Controller
         return $chart;
     // Google Charts 
     }
+
+    public function recibosVentasMedicosAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $cliente = $request->get('cliente','');
+        $medico = $request->get('medico','');
+
+        $query = $em->getRepository('AppBundle:ReciboComprobante')
+        ->createQueryBuilder('rc')
+        ->join('rc.recibo','r')
+        ->select('c as comprobante, SUM(rc.importe) as sumaTotal')
+        ->from('AppBundle:Comprobante','c')
+        ->where('rc.activo = 1')
+        ->andWhere('r.activo = 1')
+        ->andWhere('c.activo = 1')
+        ->andWhere('r.fecha >= :fechaDesde')
+        ->andWhere('r.fecha <= :fechaHasta')
+        ->andWhere('rc.comprobante = c.id')
+        ->andWhere('c.medico > 0')
+        ->groupBy('c.id')
+        //->orderBy('sumaTotal', 'DESC')
+        //->setMaxResults(10)
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($cliente != '') {
+            $query = $query
+                ->join('c.cliente', 'cli')
+                ->andWhere('cli.nombre LIKE :cliente OR cli.documentoNumero LIKE :cliente')
+                ->setParameter('cliente', '%'.$cliente.'%');
+        }
+
+        if ($medico != '') {
+            $query = $query
+                ->join('c.medico', 'med')
+                ->andWhere('med.nombre LIKE :medico OR med.matricula LIKE :medico')
+                ->setParameter('medico', '%'.$medico.'%');
+        }
+
+        $recibosComprobantes = $query->getQuery()
+            ->getResult();
+
+        //dump($recibosComprobantes);
+        //die;
+        return $this->render('informe/recibosVentasMedicos.html.twig', array(
+            'recibosComprobantes' => $recibosComprobantes,
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'cliente' => $cliente,
+            'medico' => $medico,
+        ));
+    }
 }

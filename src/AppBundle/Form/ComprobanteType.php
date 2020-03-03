@@ -177,7 +177,26 @@ class ComprobanteType extends AbstractType
                                        ->orderBy('l.id', 'ASC')
                                        ;
                                }
-                    ));
+                    ))
+                  ->add('medico', Select2EntityType::class, array(
+                      'label' => 'Medico',
+                      'class' => 'AppBundle:Medico',
+                      'remote_route' => 'medico_find_select2',
+                      'placeholder' => 'Seleccione un Medico',
+                      'required' => false,
+                      'attr' => [
+                              'class' => 'medico',
+                          ],
+                      'primary_key' => 'id',
+                      'text_property' => 'nombre',
+                      'minimum_input_length' => 2,
+                      'page_limit' => 10,
+                      'allow_clear' => false,
+                      'delay' => 250,
+                      'cache' => true,
+                      'cache_timeout' => 60000, // if 'cache' is true
+                      'language' => 'es',
+                      ));
           if ( isset($options['attr']['op']) ) {
             if ($options['attr']['op'] == 'New') {
               $builder->add('clientePagos', CollectionType::class, array(
