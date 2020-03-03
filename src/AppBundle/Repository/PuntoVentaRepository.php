@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class PuntoVentaRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByTexto($texto) {
+        $query = 'SELECT a  FROM AppBundle:PuntoVenta a ';
+
+        if ($texto != ''){
+            $query .= ' WHERE a.numero LIKE :texto';
+        }
+
+        $query .= ' ORDER BY a.numero ASC ';
+
+        $qb = $this->getEntityManager()->createQuery($query);
+
+        if ($texto != '')
+            $qb->setParameter('texto','%' . $texto . '%');
+
+
+        return $qb;
+    }
 }
