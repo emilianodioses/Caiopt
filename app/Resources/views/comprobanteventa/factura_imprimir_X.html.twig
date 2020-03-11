@@ -4,9 +4,9 @@
             <tbody>
                 <tr>
                     <td width="40%" align="center">
-                        <img width="226" height="64" src="{{ asset('img/logo3.jpg')}}"><br>
+                        <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
                         <b>OPTICA CONTINI</b><br>
-                        <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
+                        <b>Razón Social:</b> {{ empresaRazonSocial}}<br>
                         {{comprobante.sucursal.direccion}} - {{comprobante.sucursal.localidad.nombre}}, {{comprobante.sucursal.localidad.provincia.nombre}}<br>
                         {{empresaCondicion}}
                     </td>
@@ -24,8 +24,8 @@
                         <br>
                         <br>
                         <b>COMPROBANTE INTERNO</b><br>
-                        <b>{{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
-                        <b>{{comprobante.fecha | date('d-m-Y')}}</b><br>
+                        <b>N°: {{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
+                        <b>Fecha: {{comprobante.fecha | date('d-m-Y')}}</b><br>
                         <br>
                         <b>CUIT:</b> {{ empresaCuit }}<br>
                         <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
@@ -42,7 +42,7 @@
         <table width="100%" cellspacing="0" border="0">
             <tbody>
                 <tr>
-                    <td width="60%"><b>Razon Social:</b> {{comprobante.clienteRazonSocial}}</td>
+                    <td width="60%"><b>Razón Social:</b> {{comprobante.clienteRazonSocial}}</td>
                     <td width="40%"><b>{{comprobante.clienteDocumentoTipo}}:</b> {{comprobante.clienteDocumentoNumero}}</td>
                 </tr>
                 <tr>
@@ -51,7 +51,9 @@
                 </tr>
                 <tr>
                     <td><b>Condición de IVA:</b> {{comprobante.clienteIvaCondicion}}</td>
-                    
+                </tr>
+                <tr>
+                    <td><b>Condición de Venta:</b> Otra</td>
                 </tr>
             </tbody>
         </table>
@@ -94,7 +96,7 @@
                     <td width="60%">
                     </td>
                     <td width="40%">
-                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', ',')}}<br>
+                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', '')}}<br>
                         <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
                         <b>Total:</b> $ {{comprobante.total}}
                     </td>
