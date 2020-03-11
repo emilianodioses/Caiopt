@@ -20,6 +20,7 @@ use AppBundle\Form\OrdenTrabajoType;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Services\Mail;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use BG\BarcodeBundle\Util\Base1DBarcode as barCode;
 use BG\BarcodeBundle\Util\Base2DBarcode as matrixCode;
@@ -837,20 +838,17 @@ class ComprobanteVentaController extends Controller
         return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
     }
 
-    /**
-     * Imprime la factura electrónica generada por medio de WS con afip.
-     *
-     */
-    public function facturaImprimirAction(Request $request, Comprobante $comprobante)
-    {
+    private function fnGenerarComprobantePDF(Comprobante $comprobante) {
+        $folder = $this->container->getParameter('dir_comprobantes');
 
+        $filename = str_replace(' ', '_', ($folder. '/' .$comprobante->getTipo().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero().'.pdf'));
 
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('ComprobanteVenta', 'FacturaImprimir', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
+        //Si ya fue facturado, verifico si ya fue impreso
+        if (!is_null($comprobante->getCaeNumero())){
+            if (file_exists($filename)) {
+                return new BinaryFileResponse($filename);
+            }
+        }
 
         $em = $this->getDoctrine()->getManager();
 
@@ -874,6 +872,7 @@ class ComprobanteVentaController extends Controller
             $codigo_barra .= $this->fnCodigoBarraCalcularDigitoVerificador($codigo_barra);
 
             $myBarcode = new barCode();
+            //$myBarcode->savePath = $folder'/barcode/';
             $myBarcode->savePath = $this->get('kernel')->getProjectDir().'/web/upload/barcode/';
             $bcPathAbs = $myBarcode->getBarcodePNGPath($codigo_barra, 'I25', 2, 100);
             //El formato en HTML no sale bien xq tcpdf no admite el style inline "positioin:absolute"
@@ -929,10 +928,34 @@ class ComprobanteVentaController extends Controller
         //$pdf->SetMargins(20,20,40, true);
         $pdf->AddPage();
         
-        $filename = $comprobante->getTipo().' '.$comprobante->getPuntoVenta().'-'.$comprobante->getNumero();
-        
         $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-        $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
+
+        //$pdf->Output($filename,'I'); // This will output the PDF as a response directly
+        $pdf->Output($filename,'F'); // This will output the PDF as a file
+
+        return true;
+    }
+
+    /**
+     * Imprime la factura electrónica generada por medio de WS con afip.
+     *
+     */
+    public function facturaImprimirAction(Request $request, Comprobante $comprobante)
+    {
+        $folder = $this->container->getParameter('dir_comprobantes');
+
+        $filename = str_replace(' ', '_', ($folder. '/' .$comprobante->getTipo().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero().'.pdf'));
+
+        //Si ya fue informado a la AFIP, verifico si ya fue impreso
+        if (!is_null($comprobante->getCaeNumero())){
+            if (file_exists($filename)) {
+                return new BinaryFileResponse($filename);
+            }
+        }
+
+        $this->fnGenerarComprobantePDF($comprobante);
+
+        return new BinaryFileResponse($filename);
     }
 
     /**
@@ -941,83 +964,22 @@ class ComprobanteVentaController extends Controller
      */
     public function enviarFacturaAction(Request $request, Comprobante $comprobante)
     {
-        // Permisos de Usuario para Acciones
-        /*
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('ComprobanteVenta', 'EnviarFactura', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-        */
+        $folder = $this->container->getParameter('dir_comprobantes');
+   
+        $filename = str_replace(' ', '_', ($folder. '/' .$comprobante->getTipo().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero().'.pdf'));
 
-        $em = $this->getDoctrine()->getManager();
-
-        $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
-
-        //Si no fue facturado con el WS, solo podemos hacer una impresion interna
-        if (is_null($comprobante->getCaeNumero())){
-            $facturaTemplate = 'comprobanteventa/factura_imprimir_X.html.twig';
-            $codigo_barra = '';
-            $codigo_barra_archivo = '';
+        //Si todavía no fue informado a la AFIP, lo genero
+        if (is_null($comprobante->getCaeNumero())) {
+            $this->fnGenerarComprobantePDF($comprobante);
         }
         else {
-            $facturaTemplate = 'comprobanteventa/factura_imprimir_'.$comprobante->getTipo()->getLetra().'.html.twig';
-            
-            //Genero el código de barras
-            $codigo_barra = sprintf("%11d", $this->container->getParameter('empresa_cuit'));
-            $codigo_barra .= sprintf("%03d", $comprobante->getTipo()->getCodigo());
-            $codigo_barra .= sprintf("%05d", $comprobante->getPuntoVenta());
-            $codigo_barra .= sprintf("%14d", $comprobante->getCaeNumero());
-            $codigo_barra .= sprintf("%08d", $comprobante->getCaeFechaVencimiento()->format('Ymd'));
-            $codigo_barra .= $this->fnCodigoBarraCalcularDigitoVerificador($codigo_barra);
+            //Si fue informado a la AFIP y NO existe el archivo, devuelvo un error
+            if (!file_exists($filename)) {
+                $this->get('session')->getFlashbag()->add('warning', 'No se encuentra el archivo PDF para enviar.');
 
-            $myBarcode = new barCode();
-            $myBarcode->savePath = $this->get('kernel')->getProjectDir().'/web/upload/barcode/';
-            $bcPathAbs = $myBarcode->getBarcodePNGPath($codigo_barra, 'I25', 2, 100);
-            //El formato en HTML no sale bien xq tcpdf no admite el style inline "positioin:absolute"
-            //$bcHTMLRaw = $myBarcode->getBarcodeHTML($codigo_barra, 'I25', 2, 100);
-
-            $codigo_barra_archivo = 'I25_'.$codigo_barra.'.png';
+                return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
+            }
         }
-
-        $html = $this->renderView($facturaTemplate, array(
-            'comprobante' => $comprobante,
-            'comprobanteDetalles' => $comprobanteDetalles,
-            'facturaTipo' => substr($comprobante->getTipo(),8,1),
-            'empresa' => $this->container->getParameter('empresa'),
-            'empresaRazonSocial' => $this->container->getParameter('empresa_razon_social'),
-            'empresaCondicion' => $this->container->getParameter('empresa_condicion'),
-            'empresaCuit' => $this->container->getParameter('empresa_cuit'),
-            'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
-            'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
-            'codigo_barra' => $codigo_barra,
-            'codigo_barra_archivo' => $codigo_barra_archivo,
-        )
-        );
-
-        //set_time_limit(30); uncomment this line according to your needs
-        // If you are not in a controller, retrieve of some way the service container and then retrieve it
-        //$pdf = $this->container->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        //if you are in a controlller use :
-        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        // remove default header/footer
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-        //$pdf->SetAuthor('Our Code World');
-        //$pdf->SetTitle(('Our Code World Title'));
-        //$pdf->SetSubject('Our Code World Subject');
-        //$pdf->setFontSubsetting(true);
-        $pdf->SetFont('helvetica', '', 11, '', true);
-        //$pdf->SetMargins(20,20,40, true);
-        $pdf->AddPage();
-
-        $folder = $this->container->getParameter('dir_download');
-
-        
-        $filename = str_replace('FACTURA ', 'FACTURA_', ($folder. '/' .$comprobante->getCliente().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero()));
-        
-        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-        $pdf->Output($filename.".pdf",'F'); // This will output the PDF as a response directly
 
         $parameters = array('titulo'              => 'Comprobante de Venta',
                             'cliente'             => $comprobante->getCliente()->getEmail(),

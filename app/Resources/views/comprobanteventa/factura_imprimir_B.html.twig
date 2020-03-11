@@ -4,9 +4,9 @@
             <tbody>
                 <tr>
                     <td width="40%" align="center">
-                        <img width="226" height="64" src="{{ asset('img/logo3.jpg')}}"><br>
+                        <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
                         <b>OPTICA CONTINI</b><br>
-                        <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
+                        <b>Razón Social:</b> {{ empresaRazonSocial}}<br>
                         {{comprobante.sucursal.direccion}} - {{comprobante.sucursal.localidad.nombre}}, {{comprobante.sucursal.localidad.provincia.nombre}}<br>
                         {{empresaCondicion}}
                     </td>
@@ -24,8 +24,8 @@
                         <br>
                         <br>
                         <b>{{comprobante.tipo}}</b><br>
-                        <b>{{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.afipNumero)}}</b><br>
-                        <b>{{comprobante.fecha | date('d-m-Y')}}</b><br>
+                        <b>N°: {{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.afipNumero)}}</b><br>
+                        <b>Fecha: {{comprobante.fecha | date('d-m-Y')}}</b><br>
                         <br>
                         <b>CUIT:</b> {{ empresaCuit }}<br>
                         <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
@@ -42,7 +42,7 @@
         <table width="100%" cellspacing="0" border="0">
             <tbody>
                 <tr>
-                    <td width="60%"><b>Razon Social:</b> {{comprobante.clienteRazonSocial}}</td>
+                    <td width="60%"><b>Razón Social:</b> {{comprobante.clienteRazonSocial}}</td>
                     <td width="40%"><b>{{comprobante.clienteDocumentoTipo}}:</b> {{comprobante.clienteDocumentoNumero}}</td>
                 </tr>
                 <tr>
@@ -54,6 +54,9 @@
                     {% if not comprobante.comprobanteAsociado is empty %}
                         <td><b>Cbte Asociado:</b> {{comprobante.comprobanteAsociado.tipo.descripcion}}: {{comprobante.comprobanteAsociado.puntoVenta}}-{{comprobante.comprobanteAsociado.afipNumero}}</td>
                     {% endif %}
+                </tr>
+                <tr>
+                    <td><b>Condición de Venta:</b> Otra</td>
                 </tr>
             </tbody>
         </table>
@@ -71,6 +74,7 @@
                     <th width="10%"><b>Bonif. %</b></th>
                     <th width="10%"><b>Subtotal</b></th>
                 </tr>
+                {% set renglones = 0 %}
                 {% for comprobanteDetalle in comprobanteDetalles %}
                     <tr>
                         <td>{{ comprobanteDetalle.articulo.codigo}}</td>
@@ -80,15 +84,28 @@
                         <td>{{ comprobanteDetalle.porcentajeBonificacion }}</td>
                         <td>{{ comprobanteDetalle.total }}</td>
                     </tr>
+
+                    {# Cada renglon admite hasta 59 caracteres #}
+                    {% set renglon_actual = (comprobanteDetalle.articulo.descripcion | length) %}
+                    {% set renglon_actual = (renglon_actual // 60) + 1 %}
+                    {% set renglones = renglones + renglon_actual %}
                 {% endfor %}
             </tbody>
         </table>
 
-        <br>
-        &nbsp;<br>
+        {% if renglones < 21 %}
+            <table width="100%" cellspacing="0" cellpadding="5" border="0" style="font-size:7pt">
+                <tbody>
+                    {% for i in (renglones + 1)..21 %}
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
 
-        <b>Observaciones:</b> {% if not comprobante.observaciones is empty %}{{comprobante.observaciones}}{% endif %}<br>
-        <br>
+        &nbsp;<br>
 
         <table width="100%" cellpadding="0" border="0">
             <tbody>
@@ -102,7 +119,7 @@
                         <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
                     </td>
                     <td width="40%">
-                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', ',')}}<br>
+                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', '')}}<br>
                         <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
                         <b>Total:</b> $ {{comprobante.total}}
                     </td>
