@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Sucursal;
+use AppBundle\Entity\Stock;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -74,6 +75,25 @@ class SucursalController extends Controller
             $sucursal->setUpdatedAt(new \DateTime("now"));
             
             $em->persist($sucursal);
+
+            $articulos = $em->getRepository('AppBundle:Articulo')->findBy(array('activo' => true));
+
+            foreach ($articulos as $articulo) {
+                $stock = new Stock();
+
+                $stock->setArticulo($articulo);
+                $stock->setSucursal($sucursal);
+                $stock->setCantidad(0);
+                $stock->setCantidadMinima(1);
+                $stock->setActivo(true);
+                $stock->setCreatedBy($this->getUser());
+                $stock->setCreatedAt(new \DateTime("now"));
+                $stock->setUpdatedBy($this->getUser());
+                $stock->setUpdatedAt(new \DateTime("now"));
+
+                $em->persist($stock);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('sucursal_show', array('id' => $sucursal->getId()));
@@ -91,13 +111,6 @@ class SucursalController extends Controller
      */
     public function showAction(Sucursal $sucursal)
     {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('Sucursal', 'Show', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
         $deleteForm = $this->createDeleteForm($sucursal);
 
         return $this->render('sucursal/show.html.twig', array(

@@ -33,7 +33,8 @@ Puntos de Ventas
           <table class="table table-hover">
             <tr>
                 <th>Numero</th>
-                <th>Fecha Habilitada</th>
+                <th>Sucursal</th>
+                <th>Factura Electrónica</th>
                 <th width="10%">Estado</th>
                 <th width="10%">Acciones</th>
             </tr>
@@ -41,7 +42,12 @@ Puntos de Ventas
             {% for puntoVenta in pagination %}
                 <tr>
                     <td>{{ puntoVenta.numero }}</td>
-                    <td>{{ puntoVenta.feHabilitada | date('d-m-Y')}}</td>
+                    <td>{{ puntoVenta.sucursal }}</td>
+                    <td>{% if puntoVenta.feHabilitada %}
+                        <span class="label label-success">Habilitada</span>
+                    {% else %}
+                        <span class="label label-danger">Deshabilitada</span>
+                    {% endif %}
                     <td>{% if puntoVenta.activo %}
                         <span class="label label-success">Activo</span>
                     {% else %}

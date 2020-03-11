@@ -184,19 +184,7 @@ desired effect
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-          
-
-          <li class="treeview">
-            <a href="#" id="sucursal"><i class="glyphicon glyphicon-home"></i> <span>Sucursales</span>
-              <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="{{path('sucursal_index')}}">Sucursales</a></li>
-              <li><a href="{{path('puntoventa_index')}}">Puntos de Ventas</a></li>
-            </ul>
-          </li>
+          <li id="sucursal"><a href="{{path('homepage')}}"><i class="glyphicon glyphicon-home"></i> <span>Cambiar de Sucursal</span></a></li>
 
           <li><a href="{{path('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Panel General</span></a></li>
           <li class="treeview">
@@ -214,7 +202,7 @@ desired effect
           </li>
 
           <li class="treeview">
-            <a href="#" id="librocaja"><i class="glyphicon glyphicon-usd"></i> <span>Libro Caja</span>
+            <a href="#" id="librocaja"><i class="glyphicon glyphicon-usd"></i> <span>Caja</span>
               <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -234,7 +222,7 @@ desired effect
             </a>
             <ul class="treeview-menu">
               <li><a href="{{path('ordentrabajo_index')}}">Ordenes Optica</a></li>
-              <li><a href="{{path('ordentrabajocontactologia_index')}}">Ordenes Contactologia</a></li>
+              <li><a href="{{path('ordentrabajocontactologia_index')}}">Ordenes Contactología</a></li>
             </ul>
           </li>
 
@@ -283,13 +271,15 @@ desired effect
           </li>
 
           <li class="treeview">
-            <a href="#" id="personas"><i class="glyphicon glyphicon-cog"></i> <span>Configuracion</span>
+            <a href="#" id="personas"><i class="glyphicon glyphicon-cog"></i> <span>Configuración</span>
               <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
+              <li><a href="{{path('puntoventa_index')}}">Puntos de Ventas</a></li>
               <li><a href="{{path('rol_index')}}">Roles</a></li>
+              <li><a href="{{path('sucursal_index')}}">Sucursales</a></li>
               <li><a href="{{path('taller_index')}}">Talleres</a></li>
             </ul>
           </li>

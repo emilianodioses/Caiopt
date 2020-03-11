@@ -21,7 +21,8 @@ class PuntoVentaType extends AbstractType
                     'required' => true,
                     'label' => 'N° Punto de Venta'))
                 ->add('feHabilitada', CheckboxType::class, array(
-                    'label' => 'Factura Electronica'))
+                    'label' => 'Factura Electronica',
+                    'required' => false))
                 ->add('sucursal', EntityType::class, array(
                     'label' => 'Sucursal',
                     'class' => 'AppBundle:Sucursal',
