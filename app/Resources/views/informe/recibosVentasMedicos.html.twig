@@ -74,6 +74,7 @@ Comprobantes Cobrados por Médico
                     <th>Fecha</th>
                     <th>Total</th>
                     <th>Cobrado</th>
+                    <th>15%</th>
                     <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
@@ -98,6 +99,7 @@ Comprobantes Cobrados por Médico
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
                     <td>{{ comprobante.total }}</td>
                     <td>{{ reciboComprobante.sumaTotal }}</td>
+                    <td>{{ (reciboComprobante.sumaTotal * 0.15) | number_format(2, '.', '') }}</td>
                     <td>
                       <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                       </a>
