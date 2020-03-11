@@ -10,8 +10,8 @@
                     <br>
                     {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}
                     <br>
-                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b> | 
-                    <b style="font-size:8">N° Comp: {{ ordenTrabajo.comprobante }}</b>
+                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b><br>
+                    <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b>
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="30%" align="left" border="1">
