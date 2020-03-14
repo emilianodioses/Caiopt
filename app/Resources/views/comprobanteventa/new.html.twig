@@ -27,13 +27,9 @@ $(function(){
   });
 </script>  
 
-
-
 {% form_theme form 'comprobanteventa/formCollection.html.twig' %}
 {{ form(form, {'op': 'New'}) }}
 {{ form_end(form) }}
-
-
 
 <script type="text/javascript">
     $('.clientePago-collection').collection({
@@ -164,10 +160,6 @@ $(function(){
         //Dejo la bonificacion en cero hasta q veamos q hacemos
         var importe_bonificacion = 0;//parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
         r_porcentajeBonificacion.val(0);
-        //var precio_neto = parseFloat(r_precioUnitario.val() - parseFloat(importe_bonificacion)).toFixed(2);
-
-        //var precio_venta = parseFloat(parseFloat(precio_neto) + parseFloat(importe_iva)).toFixed(2);
-
 
         var importe_iva = parseFloat(r_precioVenta.val() * r_porcentajeIva.val() / (parseFloat(100) + parseFloat(r_porcentajeIva.val()))).toFixed(2);
 
@@ -204,13 +196,21 @@ $(function(){
             var r_total = $(this).find("input.total");
 
             //total_costo += parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
-            importe_neto = parseFloat(r_precioUnitario.val() - r_importeBonificacion.val());
-            total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(2);
-            total_bonificacion += r_cantidad.val() * parseFloat(r_importeBonificacion.val());
-            
-            total_iva += r_cantidad.val() * parseFloat(r_importeIva.val());
 
-            total += parseFloat(r_total.val());
+            // Agrego este if por que se agrego la ejecucion de la funcion fnCalcularTotales
+            // en windows.onload y cuando la accion es un new action que no proviene de una orden
+            // el objeto dentro de detalle es nulo y sin esto los parseos fallaban y figuraba como warning en el
+            // console
+            if (r_cantidad > 0)
+            {
+                importe_neto = parseFloat(r_precioUnitario.val() - r_importeBonificacion.val());
+                total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(2);
+                total_bonificacion += r_cantidad.val() * parseFloat(r_importeBonificacion.val());
+                
+                total_iva += r_cantidad.val() * parseFloat(r_importeIva.val());
+                total += parseFloat(r_total.val());
+            }
+            
             //total += parseFloat(importe_iva);
         });
 

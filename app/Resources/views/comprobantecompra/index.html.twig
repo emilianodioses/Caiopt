@@ -79,7 +79,7 @@ Comprobantes de Compras
                     <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
-            {% for comprobante in comprobantes %}
+            {% for comprobante in pagination %}
                 <tr>
                     <td>{{ comprobante.puntoVenta }}</td>
                     <td>{{ comprobante.numero }}</td>
@@ -112,4 +112,8 @@ Comprobantes de Compras
     </div>
   </div>
 </form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}

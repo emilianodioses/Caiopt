@@ -50,7 +50,7 @@ Ordenes de Optica
                   <th style="width: 5%">Acciones</th>
               </tr>
             <tbody>
-            {% for ordenTrabajo in ordenesTrabajo %}
+            {% for ordenTrabajo in pagination1 %}
               {% if ordenTrabajo.estado != 'Finalizado' %}
                 <tr>
                     <td>{{ ordenTrabajo.id }}</td>
@@ -86,6 +86,9 @@ Ordenes de Optica
             {% endfor %}
             </tbody>
           </table>
+          {% block paginador1 %}
+              {{ knp_pagination_render(pagination1) }}
+          {% endblock %}
         </div>
       </div>
     </div>
@@ -108,7 +111,7 @@ Ordenes de Optica
                   <th style="width: 5%">Acciones</th>
               </tr>
             <tbody>
-              {% for ordenTrabajo in ordenesTrabajo %}
+              {% for ordenTrabajo in pagination2 %}
                 {% if ordenTrabajo.estado == 'Finalizado' %}
                   <tr>
                     <td>{{ ordenTrabajo.id }}</td>
@@ -144,6 +147,9 @@ Ordenes de Optica
               {% endfor %}
             </tbody>
           </table>
+          {% block paginador2 %}
+              {{ knp_pagination_render(pagination2) }}
+          {% endblock %}
         </div>
       </div>
     </div>

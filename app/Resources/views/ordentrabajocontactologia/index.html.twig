@@ -49,7 +49,7 @@ Ordenes de Trabajo - Contactologia
                   <th style="width: 5%">Acciones</th>
               </tr>
             <tbody>
-            {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+            {% for ordenTrabajoContactologia in pagination1 %}
               {% if ordenTrabajoContactologia.estado != 'Finalizado' %}
                 <tr>
                     <td>{{ ordenTrabajoContactologia.id }}</td>
@@ -84,6 +84,9 @@ Ordenes de Trabajo - Contactologia
             {% endfor %}
             </tbody>
           </table>
+          {% block paginador1 %}
+              {{ knp_pagination_render(pagination1) }}
+          {% endblock %}
         </div>
       </div>
     </div>
@@ -105,7 +108,7 @@ Ordenes de Trabajo - Contactologia
                   <th style="width: 5%">Acciones</th>
               </tr>
             <tbody>
-              {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+              {% for ordenTrabajoContactologia in pagination2 %}
                 {% if ordenTrabajoContactologia.estado == 'Finalizado' %}
                   <tr>
                     <td>{{ ordenTrabajoContactologia.id }}</td>
@@ -140,6 +143,9 @@ Ordenes de Trabajo - Contactologia
               {% endfor %}
             </tbody>
           </table>
+          {% block paginador2 %}
+              {{ knp_pagination_render(pagination2) }}
+          {% endblock %}
         </div>
       </div>
     </div>

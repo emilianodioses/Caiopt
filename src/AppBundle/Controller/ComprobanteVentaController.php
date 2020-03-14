@@ -46,8 +46,16 @@ class ComprobanteVentaController extends Controller
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByGeneral_ventas($this->getUser()->getSucursal()->getId(), $fecha_desde, $fecha_hasta, $cliente, $pagado);
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $comprobantes,
+            $request->query->get('page', 1)/*page number*/,
+            15/*limit per page*/
+        );
+
         return $this->render('comprobanteventa/index.html.twig', array(
-            'comprobantes' => $comprobantes,
+            //'comprobantes' => $comprobantes,
+            'pagination' => $pagination,
             'fecha_desde' => $fecha_desde,
             'fecha_hasta' => $fecha_hasta,
             'cliente' => $cliente,
@@ -64,6 +72,11 @@ class ComprobanteVentaController extends Controller
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
+        /*
+        if ($this->container->has('profiler'))
+            $this->container->get('profiler')->disable();
+        */
+
         if (!$secure->isAuthorized('ComprobanteVenta', 'New', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
@@ -76,6 +89,7 @@ class ComprobanteVentaController extends Controller
 
         //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro y los articulos vinculados a ella.
         $em = $this->getDoctrine()->getManager();
+
         if($id > 0)
         {
             if($tipo != "contactologia"){
@@ -150,16 +164,6 @@ class ComprobanteVentaController extends Controller
         $form->handleRequest($request);        
 
         if ($form->isSubmitted()) {
-
-            /*
-            $clientePagos = $form->get('clientePagos')->getData();
-            foreach($clientePagos as $clientePago) {
-                echo ($clientePago->getImporte());
-                //dump($clientePago);
-            }
-            //dump($clientePagos);
-            die;
-            */
 
             $em = $this->getDoctrine()->getManager();
 

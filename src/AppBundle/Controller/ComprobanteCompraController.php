@@ -37,8 +37,15 @@ class ComprobanteCompraController extends controller
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findByGeneral_compras($this->getUser()->getSucursal()->getId(), $fecha_desde, $fecha_hasta, $proveedor, $pagado);
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $comprobantes,
+            $request->query->get('page', 1)/*page number*/,
+            15/*limit per page*/
+        );
+
         return $this->render('comprobantecompra/index.html.twig', array(
-            'comprobantes' => $comprobantes,
+            'pagination' => $pagination,
             'fecha_desde' => $fecha_desde,
             'fecha_hasta' => $fecha_hasta,
             'proveedor' => $proveedor,

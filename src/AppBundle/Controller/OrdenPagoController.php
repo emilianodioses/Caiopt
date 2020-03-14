@@ -28,8 +28,15 @@ class OrdenPagoController extends Controller
 
         $ordenPagos = $em->getRepository('AppBundle:OrdenPago')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
         
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $ordenPagos,
+            $request->query->get('page', 1)/*page number*/,
+            15/*limit per page*/
+        );
+
         return $this->render('ordenpago/index.html.twig', array(
-            'ordenPagos' => $ordenPagos,
+            'pagination' => $pagination,
             'texto' => $texto,
         ));
     }
