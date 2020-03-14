@@ -42,7 +42,7 @@ Recibos
                     <th style="width: 5%">Acciones</th>
                 </tr>
             <tbody>
-            {% for recibo in recibos %}
+            {% for recibo in pagination %}
                 <tr>
                     <td>{{ recibo.numero }}</td>
                     <td>{{ recibo.cliente }}</td>
@@ -77,4 +77,8 @@ Recibos
     </div>
   </div>
 </form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}

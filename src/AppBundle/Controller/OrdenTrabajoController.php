@@ -38,10 +38,27 @@ class OrdenTrabajoController extends Controller
         
         $texto = $request->get('texto','');
 
-        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
+        $ordenesTrabajoFinalizadas = $em->getRepository('AppBundle:OrdenTrabajo')->findByTextoFinalizadas($this->getUser()->getSucursal()->getId(), $texto);
+        $ordenesTrabajoNoFinalizadas = $em->getRepository('AppBundle:OrdenTrabajo')->findByTextoNoFinalizadas($this->getUser()->getSucursal()->getId(), $texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination1 = $paginator->paginate(
+            $ordenesTrabajoNoFinalizadas,
+            $request->query->get('page', 1),
+            15,
+            ['pageParameterName' => 'page']
+        );
+
+        $pagination2 = $paginator->paginate(
+            $ordenesTrabajoFinalizadas,
+            $request->query->get('otherPage', 1),
+            15,
+            ['pageParameterName' => 'otherPage']
+        );
 
         return $this->render('ordentrabajo/index.html.twig', array(
-            'ordenesTrabajo' => $ordenesTrabajo,
+            'pagination1' => $pagination1,
+            'pagination2' => $pagination2,
             'texto' => $texto
         ));
     }

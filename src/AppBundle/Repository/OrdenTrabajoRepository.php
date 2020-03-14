@@ -64,4 +64,58 @@ class OrdenTrabajoRepository extends \Doctrine\ORM\EntityRepository
 
         return $resultado;
     }
+
+    public function findByTextoFinalizadas($sucursalId, $texto) {
+        $query = 'SELECT u  FROM AppBundle:OrdenTrabajo u 
+                  INNER JOIN u.cliente c
+                  WHERE u.activo = 1 and u.estado = :estado';
+
+        if ($sucursalId > 0)
+            $query .= ' AND u.sucursal = :sucursalId ';
+
+        if ($texto != '')
+            $query .= ' AND (u.id LIKE :texto OR c.nombre LIKE :texto OR c.documentoNumero LIKE :texto) ';
+
+        $query .= ' ORDER BY u.id DESC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($sucursalId > 0)
+            $em->setParameter('sucursalId', $sucursalId);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+        
+        $em->setParameter('estado',"Finalizado");
+        
+        //return $em;
+        return $em->getResult();
+    }
+
+    public function findByTextoNoFinalizadas($sucursalId, $texto) {
+        $query = 'SELECT u  FROM AppBundle:OrdenTrabajo u 
+                  INNER JOIN u.cliente c
+                  WHERE u.activo = 1 and u.estado <> :estado';
+
+        if ($sucursalId > 0)
+            $query .= ' AND u.sucursal = :sucursalId ';
+
+        if ($texto != '')
+            $query .= ' AND (u.id LIKE :texto OR c.nombre LIKE :texto OR c.documentoNumero LIKE :texto) ';
+
+        $query .= ' ORDER BY u.id DESC ';
+
+        $em = $this->getEntityManager()->createQuery($query);
+
+        if ($sucursalId > 0)
+            $em->setParameter('sucursalId', $sucursalId);
+
+        if ($texto != '')
+            $em->setParameter('texto','%' . $texto . '%');
+
+        $em->setParameter('estado',"Finalizado");
+        
+        //return $em;
+        return $em->getResult();
+    }
 }

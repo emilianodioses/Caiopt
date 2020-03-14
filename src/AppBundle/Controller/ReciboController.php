@@ -34,8 +34,15 @@ class ReciboController extends Controller
 
         $recibos = $em->getRepository('AppBundle:Recibo')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $recibos,
+            $request->query->get('page', 1)/*page number*/,
+            15/*limit per page*/
+        );
+
         return $this->render('recibo/index.html.twig', array(
-            'recibos' => $recibos,
+            'pagination' => $pagination,
             'texto' => $texto,
         ));
     }

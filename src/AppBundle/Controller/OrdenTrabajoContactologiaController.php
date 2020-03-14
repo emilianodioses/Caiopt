@@ -25,7 +25,7 @@ class OrdenTrabajoContactologiaController extends Controller
      * Lists all ordenTrabajoContactologia entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -36,10 +36,29 @@ class OrdenTrabajoContactologiaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findBy(array('activo'=>1, 'sucursal' => $this->getUser()->getSucursal()));
+        $texto = $request->get('texto','');
+
+        $ordenesTrabajoContactologiaFinalizada = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findByTextoFinalizadas($this->getUser()->getSucursal()->getId(), $texto);
+        $ordenesTrabajoContactologiaNoFinalizada = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findByTextoNoFinalizadas($this->getUser()->getSucursal()->getId(), $texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination1 = $paginator->paginate(
+            $ordenesTrabajoContactologiaNoFinalizada,
+            $request->query->get('page', 1),
+            15,
+            ['pageParameterName' => 'page']
+        );
+
+        $pagination2 = $paginator->paginate(
+            $ordenesTrabajoContactologiaFinalizada,
+            $request->query->get('otherPage', 1),
+            15,
+            ['pageParameterName' => 'otherPage']
+        );
 
         return $this->render('ordentrabajocontactologia/index.html.twig', array(
-            'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia,
+            'pagination1' => $pagination1,
+            'pagination2' => $pagination2
         ));
     }
 

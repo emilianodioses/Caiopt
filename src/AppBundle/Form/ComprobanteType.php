@@ -38,7 +38,7 @@ class ComprobanteType extends AbstractType
       if ( isset($options['attr']['tipo']) ) {
         $comprobanteDetallesTipo = $options['attr']['tipo'] == 'Compra';
         if ($options['attr']['tipo'] == 'Compra') {
-          $builder->add('tipo', EntityType::class, array(
+            $builder->add('tipo', EntityType::class, array(
                         'label' => 'Tipo',
                         'class' => 'AppBundle:AfipComprobanteTipo',
                         'required' => true,
@@ -50,46 +50,46 @@ class ComprobanteType extends AbstractType
                                        ->orderBy('ic.descripcion', 'ASC')
                                        ;
                                }
-                  ))
-                  ->add('proveedor', Select2EntityType::class, array(
-                    'label' => 'Proveedor',
-                    'class' => 'AppBundle:Proveedor',
-                    'remote_route' => 'proveedor_find_select2',
-                    'placeholder' => 'Seleccione un proveedor',
-                    'required' => true,
-                    'attr' => [
-                            'class' => 'proveedor',
-                        ],
-                    'primary_key' => 'id',
-                    'text_property' => 'nombre',
-                    'minimum_input_length' => 2,
-                    'page_limit' => 10,
-                    'allow_clear' => false,
-                    'delay' => 250,
-                    'cache' => true,
-                    'cache_timeout' => 60000, // if 'cache' is true
-                    'language' => 'es',
-                    ))
+                        ))
+                    ->add('proveedor', Select2EntityType::class, array(
+                        'label' => 'Proveedor',
+                        'class' => 'AppBundle:Proveedor',
+                        'remote_route' => 'proveedor_find_select2',
+                        'placeholder' => 'Seleccione un proveedor',
+                        'required' => true,
+                        'attr' => [
+                                'class' => 'proveedor',
+                            ],
+                        'primary_key' => 'id',
+                        'text_property' => 'nombre',
+                        'minimum_input_length' => 2,
+                        'page_limit' => 10,
+                        'allow_clear' => false,
+                        'delay' => 250,
+                        'cache' => true,
+                        'cache_timeout' => 60000, // if 'cache' is true
+                        'language' => 'es',
+                        ))
                     ->add('cliente', EntityType::class, array(
-                      'label' => 'Cliente',
-                      'class' => 'AppBundle:Cliente',
-                      'required' => true,
-                      'choice_label' => 'nombre',
-                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                 return $er->createQueryBuilder('l')
-                                     ->where('l.activo = 1')
-                                     ->orderBy('l.nombre', 'ASC')
-                                     ;
-                             }
-                  ))
-                  ->add('numero', IntegerType::class, array(
-                    'required' => true,
-                    'label' => 'N de Comprobante'))
-                  ->add('puntoVenta', null, array(
-                    'label' => 'Punto de Venta',
-                    'attr' => array(
-                        'readonly' => false,
-                    )));
+                        'label' => 'Cliente',
+                        'class' => 'AppBundle:Cliente',
+                        'required' => true,
+                        'choice_label' => 'nombre',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                    return $er->createQueryBuilder('l')
+                                        ->where('l.activo = 1')
+                                        ->orderBy('l.nombre', 'ASC')
+                                        ;
+                                }
+                        ))
+                    ->add('numero', IntegerType::class, array(
+                        'required' => true,
+                        'label' => 'N de Comprobante'))
+                    ->add('puntoVenta', null, array(
+                        'label' => 'Punto de Venta',
+                        'attr' => array(
+                            'readonly' => false,
+                        )));
         }
         else {
           $builder->add('tipo', EntityType::class, array(

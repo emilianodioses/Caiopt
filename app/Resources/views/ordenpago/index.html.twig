@@ -42,7 +42,7 @@ Ordenes de Pago
                     <th style="width: 5%">Acciones</th>
                 </tr>
             <tbody>
-            {% for ordenPago in ordenPagos %}
+            {% for ordenPago in pagination %}
                 <tr>
                     <td>{{ ordenPago.numero }}</td>
                     <td>{{ ordenPago.proveedor }}</td>
@@ -77,4 +77,8 @@ Ordenes de Pago
     </div>
   </div>
 </form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}

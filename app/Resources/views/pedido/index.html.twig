@@ -38,7 +38,7 @@ Pedidos de Compras
                     <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
-            {% for pedido in pedidos %}
+            {% for pedido in pagination %}
                 <tr>
                     <td>{{ pedido.numero }}</td>
                     <td>{{ pedido.proveedor }}</td>
@@ -69,4 +69,8 @@ Pedidos de Compras
     </div>
   </div>
 </form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}

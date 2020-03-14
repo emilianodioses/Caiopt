@@ -30,7 +30,7 @@ class StockController extends Controller
         $pagination = $paginator->paginate(
             $query,
             $request->query->get('page', 1)/*page number*/,
-            10/*limit per page*/
+            15/*limit per page*/
         );
 
         return $this->render('stock/index.html.twig', array(

@@ -30,9 +30,16 @@ class PedidoController extends controller
         $texto = $request->get('texto','');
 
         $pedidos = $em->getRepository('AppBundle:Pedido')->findByTexto($this->getUser()->getSucursal()->getId(), $texto);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $pedidos,
+            $request->query->get('page', 1)/*page number*/,
+            15/*limit per page*/
+        );
         
         return $this->render('pedido/index.html.twig', array(
-            'pedidos' => $pedidos,
+            'pagination' => $pagination,
             'texto' => $texto,
         ));
     }
