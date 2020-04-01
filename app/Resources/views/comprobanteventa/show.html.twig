@@ -79,7 +79,11 @@
                                         </tr>
                                         <tr>
                                             <th>Médico</th>
-                                            <td><a href="{{ path('medico_show', { 'id': comprobante.medico.Id }) }}">{{ comprobante.medico.nombre }}</a></td>
+                                            {% if comprobante.medico is empty %}
+                                                <td>-</td>
+                                            {% else %}
+                                                <td><a href="{{ path('medico_show', { 'id': comprobante.medico.Id }) }}">{{ comprobante.medico.nombre }}</a></td>
+                                            {% endif %}
                                         </tr>
                                         <tr>
                                             <th>Obra Social</th>

@@ -107,7 +107,6 @@ $(function(){
             url: "{{ url('ordentrabajo_find') }}" ,
             data: data,
             success: function(resp){
-
                 var ordentrabajo = $.parseJSON(resp.ordenTrabajo);
 
                 if (ordentrabajo != ""){
