@@ -986,8 +986,21 @@ class ComprobanteVentaController extends Controller
                             'nombrecliente'       => $comprobante->getCliente()->getNombre());
         $mailtemplate = 'newemail.html.twig';
 
-        
+        /*
+        Envío el mail desde acá y no con el llamado comentado abajo xq falla, creo q es un problema con php7.2
         $emailResult = Mail::sendEmail($mailtemplate, $parameters, $filename);
+        */
+        $message = (new \Swift_Message(''))
+            ->setFrom(array('info@opticacontini.com' => 'Optica contini'))
+            ->setSubject($parameters['titulo'])
+            ->setTo($parameters['cliente'])
+            ->setBody($this->renderView($mailtemplate, $parameters),'text/html');
+
+        if(!empty($filename)){
+            $message->attach(\Swift_Attachment::fromPath($filename));
+        }
+
+        $this->get('mailer')->send($message);
 
         $this->get('session')->getFlashbag()->add('success', 'Comprobante enviado exitosamente.');
 

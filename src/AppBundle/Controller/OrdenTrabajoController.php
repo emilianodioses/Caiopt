@@ -276,7 +276,7 @@ class OrdenTrabajoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $normalizer = new ObjectNormalizer();
-        $normalizer->setCircularReferenceLimit(1);
+        $normalizer->setCircularReferenceLimit(0);
         // Add Circular reference handler
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getId();
@@ -290,12 +290,36 @@ class OrdenTrabajoController extends Controller
         $query->setParameter('cliente', $cliente);
 
 
-        if ($query->getSingleScalarResult() != null)
+        if ($query->getSingleScalarResult() != null) {
             $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($query->getSingleScalarResult());
+
+            //Falla al serializar la orden de trabajo, la única forma que encontre fue
+            //copiando los valores que necesito a un objeto nuevo
+            $ordenTrabajo_new = new Ordentrabajo();
+            
+            $ordenTrabajo_new->setLejosOjoDerechoEje($ordenTrabajo->getLejosOjoDerechoEje());
+            $ordenTrabajo_new->setLejosOjoIzquierdoEje($ordenTrabajo->getLejosOjoIzquierdoEje());
+            $ordenTrabajo_new->setLejosOjoDerechoCilindro($ordenTrabajo->getLejosOjoDerechoCilindro());
+            $ordenTrabajo_new->setLejosOjoIzquierdoCilindro($ordenTrabajo->getLejosOjoIzquierdoCilindro());
+            $ordenTrabajo_new->setLejosOjoDerechoEsfera($ordenTrabajo->getLejosOjoDerechoEsfera());
+            $ordenTrabajo_new->setLejosOjoIzquierdoEsfera($ordenTrabajo->getLejosOjoIzquierdoEsfera());
+            $ordenTrabajo_new->setCercaOjoDerechoEje($ordenTrabajo->getCercaOjoDerechoEje());
+            $ordenTrabajo_new->setCercaOjoIzquierdoEje($ordenTrabajo->getCercaOjoIzquierdoEje());
+            $ordenTrabajo_new->setCercaOjoDerechoCilindro($ordenTrabajo->getCercaOjoDerechoCilindro());
+            $ordenTrabajo_new->setCercaOjoIzquierdoCilindro($ordenTrabajo->getCercaOjoIzquierdoCilindro());
+            $ordenTrabajo_new->setCercaOjoDerechoEsfera($ordenTrabajo->getCercaOjoDerechoEsfera());
+            $ordenTrabajo_new->setCercaOjoIzquierdoEsfera($ordenTrabajo->getCercaOjoIzquierdoEsfera());
+            $ordenTrabajo_new->setOjoDerechoDnp($ordenTrabajo->getOjoDerechoDnp());
+            $ordenTrabajo_new->setOjoIzquierdoDnp($ordenTrabajo->getOjoIzquierdoDnp());
+            $ordenTrabajo_new->setOjoDerechoHp($ordenTrabajo->getOjoDerechoHp());
+            $ordenTrabajo_new->setOjoIzquierdoHp($ordenTrabajo->getOjoIzquierdoHp());
+            $ordenTrabajo_new->setOjoDerechoHpu($ordenTrabajo->getOjoDerechoHpu());
+            $ordenTrabajo_new->setOjoIzquierdoHpu($ordenTrabajo->getOjoIzquierdoHpu());
+        }
         else
-            $ordenTrabajo = "";
+            $ordenTrabajo_new = "";
         
-        $j_ordenTrabajo = $serializer->serialize($ordenTrabajo, 'json');
+        $j_ordenTrabajo = $serializer->serialize($ordenTrabajo_new, 'json');
 
         return JsonResponse::create(array('ordenTrabajo' => $j_ordenTrabajo));
     }
