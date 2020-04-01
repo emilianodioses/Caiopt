@@ -4,15 +4,14 @@
     <table width="100%" cellspacing="0" border="0">
         <tbody>
             <tr>
-                <td width="30%" align="left">
-                    <img width="150" height="40" src="{{ asset('img/logo3.jpg')}}"><br>
+                <td width="30%" align="center">
+                    <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
                     <b>OPTICA CONTINI</b>
                     <br>
                     {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}
-                    <br> 
-                    &nbsp;
-                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b> | 
-                    <b style="font-size:8">N° Comp: {{ ordenTrabajo.comprobante }}</b>
+                    <br>
+                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b><br>
+                    <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b>
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="30%" align="left" border="1">
@@ -79,6 +78,7 @@
                     <br>
                     <b>Fecha Receta: </b> {% if not ordenTrabajo.fechaReceta is empty %} {{ ordenTrabajo.fechaReceta | date('d-m-Y') }} {% endif %}
                     <br>
+                    <b>Vendedor: </b> {{ ordenTrabajo.usuario}}<br>
                     <b>Observaciones: </b> {{ ordenTrabajo.observaciones }}
                 </td>
             </tr>
@@ -122,134 +122,6 @@
         </tbody>
     </table>
     {% if pagina_nro == 1 %}
-    <br>
-    &nbsp;
-    <br>
-    <b>ACTUAL:</b>
-    <br>
-    <table width="100%" cellspacing="0" border="1">
-        <tbody>
-            <tr>
-                <td rowspan="5" align="center">
-                    <br>
-                    &nbsp;
-                    <br>
-                    ESPC.
-                    <br>
-                    RECETA
-                </td>
-                <td colspan="2" align="center">
-                    VISION
-                </td>
-                <td align="center">
-                    ESF.
-                </td>
-                <td align="center">
-                    CIL.
-                </td>
-                <td align="center">
-                    EJE.
-                </td>
-                <td align="center">
-                    DNP.
-                </td>
-                <td align="center">
-                    HP.
-                </td>
-                <td align="center">
-                    HPU.
-                </td>
-            </tr>
-            <tr>
-                <td rowspan="2" align="center">
-                    LEJOS
-                </td>
-                <td align="center">
-                    OD
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesLejosOjoDerechoEsfera > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesLejosOjoDerechoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesLejosOjoDerechoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesLejosOjoDerechoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesLejosOjoDerechoEje }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesOjoDerechoDnp }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesOjoDerechoHp }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesOjoDerechoHpu }}
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    OI
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesLejosOjoIzquierdoEsfera > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesLejosOjoIzquierdoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesLejosOjoIzquierdoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesLejosOjoIzquierdoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesLejosOjoIzquierdoEje }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesOjoIzquierdoDnp }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesOjoIzquierdoHp }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesOjoIzquierdoHpu }}
-                </td>
-            </tr>
-            <tr>
-                <td rowspan="2" align="center">
-                    CERCA
-                </td>
-                <td align="center">
-                    OD
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesCercaOjoDerechoEsfera > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesCercaOjoDerechoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesCercaOjoDerechoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesCercaOjoDerechoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesCercaOjoDerechoEje }}
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    OI
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesCercaOjoIzquierdoEsfera > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesCercaOjoIzquierdoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.antesCercaOjoIzquierdoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajo.antesCercaOjoIzquierdoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.antesCercaOjoIzquierdoEje }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
     <br>
     &nbsp;
     <br>

@@ -4,15 +4,14 @@
     <table width="100%" cellspacing="0" border="0">
         <tbody>
             <tr>
-                <td width="30%" align="left">
-                    <img width="150" height="40" src="{{ asset('img/logo3.jpg')}}"><br>
+                <td width="30%" align="center">
+                    <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
                     <b>OPTICA CONTINI</b>
                     <br>
                     {{ordenTrabajoContactologia.sucursal.direccion}} - {{ordenTrabajoContactologia.sucursal.localidad.nombre}}, {{ordenTrabajoContactologia.sucursal.localidad.provincia.nombre}}
-                    <br> 
-                    &nbsp;
-                    <b style="font-size:8">N° Ord: {{ ordenTrabajoContactologia.id }}</b> | 
-                    <b style="font-size:8">N° Comp: {{ ordenTrabajoContactologia.comprobante }}</b>
+                    <br>
+                    <b style="font-size:8">N° Ord: {{ ordenTrabajoContactologia.id }}</b><br>
+                    <b style="font-size:8">Comp {{ ordenTrabajoContactologia.comprobante }}</b>
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="40%" align="left" border="1">
@@ -81,6 +80,8 @@
                     <b>Medico: </b> {{ ordenTrabajoContactologia.medico}}
                     <br>
                     <b>Fecha Receta: </b> {{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }}
+                    <br>
+                    <b>Vendedor: </b> {{ ordenTrabajo.usuario}}
                     <br>
                     <b>Observaciones: </b> {{ ordenTrabajoContactologia.observaciones }}
                 </td>
