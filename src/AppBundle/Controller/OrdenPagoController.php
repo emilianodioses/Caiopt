@@ -9,6 +9,7 @@ use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\OrdenPagoComprobante;
 use AppBundle\Entity\Proveedor;
 use AppBundle\Entity\LibroCajaDetalle;
+use AppBundle\Entity\Cheque;
 
 /**
  * Ordenpago controller.
@@ -106,6 +107,26 @@ class OrdenPagoController extends Controller
                 $proveedorPago->setUpdatedAt(new \DateTime("now"));
 
                 $em->persist($proveedorPago);
+
+                //Si el pago es un cheque, lo creo en la tabla de cheques
+                if ($proveedorPago->getPagoTipo()->getNombre() == 'Cheque') {
+                    $cheque = new Cheque();
+                    $cheque->setBanco($proveedorPago->getBanco());
+                    $cheque->setFecha($proveedorPago->getFecha());
+                    $cheque->setNumero($proveedorPago->getNumero());
+                    $cheque->setImporte($proveedorPago->getImporte());
+                    $cheque->setOrdenPago($ordenPago);
+                    $cheque->setEstado('Emitido');
+                    $cheque->setActivo(1);
+                    $cheque->setCreatedBy($this->getUser());
+                    $cheque->setCreatedAt(new \DateTime("now"));
+                    $cheque->setUpdatedBy($this->getUser());
+                    $cheque->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($cheque);
+
+                    $proveedorPago->setCheque($cheque);
+                }
 
                 $categoria_egreso_orden_pago = $em->getRepository('AppBundle:MovimientoCategoria')->find(2);
 

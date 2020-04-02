@@ -141,3 +141,11 @@ app_movimientointerno:
 app_puntoventa:
     resource: "@AppBundle/Resources/config/routing/puntoventa.yml"
     prefix:   /puntoventa
+
+app_banco:
+    resource: "@AppBundle/Resources/config/routing/banco.yml"
+    prefix:   /banco
+
+app_cheque:
+    resource: "@AppBundle/Resources/config/routing/cheque.yml"
+    prefix:   /cheque

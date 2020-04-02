@@ -65,12 +65,34 @@ $(function(){
     });
 
     function fnRenglonChange(renglon) {
-        fnCalcularTotales();
+        fnCalcularTotales(renglon);
 
         return true;
     }
 
-    function fnCalcularTotales() {
+    function fnCalcularTotales(renglon) {
+        //Verifico el tipo de pago seleccionado para habilitar o deshabilitar los datos adicionales
+        var r_pagoTipo = renglon.find("select.pagoTipo");
+        var r_banco = renglon.find("select.banco");
+        var r_fecha = renglon.find("input.fecha");
+        var r_numero = renglon.find("input.numero");
+
+        var pagoTipoTexto = r_pagoTipo.find('option:selected').text();
+        if (pagoTipoTexto == 'Cheque' || pagoTipoTexto == 'Transferencia') {
+            r_banco.prop('disabled', false);
+            r_fecha.prop('readonly', false);
+            r_numero.prop('readonly', false);
+        }
+        else {
+            r_banco.val(0);
+            r_banco.prop('disabled', true);
+            r_fecha.val('');
+            r_fecha.prop('readonly', true);
+            r_numero.val('');
+            r_numero.prop('readonly', true);
+        }
+        
+        //Calculo los totales
         var total = 0;
         
         $("#OrdenPagoType_proveedorPagos tr.item").each(function() {

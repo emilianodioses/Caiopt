@@ -63,20 +63,9 @@
                 </div>
             </div>
         </div>
-        <div class="row">    
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
-                    </div>
-                    
-                    <div class="form-group ">
-                        {{ form_widget(form.proveedorPagos) }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
@@ -112,7 +101,22 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        {{ form_widget(form.proveedorPagos) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box box-success">
@@ -184,7 +188,10 @@
             <div class="form-group ">
                 <table {{ block('widget_attributes') }}>
                     <thead>
-                        <th width="45%">Tipo de Pago</th>
+                        <th width="20%">Tipo de Pago</th>
+                        <th width="20%">Banco</th>
+                        <th width="20%">Fecha</th>
+                        <th>Número</th>
                         <th>Importe</th>
                         <th width="5%">&nbsp;</th>
                     </thead>
@@ -203,9 +210,12 @@
     {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
     <tr {{ block('widget_attributes') }}>
         <td>{{ form_widget(form.pagoTipo) }}</td>
+        <td>{{ form_widget(form.banco) }}</td>
+        <td>{{ form_widget(form.fecha) }}</td>
+        <td>{{ form_widget(form.numero) }}</td>
         <td>{{ form_widget(form.importe) }}</td>
         
-        <td class="text-center">
+        <td width="5%" class="text-center" style="vertical-align:middle">
             <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
             <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>
             <a href="#" class="collection-duplicate btn btn-default" title="Duplicate element"><span class="glyphicon glyphicon-th-large"></span></a>
@@ -213,5 +223,4 @@
     </tr>
 
 {% endblock %}
-
 
