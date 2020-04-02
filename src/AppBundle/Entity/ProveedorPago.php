@@ -42,6 +42,40 @@ class ProveedorPago
     private $pagoTipo;
 
     /**
+     * @var \Cheque
+     *
+     * @ORM\ManyToOne(targetEntity="Cheque")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cheque_id", referencedColumnName="id")
+     * })
+     */
+    private $cheque;
+
+    /**
+     * @var \Banco
+     *
+     * @ORM\ManyToOne(targetEntity="Banco")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="banco_id", referencedColumnName="id")
+     * })
+     */
+    private $banco;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=true)
+     */
+    private $fecha;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero", type="integer", nullable=true)
+     */
+    private $numero;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="importe", type="decimal", precision=16, scale=2)
@@ -289,5 +323,101 @@ class ProveedorPago
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Set banco
+     *
+     * @param \AppBundle\Entity\Banco $banco
+     *
+     * @return ProveedorPago
+     */
+    public function setBanco(\AppBundle\Entity\Banco $banco = null)
+    {
+        $this->banco = $banco;
+
+        return $this;
+    }
+
+    /**
+     * Get banco
+     *
+     * @return \AppBundle\Entity\Banco
+     */
+    public function getBanco()
+    {
+        return $this->banco;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     *
+     * @return ProveedorPago
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return ProveedorPago
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set cheque
+     *
+     * @param \AppBundle\Entity\Cheque $cheque
+     *
+     * @return ProveedorPago
+     */
+    public function setCheque(\AppBundle\Entity\Cheque $cheque = null)
+    {
+        $this->cheque = $cheque;
+
+        return $this;
+    }
+
+    /**
+     * Get cheque
+     *
+     * @return \AppBundle\Entity\Cheque
+     */
+    public function getCheque()
+    {
+        return $this->cheque;
     }
 }

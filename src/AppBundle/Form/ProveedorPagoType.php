@@ -22,12 +22,13 @@ class ProveedorPagoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('importe',FloatType::class, array(
-                    'label' => false,
+                    'label' => 'Importe',
                     'attr' => array('size' => 3, 'placeholder' => 'Importe', 'class' => 'importe', 'step' => 0.01),
                     ))
                 ->add('ordenPago',HiddenType::class,array('label'=>'Orden de Pago'))
                 ->add('pagoTipo', EntityType::class, array(
                     'label' => 'Tipo de Pago',
+                    'attr' => array('class' => 'pagoTipo'),
                     'class' => 'AppBundle:PagoTipo',
                     'required' => true,
                     'choice_label' => 'nombre',
@@ -37,7 +38,33 @@ class ProveedorPagoType extends AbstractType
                                    ->orderBy('l.nombre', 'ASC')
                                    ;
                            }
-                ));
+                ))
+                ->add('banco', EntityType::class, array(
+                    'label' => 'Banco',
+                    'attr' => array('class' => 'banco', 'disabled' => 'true'),
+                    'class' => 'AppBundle:Banco',
+                    'required' => false,
+                    'choice_label' => 'nombre',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->orderBy('l.nombre', 'ASC')
+                                   ;
+                           }
+                ))
+                ->add('numero',IntegerType::class,array(
+                    'label' => 'Número',
+                    'attr' => array('size' => 3, 'placeholder' => 'Número', 'class' => 'numero', 'readonly' => 'true'),
+                    'required' => false,
+                ))
+                ->add('fecha',DateType::class,array(
+                    'label'=>'Fecha',
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'html5' => true,
+                    'required' => false,
+                    'attr' => ['class' => 'js-datepicker fecha', 'autocomplete' => 'off', 'placeholder' => 'Fecha', 'readonly' => 'true']))
+                ;
     }/**
      * {@inheritdoc}
      */

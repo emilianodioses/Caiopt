@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Cheques
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('cheque_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Número" value="{{texto}}"/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  {#
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('cheque_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+                  #}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
+                <th>Banco</th>
+                <th>Fecha</th>
+                <th>Número</th>
+                <th>Importe</th>
+                <th>Orden de Pago</th>
+                <th style="width: 10%">Estado</th>
+                <th style="width: 5%">Acciones</th>
+              </tr>
+            <tbody>
+            {% for cheque in pagination %}
+                <tr>
+                    <td>{{ cheque.banco }}</td>
+                    <td>{{ cheque.fecha | date('d-m-Y') }}</td>
+                    <td>{{ cheque.numero }}</td>
+                    <td>{{ cheque.importe }}</td>
+                    <td><a href="{{ path('ordenpago_show', { 'id': cheque.ordenPago.Id }) }}">{{cheque.ordenPago.numero}}</a></td>
+                    {% if cheque.estado == 'Emitido' %}
+                        <td><span class="label label-danger">{{ cheque.estado }}</span></td>
+                    {% elseif cheque.estado == 'Depositado' %}
+                        <td><span class="label label-info">{{ cheque.estado }}</span></td>
+                    {% elseif cheque.estado == 'Cobrado' %}
+                        <td><span class="label label-success">{{ cheque.estado }}</span></td>
+                    {% endif %}
+                    <td>
+                        {% if cheque.estado != 'Anulado' %}
+                            {#
+                            <a href="{{ path('cheque_show', { 'id': cheque.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            <a href="{{ path('cheque_edit', { 'id': cheque.Id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                            #}
+                            {% if cheque.estado == 'Emitido' %}
+                                <a href="{{ path('cheque_estado', { 'id': cheque.Id, 'estado': 'Depositado' }) }}" onclick="return confirm('¿Confirma que el importe del cheque ya fue depositado?')" data-toggle="tooltip" title="Depositado"><span class="glyphicon glyphicon-save"></span></a>
+                            {% elseif  cheque.estado == 'Depositado' %}
+                                <a href="{{ path('cheque_estado', { 'id': cheque.Id, 'estado': 'Cobrado' }) }}" onclick="return confirm('¿Confirma que el cheque ya fue cobrado?')" data-toggle="tooltip" title="Cobrado"><span class="glyphicon glyphicon-ok"></span></a>
+                            {% endif %}
+                      {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

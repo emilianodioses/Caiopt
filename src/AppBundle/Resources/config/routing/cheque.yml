@@ -1,0 +1,9 @@
+cheque_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Cheque:index" }
+    methods:  GET
+
+cheque_estado:
+    path:     /{id}/{estado}/estado
+    defaults: { _controller: "AppBundle:Cheque:estado" }
+    methods:  [GET, POST]

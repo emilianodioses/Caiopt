@@ -103,6 +103,9 @@
             <thead>
                 <tr>
                     <th><b>Tipo de Pago</b></th>
+                    <th><b>Banco</b></th>
+                    <th><b>Fecha</b></th>
+                    <th><b>Número</b></th>
                     <th><b>Importe</b></th>
                 </tr>
             </thead>
@@ -110,6 +113,21 @@
             {% for proveedorPago in proveedorPagos %}
                 <tr>
                     <td>{{ proveedorPago.pagoTipo.nombre }}</td>
+                    {% if proveedorPago.banco is empty %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{ proveedorPago.banco }}</td>
+                    {% endif %}
+                    {% if proveedorPago.fecha is empty %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{ proveedorPago.fecha | date('d-m-Y') }}</td>
+                    {% endif %}
+                    {% if proveedorPago.numero is empty %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{ proveedorPago.numero }}</td>
+                    {% endif %}
                     <td>{{ proveedorPago.importe }}</td>
                 </tr>
             {% endfor %}
