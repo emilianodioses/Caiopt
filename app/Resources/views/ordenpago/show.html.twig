@@ -115,6 +115,9 @@
                                         <i class="fa fa-arrow-left"></i> Ordenes de Pago
                                     </a>
                                 </div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <a href="{{ path('ordenpago_imprimir', { 'id': ordenPago.Id }) }}" class="btn btn-app pull-right pull-right" target="_blank" title="Imprimir Recibo"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+                                </div>
                                 {#
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     {%if not comprobante.caeNumero is empty%}
@@ -211,6 +214,9 @@
                                     <a href="{{ path('ordenpago_index') }}" class="btn btn-app">
                                         <i class="fa fa-arrow-left"></i> Ordenes de Pago
                                     </a>
+                                </div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <a href="{{ path('ordenpago_imprimir', { 'id': ordenPago.Id }) }}" class="btn btn-app pull-right pull-right" target="_blank" title="Imprimir Recibo"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
                                 </div>
                                 {#
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">

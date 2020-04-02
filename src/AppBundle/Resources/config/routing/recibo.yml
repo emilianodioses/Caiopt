@@ -39,7 +39,7 @@ recibo_delete:
     methods:  [GET, POST] 
 
 recibo_imprimir:
-    path:     /{id}/reciboImprimir
+    path:     /{id}/imprimir
     defaults: { _controller: "AppBundle:Recibo:imprimir" }
     methods:  [GET, POST]
 

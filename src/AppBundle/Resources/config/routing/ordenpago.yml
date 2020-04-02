@@ -37,3 +37,8 @@ ordenpago_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:OrdenPago:delete" }
     methods:  [GET, POST] 
+
+ordenpago_imprimir:
+    path:     /{id}/imprimir
+    defaults: { _controller: "AppBundle:OrdenPago:imprimir" }
+    methods:  [GET, POST]
