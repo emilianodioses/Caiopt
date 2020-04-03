@@ -284,6 +284,26 @@ class OrdenPagoController extends Controller
 
                 $em->persist($proveedorPago);
 
+                //Si el pago es un cheque, lo creo en la tabla de cheques
+                if ($proveedorPago->getPagoTipo()->getNombre() == 'Cheque') {
+                    $cheque = new Cheque();
+                    $cheque->setBanco($proveedorPago->getBanco());
+                    $cheque->setFecha($proveedorPago->getFecha());
+                    $cheque->setNumero($proveedorPago->getNumero());
+                    $cheque->setImporte($proveedorPago->getImporte());
+                    $cheque->setOrdenPago($ordenPago);
+                    $cheque->setEstado('Emitido');
+                    $cheque->setActivo(1);
+                    $cheque->setCreatedBy($this->getUser());
+                    $cheque->setCreatedAt(new \DateTime("now"));
+                    $cheque->setUpdatedBy($this->getUser());
+                    $cheque->setUpdatedAt(new \DateTime("now"));
+
+                    $em->persist($cheque);
+
+                    $proveedorPago->setCheque($cheque);
+                }
+
                 $categoria_egreso_orden_pago = $em->getRepository('AppBundle:MovimientoCategoria')->find(2);
 
                 $libroCajaDetalle = new Librocajadetalle();
@@ -721,13 +741,21 @@ class OrdenPagoController extends Controller
     public function deleteAction(Request $request, OrdenPago $ordenPago)
     {
         $em = $this->getDoctrine()->getManager();
-
+        
         $proveedorPagos = $em->getRepository('AppBundle:ProveedorPago')->findBy(Array('ordenPago'=>$ordenPago, 'activo' => 1));
 
         foreach($proveedorPagos as $proveedorPago) {
             $proveedorPago->setActivo(false);
             $proveedorPago->setUpdatedBy($this->getUser());
             $proveedorPago->setUpdatedAt(new \DateTime("now"));
+
+            //Si el pago es un cheque, lo anulo en la tabla de cheques
+            if ($proveedorPago->getPagoTipo()->getNombre() == 'Cheque') {
+                $cheque->setEstado('Anulado');
+                $cheque->setActivo(0);
+                $cheque->setUpdatedBy($this->getUser());
+                $cheque->setUpdatedAt(new \DateTime("now"));
+            }
 
             $libroCajaDetalle = $em->getRepository('AppBundle:LibroCajaDetalle')->findOneBy(Array('proveedorPago' => $proveedorPago, 'activo' => 1));
 
