@@ -88,33 +88,8 @@ $(function(){
                 </div>
             </div>
         </div>
-        <div class="row">    
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
-                    </div>
-                    
-                    <div class="form-group ">
-                        <table class="table table-hover">
-                            <thead>
-                                <th width="50%">Tipo de Pago</th>
-                                <th>Importe</th>
-                            </thead>
-                            <tbody>
-                                {% for proveedorPago in ordenPago.proveedorPagos %}
-                                    <tr>
-                                        <td>{{proveedorPago.pagoTipo.nombre}}</td>
-                                        <td>{{proveedorPago.importe}}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
@@ -168,6 +143,52 @@ $(function(){
                 </div>
             </div>
         </div>  
+
+        <div class="row">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table class="table table-hover">
+                            <thead>
+                                <th width="20%">Tipo de Pago</th>
+                                <th width="20%">Banco</th>
+                                <th width="20%">Fecha</th>
+                                <th>Número</th>
+                                <th>Importe</th>
+                            </thead>
+                            <tbody>
+                                {% for proveedorPago in ordenPago.proveedorPagos %}
+                                    <tr>
+                                        <td>{{proveedorPago.pagoTipo.nombre}}</td>
+                                        {% if proveedorPago.banco is empty %}
+                                            <td>-</td>
+                                        {% else %}
+                                            <td>{{ proveedorPago.banco }}</td>
+                                        {% endif %}
+                                        {% if proveedorPago.fecha is empty %}
+                                            <td>-</td>
+                                        {% else %}
+                                            <td>{{ proveedorPago.fecha | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                        {% if proveedorPago.numero is empty %}
+                                            <td>-</td>
+                                        {% else %}
+                                            <td>{{ proveedorPago.numero }}</td>
+                                        {% endif %}
+                                        <td>{{proveedorPago.importe}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box box-success">
