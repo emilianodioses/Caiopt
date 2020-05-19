@@ -35,6 +35,7 @@ class EstadisticaController extends Controller
             'ventasXSucursal' => $this->ventasXSucursal($request),
             'ventasXMediosPago' => $this->ventasXMediosPago($request),
             'ventasXMedico' => $this->ventasXMedico($request),
+            'ordenesTrabajoXUsuario' => $this->ordenesTrabajoXUsuario($request),
             'fecha_desde' => $fechaDesde,
             'fecha_hasta' => $fechaHasta,
             'sucursal_id' => $sucursalId,
@@ -434,4 +435,61 @@ class EstadisticaController extends Controller
     // Google Charts 
     }
 
+    private function ordenesTrabajoXUsuario(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $sucursalId = $request->get('sucursal');
+        //$usuarioId = $request->get('usuario');
+
+        // Google Charts - Venta por Categoria
+        $query = $em->getRepository('AppBundle:OrdenTrabajo')
+        ->createQueryBuilder('ordenTrabajo')
+        ->join('ordenTrabajo.createdBy','usuario')
+        ->select('usuario.usuario, COUNT(ordenTrabajo.id) as cantidadOT')
+        ->Where('ordenTrabajo.activo = 1')
+        ->andWhere('ordenTrabajo.createdAt >= :fechaDesde')
+        ->andWhere('ordenTrabajo.createdAt <= :fechaHasta')
+        ->groupBy('usuario')
+        ->orderBy('cantidadOT', 'DESC')    
+        //->setMaxResults(10)
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query = $query
+                ->andWhere('ordenTrabajo.sucursal = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $query = $query->getQuery()
+            ->getArrayResult();
+
+        $data = array();
+        $header = array('Usuario', 'Cantidad OT');
+        array_push($data, $header);
+
+        foreach($query as $vendedor) {
+            $item = array($vendedor["usuario"], (int)$vendedor["cantidadOT"]);
+            array_push($data, $item);
+        }
+        
+        $chart = new PieChart();
+        $chart->getData()->setArrayToDataTable($data);
+
+        $chart->getOptions()->setTitle('Cantidad de Ordenes de Trabajo por Usuario');
+        $chart->getOptions()->setHeight(400);
+        //$chart->getOptions()->setWidth(300);
+        $chart->getOptions()->getTitleTextStyle()->setBold(true);
+        $chart->getOptions()->setis3D(true);
+        $chart->getOptions()->getLegend()->setPosition('left');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
+
+        return $chart;
+    // Google Charts 
+    }
 }

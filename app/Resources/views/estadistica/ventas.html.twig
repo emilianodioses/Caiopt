@@ -104,6 +104,15 @@ Ventas
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-6 col-xs-6">
+            <div class="box box-success">
+                <div class="box-body">
+                    <div id="div_chart_ordenes_trabajo_usuario"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -114,6 +123,7 @@ Ventas
     {{ gc_draw(ventasXSucursal, 'div_chart_sucursal') }}
     {{ gc_draw(ventasXMediosPago, 'div_chart_medios') }}
     {{ gc_draw(ventasXMedico, 'div_chart_medico') }}
+    {{ gc_draw(ordenesTrabajoXUsuario, 'div_chart_ordenes_trabajo_usuario') }}
 </script>
 {% endblock %}
 
