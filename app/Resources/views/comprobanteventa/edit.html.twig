@@ -96,9 +96,9 @@ Editar Comprobante de Venta
                 var articulo = $.parseJSON(resp.articulo);
                 
                 cantidad.val(1);
-                precioVenta.val(articulo.precioVenta)
+                precioVenta.val(articulo.precioVenta);
                 porcentajeBonificacion.val(0);
-                porcentajeIva.val(parseFloat(articulo.iva.descripcion).toFixed(2));
+                porcentajeIva.val(parseFloat(articulo.iva).toFixed(2));
 
                 fnRenglonChange(renglon);
             }

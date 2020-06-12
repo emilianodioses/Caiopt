@@ -8,10 +8,9 @@
                     <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
                     <b>OPTICA CONTINI</b>
                     <br>
-                    {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}
-                    <br>
-                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b><br>
-                    <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b>
+                    {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}<br>
+                    <b>Teléfono:</b> {{ordenTrabajo.sucursal.telefono}}<br>
+                    <b>WhatsApp:</b> {{ordenTrabajo.sucursal.whatsapp}}
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="30%" align="left" border="1">
@@ -31,6 +30,8 @@
                 </td>
                 {% endif %} 
                 <td width="40%" align="left">
+                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b><br>
+                    <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b><br>
                     Fecha Recepcion: {% if not ordenTrabajo.fechaRecepcion is empty %} {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }} {% endif %}
                     <br>
                     Fecha Entrega: {% if not ordenTrabajo.fechaEntrega is empty %} {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }} {% endif %}

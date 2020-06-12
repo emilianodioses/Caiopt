@@ -246,9 +246,16 @@ class ArticuloController extends Controller
         
         $articulo = $this->getDoctrine()->getManager('default')->getRepository('AppBundle:Articulo')
                 ->find($req->get('articuloId'));
-        
-        $j_articulo = $serializer->serialize($articulo, 'json');
 
+        $articulo_array = array();
+        $articulo_array['precioVenta'] = $articulo->getPrecioVenta();
+        $articulo_array['iva'] = $articulo->getIva()->getDescripcion();
+        $articulo_array['precioCosto'] = $articulo->getPrecioCosto();
+        $articulo_array['gananciaPorcentaje'] = $articulo->getGananciaPorcentaje();
+        //$articulo_array['']
+
+        $j_articulo = $serializer->serialize($articulo_array, 'json');
+        
         return JsonResponse::create(array('articulo' => $j_articulo));
     }
 

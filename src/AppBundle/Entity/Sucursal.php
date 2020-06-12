@@ -53,6 +53,13 @@ class Sucursal
     private $telefono;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="whatsapp", type="string", length=255, nullable=true)
+     */
+    private $whatsapp;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -323,5 +330,29 @@ class Sucursal
     public function getTelefono()
     {
         return $this->telefono;
+    }
+
+    /**
+     * Set whatsapp
+     *
+     * @param string $whatsapp
+     *
+     * @return Sucursal
+     */
+    public function setWhatsapp($whatsapp)
+    {
+        $this->whatsapp = $whatsapp;
+
+        return $this;
+    }
+
+    /**
+     * Get whatsapp
+     *
+     * @return string
+     */
+    public function getWhatsapp()
+    {
+        return $this->whatsapp;
     }
 }

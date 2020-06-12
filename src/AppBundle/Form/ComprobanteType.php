@@ -70,18 +70,6 @@ class ComprobanteType extends AbstractType
                         'cache_timeout' => 60000, // if 'cache' is true
                         'language' => 'es',
                         ))
-                    ->add('cliente', EntityType::class, array(
-                        'label' => 'Cliente',
-                        'class' => 'AppBundle:Cliente',
-                        'required' => true,
-                        'choice_label' => 'nombre',
-                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                    return $er->createQueryBuilder('l')
-                                        ->where('l.activo = 1')
-                                        ->orderBy('l.nombre', 'ASC')
-                                        ;
-                                }
-                        ))
                     ->add('numero', IntegerType::class, array(
                         'required' => true,
                         'label' => 'N de Comprobante'))
@@ -104,18 +92,6 @@ class ComprobanteType extends AbstractType
                                        ->orderBy('ic.descripcion', 'ASC')
                                        ;
                                }
-                  ))
-                  ->add('proveedor', EntityType::class, array(
-                      'label' => 'Proveedor',
-                      'class' => 'AppBundle:Proveedor',
-                      'required' => true,
-                      'choice_label' => 'nombre',
-                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                 return $er->createQueryBuilder('l')
-                                     ->where('l.activo = 1')
-                                     ->orderBy('l.nombre', 'ASC')
-                                     ;
-                             }
                   ))
                   ->add('cliente', Select2EntityType::class, array(
                       'label' => 'Cliente',
@@ -175,6 +151,7 @@ class ComprobanteType extends AbstractType
                                        ->andWhere('l.movimiento = ?1')
                                        ->setParameter(1, 'Venta')
                                        ->orderBy('l.id', 'ASC')
+                                       ->setMaxResults(50)
                                        ;
                                }
                     ))
@@ -196,7 +173,47 @@ class ComprobanteType extends AbstractType
                       'cache' => true,
                       'cache_timeout' => 60000, // if 'cache' is true
                       'language' => 'es',
-                      ));
+                      ))
+                  ->add('ordenTrabajo', EntityType::class, array(
+                      'label' => 'OT Optica',
+                      'class' => 'AppBundle:OrdenTrabajo',
+                      'required' => false,
+                      'choice_label' => 'id',
+                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                 return $er->createQueryBuilder('l')
+                                     ->where('l.activo = 1')
+                                     ->orderBy('l.id', 'DESC')
+                                     ->setMaxResults(50)
+                                     ;
+                             }
+                  ))
+                  ->add('ordenTrabajoContactologia', EntityType::class, array(
+                      'label' => 'OT Contactologia',
+                      'class' => 'AppBundle:OrdenTrabajoContactologia',
+                      'required' => false,
+                      'choice_label' => 'id',
+                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                 return $er->createQueryBuilder('l')
+                                     ->where('l.activo = 1')
+                                     ->orderBy('l.id', 'DESC')
+                                     ->setMaxResults(50)
+                                     ;
+                             }
+                  ))
+                  ->add('obraSocialPlan', EntityType::class, array(
+                      'label' => 'Obra Social - Plan',
+                      'class' => 'AppBundle:ObraSocialPlan',
+                      'required' => true,
+                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                 return $er->createQueryBuilder('l')
+                                     ->where('l.activo = 1')
+                                     ->leftJoin('l.obraSocial', 'os')
+                                     ->orderBy('os.nombre', 'ASC')
+                                     ->addOrderBy('l.nombre', 'ASC');
+                                     ;
+                             }
+                  ))
+                  ->add('obraSocial',HiddenType::class,array('label'=>'Obra Social'));
           if ( isset($options['attr']['op']) ) {
             if ($options['attr']['op'] == 'New') {
               $builder->add('clientePagos', CollectionType::class, array(
@@ -293,57 +310,7 @@ class ComprobanteType extends AbstractType
                     'required' => false,
                     'attr' => array('rows' => '20')
                 ))
-                ->add('ordenTrabajo', EntityType::class, array(
-                    'label' => 'OT Optica',
-                    'class' => 'AppBundle:OrdenTrabajo',
-                    'required' => false,
-                    'choice_label' => 'id',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.id', 'DESC')
-                                   ;
-                           }
-                ))
-                ->add('ordenTrabajoContactologia', EntityType::class, array(
-                    'label' => 'OT Contactologia',
-                    'class' => 'AppBundle:OrdenTrabajoContactologia',
-                    'required' => false,
-                    'choice_label' => 'id',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.id', 'DESC')
-                                   ;
-                           }
-                ))
                 ->add('movimiento',HiddenType::class,array('label'=>'Movimiento'))
-                ->add('condicionVenta', EntityType::class, array(
-                    'label' => 'Condición de Venta',
-                    'class' => 'AppBundle:AfipCondicionVenta',
-                    'required' => true,
-                    'choice_label' => 'descripcion',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('ic')
-                                   ->where('ic.activo = 1')
-                                   ->orderBy('ic.descripcion', 'ASC')
-                                   ;
-                           }
-                ))
-                ->add('obraSocialPlan', EntityType::class, array(
-                    'label' => 'Obra Social - Plan',
-                    'class' => 'AppBundle:ObraSocialPlan',
-                    'required' => true,
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->leftJoin('l.obraSocial', 'os')
-                                   ->orderBy('os.nombre', 'ASC')
-                                   ->addOrderBy('l.nombre', 'ASC');
-                                   ;
-                           }
-                ))
-                ->add('obraSocial',HiddenType::class,array('label'=>'Obra Social'))
                 ->add('totalCosto',HiddenType::class,array('label'=>'Total Costo'))
                 ->add('totalGanancia',HiddenType::class,array('label'=>'Total Ganancia'))
                 ->add('comprobanteDetalles', CollectionType::class, array(

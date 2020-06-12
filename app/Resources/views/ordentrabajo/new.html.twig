@@ -134,13 +134,13 @@ $(function(){
         
         $.ajax({
             type: 'POST',
-            url: "{{ url('cliente_find') }}" ,
+            url: "{{ url('cliente_find_obra_social_plan') }}" ,
             data: data,
             success: function(resp){
 
-                var cliente = $.parseJSON(resp.cliente);
+                var obra_social_plan_id = $.parseJSON(resp.obra_social_plan_id);
 
-                $("#OrdenTrabajoType_obraSocialPlan").val(cliente.obraSocialPlan.id);
+                $("#OrdenTrabajoType_obraSocialPlan").val(obra_social_plan_id);
             }
         });
 

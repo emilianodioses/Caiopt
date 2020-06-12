@@ -31,15 +31,13 @@
                     </div>
                     <div class="box-body">
                         {{ form_errors(form) }}
-                        <div class="row">           
-                            {{ form_widget(form.proveedor, { 'attr': {'class': 'hide'} })}}
+                        <div class="row">
                             {{ form_widget(form.numero, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.totalNoGravado, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.importeIvaExento, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.importeTributos, { 'attr': {'class': 'hide'} })}}
                             {{ form_widget(form.obraSocial, { 'attr': {'class': 'hide'} })}}
-                            {{ form_widget(form.condicionVenta, { 'attr': {'class': 'hide'} })}}
 
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 {{ form_row(form.cliente)}}

@@ -29,4 +29,8 @@ cliente_find_select2:
 
 cliente_find:
     path:     /find
-    defaults: { _controller: "AppBundle:Cliente:find" }    
+    defaults: { _controller: "AppBundle:Cliente:find" }
+
+cliente_find_obra_social_plan:
+    path:     /findObraSocialPlan
+    defaults: { _controller: "AppBundle:Cliente:findObraSocialPlan" }    

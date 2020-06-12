@@ -113,8 +113,8 @@ $(function(){
             success: function(resp){
                 var articulo = $.parseJSON(resp.articulo);
                 
-                precioVenta.val(articulo.precioVenta)
-                total.val(articulo.precioVenta)
+                precioVenta.val(articulo.precioVenta);
+                total.val(articulo.precioVenta);
                 importeBonificacion.val(0);
 
                 fnRenglonChange(renglon);

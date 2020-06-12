@@ -136,9 +136,9 @@ $(function(){
                 var articulo = $.parseJSON(resp.articulo);
                 
                 cantidad.val(1);
-                precioVenta.val(articulo.precioVenta)
+                precioVenta.val(articulo.precioVenta);
                 porcentajeBonificacion.val(0);
-                porcentajeIva.val(parseFloat(articulo.iva.descripcion).toFixed(2));
+                porcentajeIva.val(parseFloat(articulo.iva).toFixed(2));
 
                 fnRenglonChange(renglon);
             }
@@ -201,7 +201,7 @@ $(function(){
             // en windows.onload y cuando la accion es un new action que no proviene de una orden
             // el objeto dentro de detalle es nulo y sin esto los parseos fallaban y figuraba como warning en el
             // console
-            if (r_cantidad > 0)
+            if (r_cantidad.val() > 0)
             {
                 importe_neto = parseFloat(r_precioUnitario.val() - r_importeBonificacion.val());
                 total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(2);
@@ -235,13 +235,13 @@ $(function(){
 
         $.ajax({
             type: 'POST',
-            url: "{{ url('cliente_find') }}" ,
+            url: "{{ url('cliente_find_obra_social_plan') }}" ,
             data: data,
             success: function(resp){
 
-                var cliente = $.parseJSON(resp.cliente);
+                var obra_social_plan_id = $.parseJSON(resp.obra_social_plan_id);
 
-                $("#ComprobanteType_obraSocialPlan").val(cliente.obraSocialPlan.id);
+                $("#ComprobanteType_obraSocialPlan").val(obra_social_plan_id);
             }
         });
 

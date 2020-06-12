@@ -250,6 +250,7 @@ class ClienteController extends Controller
     }
 
     public function findAction(Request $req) {
+        //No se bien porque pero en producción siempre pincha esta función, por exceder la memoria
 
         $em = $this->getDoctrine()->getManager();
 
@@ -267,5 +268,12 @@ class ClienteController extends Controller
         $j_cliente = $serializer->serialize($cliente, 'json');
 
         return JsonResponse::create(array('cliente' => $j_cliente));
+    }
+
+    public function findObraSocialPlanAction(Request $req) {
+        $em = $this->getDoctrine()->getManager();
+        $cliente_obra_social_plan_id = $em->getRepository('AppBundle:Cliente')->find($req->get('clienteId'))->getObraSocialPlan()->getId();
+
+        return JsonResponse::create(array('obra_social_plan_id' => $cliente_obra_social_plan_id));
     }
 }
