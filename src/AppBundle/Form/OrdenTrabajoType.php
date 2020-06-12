@@ -84,7 +84,7 @@ class OrdenTrabajoType extends AbstractType
                                    ->andWhere('l.movimiento = ?1')
                                    ->setParameter(1, 'Venta')
                                    ->orderBy('l.id', 'ASC')
-                                   ->setMaxResults(50)
+                                   ->setMaxResults(100)
                                    ;
                            }
                 ))
