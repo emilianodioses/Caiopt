@@ -173,6 +173,9 @@ class OrdenTrabajoController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
+        //echo $ordenTrabajo->getComprobante()->getId();
+        //die;
+
         $em = $this->getDoctrine()->getManager();
 
         $ordentrabajodetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(Array('ordenTrabajo'=>$ordenTrabajo,  'activo'=>1));

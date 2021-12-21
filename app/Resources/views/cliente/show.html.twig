@@ -321,7 +321,11 @@ Cliente
                                     <tr>
                                         <td>{{ ordenTrabajoContactologia.id }}</td>
                                         <td>{{ ordenTrabajoContactologia.cliente.nombre }}</td>
-                                        <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajoContactologia.comprobante.Id }) }}">{{ ordenTrabajoContactologia.comprobante }}</a></td>
+                                        {% if ordenTrabajoContactologia.comprobante is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajoContactologia.comprobante.Id }) }}">{{ ordenTrabajoContactologia.comprobante }}</a></td>
+                                        {% endif %}
                                         {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
                                           <td></td>
                                         {% else %}

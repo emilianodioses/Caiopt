@@ -995,7 +995,7 @@ class ComprobanteVentaController extends Controller
         $emailResult = Mail::sendEmail($mailtemplate, $parameters, $filename);
         */
         $message = (new \Swift_Message(''))
-            ->setFrom(array('info@opticacontini.com' => 'Optica contini'))
+            ->setFrom(array('info@opticacontini.com.ar' => 'Optica contini'))
             ->setSubject($parameters['titulo'])
             ->setTo($parameters['cliente'])
             ->setBody($this->renderView($mailtemplate, $parameters),'text/html');

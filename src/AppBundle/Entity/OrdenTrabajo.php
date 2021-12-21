@@ -129,9 +129,9 @@ class OrdenTrabajo
     private $armado;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="numero_taller", type="integer")
+     * @ORM\Column(name="numero_taller", type="string", length=255, nullable=true)
      */
     private $numeroTaller = '0';
 

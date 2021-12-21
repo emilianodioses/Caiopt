@@ -150,7 +150,7 @@ class ComprobanteType extends AbstractType
                                        ->where('l.activo = 1')
                                        ->andWhere('l.movimiento = ?1')
                                        ->setParameter(1, 'Venta')
-                                       ->orderBy('l.id', 'ASC')
+                                       ->orderBy('l.id', 'DESC')
                                        ->setMaxResults(100)
                                        ;
                                }
