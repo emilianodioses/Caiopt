@@ -751,6 +751,7 @@ class OrdenPagoController extends Controller
 
             //Si el pago es un cheque, lo anulo en la tabla de cheques
             if ($proveedorPago->getPagoTipo()->getNombre() == 'Cheque') {
+		$cheque = $proveedorPago->getCheque();
                 $cheque->setEstado('Anulado');
                 $cheque->setActivo(0);
                 $cheque->setUpdatedBy($this->getUser());

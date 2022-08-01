@@ -150,8 +150,8 @@ class ComprobanteType extends AbstractType
                                        ->where('l.activo = 1')
                                        ->andWhere('l.movimiento = ?1')
                                        ->setParameter(1, 'Venta')
-                                       ->orderBy('l.id', 'ASC')
-                                       ->setMaxResults(50)
+                                       ->orderBy('l.id', 'DESC')
+                                       ->setMaxResults(200)
                                        ;
                                }
                     ))
@@ -183,7 +183,7 @@ class ComprobanteType extends AbstractType
                                  return $er->createQueryBuilder('l')
                                      ->where('l.activo = 1')
                                      ->orderBy('l.id', 'DESC')
-                                     ->setMaxResults(50)
+                                     ->setMaxResults(100)
                                      ;
                              }
                   ))
@@ -196,7 +196,7 @@ class ComprobanteType extends AbstractType
                                  return $er->createQueryBuilder('l')
                                      ->where('l.activo = 1')
                                      ->orderBy('l.id', 'DESC')
-                                     ->setMaxResults(50)
+                                     ->setMaxResults(100)
                                      ;
                              }
                   ))
