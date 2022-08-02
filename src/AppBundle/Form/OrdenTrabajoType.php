@@ -74,10 +74,7 @@ class OrdenTrabajoType extends AbstractType
                     'html5' => true,
                     'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
-<<<<<<< HEAD
 
-=======
->>>>>>> 4af755ab71c48a50e250a23397cf7ad5872b59c7
                 ->add('medico', Select2EntityType::class, array(
                       'label' => 'Medico',
                       'class' => 'AppBundle:Medico',
@@ -129,7 +126,7 @@ class OrdenTrabajoType extends AbstractType
                            }
                 ))
                 ->add('numeroTaller', IntegerType::class, array(
-                    'label' => 'NÃºmero',
+                    'label' => 'Número',
                     'required' => false,))
                 ->add('fechaTallerPedido',DateType::class,array(
                     'label'=>'Fecha Pedido',
@@ -156,7 +153,7 @@ class OrdenTrabajoType extends AbstractType
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
                     ),
-                    'label' => 'BonificaciÃ³n $'))
+                    'label' => 'Bonificación $'))
                 ->add('entrega',FloatType::class, array(
                     'attr' => array(
                         'readonly' => false, 'step' => 0.01
