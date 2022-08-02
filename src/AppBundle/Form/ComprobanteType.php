@@ -151,11 +151,7 @@ class ComprobanteType extends AbstractType
                                        ->andWhere('l.movimiento = ?1')
                                        ->setParameter(1, 'Venta')
                                        ->orderBy('l.id', 'DESC')
-<<<<<<< HEAD
-                                       ->setMaxResults(200)
-=======
                                        ->setMaxResults(100)
->>>>>>> 4af755ab71c48a50e250a23397cf7ad5872b59c7
                                        ;
                                }
                     ))
@@ -277,7 +273,7 @@ class ComprobanteType extends AbstractType
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
                     ),
-                    'label' => 'BonificaciÃ³n $'))
+                    'label' => 'Bonificaci—n $'))
                 ->add('total',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
