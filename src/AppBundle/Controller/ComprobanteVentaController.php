@@ -71,7 +71,7 @@ class ComprobanteVentaController extends Controller
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
-        
+
         /*
         if ($this->container->has('profiler'))
             $this->container->get('profiler')->disable();
@@ -93,8 +93,8 @@ class ComprobanteVentaController extends Controller
         if($id > 0)
         {
             if($tipo != "contactologia"){
-                $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id); 
-                $comprobante->setOrdenTrabajo($ordenTrabajo);      
+                $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($id);
+                $comprobante->setOrdenTrabajo($ordenTrabajo);
                 $comprobante->setCliente($ordenTrabajo->getCliente());
                 $comprobante->setMedico($ordenTrabajo->getMedico());
                 $comprobante->setObraSocialPlan($ordenTrabajo->getObraSocialPlan());
@@ -102,7 +102,7 @@ class ComprobanteVentaController extends Controller
 
                 $ordenTrabajoDetalles = $em->getRepository('AppBundle:OrdenTrabajoDetalle')->findBy(array('ordenTrabajo' => $ordenTrabajo));
 
-                foreach($ordenTrabajoDetalles as $ordenTrabajoDetalle) {  
+                foreach($ordenTrabajoDetalles as $ordenTrabajoDetalle) {
                     $comprobanteDetalle = new ComprobanteDetalle();
                     $articulo = $em->getRepository('AppBundle:Articulo')->find($ordenTrabajoDetalle->getArticulo());
 
@@ -126,8 +126,8 @@ class ComprobanteVentaController extends Controller
             }
             else
             {
-                $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id); 
-                $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);      
+                $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
+                $comprobante->setOrdenTrabajoContactologia($ordenTrabajoContactologia);
                 $comprobante->setCliente($ordenTrabajoContactologia->getCliente());
                 $comprobante->setMedico($ordenTrabajoContactologia->getMedico());
                 $comprobante->setObraSocialPlan($ordenTrabajoContactologia->getObraSocialPlan());
@@ -135,7 +135,7 @@ class ComprobanteVentaController extends Controller
 
                 $ordenTrabajoContactologiaDetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(array('ordenTrabajoContactologia' => $ordenTrabajoContactologia));
 
-                foreach($ordenTrabajoContactologiaDetalles as $ordenTrabajoContactologiaDetalle) {  
+                foreach($ordenTrabajoContactologiaDetalles as $ordenTrabajoContactologiaDetalle) {
                     $comprobanteDetalle = new ComprobanteDetalle();
                     $articulo = $em->getRepository('AppBundle:Articulo')->find($ordenTrabajoContactologiaDetalle->getArticulo());
 
@@ -161,7 +161,7 @@ class ComprobanteVentaController extends Controller
 
         $form = $this->createForm(ComprobanteType::class, $comprobante, array('attr' => array('tipo' => 'Venta', 'op' => 'New')));
 
-        $form->handleRequest($request);        
+        $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
 
@@ -183,7 +183,7 @@ class ComprobanteVentaController extends Controller
             $comprobante->setClienteDomicilio($comprobante->getCliente()->getDireccion());
             $comprobante->setClienteLocalidad($comprobante->getCliente()->getLocalidad()->getNombre());
             $comprobante->setClienteIvaCondicion($comprobante->getCliente()->getIvaCondicion()->getDescripcion());
-            
+
             $comprobante->setPuntoVenta($comprobante->getPuntoVentaId()->getNumero());
             $comprobante->setSucursal($sucursal);
             $comprobante->setNumero($max_numero_comprobante+1);
@@ -207,7 +207,7 @@ class ComprobanteVentaController extends Controller
 
             $orden_trabajo_crear = false;
 
-            foreach($comprobanteDetalles as $comprobanteDetalle) {  
+            foreach($comprobanteDetalles as $comprobanteDetalle) {
                 $articulo = $em->getRepository('AppBundle:Articulo')->find($comprobanteDetalle->getArticulo());
 
                 $comprobanteDetalle->setMovimiento('Venta');
@@ -223,7 +223,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setImporteGanancia(
                     ($comprobanteDetalle->getPrecioNeto()-
                     $comprobanteDetalle->getPrecioCosto())*$comprobanteDetalle->getCantidad());
-                
+
                 $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioUnitario()));
 
                 $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
@@ -265,17 +265,17 @@ class ComprobanteVentaController extends Controller
                 $em->persist($comprobanteDetalle);
             }
 
-            //Si se eligio una orden de trabajo asociada al comprobante, actualizo la orden de Trabajo para que tambien este 
+            //Si se eligio una orden de trabajo asociada al comprobante, actualizo la orden de Trabajo para que tambien este
             //vinculada al comprobante
             if (!is_null($comprobante->getOrdenTrabajo())) {
 
                 $ordenTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($comprobante->getOrdenTrabajo()->getId());
-                $ordenTrabajo->setComprobante($comprobante);                
+                $ordenTrabajo->setComprobante($comprobante);
             }
             if (!is_null($comprobante->getOrdenTrabajoContactologia())) {
 
                 $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($comprobante->getOrdenTrabajoContactologia()->getId());
-                $ordenTrabajoContactologia->setComprobante($comprobante);                
+                $ordenTrabajoContactologia->setComprobante($comprobante);
             }
 
             //Actualizo el saldo del cliente
@@ -293,7 +293,7 @@ class ComprobanteVentaController extends Controller
             $cliente->setUpdatedBy($this->getUser());
             $cliente->setUpdatedAt(new \DateTime("now"));
 
-            
+
             //Verifico si hay pagos
             //$clientePagos = $comprobante->getClientePagos()->toArray();
             $clientePagos = $form->get('clientePagos')->getData();
@@ -303,7 +303,7 @@ class ComprobanteVentaController extends Controller
                 foreach($clientePagos as $clientePago) {
                     $recibo_total += $clientePago->getImporte();
                 }
-                
+
                 $recibo_disponible = $recibo_total - $comprobante->getTotal();
                 if ($recibo_disponible < 0) {
                     $recibo_disponible = 0;
@@ -434,8 +434,8 @@ class ComprobanteVentaController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashbag()->add('success', 'Venta realizada exitosamente.');
-            
-            return $this->redirectToRoute('comprobanteventa_show', 
+
+            return $this->redirectToRoute('comprobanteventa_show',
                 array('id' => $comprobante->getId()));
         }
 
@@ -453,7 +453,7 @@ class ComprobanteVentaController extends Controller
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
-        
+
         if (!$secure->isAuthorized('ComprobanteVenta', 'Show', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
@@ -480,11 +480,11 @@ class ComprobanteVentaController extends Controller
     public function editAction(Request $request, Comprobante $comprobante)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         //Guardo el saldo del cliente antes de editar el comprobante
         $comprobante_saldo_anterior = $comprobante->getTotal();
         $cantidadVieja = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(array('comprobante' => $comprobante))[0]->getCantidad();
-        
+
         //Valido si el Comprobante fue Facturado, en dicho caso redirect a show
         if (!(is_null($comprobante->getCaeNumero()))) {
 
@@ -537,7 +537,7 @@ class ComprobanteVentaController extends Controller
                 $comprobante->setObservaciones('');
             }
 
-            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
+            $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());
             $comprobante->setClienteRazonSocial($comprobante->getCliente()->getNombre());
             $comprobante->setClienteDocumentoTipo($comprobante->getCliente()->getDocumentoTipo()->getDescripcion());
             $comprobante->setClienteDocumentoNumero($comprobante->getCliente()->getDocumentoNumero());
@@ -581,7 +581,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setImporteGanancia(
                     ($comprobanteDetalle->getPrecioNeto()-
                     $comprobanteDetalle->getPrecioCosto())*$comprobanteDetalle->getCantidad());
-                
+
                 $comprobanteDetalle->setImporteBonificacion($comprobanteDetalle->getCantidad()*($comprobanteDetalle->getporcentajeBonificacion()/100*$comprobanteDetalle->getPrecioUnitario()));
 
                 $comprobanteDetalle->setTotalNeto(($comprobanteDetalle->getPrecioUnitario()*$comprobanteDetalle->getCantidad()-$comprobanteDetalle->getImporteBonificacion()));
@@ -598,7 +598,7 @@ class ComprobanteVentaController extends Controller
                 $comprobanteDetalle->setPorcentajeGanancia(0); //según el comentario en la entidad este campo no se utiliza en la venta
                 //$comprobanteDetalle->setPorcentajeGanancia((($comprobanteDetalle->getPrecioNeto()/$comprobanteDetalle->getPrecioCosto())-1)*100);
 
-                if (is_null($comprobanteDetalle->getId())){     
+                if (is_null($comprobanteDetalle->getId())){
                     $comprobanteDetalle->setCreatedBy($this->getUser());
                     $comprobanteDetalle->setCreatedAt(new \DateTime("now"));
                     $em->persist($comprobanteDetalle);
@@ -656,7 +656,7 @@ class ComprobanteVentaController extends Controller
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
-        
+
         if (!$secure->isAuthorized('ComprobanteVenta', 'Delete', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
@@ -667,12 +667,12 @@ class ComprobanteVentaController extends Controller
         if ($comprobante->getActivo() > 0)
             $comprobante->setActivo(0);
         else
-            $comprobante->setActivo(1);  
+            $comprobante->setActivo(1);
 
-        $comprobante->setUpdatedBy($this->getUser()); 
+        $comprobante->setUpdatedBy($this->getUser());
         $comprobante->setUpdatedAt(new \DateTime("now"));
 
-        //Si se eligio una orden de trabajo asociada al comprobante, actualizo la orden de Trabajo para que tambien este 
+        //Si se eligio una orden de trabajo asociada al comprobante, actualizo la orden de Trabajo para que tambien este
         //vinculada al comprobante
         if (!is_null($comprobante->getOrdenTrabajo())) {
 
@@ -694,9 +694,9 @@ class ComprobanteVentaController extends Controller
             $cliente_saldo_actualizado = $cliente->getSaldo() - $comprobante->getTotal();
         }
         $cliente->setSaldo($cliente_saldo_actualizado);
-        
+
         $em->flush();
-        
+
         return $this->redirectToRoute('comprobanteventa_index');
     }
 
@@ -769,7 +769,7 @@ class ComprobanteVentaController extends Controller
         foreach($alicuotasIva as $alicuotaIva) {
             $alicuota['Id'] = $alicuotaIva->getCodigo(); // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
             $alicuota['BaseImp'] = 0; // Base imponible
-            $alicuota['Importe'] = 0; // Importe 
+            $alicuota['Importe'] = 0; // Importe
             $alicuotas_all[$alicuotaIva->getId()] = $alicuota;
         }
 
@@ -777,7 +777,7 @@ class ComprobanteVentaController extends Controller
             $alicuota_id = $em->getRepository('AppBundle:AfipAlicuota')->findOneBy(array('activo'=>1, 'descripcion' => $cd->getPorcentajeIva()))->getId();
 
             $alicuotas_all[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();
-            $alicuotas_all[$alicuota_id]['Importe'] += $cd->getImporteIva(); 
+            $alicuotas_all[$alicuota_id]['Importe'] += $cd->getImporteIva();
 
             //dump($alicuotas_all);
             //die;
@@ -792,10 +792,12 @@ class ComprobanteVentaController extends Controller
         $data = array(
                 'CantReg'   => 1,  // Cantidad de comprobantes a registrar
                 'PtoVta'    => $comprobante->getPuntoVenta(),  // Punto de venta
-                'CbteTipo'  => $comprobanteTipo,  // Tipo de comprobante (ver tipos disponibles) 
+                'CbteTipo'  => $comprobanteTipo,  // Tipo de comprobante (ver tipos disponibles)
                 'Concepto'  => $concepto,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'   => $clienteDocumentoTipo, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)
                 'DocNro'    => $clienteDocumentoNumero,  // Número de documento del comprador (0 consumidor final)
+            //  'CbteDesde' 	=> 5,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno//agregué ceci
+	          //    'CbteHasta' 	=> 5,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno//agregué ceci
                 'CbteFch'   => $comprobanteFecha, // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
                 'ImpTotal'  => $comprobanteTotal, // Importe total del comprobante
                 'ImpTotConc'    => 0,   // Importe neto no gravado
@@ -803,17 +805,17 @@ class ComprobanteVentaController extends Controller
                 'ImpOpEx'   => 0,   // Importe exento de IVA
                 'ImpIVA'    => $comprobanteImportaIva,  //Importe total de IVA
                 'ImpTrib'   => 0,   //Importe total de tributos
-                'MonId'     => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
+                'MonId'     => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos)
                 'MonCotiz'  => 1,     // Cotización de la moneda usada (1 para pesos argentinos)
-                'Iva'       => $alicuotas, 
+                'Iva'       => $alicuotas,
             );
         if (!is_null($comprobante->getComprobanteAsociado())) {
             $ca = $comprobante->getComprobanteAsociado();
             $data['CbtesAsoc'] = array( // (Opcional) Comprobantes asociados
                         array(
-                            'Tipo'      => $ca->getTipo()->getCodigo(), // Tipo de comprobante (ver tipos disponibles) 
+                            'Tipo'      => $ca->getTipo()->getCodigo(), // Tipo de comprobante (ver tipos disponibles)
                             'PtoVta'    => $ca->getPuntoVenta(), // Punto de venta
-                            'Nro'       => $ca->getAfipNumero() // Numero de comprobante
+                            'Nro'       => $ca->getAfipNumero(), // Numero de comprobante
                             //'Cuit'      => 20111111112 // (Opcional) Cuit del emisor del comprobante
                             //'CbteFch'   => 20191231 // (Opcional) Fecha del comprobante asociado
                             )
@@ -826,7 +828,7 @@ class ComprobanteVentaController extends Controller
             $this->get('session')->getFlashbag()->add('warning', $e->getMessage());
             return $this->redirectToRoute('comprobanteventa_show', array('id' => $comprobante->getId()));
         }
-        
+
         /*
         $res['CAE']; //CAE asignado el comprobante
         $res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)
@@ -858,17 +860,17 @@ class ComprobanteVentaController extends Controller
 
         $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante,  'activo'=>1));
 
-        //Si no fue facturado con el WS, solo podemos hacer una impresion interna
+        //Si no fue facturado con el WS, solo podemos hacer una impresion interna //6/6/22 Se cambia lógica para imprimir Qr en vez de cod de barra
         if (is_null($comprobante->getCaeNumero())){
             $facturaTemplate = 'comprobanteventa/factura_imprimir_X.html.twig';
-            $codigo_barra = '';
-            $codigo_barra_archivo = '';
+            $qrcode_string = ''; //$codigo_barra = '';
+            //$codigo_barra_archivo = '';
         }
         else {
             $facturaTemplate = 'comprobanteventa/factura_imprimir_'.$comprobante->getTipo()->getLetra().'.html.twig';
-            
+
             //Genero el código de barras
-            $codigo_barra = sprintf("%11d", $this->container->getParameter('empresa_cuit'));
+          /*  $codigo_barra = sprintf("%11d", $this->container->getParameter('empresa_cuit'));
             $codigo_barra .= sprintf("%03d", $comprobante->getTipo()->getCodigo());
             $codigo_barra .= sprintf("%05d", $comprobante->getPuntoVenta());
             $codigo_barra .= sprintf("%14d", $comprobante->getCaeNumero());
@@ -882,7 +884,34 @@ class ComprobanteVentaController extends Controller
             //El formato en HTML no sale bien xq tcpdf no admite el style inline "positioin:absolute"
             //$bcHTMLRaw = $myBarcode->getBarcodeHTML($codigo_barra, 'I25', 2, 100);
 
-            $codigo_barra_archivo = 'I25_'.$codigo_barra.'.png';
+            $codigo_barra_archivo = 'I25_'.$codigo_barra.'.png';*/
+            //Genero el qr
+            $qr_version = '1';
+            $qr_fecha = $cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
+            $qr_cuit = $empresa_cuit; //'27327353840';
+            $qr_pto_vta = $cliente_cuenta->getFacturaSucursal(); //'2';
+            $qr_tipo_cmp = $comprobante_tipo->getCodigo(); //'11';
+            $qr_nro_cmp = $cliente_cuenta->getFacturaNumero(); //'60';
+            $qr_moneda = $cliente_cuenta->getFeMoneda(); //'PES';
+            if ($qr_moneda=='DOL'){//($cliente->getFeMoneda() == 'DOL') {
+                $qr_importe = $cliente_cuenta->getFacturaCosto(); //'12100';
+                $qr_ctz = $cliente_cuenta->getDolarCotizacion() ; //'65';
+            }
+            else {
+                $qr_importe = $cliente_cuenta->getFacturaCostoPesos(); //'30000';
+                $qr_ctz = '1'; // '1' Cuando la moneda es pesos
+            }
+            $qr_tipo_doc_rec = '80'; //Siempre es cuit
+            $qr_nro_doc_rec =  $cliente_cuenta->getClienteFeCuit(); //'30715288075';
+            $qr_tipo_cod_aut = 'E';
+            $qr_cod_aut = $cliente_cuenta->getCaeNumero(); //'72160802892420';
+
+            $json = '{"ver":'.$qr_version.',"fecha":"'.$qr_fecha.'","cuit":'.$qr_cuit.',"ptoVta":'.$qr_pto_vta.',"tipoCmp":'.$qr_tipo_cmp.',"nroCmp":'.$qr_nro_cmp.',"importe":'.$qr_importe.',"moneda":"'.$qr_moneda.'","ctz":'.$qr_ctz.',"tipoDocRec":'.$qr_tipo_doc_rec.',"nroDocRec":'.$qr_nro_doc_rec.',"tipoCodAut":"'.$qr_tipo_cod_aut.'","codAut":'.$qr_cod_aut.'}';
+            $url = 'https://www.afip.gob.ar/fe/qr/';
+            $qrcode_string = $url.'?p='.base64_encode($json);
+            $api_google_1 = 'https://chart.googleapis.com/chart?chs=155x155&cht=qr&chl=';
+            $api_google_2 = '&choe=UTF-8';
+            $url_final = $api_google_1.$qrcode_string.$api_google_2;
         }
 
         /*
@@ -911,8 +940,8 @@ class ComprobanteVentaController extends Controller
             'empresaCuit' => $this->container->getParameter('empresa_cuit'),
             'empresaIngresosBrutos' => $this->container->getParameter('empresa_ingresos_brutos'),
             'empresaInicioActividades' => $this->container->getParameter('empresa_inicio_actividades'),
-            'codigo_barra' => $codigo_barra,
-            'codigo_barra_archivo' => $codigo_barra_archivo,
+            'qrcode_string' => $qrcode_string
+
             )
         );
 
@@ -931,7 +960,7 @@ class ComprobanteVentaController extends Controller
         $pdf->SetFont('helvetica', '', 11, '', true);
         //$pdf->SetMargins(20,20,40, true);
         $pdf->AddPage();
-        
+
         $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 
         //$pdf->Output($filename,'I'); // This will output the PDF as a response directly
@@ -969,7 +998,7 @@ class ComprobanteVentaController extends Controller
     public function enviarFacturaAction(Request $request, Comprobante $comprobante)
     {
         $folder = $this->container->getParameter('dir_comprobantes');
-   
+
         $filename = str_replace(' ', '_', ($folder. '/' .$comprobante->getTipo().'_'.$comprobante->getPuntoVenta().'_'.$comprobante->getNumero().'.pdf'));
 
         //Si todavía no fue informado a la AFIP, lo genero
@@ -995,7 +1024,7 @@ class ComprobanteVentaController extends Controller
         $emailResult = Mail::sendEmail($mailtemplate, $parameters, $filename);
         */
         $message = (new \Swift_Message(''))
-            ->setFrom(array('info@opticacontini.com' => 'Optica contini'))
+            ->setFrom(array('info@opticacontini.com.ar' => 'Optica contini'))
             ->setSubject($parameters['titulo'])
             ->setTo($parameters['cliente'])
             ->setBody($this->renderView($mailtemplate, $parameters),'text/html');
@@ -1008,7 +1037,7 @@ class ComprobanteVentaController extends Controller
 
         $this->get('session')->getFlashbag()->add('success', 'Comprobante enviado exitosamente.');
 
-        return $this->redirectToRoute('comprobanteventa_show', 
+        return $this->redirectToRoute('comprobanteventa_show',
                 array('id' => $comprobante->getId()));
     }
 

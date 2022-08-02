@@ -169,10 +169,17 @@ Libro Caja
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                             {% endif %}
                                             <td>
+<<<<<<< HEAD
 						{% if not loop.first %}
 	                                                <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.Id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
         	                                        <a href="{{ path('librocajadetalle_delete', { 'id': libroCajaDetalle.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
 						{% endif %}
+=======
+                                                {% if not loop.first %}
+                                                    <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.Id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                                                    <a href="{{ path('librocajadetalle_delete', { 'id': libroCajaDetalle.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% endif %}
+>>>>>>> 4af755ab71c48a50e250a23397cf7ad5872b59c7
                                             </td>
                                         {% elseif libroCajaDetalle.origen == 'Recibo' %}
                                             <td>{{ libroCajaDetalle.origen}}</td>

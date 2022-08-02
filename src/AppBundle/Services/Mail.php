@@ -10,7 +10,7 @@ class Mail extends Controller
     {
         $message = \Swift_Message::newInstance();
                     
-        $message->setFrom(array('info@opticacontini.com' => 'Optica contini'))
+        $message->setFrom(array('info@opticacontini.com.ar' => 'Optica contini'))
                 ->setSubject($parameters['titulo'])
                 ->setTo($parameters['cliente'])
                 ->setBody($this->renderView($mailtemplate, $parameters),'text/html');

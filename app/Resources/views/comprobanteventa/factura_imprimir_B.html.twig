@@ -63,7 +63,7 @@
 
         <br>
         &nbsp;<br>
-        
+
         <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
             <tbody>
                 <tr>
@@ -80,7 +80,7 @@
                         <td>{{ comprobanteDetalle.articulo.codigo}}</td>
                         <td>{{ comprobanteDetalle.articulo.descripcion }}</td>
                         <td>{{ comprobanteDetalle.cantidad }}</td>
-                        <td>{{ (comprobanteDetalle.precioUnitario + comprobanteDetalle.importeIva ) | number_format(2, '.', '')}}</td>    
+                        <td>{{ (comprobanteDetalle.precioUnitario + comprobanteDetalle.importeIva ) | number_format(2, '.', '')}}</td>
                         <td>{{ comprobanteDetalle.porcentajeBonificacion }}</td>
                         <td>{{ comprobanteDetalle.total }}</td>
                     </tr>
@@ -93,10 +93,11 @@
             </tbody>
         </table>
 
-        {% if renglones < 21 %}
+{#decia 21 lo cambio a 16 para que entre qr#}
+        {% if renglones < 16 %}
             <table width="100%" cellspacing="0" cellpadding="5" border="0" style="font-size:7pt">
                 <tbody>
-                    {% for i in (renglones + 1)..21 %}
+                    {% for i in (renglones + 1)..16 %}
                     <tr>
                         <td>&nbsp;</td>
                     </tr>
@@ -113,15 +114,25 @@
                     <td width="60%">
                         <img width="63" height="18" src="{{ asset('img/logoAFIP.jpeg')}}"><br>
                         <span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
-                        <img width="235" height="39" src="{{ asset('upload/barcode/'~codigo_barra_archivo)}}"><br>
-                        {{ codigo_barra }}<br>
-                        <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
-                        <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}
+                        <div id="qrcode">
+                          <img src="https://chart.googleapis.com/chart?chs=155x155&cht=qr&chl={{qrcode_string}}&choe=UTF-8" alt="Generador de Códigos QR Codes"/>
+                        <br/>
+                        </div>
+
                     </td>
                     <td width="40%">
+                        <b> </b><br>
+                        <b> </b> <br>
+                        <b> </b><br>
+                        <b> </b><br>
+                        <b> </b><br>
                         <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', '')}}<br>
                         <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
-                        <b>Total:</b> $ {{comprobante.total}}
+                        <b> </b><br>
+                        <b>Total:</b> $ {{comprobante.total}}<br>
+                        <b> </b><br>
+                        <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
+                        <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}<br>
                     </td>
                 </tr>
             </tbody>

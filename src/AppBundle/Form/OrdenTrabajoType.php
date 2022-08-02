@@ -74,7 +74,10 @@ class OrdenTrabajoType extends AbstractType
                     'html5' => true,
                     'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4af755ab71c48a50e250a23397cf7ad5872b59c7
                 ->add('medico', Select2EntityType::class, array(
                       'label' => 'Medico',
                       'class' => 'AppBundle:Medico',
@@ -474,6 +477,23 @@ class OrdenTrabajoType extends AbstractType
                                        ;
                                }
                   ));
+
+                /* FALLA EN PRODUCCION, NO TENGO IDEA DE PORQUE
+                ->add('comprobante', EntityType::class, array(
+                    'label' => 'Comprobante',
+                    'class' => 'AppBundle:Comprobante',
+                    'required' => false,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                               return $er->createQueryBuilder('l')
+                                   ->where('l.activo = 1')
+                                   ->andWhere('l.movimiento = ?1')
+                                   ->setParameter(1, 'Venta')
+                                   ->orderBy('l.id', 'DESC')
+                                   ->setMaxResults(100)
+                                   ;
+                           }
+                ))
+                */
     }/**
      * {@inheritdoc}
      */
