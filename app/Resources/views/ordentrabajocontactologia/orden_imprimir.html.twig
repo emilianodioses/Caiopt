@@ -9,8 +9,7 @@
                     <b>OPTICA CONTINI</b>
                     <br>
                     {{ordenTrabajoContactologia.sucursal.direccion}} - {{ordenTrabajoContactologia.sucursal.localidad.nombre}}, {{ordenTrabajoContactologia.sucursal.localidad.provincia.nombre}}<br>
-                    <b>Teléfono:</b> {{ordenTrabajoContactologia.sucursal.telefono}}<br>
-                    <b>WhatsApp:</b> {{ordenTrabajoContactologia.sucursal.whatsapp}}
+                    <b>Teléfono:</b> {{ordenTrabajoContactologia.sucursal.telefono}}<br>                    
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="40%" align="left" border="1">
@@ -19,13 +18,13 @@
                     <br>
                     Estado: {{ ordenTrabajoContactologia.estado }}
                     <br>
-                    Diagnostico: {{ ordenTrabajoContactologia.diagnostico }}
+                    Diagnóstico: {{ ordenTrabajoContactologia.diagnostico }}
                     <br>
                     Rp: {{ ordenTrabajoContactologia.rp }}
                     <br>
                     Observaciones: {{ ordenTrabajoContactologia.observaciones }}
                     <br>
-                    Motivacion: {{ ordenTrabajoContactologia.motivacion }}
+                    Motivación: {{ ordenTrabajoContactologia.motivacion }}
                     <br>
                     Usolc: {{ ordenTrabajoContactologia.usoLC }}
                     <br>
@@ -34,7 +33,7 @@
                 <td width="30%" align="left">
                     <b style="font-size:8">N° Ord: {{ ordenTrabajoContactologia.id }}</b><br>
                     <b style="font-size:8">Comp {{ ordenTrabajoContactologia.comprobante }}</b><br>
-                    Fecha Recepcion: {{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}
+                    Fecha Recepción: {{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}
                     <br>
                     Fecha Entrega: {{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}
                     <br>
@@ -43,13 +42,15 @@
                     <br>
                     Los trabajos recibidos tienen
                     <br> 
-                    validez por 90 diás, de lo
+                    validez por 90 días, de lo
                     <br>
                     contrario pierde todo derecho
                     <br>
                     sobre los mismos. (Art. 873-875 
                     <br>
-                    del Codígo Civil)
+                    del Código Civil)
+                    <br>
+                    Pasados los 30 días podrá ajustarse el precio por inflación
                 </td>
             </tr>
         </tbody>
@@ -74,11 +75,11 @@
                 <td width="70%" align="left">
                     <b>Nombre: </b> {{ ordenTrabajoContactologia.cliente.nombre}}
                     <br>
-                    <b>Direccion: </b> {{ ordenTrabajoContactologia.cliente.direccion}}
+                    <b>Dirección: </b> {{ ordenTrabajoContactologia.cliente.direccion}}
                     <br>
                     <b>DNI: </b> {{ ordenTrabajoContactologia.cliente.documentoNumero}}
                     <br>
-                    <b>Medico: </b> {{ ordenTrabajoContactologia.medico}}
+                    <b>Médico: </b> {{ ordenTrabajoContactologia.medico}}
                     <br>
                     <b>Fecha Receta: </b> {{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }}
                     <br>
@@ -141,6 +142,8 @@
                 <td align="center">
                     ESF.
                 </td>
+                 <td align="center">                    
+                </td>
                 <td align="center">
                     CIL.
                 </td>
@@ -162,6 +165,9 @@
                     {% if ordenTrabajoContactologia.antesLejosOjoDerechoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}
                 </td>
+                <td align="center">
+                    OD
+                </td>
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.antesLejosOjoDerechoCilindro > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}
@@ -182,6 +188,9 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.antesLejosOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.antesLejosOjoIzquierdoEsfera }}
+                </td>
+                 <td align="center">
+                    OI
                 </td>
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.antesLejosOjoIzquierdoCilindro > 0 %}+{% endif %}
@@ -206,15 +215,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.antesCercaOjoDerechoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.antesCercaOjoDerechoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.antesCercaOjoDerechoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.antesCercaOjoDerechoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.antesCercaOjoDerechoEje > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.antesCercaOjoDerechoEje }}
-                </td>
+                </td>               
                 <td rowspan="2" align="center">
                 </td>
             </tr>
@@ -225,15 +226,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.antesCercaOjoIzquierdoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.antesCercaOjoIzquierdoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.antesCercaOjoIzquierdoEje > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.antesCercaOjoIzquierdoEje }}
-                </td>
+                </td>                
             </tr>
         </tbody>
     </table>
@@ -260,6 +253,9 @@
                     ESF.
                 </td>
                 <td align="center">
+                    
+                </td>
+                <td align="center">
                     CIL.
                 </td>
                 <td align="center">
@@ -279,6 +275,9 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.lejosOjoDerechoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}
+                </td>
+                <td align="center">
+                    OD
                 </td>
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.lejosOjoDerechoCilindro > 0 %}+{% endif %}
@@ -300,6 +299,9 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.lejosOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.lejosOjoIzquierdoEsfera }}
+                </td>
+                 <td align="center">
+                    OI
                 </td>
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.lejosOjoIzquierdoCilindro > 0 %}+{% endif %}
@@ -324,15 +326,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.cercaOjoDerechoEsfera  > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.cercaOjoDerechoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.cercaOjoDerechoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.cercaOjoDerechoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.cercaOjoDerechoEje > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.cercaOjoDerechoEje }}
-                </td>
+                </td>              
             </tr>
             <tr>
                 <td align="center">
@@ -341,16 +335,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajoContactologia.cercaOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajoContactologia.cercaOjoIzquierdoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.cercaOjoIzquierdoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.cercaOjoIzquierdoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajoContactologia.cercaOjoIzquierdoEje > 0 %}+{% endif %}
-                    {{ ordenTrabajoContactologia.cercaOjoIzquierdoEje }}
-                </td>
-                <td rowspan="2" align="center"></td>
+                </td>             
             </tr>
         </tbody>
     </table>
@@ -368,8 +353,8 @@
                 <td style="width: 1%" align="center"></td>
                 <td style="width: 5%" align="center"></td>
                 <td style="width: 8%" align="center">Curvas</td>
-                <td style="width: 9%" align="center">Diametro</td>
-                <td style="width: 43%" align="center">Caracteristicas</td>
+                <td style="width: 9%" align="center">Diámetro</td>
+                <td style="width: 43%" align="center">Características</td>
                 <td style="width: 7%"align="center">AV</td>
             </tr>
             <tr>

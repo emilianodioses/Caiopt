@@ -9,8 +9,7 @@
                     <b>OPTICA CONTINI</b>
                     <br>
                     {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}<br>
-                    <b>Teléfono:</b> {{ordenTrabajo.sucursal.telefono}}<br>
-                    <b>WhatsApp:</b> {{ordenTrabajo.sucursal.whatsapp}}
+                    <b>Teléfono:</b> {{ordenTrabajo.sucursal.telefono}}<br>                    
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="30%" align="left" border="1">
@@ -41,11 +40,13 @@
                     <br>
                     Los trabajos recibidos tienen validez por 90
                     <br>
-                    diás, de lo contrario pierde todo derecho 
+                    días, de lo contrario pierde todo derecho 
                     <br>
-                    sobre los mismos. (Art. 873-875 del Codígo 
+                    sobre los mismos. (Art. 873-875 del Codígo Civil)
                     <br>
-                    Civil)
+                    Pasados los 30 días podrá ajustarse el precio
+                    <br>
+                    por inflación
                 </td>
             </tr>
         </tbody>
@@ -142,6 +143,8 @@
                 <td colspan="2" align="center">
                     VISION
                 </td>
+                <td align="center">                    
+                </td>
                 <td align="center">
                     ESF.
                 </td>
@@ -172,6 +175,9 @@
                     {% if ordenTrabajo.lejosOjoDerechoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajo.lejosOjoDerechoEsfera }}
                 </td>
+                 <td align="center">
+                    OD
+                </td>
                 <td style="text-align: center">
                     {% if ordenTrabajo.lejosOjoDerechoCilindro > 0 %}+{% endif %}
                     {{ ordenTrabajo.lejosOjoDerechoCilindro }}
@@ -196,6 +202,9 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.lejosOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajo.lejosOjoIzquierdoEsfera }}
+                </td>
+                 <td align="center">
+                    OI
                 </td>
                 <td style="text-align: center">
                     {% if ordenTrabajo.lejosOjoIzquierdoCilindro > 0 %}+{% endif %}
@@ -224,14 +233,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.cercaOjoDerechoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoDerechoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.cercaOjoDerechoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajo.cercaOjoDerechoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.cercaOjoDerechoEje }}
-                </td>
+                </td>               
             </tr>
             <tr>
                 <td align="center">
@@ -240,14 +242,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.cercaOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoIzquierdoEsfera }}
-                </td>
-                <td style="text-align: center">
-                    {% if ordenTrabajo.cercaOjoIzquierdoCilindro > 0 %}+{% endif %}
-                    {{ ordenTrabajo.cercaOjoIzquierdoCilindro }}
-                </td>
-                <td style="text-align: center">
-                    {{ ordenTrabajo.cercaOjoIzquierdoEje }}
-                </td>
+                </td>               
             </tr>
         </tbody>
     </table>

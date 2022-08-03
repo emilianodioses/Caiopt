@@ -66,7 +66,7 @@
                                         <td>{{ ordenTrabajo.observaciones }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Medico</th>
+                                        <th>Médico</th>
                                         {% if ordenTrabajo.medico is empty %}
                                             <td></td>
                                         {% else %}
@@ -152,7 +152,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th>Fecha Recepcion</th>
+                                        <th>Fecha Recepción</th>
                                         {% if ordenTrabajo.fechaRecepcion is empty %}
                                             <td></td>
                                         {% else %}
@@ -177,7 +177,7 @@
                                 <table class="table table-bordered">
                                     <tbody>
                                         <tr>
-                                            <b>ATENCION:</b> Los trabajos recibidos tienen validez por 90 diás, de lo contrario pierde todo derecho sobre los mismos. (Art. 873-875 del Codígo Civil)
+                                            <b>ATENCION:</b> Los trabajos recibidos tienen validez por 90 diás, de lo contrario pierde todo derecho sobre los mismos. (Art. 873-875 del Codígo Civil). Pasados los 30 días podrá ajustarse el precio por inflación
                                         </tr>
                                     </tbody>
                                 </table>
@@ -252,6 +252,7 @@
                                     <tr>
                                         <th colspan="2" style="text-align: center"><b>VISION</b></th>
                                         <th style="text-align: center"><b>ESF.</b></th>
+                                        <th style="text-align: center"><b></b></th>
                                         <th style="text-align: center"><b>CIL.</b></th>
                                         <th style="text-align: center"><b>EJE.</b></th>
                                         <th style="text-align: center"><b>DNP.</b></th>
@@ -263,6 +264,7 @@
                                             <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
                                             <td><b>OD</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEsfera }}</td>
+                                            <td><b>OD</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoCilindro }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEje }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesOjoDerechoDnp }}</td>
@@ -272,6 +274,7 @@
                                         <tr>
                                             <td><b>OI</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoEsfera }}</td>
+                                            <td><b>OI</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoCilindro }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoEje }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.antesOjoIzquierdoDnp }}</td>
@@ -281,16 +284,12 @@
                                         <tr>
                                             <td style="text-align: center" rowspan="2"><b>CERCA</b></td>
                                             <td><b>OD</b></td>
-                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoEsfera }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoCilindro }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoEsfera }}</td>                                            
                                             <td style="text-align: center"></td>
                                         </tr>
                                         <tr>
                                             <td><b>OI</b></td>
-                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEsfera }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoCilindro }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEsfera }}</td>                                           
                                             <td style="text-align: center"></td>
                                         </tr>
                                     </tbody>
@@ -308,6 +307,7 @@
                                     <tr>
                                         <th colspan="2" style="text-align: center"><b>VISION</b></th>
                                         <th style="text-align: center"><b>ESF.</b></th>
+                                        <th style="text-align: center"><b></b></th>
                                         <th style="text-align: center"><b>CIL.</b></th>
                                         <th style="text-align: center"><b>EJE.</b></th>
                                         <th style="text-align: center"><b>DNP.</b></th>
@@ -319,6 +319,7 @@
                                             <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
                                             <td><b>OD</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEsfera }}</td>
+                                            <td><b>OD</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoCilindro }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEje }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.ojoDerechoDnp }}</td>
@@ -328,6 +329,7 @@
                                         <tr>
                                             <td><b>OI</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoEsfera }}</td>
+                                            <td><b>OI</b></td>
                                             <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoCilindro }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoEje }}</td>
                                             <td style="text-align: center">{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
@@ -337,16 +339,12 @@
                                         <tr>
                                             <td style="text-align: center" rowspan="2"><b>CERCA</b></td>
                                             <td><b>OD</b></td>
-                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoEsfera }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoCilindro }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoEsfera }}</td>                                            
                                             <td style="text-align: center"></td>
                                         </tr>
                                         <tr>
                                             <td><b>OI</b></td>
-                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEsfera }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoCilindro }}</td>
-                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEsfera }}</td>                                            
                                             <td style="text-align: center"></td>
                                         </tr>
                                     </tbody>
