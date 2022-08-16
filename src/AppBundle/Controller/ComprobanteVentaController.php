@@ -885,26 +885,28 @@ class ComprobanteVentaController extends Controller
             //$bcHTMLRaw = $myBarcode->getBarcodeHTML($codigo_barra, 'I25', 2, 100);
 
             $codigo_barra_archivo = 'I25_'.$codigo_barra.'.png';*/
+            $cliente = $comprobante->getCliente();
+
             //Genero el qr
             $qr_version = '1';
             $qr_fecha = $comprobante->getFecha(); //$cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
-            $qr_cuit = $empresa_cuit; //'27327353840';
-            $qr_pto_vta = $cliente_cuenta->getFacturaSucursal(); //'2';
-            $qr_tipo_cmp = $comprobante_tipo->getCodigo(); //'11';
-            $qr_nro_cmp = $cliente_cuenta->getFacturaNumero(); //'60';
-            $qr_moneda = $cliente_cuenta->getFeMoneda(); //'PES';
+            $qr_cuit =  $this->container->getParameter('empresa_cuit');//$empresa_cuit; //'27327353840';
+            $qr_pto_vta =  $comprobante->getPuntoVenta(); //cliente_cuenta->getFacturaSucursal(); //'2';
+            $qr_tipo_cmp = $comprobante->getTipo(); //'11';
+            $qr_nro_cmp = $comprobante->getNumero(); //'60';
+            $qr_moneda = 'PES'; //$cliente->getFeMoneda(); //'PES';
             if ($qr_moneda=='DOL'){//($cliente->getFeMoneda() == 'DOL') {
                 $qr_importe = $cliente_cuenta->getFacturaCosto(); //'12100';
                 $qr_ctz = $cliente_cuenta->getDolarCotizacion() ; //'65';
             }
             else {
-                $qr_importe = $cliente_cuenta->getFacturaCostoPesos(); //'30000';
+                $qr_importe = $comprobante->getTotal(); //'30000';
                 $qr_ctz = '1'; // '1' Cuando la moneda es pesos
             }
             $qr_tipo_doc_rec = '80'; //Siempre es cuit
-            $qr_nro_doc_rec =  $cliente_cuenta->getClienteFeCuit(); //'30715288075';
+            $qr_nro_doc_rec =  $comprobante->getCliente()->getDocumentoNumero(); //'30715288075';
             $qr_tipo_cod_aut = 'E';
-            $qr_cod_aut = $cliente_cuenta->getCaeNumero(); //'72160802892420';
+            $qr_cod_aut = $comprobante->getCaeNumero(); //'72160802892420';
 
             $json = '{"ver":'.$qr_version.',"fecha":"'.$qr_fecha.'","cuit":'.$qr_cuit.',"ptoVta":'.$qr_pto_vta.',"tipoCmp":'.$qr_tipo_cmp.',"nroCmp":'.$qr_nro_cmp.',"importe":'.$qr_importe.',"moneda":"'.$qr_moneda.'","ctz":'.$qr_ctz.',"tipoDocRec":'.$qr_tipo_doc_rec.',"nroDocRec":'.$qr_nro_doc_rec.',"tipoCodAut":"'.$qr_tipo_cod_aut.'","codAut":'.$qr_cod_aut.'}';
             $url = 'https://www.afip.gob.ar/fe/qr/';
