@@ -889,7 +889,7 @@ class ComprobanteVentaController extends Controller
 
             //Genero el qr
             $qr_version = '1';
-            $qr_fecha = $comprobante->getFecha(); //$cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
+            $qr_fecha = $comprobante->getFecha()->format('Y-m-d'); //$cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
             $qr_cuit =  $this->container->getParameter('empresa_cuit');//$empresa_cuit; //'27327353840';
             $qr_pto_vta =  $comprobante->getPuntoVenta(); //cliente_cuenta->getFacturaSucursal(); //'2';
             $qr_tipo_cmp = $comprobante->getTipo(); //'11';
