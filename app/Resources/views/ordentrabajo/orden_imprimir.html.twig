@@ -9,7 +9,7 @@
                     <b>OPTICA CONTINI</b>
                     <br>
                     {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}<br>
-                    <b>Teléfono:</b> {{ordenTrabajo.sucursal.telefono}}<br>                    
+                    <b>Teléfono:</b> {{ordenTrabajo.sucursal.telefono}}<br>
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="30%" align="left" border="1">
@@ -18,7 +18,7 @@
                     <br>
                     Pedido a: {{ ordenTrabajo.taller }}
                     <br>
-                    Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %} 
+                    Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %}
                     <br>
                     Fecha Pedido: {% if not ordenTrabajo.fechaTallerPedido is empty %} {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }} {% endif %}
                     <br>
@@ -27,7 +27,7 @@
                     Número: {{ ordenTrabajo.numeroTaller }}
                     <br>
                 </td>
-                {% endif %} 
+                {% endif %}
                 <td width="40%" align="left">
                     <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b><br>
                     <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b><br>
@@ -40,7 +40,7 @@
                     <br>
                     Los trabajos recibidos tienen validez por 90
                     <br>
-                    días, de lo contrario pierde todo derecho 
+                    días, de lo contrario pierde todo derecho
                     <br>
                     sobre los mismos. (Art. 873-875 del Codígo Civil)
                     <br>
@@ -120,7 +120,7 @@
                     {% endif %}
                     <td style="text-align: center">{{ ordenTrabajoDetalle.total }}</td>
                 </tr>
-            {% endfor %}    
+            {% endfor %}
         </tbody>
     </table>
     {% if pagina_nro == 1 %}
@@ -143,10 +143,11 @@
                 <td colspan="2" align="center">
                     VISION
                 </td>
-                <td align="center">                    
-                </td>
                 <td align="center">
                     ESF.
+                </td>
+                <td align="center">
+
                 </td>
                 <td align="center">
                     CIL.
@@ -233,7 +234,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.cercaOjoDerechoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoDerechoEsfera }}
-                </td>               
+                </td>
             </tr>
             <tr>
                 <td align="center">
@@ -242,7 +243,7 @@
                 <td style="text-align: center">
                     {% if ordenTrabajo.cercaOjoIzquierdoEsfera > 0 %}+{% endif %}
                     {{ ordenTrabajo.cercaOjoIzquierdoEsfera }}
-                </td>               
+                </td>
             </tr>
         </tbody>
     </table>

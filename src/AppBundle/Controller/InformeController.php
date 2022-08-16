@@ -32,11 +32,11 @@ class InformeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $comprobantes = $em->getRepository('AppBundle:Comprobante')->findBy_ventasFacturadasGeneral($fecha_desde, $fecha_hasta, $punto_venta);
-        
+
         if ($tipo == 'ventas') {
             // Provide a name for your file with extension
             $filename = 'VENTAS_'.sprintf("%05d", $punto_venta).'_'.$fecha_desde->format('Ymd').'-'.$fecha_hasta->format('Ymd').'.txt';
-            
+
             // The dinamically created content of the file
             $fileContent = "";
             foreach ($comprobantes as $key => $comprobante) {
@@ -82,7 +82,7 @@ class InformeController extends Controller
                 foreach($alicuotasIva as $alicuotaIva) {
                     $alicuotas[$alicuotaIva->getId()]['Codigo'] = $alicuotaIva->getCodigo(); // Id del tipo de IVA (5 para 21%)(ver tipos disponibles)
                     $alicuotas[$alicuotaIva->getId()]['BaseImp'] = 0; // Base imponible
-                    $alicuotas[$alicuotaIva->getId()]['Importe'] = 0; // Importe 
+                    $alicuotas[$alicuotaIva->getId()]['Importe'] = 0; // Importe
                 }
 
                 $comprobanteDetalles = $em->getRepository('AppBundle:ComprobanteDetalle')->findBy(Array('comprobante'=>$comprobante, 'activo'=>1));
@@ -91,7 +91,7 @@ class InformeController extends Controller
                     $alicuota_id = $em->getRepository('AppBundle:AfipAlicuota')->findOneBy(array('activo'=>1, 'descripcion' => $cd->getPorcentajeIva()))->getId();
 
                     $alicuotas[$alicuota_id]['BaseImp'] += $cd->getTotalNeto();
-                    $alicuotas[$alicuota_id]['Importe'] += $cd->getImporteIva(); 
+                    $alicuotas[$alicuota_id]['Importe'] += $cd->getImporteIva();
                 }
 
                 foreach($alicuotasIva as $alicuotaIva) {
@@ -102,7 +102,7 @@ class InformeController extends Controller
                         $fileContent .= sprintf("%015d", $alicuotas[$alicuotaIva->getId()]['BaseImp']*100); //Importe neto gravado
                         $fileContent .= sprintf("%04d", $alicuotas[$alicuotaIva->getId()]['Codigo']); //Alícuota de IVA
                         $fileContent .= sprintf("%015d", $alicuotas[$alicuota_id]['Importe']*100); //Impuesto Liquidado
-                        
+
                         $fileContent .= "\n";
                     }
                 }
@@ -112,7 +112,7 @@ class InformeController extends Controller
             echo 'Error - Tipo desconocido';
             die;
         }
-        
+
         // Return a response with a specific content
         $response = new Response($fileContent);
 
@@ -217,7 +217,7 @@ class InformeController extends Controller
 
         $chart = new ColumnChart();
         $chart->getData()->setArrayToDataTable($data);
-        
+
         $chart->getOptions()->setTitle('IVA Débito/Crédito por Mes');
         $chart->getOptions()->setHeight(400);
         //$chart->getOptions()->setWidth(300);
@@ -235,7 +235,7 @@ class InformeController extends Controller
         $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
 
         return $chart;
-    // Google Charts 
+    // Google Charts
     }
 
     public function gastosAction(Request $request)
@@ -280,7 +280,7 @@ class InformeController extends Controller
         ->andWhere('lc.fecha >= :fechaDesde')
         ->andWhere('lc.fecha <= :fechaHasta')
         ->groupBy('categoriaNombre')
-        ->orderBy('sumaTotal', 'DESC')    
+        ->orderBy('sumaTotal', 'DESC')
         //->setMaxResults(10)
         ->setParameter('tipo', "Egreso de Caja")
         ->setParameter('fechaDesde', $fechaDesde)
@@ -303,7 +303,7 @@ class InformeController extends Controller
             $item = array($xx["categoriaNombre"], (int)$xx["sumaTotal"]);
             array_push($data, $item);
         }
-        
+
         $chart = new PieChart();
         $chart->getData()->setArrayToDataTable($data);
 
@@ -319,7 +319,7 @@ class InformeController extends Controller
         $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
 
         return $chart;
-    // Google Charts 
+    // Google Charts
     }
 
     private function fnGastosXSucursalChart(Request $request)
@@ -341,7 +341,7 @@ class InformeController extends Controller
         ->andWhere('lc.fecha >= :fechaDesde')
         ->andWhere('lc.fecha <= :fechaHasta')
         ->groupBy('lc.sucursal')
-        ->orderBy('sumaTotal', 'DESC')    
+        ->orderBy('sumaTotal', 'DESC')
         //->setMaxResults(10)
         ->setParameter('tipo', "Egreso de Caja")
         ->setParameter('fechaDesde', $fechaDesde)
@@ -364,7 +364,7 @@ class InformeController extends Controller
             $item = array($xx["sucursalNombre"], (int)$xx["sumaTotal"]);
             array_push($data, $item);
         }
-        
+
         $chart = new PieChart();
         $chart->getData()->setArrayToDataTable($data);
 
@@ -380,7 +380,7 @@ class InformeController extends Controller
         $chart->getOptions()->getTitleTextStyle()->setFontSize(15);
 
         return $chart;
-    // Google Charts 
+    // Google Charts
     }
 
     public function recibosVentasMedicosAction(Request $request)
@@ -436,5 +436,88 @@ class InformeController extends Controller
             'cliente' => $cliente,
             'medico' => $medico,
         ));
+    }
+
+    /**
+    *Reporte Ventas Médicos %
+    */
+    public function informe_recibosVentasMedicos_imprimir(Request$request){
+      $em = $this->getDoctrine()->getManager();
+
+      $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+      $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+      $cliente = $request->get('cliente','');
+      $medico = $request->get('medico','');
+
+      $query = $em->getRepository('AppBundle:ReciboComprobante')
+      ->createQueryBuilder('rc')
+      ->join('rc.recibo','r')
+      ->select('c as comprobante, SUM(rc.importe) as sumaTotal')
+      ->from('AppBundle:Comprobante','c')
+      ->where('rc.activo = 1')
+      ->andWhere('r.activo = 1')
+      ->andWhere('c.activo = 1')
+      ->andWhere('r.fecha >= :fechaDesde')
+      ->andWhere('r.fecha <= :fechaHasta')
+      ->andWhere('rc.comprobante = c.id')
+      ->andWhere('c.medico > 0')
+      ->groupBy('c.id')
+      //->orderBy('sumaTotal', 'DESC')
+      //->setMaxResults(10)
+      ->setParameter('fechaDesde', $fechaDesde)
+      ->setParameter('fechaHasta', $fechaHasta);
+
+      if ($cliente != '') {
+          $query = $query
+              ->join('c.cliente', 'cli')
+              ->andWhere('cli.nombre LIKE :cliente OR cli.documentoNumero LIKE :cliente')
+              ->setParameter('cliente', '%'.$cliente.'%');
+      }
+
+      if ($medico != '') {
+          $query = $query
+              ->join('c.medico', 'med')
+              ->andWhere('med.nombre LIKE :medico OR med.matricula LIKE :medico')
+              ->setParameter('medico', '%'.$medico.'%');
+      }
+
+      $recibosComprobantes = $query->getQuery()
+          ->getResult();
+
+      //dump($recibosComprobantes);
+      //die;
+
+
+      $html = $this->render('informe/recibosVentasMedicos_imprimir.html.twig', array(
+          'recibosComprobantes' => $recibosComprobantes,
+          'fecha_desde' => $fechaDesde->format('d-m-Y'),
+          'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+          'cliente' => $cliente,
+          'medico' => $medico,
+      ));
+
+      //set_time_limit(30); uncomment this line according to your needs
+      // If you are not in a controller, retrieve of some way the service container and then retrieve it
+      //$pdf = $this->container->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+      //if you are in a controlller use :
+      $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+      // remove default header/footer
+      $pdf->setPrintHeader(false);
+      $pdf->setPrintFooter(false);
+      //$pdf->SetAuthor('Our Code World');
+      //$pdf->SetTitle(('Our Code World Title'));
+      //$pdf->SetSubject('Our Code World Subject');
+      //$pdf->setFontSubsetting(true);
+      $pdf->SetFont('helvetica', '', 11, '', true);
+      //$pdf->SetMargins(20,20,40, true);
+      $pdf->AddPage();
+
+      $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+      //$pdf->Output($filename,'I'); // This will output the PDF as a response directly
+      $pdf->Output($filename,'F'); // This will output the PDF as a file
+
+      return true;
+
     }
 }
