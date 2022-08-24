@@ -32,7 +32,7 @@ Libro Caja
 
 <div class="row">
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="tabs-1">    
+        <div class="tab-pane fade in active" id="tabs-1">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -70,7 +70,7 @@ Libro Caja
                                     </tbody>
                                 </table>
                             </div>
-                        </div>         
+                        </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="box box-success">
@@ -129,14 +129,14 @@ Libro Caja
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="tab-pane" id="tabs-2">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="row">  
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="box box-success">
                             <div class="box-header with-border">
@@ -169,17 +169,10 @@ Libro Caja
                                                 <td>{{libroCajaDetalle.importe}}</td>
                                             {% endif %}
                                             <td>
-<<<<<<< HEAD
-						{% if not loop.first %}
-	                                                <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.Id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
-        	                                        <a href="{{ path('librocajadetalle_delete', { 'id': libroCajaDetalle.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
-						{% endif %}
-=======
                                                 {% if not loop.first %}
                                                     <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.Id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
                                                     <a href="{{ path('librocajadetalle_delete', { 'id': libroCajaDetalle.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
                                                 {% endif %}
->>>>>>> 4af755ab71c48a50e250a23397cf7ad5872b59c7
                                             </td>
                                         {% elseif libroCajaDetalle.origen == 'Recibo' %}
                                             <td>{{ libroCajaDetalle.origen}}</td>
@@ -240,7 +233,7 @@ Libro Caja
                                 </tbody>
                               </table>
                             </div>
-                        </div>            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -248,7 +241,7 @@ Libro Caja
     </div>
 </div>
 
-<div class="row">    
+<div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box box-success">
             <div class="box-footer">
