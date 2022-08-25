@@ -24,6 +24,6 @@ informe_recibosVentasMedicos:
     methods:  [GET, POST]
 
 informe_recibosVentasMedicos_imprimir:
-    path:     /recibosVentasMedicos_reporte
+    path:    /recibosVentasMedicos_imprimir
     defaults: { _controller: "AppBundle:Informe:recibosVentasMedicos_imprimir" }
     methods:  [GET, POST]

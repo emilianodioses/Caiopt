@@ -441,13 +441,15 @@ class InformeController extends Controller
     /**
     *Reporte Ventas Médicos %
     */
-    public function informe_recibosVentasMedicos_imprimir(Request$request){
+    public function recibosVentasMedicos_imprimirAction(Request $request){
+
+
       $em = $this->getDoctrine()->getManager();
 
       $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
       $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
-      $cliente = $request->get('cliente','');
-      $medico = $request->get('medico','');
+      $cliente = $request->get('cliente');
+      $medico = $request->get('medico');
 
       $query = $em->getRepository('AppBundle:ReciboComprobante')
       ->createQueryBuilder('rc')
@@ -487,8 +489,8 @@ class InformeController extends Controller
       //dump($recibosComprobantes);
       //die;
 
-
-      $html = $this->render('informe/recibosVentasMedicos_imprimir.html.twig', array(
+      $ventasTemplate = 'informe/recibosVentasMedicos_imprimir.html.twig';
+      $html = $this->renderView($ventasTemplate, array(
           'recibosComprobantes' => $recibosComprobantes,
           'fecha_desde' => $fechaDesde->format('d-m-Y'),
           'fecha_hasta' => $fechaHasta->format('d-m-Y'),
@@ -513,9 +515,9 @@ class InformeController extends Controller
       $pdf->AddPage();
 
       $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-
+      $filename = "informe_venta_medicos";
       //$pdf->Output($filename,'I'); // This will output the PDF as a response directly
-      $pdf->Output($filename,'F'); // This will output the PDF as a file
+      $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a file
 
       return true;
 

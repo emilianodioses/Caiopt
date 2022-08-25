@@ -115,9 +115,10 @@ Comprobantes Cobrados por Médico
         </div>
         <br>
         <div class="box-body table-responsive no-padding">
-          <form action="{{ path('informe_recibosVentasMedicos_imprimir') }}">
-            <input type="submit" class="btn btn-success" value="Exportar" />
-          </form>
+
+          <a href="{{ path('informe_recibosVentasMedicos_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta,'cliente': cliente, 'medico': medico}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+
+          </a>
 
         </div>
         <br>

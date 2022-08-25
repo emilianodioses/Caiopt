@@ -1,11 +1,13 @@
 <body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
-  {% for pagina_nro in 1..2 %}
+  {% for pagina_nro in 1..1 %}
   <table width="100%" cellspacing="0" border="0">
       <tbody>
           <tr>
-              <td width="40%" align="center">
-                  <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
-                  <b>Comprobantes Cobrados por Médico</b><br>
+            <td width="50%" align="right" vertical-align="middle">
+              <b>Comprobantes Ventas por Médico</b>
+            </td>
+              <td width="50%" align="center">
+                  <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}">
               </td>
             </tr>
         </tbody>
@@ -18,12 +20,12 @@
   <table width="100%" cellspacing="0" border="0">
       <tbody>
           <tr>
-              <td width="50%"><b>Fecha Desde</b> {{fecha_desde}}</td>
-              <td width="50%"><b>Fecha Hasta</b> {{fecha_hasta}}</td>
+              <td width="50%"><b>Fecha Desde: </b> {{fecha_desde}}</td>
+              <td width="50%"><b>Fecha Hasta: </b> {{fecha_hasta}}</td>
           </tr>
           <tr>
-            <td width="50%"><b>Cliente</b> {{cliente}}</td>
-            <td width="50%"><b>Médico</b> {{medico}}</td>
+            <td width="50%"><b>Cliente: </b> {{cliente}}</td>
+            <td width="50%"><b>Médico: </b> {{medico}}</td>
           </tr>
         </tbody>
     </table>
@@ -31,15 +33,14 @@
     <br>
     &nbsp;<br>
 
-    <div class="box-body table-responsive no-padding">
-      <form class="form-horizontal" action="{{path('informe_recibosVentasMedicos_imprimir')}}" method="GET">
-        <table id="informe_recibosVentasMedicos_imprimir" class="table table-hover">
+    <div class="box-default">
+
+        <table width="100%" cellspacing="0" align="center" border="0.5">
             <tr>
                       <th style="width: 7%">Pto. Venta</th>
                       <th style="width: 7%">Nº Int.</th>
                       <th style="width: 7%">Nº Fac.</th>
-                      <th style="width: 7%">Nº OT.</th>
-                      <th>Tipo</th>
+                      <th style="width: 7%">Tipo</th>
                       <th>Cliente</th>
                       <th>Médico</th>
                       <th>Fecha</th>
@@ -59,11 +60,6 @@
                           {% else %}
                             <td>{{ comprobante.afipNumero }}</td>
                           {% endif %}
-                          {% if comprobante.ordenTrabajo is empty %}
-                            <td>-</td>
-                          {% else %}
-                            <td>{{ comprobante.ordenTrabajo.id }}</td>
-                          {% endif %}
                           <td>{{ comprobante.tipo.descripcionCorta }}</td>
                           <td>{{ comprobante.cliente }}</td>
                           <td>{{ comprobante.medico }}</td>
@@ -75,10 +71,6 @@
                           {% else %}
                           <td>{{ ((reciboComprobante.sumaTotal - (reciboComprobante.sumaTotal*0.21)) * (comprobante.medico.porcentaje/100)) | number_format(2, '.', '') }}</td>
                           {% endif %}
-                          <td>
-                            <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
-                          </td>
                       </tr>
               {% endfor %}
             </tbody>
@@ -86,8 +78,6 @@
       </form>
     </div>
 
-    {% if loop.index < 2 %}
-        <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
-    {% endif %}
+
     {% endfor %}
 </body>
