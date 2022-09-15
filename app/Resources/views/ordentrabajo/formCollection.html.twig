@@ -11,7 +11,7 @@
                 {{ form_errors(form) }}
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        {{ form_row(form.cliente) }}                            
+                        {{ form_row(form.cliente) }}
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         {{ form_row(form.obraSocialPlan) }}
@@ -20,10 +20,10 @@
                         {{ form_row(form.medico) }}
                     </div>
                 </div>
-                <div class="row">  
+                <div class="row">
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        {# form_row(form.comprobante) #}                            
-                    </div>  
+                        {# form_row(form.comprobante) #}
+                    </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         {{ form_row(form.fechaReceta) }}
                     </div>
@@ -34,7 +34,7 @@
                         {{ form_row(form.fechaEntrega) }}
                     </div>
                 </div>
-                <div class="row">  
+                <div class="row">
                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                         {{ form_row(form.otrosTrabajos) }}
                     </div>
@@ -65,7 +65,7 @@
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         {{ form_row(form.fechaTallerPedido) }}
-                    </div>   
+                    </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         {{ form_row(form.fechaTallerEntrega) }}
                     </div>
@@ -98,7 +98,7 @@
                             <table class="table table-hover">
                                 <tr>
                                     <th colspan="6" style="text-align: center"><b>ACTUAL</b></th>
-                                </tr> 
+                                </tr>
                                 <tr>
                                     <th colspan="2" style="text-align: center"><b>VISION</b></th>
                                     <th style="text-align: center"><b>ESF.</b></th>
@@ -133,14 +133,14 @@
                                         <td><b>OD</b></td>
                                         <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoEsfera) }}</td>
                                         <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoCilindro) }}</td>
-                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoEje) }}</td>
+-                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoEje) }}</td>
                                         <td style="text-align: center"></td>
                                     </tr>
                                     <tr>
                                         <td><b>OI</b></td>
                                         <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoEsfera) }}</td>
                                         <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoCilindro) }}</td>
-                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoEje) }}</td>
+-                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoEje) }}</td>
                                         <td style="text-align: center"></td>
                                     </tr>
                                 </tbody>
@@ -152,7 +152,7 @@
                             <table class="table table-hover">
                                 <tr>
                                     <th colspan="6" style="text-align: center"><b>NUEVA</b></th>
-                                </tr>    
+                                </tr>
                                 <tr>
                                     <th colspan="2" style="text-align: center"><b>VISION</b></th>
                                     <th style="text-align: center"><b>ESF.</b></th>
@@ -187,14 +187,14 @@
                                         <td><b>OD</b></td>
                                         <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoEsfera) }}</td>
                                         <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoCilindro) }}</td>
-                                        <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoEje) }}</td>
+-                                        <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoEje) }}</td>
                                         <td style="text-align: center"></td>
                                     </tr>
                                     <tr>
                                         <td><b>OI</b></td>
                                         <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoEsfera) }}</td>
                                         <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoCilindro) }}</td>
-                                        <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoEje) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoEje) }}</td>                                    
                                         <td style="text-align: center"></td>
                                     </tr>
                                 </tbody>
@@ -212,21 +212,21 @@
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
             </div>
-            <div class="box-body">                
-                <div class="row">    
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.total)}}
                     </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.totalBonificacion)}}
                     </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.entrega)}}
-                    </div>  
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.saldo)}}
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
     </div>
@@ -249,7 +249,7 @@
         </div>
     </div>
 </div>
-        
+
 {% endblock %}
 
 
@@ -263,17 +263,17 @@
     {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
     {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
     {% set attr = attr|merge({'data-name-prefix': full_name}) %}
-        
+
     {{ form_errors(form) }}
 
     {# Don't forget to add the collection attributes in your markup #}
-    <div class="row">    
+    <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box box-success">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
                 </div>
-                
+
                 <div class="form-group ">
                     <table {{ block('widget_attributes') }}>
                         <thead>

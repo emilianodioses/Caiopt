@@ -71,8 +71,11 @@ class MedicoType extends AbstractType
                     'label' => 'Contacto',
                     'required' => false,
                     'empty_data' => '',
-                    'attr' => array('style' => 'text-transform: uppercase')
-                ));
+                    'attr' => array('style' => 'text-transform: uppercase')))
+                ->add('porcentaje', null, array(
+                    'label' => 'Porcentaje',
+                    'required' => false,
+                    'empty_data' => ''));
     }/**
      * {@inheritdoc}
      */

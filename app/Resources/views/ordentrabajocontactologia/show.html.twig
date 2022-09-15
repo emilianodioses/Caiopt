@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-    Orden de Trabajo Contactologia
+    Orden de Trabajo Contactología
 {% endblock %}
 
 {% block header_description %}
@@ -31,7 +31,7 @@
 </ul>
 <div class="row">
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="tabs-1">    
+        <div class="tab-pane fade in active" id="tabs-1">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -66,7 +66,7 @@
                                         <td>{{ ordenTrabajoContactologia.observaciones }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Medico</th>
+                                        <th>Médico</th>
                                         {% if ordenTrabajoContactologia.medico is empty %}
                                             <td></td>
                                         {% else %}
@@ -105,7 +105,7 @@
                                         <td>{{ ordenTrabajoContactologia.estado }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Diagnostico</th>
+                                        <th>Diagnóstico</th>
                                         <td>{{ ordenTrabajoContactologia.diagnostico }}</td>
                                     </tr>
                                     <tr>
@@ -117,7 +117,7 @@
                                         <td>{{ ordenTrabajoContactologia.observaciones }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Motivacion</th>
+                                        <th>Motivación</th>
                                         <td>{{ ordenTrabajoContactologia.motivacion }}</td>
                                     </tr>
                                     <tr>
@@ -144,7 +144,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th>Fecha Recepcion</th>
+                                        <th>Fecha Recepción</th>
                                         {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
                                             <td></td>
                                         {% else %}
@@ -169,7 +169,7 @@
                                 <table class="table table-bordered">
                                     <tbody>
                                         <tr>
-                                            <b>ATENCION:</b> Los trabajos recibidos tienen validez por 90 diás, de lo contrario pierde todo derecho sobre los mismos. (Art. 873-875 del Codígo Civil)
+                                            <b>ATENCION:</b> Los trabajos recibidos tienen validez por 90 días, de lo contrario pierde todo derecho sobre los mismos. (Art. 873-875 del Codígo Civil). Pasados los 30 días podrá ajustarse el precio por inflación
                                         </tr>
                                     </tbody>
                                 </table>
@@ -218,11 +218,11 @@
                                         <td>{{ ordenTrabajoContactologia.Cliente.Nombre }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Telefono</th>
+                                        <th>Teléfono</th>
                                         <td>{{ ordenTrabajoContactologia.Cliente.Telefono }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Direccion</th>
+                                        <th>Dirección</th>
                                         <td>{{ ordenTrabajoContactologia.Cliente.Direccion }}</td>
                                     </tr>
                                     <tr>
@@ -237,7 +237,7 @@
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="box box-success">
                             <div class="box-header with-border">
-                                <h3 class="box-title"><i class="fa fa-user"></i> Vision ACTUAL</h3>
+                                <h3 class="box-title"><i class="fa fa-user"></i> Visión ACTUAL</h3>
                             </div>
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
@@ -287,7 +287,7 @@
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="box box-success">
                             <div class="box-header with-border">
-                                <h3 class="box-title"><i class="fa fa-user"></i> Vision NUEVA</h3>
+                                <h3 class="box-title"><i class="fa fa-user"></i> Visión NUEVA</h3>
                             </div>
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
@@ -407,7 +407,7 @@
                                         {% if ordenTrabajoContactologia.estado != "Finalizado" %}
                                             <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
                                             </a>
-                                        {% endif %} 
+                                        {% endif %}
                                          <a href="{{ path('ordentrabajocontactologia_orden_imprimir', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Orden de Trabajo"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
                                          {% if ordenTrabajoContactologia.comprobante is empty %}
                                             <a href="{{ path('comprobanteventa_new', { 'id': ordenTrabajoContactologia.Id, 'tipo':'contactologia' }) }}" class="btn btn-app pull-right" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
@@ -416,23 +416,23 @@
                                             {% if ordenTrabajoContactologia.comprobante.pendiente == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
                                                 <a href="{{ path('ordentrabajocontactologia_cerrar', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
                                                 </a>
-                                            {% endif %}  
+                                            {% endif %}
                                             {% if ordenTrabajoContactologia.estado != "Finalizado" and ordenTrabajoContactologia.comprobante.pendiente != 0 %}
-                                                <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.comprobante.pendiente}}</b></span>Saldo Pendiente 
+                                                <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajoContactologia.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajoContactologia.comprobante.pendiente}}</b></span>Saldo Pendiente
                                                 </a>
-                                            {% endif %} 
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> 
-            </div> 
-        </div> 
-        <div class="tab-pane" id="tabs-2">  
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tabs-2">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="row">  
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="box box-success">
                             <div class="box-header with-border">
@@ -468,10 +468,10 @@
                                         </tr>
                                     </tbody>
                                     {% endfor %}
-                                </table>        
+                                </table>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -493,7 +493,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
-</div> 
+</div>
 {% endblock %}

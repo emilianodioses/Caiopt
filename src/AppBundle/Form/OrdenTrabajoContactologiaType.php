@@ -115,11 +115,11 @@ class OrdenTrabajoContactologiaType extends AbstractType
                 ->add('estado',ChoiceType::class,array(
                         'label'=>'Estado',
                         'choices' => $estados,
-                            'choices_as_values' => true)) 
+                            'choices_as_values' => true))
                 ->add('estado',ChoiceType::class,array(
                         'label'=>'Estado',
                         'choices' => $estados,
-                            'choices_as_values' => true)) 
+                            'choices_as_values' => true))
                 ->add('diagnostico',TextareaType::class,array(
                     'label'=>'Diagnostico',
                     'required' => false,
@@ -294,34 +294,6 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'step' => 0.25,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
-                ->add('cercaOjoDerechoEje',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Eje Ojo Derecho'))
-                ->add('cercaOjoIzquierdoEje',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Eje Ojo Izquierdo'))
-                ->add('cercaOjoDerechoCilindro',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Cilindro Ojo Derecho'))
-                ->add('cercaOjoIzquierdoCilindro',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Cilindro Ojo Izquierdo'))
                 ->add('cercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
@@ -391,35 +363,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'empty_data' => 0,
                     'step' => 0.25,
                     ),
-                    'label' => 'Esfera Ojo Izquierdo'))
-                ->add('antesCercaOjoDerechoEje',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Eje Ojo Derecho'))
-                ->add('antesCercaOjoIzquierdoEje',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Eje Ojo Izquierdo'))
-                ->add('antesCercaOjoDerechoCilindro',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Cilindro Ojo Derecho'))
-                ->add('antesCercaOjoIzquierdoCilindro',FloatType::class, array(
-                    'attr' => array(
-                    'required' => true,
-                    'empty_data' => 0,
-                    'step' => 0.25,
-                    ),
-                    'label' => 'Cilindro Ojo Izquierdo'))
+                    'label' => 'Esfera Ojo Izquierdo'))              
                 ->add('antesCercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,

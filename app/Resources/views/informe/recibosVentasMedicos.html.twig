@@ -10,7 +10,7 @@ Comprobantes Cobrados por Médico
 {% block body %}
 
 <form class="form-horizontal" action="{{path('informe_recibosVentasMedicos')}}" method="GET">
-  <div class="row"> 
+  <div class="row">
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
@@ -42,7 +42,7 @@ Comprobantes Cobrados por Médico
                     <input name="cliente" type="text" class="form-control input-sm" placeholder="Nombre/Documento" value="{{cliente}}">
                   </div>
                 </div>
-              </div>              
+              </div>
 
               <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div class="input-group input-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -56,13 +56,13 @@ Comprobantes Cobrados por Médico
                   </span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
         <!-- /.box-header -->
+
         <div class="box-body table-responsive no-padding">
-          <table class="table table-hover">
+          <table id="informe_recibosVentasMedicos" class="table table-hover">
                 <tr>
                     <th style="width: 7%">Pto. Venta</th>
                     <th style="width: 7%">Nº Int.</th>
@@ -74,7 +74,7 @@ Comprobantes Cobrados por Médico
                     <th>Fecha</th>
                     <th>Total</th>
                     <th>Cobrado</th>
-                    <th>15%</th>
+                    <th>Médico %</th>
                     <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
@@ -99,7 +99,11 @@ Comprobantes Cobrados por Médico
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
                     <td>{{ comprobante.total }}</td>
                     <td>{{ reciboComprobante.sumaTotal }}</td>
-                    <td>{{ (reciboComprobante.sumaTotal * 0.15) | number_format(2, '.', '') }}</td>
+                    {% if comprobante.medico.porcentaje is empty %}
+                    <td>{{ ((reciboComprobante.sumaTotal - (reciboComprobante.sumaTotal*0.21)) * 0) | number_format(2, '.', '') }}</td>
+                    {% else %}
+                    <td>{{ ((reciboComprobante.sumaTotal - (reciboComprobante.sumaTotal*0.21)) * (comprobante.medico.porcentaje/100)) | number_format(2, '.', '') }}</td>
+                    {% endif %}
                     <td>
                       <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
                       </a>
@@ -109,6 +113,15 @@ Comprobantes Cobrados por Médico
             </tbody>
           </table>
         </div>
+        <br>
+        <div class="box-body table-responsive no-padding">
+
+          <a href="{{ path('informe_recibosVentasMedicos_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta,'cliente': cliente, 'medico': medico}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+
+          </a>
+
+        </div>
+        <br>
       </div>
     </div>
   </div>

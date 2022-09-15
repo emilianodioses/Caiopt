@@ -131,6 +131,15 @@ class Medico
      */
     private $updatedAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="porcentaje", type="decimal", precision=5, scale=2)
+
+     */
+    private $porcentaje;
+
+
 
     /**
      * Get id
@@ -337,6 +346,28 @@ class Medico
     public function getActivo()
     {
         return $this->activo;
+    }
+
+    /**
+     * Set porcentaje
+     *
+     * @param string $porcentaje
+     *
+     * @return Medico
+     */
+    public function setPorcentaje($porcentaje)
+    {
+        $this->porcentaje = $porcentaje;
+
+        return $this;
+    }
+    /**
+     * Get porcentaje
+     * @return string
+     */
+    public function getPorcentaje()
+    {
+        return $this->porcentaje;
     }
 
     /**
