@@ -40,6 +40,7 @@ Medicos
                   <th>Teléfono</th>
                   <th>Email</th>
                   <th>Contacto</th>
+                  <th>Porcentaje</th>
                   <th>Estado</th>
                   <th>Acciones</th>
               </tr>
@@ -55,6 +56,7 @@ Medicos
                   <td>{{ medico.telefono }}</td>
                   <td>{{ medico.email }}</td>
                   <td>{{ medico.contacto }}</td> 
+                  <td>{{ medico.porcentaje }}</td>
                   <td>{% if medico.activo %}
                       <span class="label label-success">Activo</span>
                   {% else %}

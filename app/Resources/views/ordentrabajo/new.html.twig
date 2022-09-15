@@ -11,7 +11,7 @@ Nueva Orden de Optica
     <script src="{{ asset('js/jquery.collection.js') }}"></script>
 {% endblock %}
 
-{% block body %}  
+{% block body %}
 
 <script>
 $(function(){
@@ -25,7 +25,7 @@ $(function(){
       $('html,body').scrollTop(scrollmem);
     });
   });
-</script>  
+</script>
 
 {% form_theme form 'ordentrabajo/formCollection.html.twig' %}
 {{ form(form) }}
@@ -50,10 +50,10 @@ $(function(){
         elements_selector: 'tr.item',
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
-            articulo = element.find("select.articulo"); 
+            articulo = element.find("select.articulo");
             entrega = element.find("OrdenTrabajoType_entrega");
-            
-            articulo.on('change', function(){ 
+
+            articulo.on('change', function(){
                 fnArticuloChange($(this));
             });
 
@@ -128,10 +128,10 @@ $(function(){
                     $("#OrdenTrabajoType_antesOjoIzquierdoHp").val(ordentrabajo.ojoIzquierdoHp);
                     $("#OrdenTrabajoType_antesOjoDerechoHpu").val(ordentrabajo.ojoDerechoHpu);
                     $("#OrdenTrabajoType_antesOjoIzquierdoHpu").val(ordentrabajo.ojoIzquierdoHpu);
-                }    
+                }
             }
         });
-        
+
         $.ajax({
             type: 'POST',
             url: "{{ url('cliente_find_obra_social_plan') }}" ,
@@ -162,7 +162,7 @@ $(function(){
             data: data,
             success: function(resp){
                 var articulo = $.parseJSON(resp.articulo);
-                
+
                 precioVenta.val(articulo.precioVenta);
                 total.val(articulo.precioVenta);
                 porcentajeBonificacion.val(0);
@@ -187,8 +187,8 @@ $(function(){
         //r_importeBonificacion.val(importeBonificacion);
         var total = parseFloat(r_precioVenta.val() - r_importeBonificacion.val()).toFixed(2);
 
-        r_total.val(total);   
-        
+        r_total.val(total);
+
         fnCalcularTotales();
 
         return true;
@@ -198,7 +198,7 @@ $(function(){
 
         var total_bonificacion = 0;
         var total = 0;
-        
+
         $("#OrdenTrabajoType_ordenTrabajoDetalles tr.item").each(function() {
 
             var r_importeBonificacion = $(this).find("input.importeBonificacion");
@@ -211,7 +211,7 @@ $(function(){
         $("#OrdenTrabajoType_totalBonificacion").val(total_bonificacion.toFixed(2));
         $("#OrdenTrabajoType_total").val(total.toFixed(2));
         $("#OrdenTrabajoType_saldo").val(total.toFixed(2));
-        
+
         fnCalcularSaldo();
 
         return true;
@@ -225,7 +225,7 @@ $(function(){
         var saldo = parseFloat(total - entrega);
 
         $("#OrdenTrabajoType_saldo").val(saldo.toFixed(2));
-        
+
         return true;
     }
 
@@ -233,6 +233,6 @@ $(function(){
        fnCalcularSaldo();
     });
 
-</script>          
+</script>
 
 {% endblock %}
