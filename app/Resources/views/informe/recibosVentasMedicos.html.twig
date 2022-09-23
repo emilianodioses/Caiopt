@@ -64,9 +64,6 @@ Comprobantes Cobrados por Médico
         <div class="box-body table-responsive no-padding">
           <table id="informe_recibosVentasMedicos" class="table table-hover">
                 <tr>
-                    <th style="width: 7%">Pto. Venta</th>
-                    <th style="width: 7%">Nº Int.</th>
-                    <th style="width: 7%">Nº Fac.</th>
                     <th style="width: 7%">Nº OT.</th>
                     <th>Tipo</th>
                     <th>Cliente</th>
@@ -80,14 +77,7 @@ Comprobantes Cobrados por Médico
             <tbody>
             {% for reciboComprobante in recibosComprobantes %}
               {% set comprobante = reciboComprobante.comprobante %}
-                <tr>
-                    <td>{{ comprobante.puntoVenta }}</td>
-                    <td>{{ comprobante.numero }}</td>
-                    {% if comprobante.afipNumero is empty %}
-                      <td></td>
-                    {% else %}
-                      <td>{{ comprobante.afipNumero }}</td>
-                    {% endif %}
+                <tr>                    
                     {% if comprobante.ordenTrabajo is empty %}
                       <td>-</td>
                     {% else %}

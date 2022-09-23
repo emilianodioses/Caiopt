@@ -38,9 +38,6 @@
         <table width="100%" cellspacing="0" align="center" border="0.5">
             <tr>
                       <th style="width: 7%">Pto. Venta</th>
-                      <th style="width: 7%">Nº Int.</th>
-                      <th style="width: 7%">Nº Fac.</th>
-                      <th style="width: 7%">Tipo</th>
                       <th>Cliente</th>
                       <th>Médico</th>
                       <th>Fecha</th>
@@ -53,14 +50,7 @@
               {% for reciboComprobante in recibosComprobantes %}
                     {% set comprobante = reciboComprobante.comprobante %}
                       <tr>
-                          <td>{{ comprobante.puntoVenta }}</td>
-                          <td>{{ comprobante.numero }}</td>
-                          {% if comprobante.afipNumero is empty %}
-                            <td></td>
-                          {% else %}
-                            <td>{{ comprobante.afipNumero }}</td>
-                          {% endif %}
-                          <td>{{ comprobante.tipo.descripcionCorta }}</td>
+                          <td>{{ comprobante.puntoVenta }}</td>                        
                           <td>{{ comprobante.cliente }}</td>
                           <td>{{ comprobante.medico }}</td>
                           <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
