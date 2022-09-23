@@ -308,6 +308,34 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'step' => 0.25,
                     ),
                     'label' => 'Esfera Ojo Izquierdo'))
+                    ->add('cercaOjoDerechoEje',FloatType::class, array(
+                        'attr' => array(
+                        'required' => true,
+                        'empty_data' => 0,
+                        'step' => 0.25,
+                        ),
+                        'label' => 'Eje Ojo Derecho'))
+                    ->add('cercaOjoIzquierdoEje',FloatType::class, array(
+                        'attr' => array(
+                        'required' => true,
+                        'empty_data' => 0,
+                        'step' => 0.25,
+                        ),
+                        'label' => 'Eje Ojo Izquierdo'))
+                    ->add('cercaOjoDerechoCilindro',FloatType::class, array(
+                        'attr' => array(
+                        'required' => true,
+                        'empty_data' => 0,
+                        'step' => 0.25,
+                        ),
+                        'label' => 'Cilindro Ojo Derecho'))
+                    ->add('cercaOjoIzquierdoCilindro',FloatType::class, array(
+                        'attr' => array(
+                        'required' => true,
+                        'empty_data' => 0,
+                        'step' => 0.25,
+                        ),
+                        'label' => 'Cilindro Ojo Izquierdo'))
                 ->add('ojoDerechoDnp',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
@@ -363,7 +391,35 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'empty_data' => 0,
                     'step' => 0.25,
                     ),
-                    'label' => 'Esfera Ojo Izquierdo'))              
+                    'label' => 'Esfera Ojo Izquierdo'))
+                    ->add('antesCercaOjoDerechoEje',FloatType::class, array(
+                      'attr' => array(
+                      'required' => true,
+                      'empty_data' => 0,
+                      'step' => 0.25,
+                      ),
+                      'label' => 'Eje Ojo Derecho'))
+                  ->add('antesCercaOjoIzquierdoEje',FloatType::class, array(
+                      'attr' => array(
+                      'required' => true,
+                      'empty_data' => 0,
+                      'step' => 0.25,
+                      ),
+                      'label' => 'Eje Ojo Izquierdo'))
+                  ->add('antesCercaOjoDerechoCilindro',FloatType::class, array(
+                      'attr' => array(
+                      'required' => true,
+                      'empty_data' => 0,
+                      'step' => 0.25,
+                      ),
+                      'label' => 'Cilindro Ojo Derecho'))
+                  ->add('antesCercaOjoIzquierdoCilindro',FloatType::class, array(
+                      'attr' => array(
+                      'required' => true,
+                      'empty_data' => 0,
+                      'step' => 0.25,
+                      ),
+                      'label' => 'Cilindro Ojo Izquierdo'))
                 ->add('antesCercaOjoDerechoEsfera',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
