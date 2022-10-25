@@ -273,7 +273,7 @@ class ComprobanteType extends AbstractType
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
                     ),
-                    'label' => 'Bonificaci—n $'))
+                    'label' => 'Bonificación $'))
                 ->add('total',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
