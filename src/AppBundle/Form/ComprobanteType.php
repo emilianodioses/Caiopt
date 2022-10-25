@@ -123,7 +123,7 @@ class ComprobanteType extends AbstractType
                         'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
                                    return $er->createQueryBuilder('ic')
                                        ->where('ic.activo = 1')
-                                       ->where('ic.sucursal = ?1')
+                                       ->andWhere('ic.sucursal = ?1')
                                        ->orderBy('ic.numero', 'ASC')
                                        ->setParameter(1, $this->user->getSucursal()->getId())
                                        ;
@@ -273,7 +273,7 @@ class ComprobanteType extends AbstractType
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
                     ),
-                    'label' => 'Bonificaci—n $'))
+                    'label' => 'Bonificaciâ€”n $'))
                 ->add('total',FloatType::class, array(
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01
