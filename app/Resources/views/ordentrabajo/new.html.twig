@@ -233,6 +233,19 @@ $(function(){
        fnCalcularSaldo();
     });
 
+    function fnReplicarValor(original, nuevo)
+    {
+        $(original).change(function() {
+            $(nuevo).val($(original).val());
+        });
+    }
+
+    var camposReplicables = [['#OrdenTrabajoType_antesLejosOjoDerechoCilindro','#OrdenTrabajoType_antesCercaOjoDerechoCilindro'],
+        ['#OrdenTrabajoType_antesLejosOjoDerechoEje','#OrdenTrabajoType_antesCercaOjoDerechoEje'],
+        ['#OrdenTrabajoType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoType_antesCercaOjoIzquierdoCilindro'],
+        ['#OrdenTrabajoType_antesLejosOjoIzquierdoEje','#OrdenTrabajoType_antesCercaOjoIzquierdoEje']]
+
+    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1])));
 </script>
 
 {% endblock %}
