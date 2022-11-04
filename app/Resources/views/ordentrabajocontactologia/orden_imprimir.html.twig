@@ -35,7 +35,7 @@
                     <b style="font-size:8">Comp {{ ordenTrabajoContactologia.comprobante }}</b><br>
                     Fecha Recepción: {{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}
                     <br>
-                    Fecha Entrega: {{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}
+                    <b style="font-size:9">Fecha Entrega: {{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</b>
                     <br>
                     <br>
                     <b><u>ATENCION:</u></b>
@@ -102,7 +102,7 @@
                 <td style="text-align: center">Forma</td>
                 <td style="text-align: center">Estilo</td>
                 <td style="text-align: center">P. Venta</td>
-                <td style="text-align: center">O.S</td>
+                <td style="text-align: center">Bonificación</td>
                 <td style="text-align: center">Total</td>
             </tr>
             {% for ordenTrabajoContactologiaDetalle in ordentrabajocontactologiadetalles %}
