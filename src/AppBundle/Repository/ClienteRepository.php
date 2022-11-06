@@ -19,6 +19,8 @@ class ClienteRepository extends \Doctrine\ORM\EntityRepository
             $query .= ' AND c.nombre LIKE :texto 
         				OR c.documentoNumero LIKE :texto 
         				OR c.email LIKE :texto 
+        				OR c.direccion LIKE :texto 
+        				OR c.telefono LIKE :texto 
         				OR c.contacto LIKE :texto ';
 
         $query .= ' ORDER BY c.nombre ASC ';
