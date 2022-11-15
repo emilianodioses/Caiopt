@@ -33,7 +33,7 @@
                     <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b><br>
                     Fecha Recepcion: {% if not ordenTrabajo.fechaRecepcion is empty %} {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }} {% endif %}
                     <br>
-                    Fecha Entrega: {% if not ordenTrabajo.fechaEntrega is empty %} {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }} {% endif %}
+                    <b style="font-size:9">Fecha Entrega: {% if not ordenTrabajo.fechaEntrega is empty %} {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }} {% endif %}</b>
                     <br>
                     <br>
                     <b><u>ATENCION:</u></b>
@@ -101,7 +101,7 @@
                 #}
                 <td style="text-align: center" width="15%">P. Venta</td>
                 {% if pagina_nro == 1 %}
-                    <td style="text-align: center" width="15%">O.S</td>
+                    <td style="text-align: center" width="15%">Bonificación</td>
                 {% endif %}
                 <td style="text-align: center" width="15%">Total</td>
             </tr>
