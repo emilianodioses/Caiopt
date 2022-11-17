@@ -149,3 +149,11 @@ app_banco:
 app_cheque:
     resource: "@AppBundle/Resources/config/routing/cheque.yml"
     prefix:   /cheque
+
+app_articulomarca:
+    resource: "@AppBundle/Resources/config/routing/articulomarca.yml"
+    prefix:   /articulomarca
+
+app_articulocategoria:
+    resource: "@AppBundle/Resources/config/routing/articulocategoria.yml"
+    prefix:   /articulocategoria

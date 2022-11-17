@@ -242,7 +242,13 @@ desired effect
             </ul>
           </li>
           
-          <li id="articulo"><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a></li>
+          <li id="articulo"><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('articulomarca_index')}}">Marca</a></li>
+              <li><a href="{{path('articulocategoria_index')}}">Categoria</a></li>
+            </ul>
+          </li>
+
           <li id="stock"><a href="{{path('stock_index')}}"><i class="glyphicon glyphicon-tasks"></i> <span>Stock</span></a></li>
           <li class="treeview">
             <a href="{{path('obrasocial_index')}}"><i class="fa fa-medkit"></i> <span>Obra Social</span>
