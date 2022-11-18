@@ -110,7 +110,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('estado',ChoiceType::class,array(
                         'label'=>'Estado',
