@@ -126,7 +126,7 @@ class OrdenTrabajoType extends AbstractType
                            }
                 ))
                 ->add('numeroTaller', IntegerType::class, array(
-                    'label' => 'Número',
+                    'label' => 'NÃºmero',
                     'required' => false,))
                 ->add('fechaTallerPedido',DateType::class,array(
                     'label'=>'Fecha Pedido',
@@ -153,7 +153,7 @@ class OrdenTrabajoType extends AbstractType
                     'attr' => array(
                         'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
                     ),
-                    'label' => 'Bonificación $'))
+                    'label' => 'BonificaciÃ³n $'))
                 ->add('entrega',FloatType::class, array(
                     'attr' => array(
                         'readonly' => false, 'step' => 0.01

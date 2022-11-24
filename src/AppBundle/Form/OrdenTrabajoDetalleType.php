@@ -52,7 +52,7 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
-                    )) 
+                    ))
                 ->add('fechaEntrega',DateType::class,array(
                     'label'=>false,
                     'widget' => 'single_text',
@@ -76,7 +76,7 @@ class OrdenTrabajoDetalleType extends AbstractType
                 */
                 ->add('porcentajeBonificacion',HiddenType::class,array(
                     'label'=>'% Bonificación',
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => '% Obra Social/Bonificacion', 'class' => 'porcentajeBonificacion', 'step' => 0.1),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => '% Bonificacion', 'class' => 'porcentajeBonificacion', 'step' => 0.1),
                         ))
                 ->add('importeBonificacion',FloatType::class,array(
                     'label'=>'Importe Bonificación',
@@ -85,7 +85,7 @@ class OrdenTrabajoDetalleType extends AbstractType
                 ->add('tipoCristal',ChoiceType::class,array(
                     'label'=>false,
                     'choices' => $tipoCristal,
-                    'choices_as_values' => true))        
+                    'choices_as_values' => true))
                 ->add('estado',ChoiceType::class,array(
                     'label'=>false,
                     'choices' => $estados,

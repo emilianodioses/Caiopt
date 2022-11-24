@@ -412,7 +412,7 @@
                                          {% if ordenTrabajoContactologia.comprobante is empty %}
                                             <a href="{{ path('comprobanteventa_new', { 'id': ordenTrabajoContactologia.Id, 'tipo':'contactologia' }) }}" class="btn btn-app pull-right" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
                                             </a>
-                                         {% else %}  
+                                         {% else %}
                                             {% if ordenTrabajoContactologia.comprobante.pendiente == 0 and ordenTrabajoContactologia.estado != "Finalizado" %}
                                                 <a href="{{ path('ordentrabajocontactologia_cerrar', { 'id': ordenTrabajoContactologia.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
                                                 </a>
@@ -447,7 +447,7 @@
                                             <th>Estilo</th>
                                             <th>Color Marco</th>
                                             <th>Colo Cristal</th>
-                                            <th>Obra Social / Bonificación</th>
+                                            <th>Bonificación</th>
                                             <th>P. Venta</th>
                                             <th>Total</th>
                                         </tr>
