@@ -70,6 +70,21 @@ class ArticuloMarcaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $marca_existente = $em->getRepository('AppBundle:ArticuloMarca')->findBy(Array('descripcion' => $articulomarca->getDescripcion()));
+
+            if (count($marca_existente) > 0)
+            {
+                if ($marca_existente[0]->getActivo())
+                    $this->get('session')->getFlashbag()->add('warning', 'Ya existe una marca con la descripcion ingresada.');
+                else
+                    $this->get('session')->getFlashbag()->add('warning', 'Ya existe una marca con la descripcion ingresada con estado inactivo.');
+
+                return $this->render('articulomarca/new.html.twig', array(
+                    'articulomarca' => $articulomarca,
+                    'form' => $form->createView(),
+                ));
+            }
+
             $articulomarca->setActivo(true);
             $articulomarca->setCreatedBy($this->getUser());
             $articulomarca->setCreatedAt(new \DateTime("now"));

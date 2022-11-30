@@ -70,6 +70,21 @@ class ArticuloCategoriaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $categoria_existente = $em->getRepository('AppBundle:ArticuloCategoria')->findBy(Array('descripcion' => $articulocategoria->getDescripcion()));
+
+            if (count($categoria_existente) > 0)
+            {
+                if ($categoria_existente[0]->getActivo())
+                    $this->get('session')->getFlashbag()->add('warning', 'Ya existe una categoria con la descripcion ingresada.');
+                else
+                    $this->get('session')->getFlashbag()->add('warning', 'Ya existe una categoria con la descripcion ingresada con estado inactivo.');
+
+                return $this->render('articulocategoria/new.html.twig', array(
+                    'articulocategoria' => $articulocategoria,
+                    'form' => $form->createView(),
+                ));
+            }
+
             $articulocategoria->setActivo(true);
             $articulocategoria->setCreatedBy($this->getUser());
             $articulocategoria->setCreatedAt(new \DateTime("now"));
