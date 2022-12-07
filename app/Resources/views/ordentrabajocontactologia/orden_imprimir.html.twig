@@ -16,17 +16,13 @@
                     <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Detalles:</u></b>
                     <br>
                     <br>
-                    Estado: {{ ordenTrabajoContactologia.estado }}
+                    Pedido a: {{ ordenTrabajoContactologia.taller }}
                     <br>
-                    Diagnóstico: {{ ordenTrabajoContactologia.diagnostico }}
+                    Fecha Pedido: {% if not ordenTrabajo.fechaTallerPedido is empty %} {{ ordenTrabajoContactologia.fechaTallerPedido | date('d-m-Y') }} {% endif %}
                     <br>
-                    Rp: {{ ordenTrabajoContactologia.rp }}
+                    Fecha Entrega: {% if not ordenTrabajo.fechaTallerEntrega is empty %} {{ ordenTrabajoContactologia.fechaTallerEntrega | date('d-m-Y') }} {% endif %}
                     <br>
-                    Observaciones: {{ ordenTrabajoContactologia.observaciones }}
-                    <br>
-                    Motivación: {{ ordenTrabajoContactologia.motivacion }}
-                    <br>
-                    Usolc: {{ ordenTrabajoContactologia.usoLC }}
+                    Número: {{ordenTrabajoContactologia.numeroTaller}}
                     <br>
                 </td>
                 {% endif %}

@@ -5,13 +5,13 @@ parameters:
     database_host: 127.0.0.1
     database_port: 3306
     database_name: contini
-    database_user: root
-    database_password: lala123
+    database_user: Milseguros
+    database_password: 123456abcde
     mailer_transport: smtp
     mailer_host: smtp.googlemail.com
-    mailer_user: infoopticacontini@gmail.com
+    mailer_user: ma.ceciliacarletti@gmail.com
     mailer_password: Contini123!
-    
+
     mailer_auth_mode: login
     mailer_port: 465
     mailer_encryption: ssl
