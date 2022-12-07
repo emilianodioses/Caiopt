@@ -31,7 +31,7 @@ class OrdenTrabajoContactologiaDetalleType extends AbstractType
             'Cerca' => 'Cerca',
             'Bifocal' => 'Bifocal',
             'Ocupacional' => 'Ocupacional',
-            'Progresivo' => 'Progresivo');  
+            'Progresivo' => 'Progresivo');
 
         $builder->add('ordenTrabajoContactologia',HiddenType::class,array('label'=>'Orden Trabajo Contactologia'))
                 ->add('articulo', Select2EntityType::class, array(
@@ -52,7 +52,7 @@ class OrdenTrabajoContactologiaDetalleType extends AbstractType
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
-                    )) 
+                    ))
                 ->add('fechaEntrega',DateType::class,array(
                     'label'=>false,
                     'widget' => 'single_text',
@@ -70,11 +70,11 @@ class OrdenTrabajoContactologiaDetalleType extends AbstractType
                     ))
                 ->add('porcentajeBonificacion',FloatType::class,array(
                     'label'=>'% Bonificación',
-                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => '% Obra Social/Bonificacion', 'class' => 'porcentajeBonificacion', 'step' => 0.1),
+                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => '% Bonificacion', 'class' => 'porcentajeBonificacion', 'step' => 0.1),
                         ))
                 ->add('importeBonificacion',FloatType::class,array(
                     'label'=>'Importe Bonificación',
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Obra Social/Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Bonificacion', 'class' => 'importeBonificacion', 'step' => 0.01),
                         ))
                 ->add('tipoCristal',ChoiceType::class,array(
                     'label'=>false,
