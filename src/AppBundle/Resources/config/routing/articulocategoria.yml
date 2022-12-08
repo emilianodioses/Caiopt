@@ -1,0 +1,32 @@
+articulocategoria_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ArticuloCategoria:index" }
+    methods:  GET
+
+articulocategoria_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ArticuloCategoria:show" }
+    methods:  GET
+
+articulocategoria_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ArticuloCategoria:new" }
+    methods:  [GET, POST]
+
+articulocategoria_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ArticuloCategoria:edit" }
+    methods:  [GET, POST]
+
+articulocategoria_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ArticuloCategoria:delete" }
+    methods:  [GET, POST]
+
+articulocategoria_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:ArticuloCategoria:find" }
+
+articulocategoria_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:ArticuloCategoria:findSelect2" }

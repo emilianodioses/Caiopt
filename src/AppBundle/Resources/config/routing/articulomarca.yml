@@ -1,0 +1,32 @@
+articulomarca_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ArticuloMarca:index" }
+    methods:  GET
+
+articulomarca_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ArticuloMarca:show" }
+    methods:  GET
+
+articulomarca_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ArticuloMarca:new" }
+    methods:  [GET, POST]
+
+articulomarca_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ArticuloMarca:edit" }
+    methods:  [GET, POST]
+
+articulomarca_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ArticuloMarca:delete" }
+    methods:  [GET, POST]
+
+articulomarca_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:ArticuloMarca:find" }
+
+articulomarca_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:ArticuloMarca:findSelect2" }
