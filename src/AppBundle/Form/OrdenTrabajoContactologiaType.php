@@ -174,28 +174,28 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Derecho Horizontal'))
                 ->add('rcOjoIzquierdoHorizontal',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Izquierdo Horizontal'))
                 ->add('rcOjoDerechoVertical',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Derecho Vertical'))
                 ->add('rcOjoIzquierdoVertical',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Izquierdo Vertical'))
                 ->add('ojoDerechoCurvas',FloatType::class, array(
