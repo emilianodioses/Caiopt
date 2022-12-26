@@ -13,20 +13,33 @@
                 </td>
                 {% if pagina_nro == 1 %}
                 <td width="40%" align="left" border="1">
-                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Detalles:</u></b>
+{#                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>DETALLE:</u></b>#}
+{#                    <br>#}
+{#                    <br>#}
+{#                    Estado: {{ ordenTrabajoContactologia.estado }}#}
+{#                    <br>#}
+{#                    Diagnóstico: {{ ordenTrabajoContactologia.diagnostico }}#}
+{#                    <br>#}
+{#                    Rp: {{ ordenTrabajoContactologia.rp }}#}
+{#                    <br>#}
+{#                    Observaciones: {{ ordenTrabajoContactologia.observaciones }}#}
+{#                    <br>#}
+{#                    Motivación: {{ ordenTrabajoContactologia.motivacion }}#}
+{#                    <br>#}
+{#                    Usolc: {{ ordenTrabajoContactologia.usoLC }}#}
+{#                    <br>#}
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>TALLER:</u></b>
                     <br>
                     <br>
-                    Estado: {{ ordenTrabajoContactologia.estado }}
+                    Pedido a: {{ ordenTrabajo.taller }}
                     <br>
-                    Diagnóstico: {{ ordenTrabajoContactologia.diagnostico }}
+                    Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %}
                     <br>
-                    Rp: {{ ordenTrabajoContactologia.rp }}
+                    Fecha Pedido: {% if not ordenTrabajo.fechaTallerPedido is empty %} {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }} {% endif %}
                     <br>
-                    Observaciones: {{ ordenTrabajoContactologia.observaciones }}
+                    Fecha Entrega: {% if not ordenTrabajo.fechaTallerEntrega is empty %} {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }} {% endif %}
                     <br>
-                    Motivación: {{ ordenTrabajoContactologia.motivacion }}
-                    <br>
-                    Usolc: {{ ordenTrabajoContactologia.usoLC }}
+                    Número: {{ ordenTrabajo.numeroTaller }}
                     <br>
                 </td>
                 {% endif %}
@@ -61,7 +74,6 @@
         <tbody>
             <tr>
                 <td width="30%" align="left">
-                    &nbsp;
                     <br>
                     <b>Total: </b> {{ ordenTrabajoContactologia.total}}
                     <br>
@@ -72,19 +84,36 @@
                     <b>Saldo: </b> {{ ordenTrabajoContactologia.saldo}}
                     <br>
                 </td>
-                <td width="70%" align="left">
+{#                <td width="70%" align="left">#}
+{#                    <b>Nombre: </b> {{ ordenTrabajoContactologia.cliente.nombre}}#}
+{#                    <br>#}
+{#                    <b>Dirección: </b> {{ ordenTrabajoContactologia.cliente.direccion}}#}
+{#                    <br>#}
+{#                    <b>DNI: </b> {{ ordenTrabajoContactologia.cliente.documentoNumero}}#}
+{#                    <br>#}
+{#                    <b>Médico: </b> {{ ordenTrabajoContactologia.medico}}#}
+{#                    <br>#}
+{#                    <b>Fecha Receta: </b> {{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }}#}
+{#                    <br>#}
+{#                    <b>Vendedor: </b> {{ ordenTrabajoContactologia.usuario}}#}
+{#                    <br>#}
+{#                    <b>Observaciones: </b> {{ ordenTrabajoContactologia.observaciones }}#}
+{#                </td>#}
+                <td width="35%" align="left">
                     <b>Nombre: </b> {{ ordenTrabajoContactologia.cliente.nombre}}
                     <br>
-                    <b>Dirección: </b> {{ ordenTrabajoContactologia.cliente.direccion}}
+                    <b>Teléfono: </b> {{ ordenTrabajoContactologia.cliente.telefono}}
+                    <br>
+                    <b>Direccion: </b> {{ ordenTrabajoContactologia.cliente.direccion}}
                     <br>
                     <b>DNI: </b> {{ ordenTrabajoContactologia.cliente.documentoNumero}}
+                </td>
+                <td width="35%" align="left">
+                    <b>Medico: </b> {{ ordenTrabajoContactologia.medico}}
                     <br>
-                    <b>Médico: </b> {{ ordenTrabajoContactologia.medico}}
+                    <b>Fecha Receta: </b> {% if not ordenTrabajoContactologia.fechaReceta is empty %} {{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }} {% endif %}
                     <br>
-                    <b>Fecha Receta: </b> {{ ordenTrabajoContactologia.fechaReceta | date('d-m-Y') }}
-                    <br>
-                    <b>Vendedor: </b> {{ ordenTrabajoContactologia.usuario}}
-                    <br>
+                    <b>Vendedor: </b> {{ ordenTrabajoContactologia.usuario}}<br>
                     <b>Observaciones: </b> {{ ordenTrabajoContactologia.observaciones }}
                 </td>
             </tr>

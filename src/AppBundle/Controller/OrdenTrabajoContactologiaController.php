@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\OrdenTrabajo;
 use AppBundle\Entity\OrdenTrabajoContactologia;
 use AppBundle\Entity\OrdenTrabajoContactologiaDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -313,7 +314,7 @@ class OrdenTrabajoContactologiaController extends Controller
      * Imprime la orden de trabajo
      *
      */
-    public function ordenImprimirAction(Request $request, OrdentrabajoContactologia $ordenTrabajoContactologia)
+    public function ordenImprimirAction(Request $request, OrdentrabajoContactologia $ordenTrabajoContactologia, OrdenTrabajo $ordenTrabajo)
     {
         // Permisos de Usuario para Acciones
         /*
@@ -326,6 +327,8 @@ class OrdenTrabajoContactologiaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($ordenTrabajo);
+
         $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($ordenTrabajoContactologia);
 
         $ordentrabajocontactologiadetalles = $em->getRepository('AppBundle:OrdenTrabajoContactologiaDetalle')->findBy(Array('ordenTrabajoContactologia'=>$ordenTrabajoContactologia,  'activo'=>1));
@@ -335,7 +338,9 @@ class OrdenTrabajoContactologiaController extends Controller
         $html = $this->renderView($ordenTemplate, array(
             'ordentrabajocontactologiadetalles' => $ordentrabajocontactologiadetalles,
             'ordenTrabajoContactologia' => $ordenTrabajoContactologia,
-        )
+            'ordenTrabajo' => $ordenesTrabajo,
+
+            )
         );
 
         //set_time_limit(30); uncomment this line according to your needs
