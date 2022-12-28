@@ -31,15 +31,15 @@
                     <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>TALLER:</u></b>
                     <br>
                     <br>
-                    Pedido a: {{ ordenTrabajo.taller }}
+                    Pedido a: {{ ordenTrabajoContactologia.taller }}
                     <br>
-                    Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %}
+                    Armado: {% if ordenTrabajoContactologia.armado %} Si {% else %} No {% endif %}
                     <br>
-                    Fecha Pedido: {% if not ordenTrabajo.fechaTallerPedido is empty %} {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }} {% endif %}
+                    Fecha Pedido: {% if not ordenTrabajoContactologia.fechaTallerPedido is empty %} {{ ordenTrabajoContactologia.fechaTallerPedido | date('d-m-Y') }} {% endif %}
                     <br>
-                    Fecha Entrega: {% if not ordenTrabajo.fechaTallerEntrega is empty %} {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }} {% endif %}
+                    Fecha Entrega: {% if not ordenTrabajoContactologia.fechaTallerEntrega is empty %} {{ ordenTrabajoContactologia.fechaTallerEntrega | date('d-m-Y') }} {% endif %}
                     <br>
-                    Número: {{ ordenTrabajo.numeroTaller }}
+                    Número: {{ ordenTrabajoContactologia.numeroTaller }}
                     <br>
                 </td>
                 {% endif %}
@@ -183,7 +183,8 @@
             </tr>
             <tr>
                 <td rowspan="2" align="center">
-                    LEJOS
+                    LEJOS/MONO
+                    /MULTI
                 </td>
                 <td align="center">
                     OD
@@ -301,7 +302,8 @@
             </tr>
             <tr>
                 <td rowspan="2" align="center">
-                    LEJOS
+                    LEJOS/MONO
+                    /MULTI
                 </td>
                 <td align="center">
                     OD
