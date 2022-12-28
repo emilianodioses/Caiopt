@@ -599,7 +599,52 @@ class OrdenTrabajoContactologia
      * })
      */
     private $sucursal;
+/*************************TALLER*******/
+    /**
+     * @var \Taller
+     *
+     * @ORM\ManyToOne(targetEntity="Taller")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="taller_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $taller;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_taller_pedido", type="datetime", nullable=true)
+     */
+    private $fechaTallerPedido;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_talle_entrega", type="datetime", nullable=true)
+     */
+    private $fechaTallerEntrega;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="armado", type="boolean")
+     */
+    private $armado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_taller", type="string", length=255, nullable=true)
+     */
+    private $numeroTaller = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="otros_trabajos", type="string", length=255, nullable=true)
+     */
+    private $otrosTrabajos;
+/*************************TALLER*******/
     /**
      * Set sucursal
      *
@@ -2552,4 +2597,149 @@ class OrdenTrabajoContactologia
     {
         return $this->usuario;
     }
+    /*************************TALLER*******/
+    /**
+     * Set taller
+     *
+     * @param \AppBundle\Entity\Taller $taller
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setTaller(\AppBundle\Entity\Taller $taller = null)
+    {
+        $this->taller = $taller;
+
+        return $this;
+    }
+
+    /**
+     * Get taller
+     *
+     * @return \AppBundle\Entity\Taller
+     */
+    public function getTaller()
+    {
+        return $this->taller;
+    }
+
+    /**
+     * Set fechaTallerPedido
+     *
+     * @param \DateTime $fechaTallerPedido
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setFechaTallerPedido($fechaTallerPedido)
+    {
+        $this->fechaTallerPedido = $fechaTallerPedido;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaTallerPedido
+     *
+     * @return \DateTime
+     */
+    public function getFechaTallerPedido()
+    {
+        return $this->fechaTallerPedido;
+    }
+
+    /**
+     * Set fechaTallerEntrega
+     *
+     * @param \DateTime $fechaTallerEntrega
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setFechaTallerEntrega($fechaTallerEntrega)
+    {
+        $this->fechaTallerEntrega = $fechaTallerEntrega;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaTallerEntrega
+     *
+     * @return \DateTime
+     */
+    public function getFechaTallerEntrega()
+    {
+        return $this->fechaTallerEntrega;
+    }
+
+    /**
+     * Set armado
+     *
+     * @param boolean $armado
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setArmado($armado)
+    {
+        $this->armado = $armado;
+
+        return $this;
+    }
+
+    /**
+     * Get armado
+     *
+     * @return boolean
+     */
+    public function getArmado()
+    {
+        return $this->armado;
+    }
+
+    /**
+     * Set numeroTaller
+     *
+     * @param integer $numeroTaller
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setNumeroTaller($numeroTaller)
+    {
+        $this->numeroTaller = $numeroTaller;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroTaller
+     *
+     * @return integer
+     */
+    public function getNumeroTaller()
+    {
+        return $this->numeroTaller;
+    }
+
+    /**
+     * Set otrosTrabajos
+     *
+     * @param string $otrosTrabajos
+     *
+     * @return OrdenTrabajoContactologia
+     */
+    public function setOtrosTrabajos($otrosTrabajos)
+    {
+        $this->otrosTrabajos = $otrosTrabajos;
+
+        return $this;
+    }
+
+    /**
+     * Get otrosTrabajos
+     *
+     * @return string
+     */
+    public function getOtrosTrabajos()
+    {
+        return $this->otrosTrabajos;
+    }
+    /*************************TALLER*******/
 }

@@ -574,7 +574,42 @@ class OrdenTrabajoContactologiaType extends AbstractType
                                        ->orderBy('ic.usuario', 'ASC')
                                        ;
                                }
-                  ));
+                  ))
+            ->add('taller', EntityType::class, array(
+                'label' => 'Taller',
+                'class' => 'AppBundle:Taller',
+                'required' => false,
+                'choice_label' => function ($taller) {
+                    return $taller->getNumero().' - '.$taller->getNombre();
+                },
+                'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->where('l.activo = 1')
+                        ->orderBy('l.nombre', 'ASC')
+                        ;
+                }
+            ))
+            ->add('numeroTaller', IntegerType::class, array(
+                'label' => 'Número',
+                'required' => false,))
+            ->add('fechaTallerPedido',DateType::class,array(
+                'label'=>'Fecha Pedido',
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => true,
+                'required' => false,
+                'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+            ->add('fechaTallerEntrega',DateType::class,array(
+                'label'=>'Fecha Entrega',
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => true,
+                'required' => false,
+                'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+            ->add('armado', null, array('label' => 'Armado','required' => false,))
+            ->add('otrosTrabajos', null, array('label' => 'Otros Trabajos','required' => false,))
+
+        ;
     }/**
      * {@inheritdoc}
      */
