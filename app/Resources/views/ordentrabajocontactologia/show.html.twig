@@ -136,6 +136,60 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Taller </h3>
+                            </div>
+                            <table class="table table-hover">
+                                <tbody>
+                                <tr>
+                                    <th>Taller</th>
+                                    <td>{{ ordenTrabajoContactologia.taller }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha Taller Pedido</th>
+                                    {% if ordenTrabajoContactologia.fechaTallerPedido is empty %}
+                                        <td></td>
+                                    {% else %}
+                                        <td>{{ ordenTrabajoContactologia.fechaTallerPedido | date('d-m-Y') }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Fecha Taller Entrega</th>
+                                    {% if ordenTrabajoContactologia.fechaTallerEntrega is empty %}
+                                        <td></td>
+                                    {% else %}
+                                        <td>{{ ordenTrabajoContactologia.fechaTallerEntrega | date('d-m-Y') }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Número</th>
+                                    <td>{{ ordenTrabajoContactologia.numeroTaller }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Necesita Armado</th>
+                                    <td>{{ ordenTrabajoContactologia.armado }}</td>
+                                </tr>
+                                <tr>
+                                     <th>Otros Trabajos</th>
+                                     <td>{{ ordenTrabajoContactologia.otrosTrabajos }}</td>
+                                </tr>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="box box-success">
                             <div class="box-header with-border">
@@ -250,7 +304,7 @@
                                     </tr>
                                     <tbody>
                                         <tr>
-                                            <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                            <td style="text-align: center" rowspan="2"><b>LEJOS/MONO/MULTI</b></td>
                                             <td><b>OD</b></td>
                                             <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoEsfera }}</td>
                                             <td style="text-align: center">{{ ordenTrabajoContactologia.antesLejosOjoDerechoCilindro }}</td>
@@ -300,7 +354,7 @@
                                     </tr>
                                     <tbody>
                                         <tr>
-                                            <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                            <td style="text-align: center" rowspan="2"><b>LEJOS/MONO/MULTI</b></td>
                                             <td><b>OD</b></td>
                                             <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoEsfera }}</td>
                                             <td style="text-align: center">{{ ordenTrabajoContactologia.lejosOjoDerechoCilindro }}</td>
@@ -350,7 +404,7 @@
                                     </tr>
                                     <tbody>
                                     <tr>
-                                        <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                        <td style="text-align: center" rowspan="2"><b>LEJOS/MONO/MULTI</b></td>
                                         <td><b>OD</b></td>
                                         <td style="text-align: center">{{ ordenTrabajoContactologia.finalLejosOjoDerechoEsfera }}</td>
                                         <td style="text-align: center">{{ ordenTrabajoContactologia.finalLejosOjoDerechoCilindro }}</td>
