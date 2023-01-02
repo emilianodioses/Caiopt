@@ -638,12 +638,12 @@ class OrdenTrabajoContactologia
      */
     private $numeroTaller = '0';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="otros_trabajos", type="string", length=255, nullable=true)
-     */
-    private $otrosTrabajos;
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="otros_trabajos", type="string", length=255, nullable=true)
+//     */
+//    private $otrosTrabajos;
 /*************************TALLER*******/
     /**
      * Set sucursal
@@ -2718,28 +2718,28 @@ class OrdenTrabajoContactologia
         return $this->numeroTaller;
     }
 
-    /**
-     * Set otrosTrabajos
-     *
-     * @param string $otrosTrabajos
-     *
-     * @return OrdenTrabajoContactologia
-     */
-    public function setOtrosTrabajos($otrosTrabajos)
-    {
-        $this->otrosTrabajos = $otrosTrabajos;
-
-        return $this;
-    }
-
-    /**
-     * Get otrosTrabajos
-     *
-     * @return string
-     */
-    public function getOtrosTrabajos()
-    {
-        return $this->otrosTrabajos;
-    }
+//    /**
+//     * Set otrosTrabajos
+//     *
+//     * @param string $otrosTrabajos
+//     *
+//     * @return OrdenTrabajoContactologia
+//     */
+//    public function setOtrosTrabajos($otrosTrabajos)
+//    {
+//        $this->otrosTrabajos = $otrosTrabajos;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get otrosTrabajos
+//     *
+//     * @return string
+//     */
+//    public function getOtrosTrabajos()
+//    {
+//        return $this->otrosTrabajos;
+//    }
     /*************************TALLER*******/
 }
