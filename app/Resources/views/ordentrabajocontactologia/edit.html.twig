@@ -177,6 +177,19 @@ $(function(){
        fnCalcularSaldo();
     });
 
+    function fnReplicarValor(original, nuevo)
+    {
+        $(original).change(function() {
+            $(nuevo).val($(original).val());
+        });
+    }
+
+    var camposReplicables = [['#OrdenTrabajoContactologiaType_antesLejosOjoDerechoCilindro','#OrdenTrabajoContactologiaType_antesCercaOjoDerechoCilindro'],
+        ['#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoCilindro'],
+        ['#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEje','#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEje'],
+        ['#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEje','#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEje']]
+
+    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1])));
 </script>          
 
 {% endblock %}

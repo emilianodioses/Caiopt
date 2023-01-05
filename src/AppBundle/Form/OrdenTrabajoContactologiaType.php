@@ -73,7 +73,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                            }
                 ))
                 ->add('fechaRecepcion',DateType::class,array(
-                    'label'=>'Fecha Recepcion',
+                    'label'=>'Fecha Recepción',
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
@@ -87,7 +87,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('medico', Select2EntityType::class, array(
-                      'label' => 'Medico',
+                      'label' => 'Médico',
                       'required' => false,
                       'class' => 'AppBundle:Medico',
                       'remote_route' => 'medico_find_select2',
@@ -174,28 +174,28 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Derecho Horizontal'))
                 ->add('rcOjoIzquierdoHorizontal',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Izquierdo Horizontal'))
                 ->add('rcOjoDerechoVertical',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Derecho Vertical'))
                 ->add('rcOjoIzquierdoVertical',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'RC Ojo Izquierdo Vertical'))
                 ->add('ojoDerechoCurvas',FloatType::class, array(
@@ -464,8 +464,105 @@ class OrdenTrabajoContactologiaType extends AbstractType
                         'attr' => [
                             'class' => 'table ordenTrabajoContactologiaDetalle-collection',
                         ],
-                    )
-                )
+                    ))
+            ->add('finalOjoIzquierdoDnp',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'DNP Ojo Izquierdo'))
+            ->add('finalOjoDerechoDnp',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'DNP Ojo Derecho'))
+            ->add('finalCercaOjoIzquierdoEsfera',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Esfera Ojo Izquierdo'))
+            ->add('finalCercaOjoDerechoEsfera',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Esfera Ojo Derecho'))
+            ->add('finalCercaOjoIzquierdoCilindro',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Cilindro Ojo Izquiqerdo'))
+            ->add('finalCercaOjoDerechoCilindro',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Cilindro Ojo Derecho'))
+            ->add('finalCercaOjoIzquierdoEje',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Eje Ojo Izquierdo'))
+            ->add('finalCercaOjoDerechoEje',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Eje Ojo Derecho'))
+            ->add('finalLejosOjoIzquierdoEsfera',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Esfera Ojo Izquierdo'))
+            ->add('finalLejosOjoDerechoEsfera',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Esfera Ojo Derecho'))
+            ->add('finalLejosOjoIzquierdoCilindro',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Cilindro Ojo Izquierdo'))
+            ->add('finalLejosOjoDerechoCilindro',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Cilindro Ojo Derecho'))
+            ->add('finalLejosOjoIzquierdoEje',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Eje Ojo Izquierdo'))
+            ->add('finalLejosOjoDerechoEje',FloatType::class, array(
+                'attr' => array(
+                    'required' => true,
+                    'empty_data' => 0,
+                    'step' => 0.25,
+                ),
+                'label' => 'Eje Ojo Derecho'))
                 ->add('usuario', EntityType::class, array(
                         'label' => 'Vendedor',
                         'class' => 'AppBundle:Usuario',
@@ -477,7 +574,42 @@ class OrdenTrabajoContactologiaType extends AbstractType
                                        ->orderBy('ic.usuario', 'ASC')
                                        ;
                                }
-                  ));
+                  ))
+            ->add('taller', EntityType::class, array(
+                'label' => 'Taller',
+                'class' => 'AppBundle:Taller',
+                'required' => false,
+                'choice_label' => function ($taller) {
+                    return $taller->getNumero().' - '.$taller->getNombre();
+                },
+                'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->where('l.activo = 1')
+                        ->orderBy('l.nombre', 'ASC')
+                        ;
+                }
+            ))
+            ->add('numeroTaller', IntegerType::class, array(
+                'label' => 'Número',
+                'required' => false,))
+            ->add('fechaTallerPedido',DateType::class,array(
+                'label'=>'Fecha Pedido',
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => true,
+                'required' => false,
+                'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+            ->add('fechaTallerEntrega',DateType::class,array(
+                'label'=>'Fecha Entrega',
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => true,
+                'required' => false,
+                'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
+            ->add('armado', null, array('label' => 'Armado','required' => false,))
+//            ->add('otrosTrabajos', null, array('label' => 'Otros Trabajos','required' => false,))
+
+        ;
     }/**
      * {@inheritdoc}
      */
