@@ -233,19 +233,33 @@ $(function(){
        fnCalcularSaldo();
     });
 
-    function fnReplicarValor(original, nuevo)
+    function fnReplicarValor(original, nuevo, condicional)
     {
-        $(original).change(function() {
-            $(nuevo).val($(original).val());
-        });
+        $(original+","+condicional).change(function() {
+            if ($(condicional).val() != 0)
+                $(nuevo).val($(original).val());
+    });
     }
 
-    var camposReplicables = [['#OrdenTrabajoType_antesLejosOjoDerechoCilindro','#OrdenTrabajoType_antesCercaOjoDerechoCilindro'],
-        ['#OrdenTrabajoType_antesLejosOjoDerechoEje','#OrdenTrabajoType_antesCercaOjoDerechoEje'],
-        ['#OrdenTrabajoType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoType_antesCercaOjoIzquierdoCilindro'],
-        ['#OrdenTrabajoType_antesLejosOjoIzquierdoEje','#OrdenTrabajoType_antesCercaOjoIzquierdoEje']]
+    var camposReplicables = [['#OrdenTrabajoType_antesLejosOjoDerechoCilindro','#OrdenTrabajoType_antesCercaOjoDerechoCilindro',
+          '#OrdenTrabajoType_antesCercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoType_antesCercaOjoIzquierdoCilindro',
+          '#OrdenTrabajoType_antesCercaOjoIzquierdoEsfera'],
+         ['#OrdenTrabajoType_antesLejosOjoDerechoEje','#OrdenTrabajoType_antesCercaOjoDerechoEje',
+          '#OrdenTrabajoType_antesCercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_antesLejosOjoIzquierdoEje','#OrdenTrabajoType_antesCercaOjoIzquierdoEje',
+          '#OrdenTrabajoType_antesCercaOjoIzquierdoEsfera'],
+         //*NUEVA*//
+         ['#OrdenTrabajoType_lejosOjoDerechoCilindro','#OrdenTrabajoType_cercaOjoDerechoCilindro',
+          '#OrdenTrabajoType_cercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_lejosOjoIzquierdoCilindro','#OrdenTrabajoType_cercaOjoIzquierdoCilindro',
+          '#OrdenTrabajoType_cercaOjoIzquierdoEsfera'],
+         ['#OrdenTrabajoType_lejosOjoDerechoEje','#OrdenTrabajoType_cercaOjoDerechoEje',
+          '#OrdenTrabajoType_cercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_lejosOjoIzquierdoEje','#OrdenTrabajoType_cercaOjoIzquierdoEje',
+          '#OrdenTrabajoType_cercaOjoIzquierdoEsfera']];
 
-    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1])));
+    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1],element[2])));
 </script>
 
 {% endblock %}
