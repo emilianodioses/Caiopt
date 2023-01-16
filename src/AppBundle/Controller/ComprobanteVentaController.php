@@ -2,16 +2,19 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\PuntoVenta;
 use AppBundle\Entity\Stock;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\ComprobanteDetalle;
 use AppBundle\Entity\OrdenTrabajo;
+use AppBundle\Entity\AfipComprobanteTipo;
 
 use AppBundle\Entity\Recibo;
 use AppBundle\Entity\ReciboComprobante;
 use AppBundle\Entity\Cliente;
 use AppBundle\Entity\LibroCajaDetalle;
 
+use AppBundle\Entity\Sucursal;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ComprobanteType;
@@ -89,6 +92,11 @@ class ComprobanteVentaController extends Controller
 
         //Si el id no es 0 asigno al comprobante de venta la orden de trabajo pasada por parametro y los articulos vinculados a ella.
         $em = $this->getDoctrine()->getManager();
+        $comprobante->setTipo($em->getRepository('AppBundle:AfipComprobanteTipo')->find(AfipComprobanteTipo::FACTURA_B));
+        if ($this->getUser()->getSucursal()->getId() == Sucursal::CASA_CENTRAL)
+        {
+            $comprobante->setPuntoVentaId($em->getRepository('AppBundle:PuntoVenta')->find(PuntoVenta::PUNTO_15));
+        }
 
         if($id > 0)
         {

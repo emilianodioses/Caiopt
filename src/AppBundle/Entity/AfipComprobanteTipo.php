@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AfipComprobanteTipo
 {
+    const FACTURA_B = 6;
     /**
      * @var int
      *

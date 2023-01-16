@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PuntoVenta
 {
+    const PUNTO_15 = 2;
     /**
      * @var int
      *
