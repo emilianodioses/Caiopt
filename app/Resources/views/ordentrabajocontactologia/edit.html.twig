@@ -177,19 +177,42 @@ $(function(){
        fnCalcularSaldo();
     });
 
-    function fnReplicarValor(original, nuevo)
+    function fnReplicarValor(original, nuevo, condicional)
     {
-        $(original).change(function() {
-            $(nuevo).val($(original).val());
+        $(original+","+condicional).change(function() {
+            if ($(condicional).val() != 0)
+                $(nuevo).val($(original).val());
         });
     }
 
-    var camposReplicables = [['#OrdenTrabajoContactologiaType_antesLejosOjoDerechoCilindro','#OrdenTrabajoContactologiaType_antesCercaOjoDerechoCilindro'],
-        ['#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoCilindro'],
-        ['#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEje','#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEje'],
-        ['#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEje','#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEje']]
+    var camposReplicables = [['#OrdenTrabajoContactologiaType_antesLejosOjoDerechoCilindro','#OrdenTrabajoContactologiaType_antesCercaOjoDerechoCilindro',
+        '#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEsfera'],
+        ['#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoCilindro',
+            "#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEsfera"],
+        ['#OrdenTrabajoContactologiaType_antesLejosOjoDerechoEje','#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEje',
+            '#OrdenTrabajoContactologiaType_antesCercaOjoDerechoEsfera'],
+        ['#OrdenTrabajoContactologiaType_antesLejosOjoIzquierdoEje','#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEje',
+            '#OrdenTrabajoContactologiaType_antesCercaOjoIzquierdoEsfera'],
+        //*PRUEBA*//
+        ['#OrdenTrabajoContactologiaType_lejosOjoDerechoCilindro','#OrdenTrabajoContactologiaType_cercaOjoDerechoCilindro',
+            '#OrdenTrabajoContactologiaType_cercaOjoDerechoEsfera'],
+        ['#OrdenTrabajoContactologiaType_lejosOjoIzquierdoCilindro','#OrdenTrabajoContactologiaType_cercaOjoIzquierdoCilindro',
+            "#OrdenTrabajoContactologiaType_cercaOjoIzquierdoEsfera"],
+        ['#OrdenTrabajoContactologiaType_lejosOjoDerechoEje','#OrdenTrabajoContactologiaType_cercaOjoDerechoEje',
+            '#OrdenTrabajoContactologiaType_cercaOjoDerechoEsfera'],
+        ['#OrdenTrabajoContactologiaType_lejosOjoIzquierdoEje','#OrdenTrabajoContactologiaType_cercaOjoIzquierdoEje',
+            '#OrdenTrabajoContactologiaType_cercaOjoIzquierdoEsfera'],
+        //*FINAL*//
+        ['#OrdenTrabajoContactologiaType_finalLejosOjoDerechoCilindro','#OrdenTrabajoContactologiaType_finalCercaOjoDerechoCilindro',
+            '#OrdenTrabajoContactologiaType_finalCercaOjoDerechoEsfera'],
+        ['#OrdenTrabajoContactologiaType_finalLejosOjoIzquierdoCilindro','#OrdenTrabajoContactologiaType_finalCercaOjoIzquierdoCilindro',
+            "#OrdenTrabajoContactologiaType_finalCercaOjoIzquierdoEsfera"],
+        ['#OrdenTrabajoContactologiaType_finalLejosOjoDerechoEje','#OrdenTrabajoContactologiaType_finalCercaOjoDerechoEje',
+            '#OrdenTrabajoContactologiaType_finalCercaOjoDerechoEsfera'],
+        ['#OrdenTrabajoContactologiaType_finalLejosOjoIzquierdoEje','#OrdenTrabajoContactologiaType_finalCercaOjoIzquierdoEje',
+            '#OrdenTrabajoContactologiaType_finalCercaOjoIzquierdoEsfera']]
 
-    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1])));
+    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1], element[2])));
 </script>          
 
 {% endblock %}
