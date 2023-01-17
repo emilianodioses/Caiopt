@@ -91,7 +91,8 @@ class ComprobanteType extends AbstractType
                                        ->andWhere('ic.venta = 1')
                                        ->orderBy('ic.descripcion', 'ASC')
                                        ;
-                               }
+                               },
+//                        'data' => $this->getDoctrine()->getEntityManager()
                   ))
                   ->add('cliente', Select2EntityType::class, array(
                       'label' => 'Cliente',

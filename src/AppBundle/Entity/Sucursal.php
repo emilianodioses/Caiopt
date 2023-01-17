@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Sucursal
 {
+    const CASA_CENTRAL = 1;
     /**
      * @var int
      *
