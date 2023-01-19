@@ -68,11 +68,17 @@ class ArticuloType extends AbstractType
                     'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
-                ->add('estilo', null, array(
+                ->add('estilo', EntityType::class, array(
                     'label' => 'Estilo',
-                    'required'=> false,
-                    'empty_data' => '',
-                    'attr' => array('style' => 'text-transform: uppercase')
+                    'class' => 'AppBundle:ArticuloEstilo',
+                    'required' => true,
+                    'choice_label' => 'descripcion',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('l')
+                            ->where('l.activo = 1')
+                            ->orderBy('l.descripcion', 'ASC')
+                            ;
+                    }
                 ))
                 ->add('colorMarco', null, array(
                     'label' => 'Color Marco',

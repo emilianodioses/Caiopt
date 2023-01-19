@@ -157,3 +157,7 @@ app_articulomarca:
 app_articulocategoria:
     resource: "@AppBundle/Resources/config/routing/articulocategoria.yml"
     prefix:   /articulocategoria
+
+app_articuloestilo:
+    resource: "@AppBundle/Resources/config/routing/articuloestilo.yml"
+    prefix:   /articuloestilo

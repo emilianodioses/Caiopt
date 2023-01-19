@@ -129,9 +129,12 @@ class Articulo
     private $forma;
 
     /**
-     * @var string
+     * @var \ArticuloEstilo
      *
-     * @ORM\Column(name="estilo", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="ArticuloEstilo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idEstilo", referencedColumnName="id")
+     * })
      */
     private $estilo;
 
@@ -620,13 +623,13 @@ class Articulo
     }
 
     /**
-     * Set estilo
+     * Set Estilo
      *
-     * @param string $estilo
+     * @param int idEstilo
      *
      * @return Articulo
      */
-    public function setEstilo($estilo)
+    public function setestilo($estilo)
     {
         $this->estilo = $estilo;
 
@@ -638,7 +641,7 @@ class Articulo
      *
      * @return string
      */
-    public function getEstilo()
+    public function getestilo()
     {
         return $this->estilo;
     }
