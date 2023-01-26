@@ -146,6 +146,15 @@ class Articulo
     private $colorMarco;
 
     /**
+     * @var \ArticuloMarco
+     *
+     * @ORM\ManyToOne(targetEntity="ArticuloMarco")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idMarco", referencedColumnName="id")
+     * })
+     */
+    private $marco;
+    /**
      * @var string
      *
      * @ORM\Column(name="color_cristal", type="string", length=255, nullable=true)
@@ -621,7 +630,15 @@ class Articulo
     {
         return $this->forma;
     }
-
+    /**
+     * Get estilo
+     *
+     * @return string
+     */
+    public function getestilo()
+    {
+        return $this->estilo;
+    }
     /**
      * Set Estilo
      *
@@ -635,17 +652,28 @@ class Articulo
 
         return $this;
     }
-
     /**
-     * Get estilo
+     * Get marco
      *
      * @return string
      */
-    public function getestilo()
+    public function getmarco()
     {
-        return $this->estilo;
+        return $this->marco;
     }
+    /**
+     * Set Marco
+     *
+     * @param int idMarco
+     *
+     * @return Articulo
+     */
+    public function setmarco($marco)
+    {
+        $this->marco = $marco;
 
+        return $this;
+    }
     /**
      * Set colorMarco
      *

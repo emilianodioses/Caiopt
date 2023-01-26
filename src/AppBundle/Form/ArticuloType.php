@@ -80,6 +80,18 @@ class ArticuloType extends AbstractType
                             ;
                     }
                 ))
+                ->add('marco', EntityType::class, array(
+                    'label' => 'Marco',
+                    'class' => 'AppBundle:ArticuloMarco',
+                    'required' => true,
+                    'choice_label' => 'descripcion',
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('l')
+                            ->where('l.activo = 1')
+                            ->orderBy('l.descripcion', 'ASC')
+                            ;
+                    }
+                ))
                 ->add('colorMarco', null, array(
                     'label' => 'Color Marco',
                     'required'=> false,
