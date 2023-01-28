@@ -103,6 +103,48 @@ Articulo
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 {{ form_row(edit_form.forma) }}
+                                <label class="control-label">Forma</label>
+                                <div class="select-wrapper">
+                                    <div class="select">
+                                        <div class="select__trigger"><span>Seleccione</span>
+                                            <div class="arrow"></div>
+                                        </div>
+                                        <div class="custom-options">
+                                            <span class="custom-option" data-value="forma-1">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_1.png">
+                                                Forma 1
+                                            </span>
+                                            <span class="custom-option" data-value="forma-2">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_2.png">
+                                                Forma 2
+                                            </span>
+                                            <span class="custom-option" data-value="forma-3">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_3.png">
+                                                Forma 3
+                                            </span>
+                                            <span class="custom-option" data-value="forma-4">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_4.png">
+                                                Forma 4
+                                            </span>
+                                            <span class="custom-option" data-value="forma-5">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_5.png">
+                                                Forma 5
+                                            </span>
+                                            <span class="custom-option" data-value="forma-6">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_6.png">
+                                                Forma 6
+                                            </span>
+                                            <span class="custom-option" data-value="forma-7">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_7.png">
+                                                Forma 7
+                                            </span>
+                                            <span class="custom-option" data-value="forma-8">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_8.png">
+                                                Forma 8
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,9 +168,15 @@ Articulo
         {{ form_end(edit_form) }}
     </div>
 </div>
+
+<link rel="stylesheet" href="/css/select_list.css">
+<script type="text/javascript" src="/js/select_list.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready( function() {
+
+    initSelect('#appbundle_articulo_forma');
 
     $('#appbundle_articulo_precioCosto').change(function() {
         fnCalcularPrecioVenta();
