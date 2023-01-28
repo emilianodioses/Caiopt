@@ -62,7 +62,7 @@ class ArticuloType extends AbstractType
                     'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
-                ->add('forma', null, array(
+                ->add('forma', HiddenType::class, array(
                     'label' => 'Forma',
                     'required'=> false,
                     'empty_data' => '',
