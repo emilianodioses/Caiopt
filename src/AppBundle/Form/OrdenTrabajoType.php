@@ -112,7 +112,7 @@ class OrdenTrabajoType extends AbstractType
                     'attr' => array('rows' => '1')
                 ))
                 ->add('taller', EntityType::class, array(
-                    'label' => 'Taller',
+                    'label' => 'Laboratorio',
                     'class' => 'AppBundle:Taller',
                     'required' => false,
                     'choice_label' => function ($taller) {

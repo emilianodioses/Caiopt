@@ -576,7 +576,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                                }
                   ))
             ->add('taller', EntityType::class, array(
-                'label' => 'Taller',
+                'label' => 'Laboratorio',
                 'class' => 'AppBundle:Taller',
                 'required' => false,
                 'choice_label' => function ($taller) {
