@@ -27,3 +27,18 @@ informe_recibosVentasMedicos_imprimir:
     path:    /recibosVentasMedicos_imprimir
     defaults: { _controller: "AppBundle:Informe:recibosVentasMedicos_imprimir" }
     methods:  [GET, POST]
+
+informe_libroIvaVentas:
+    path:     /libroIvaVentas
+    defaults: { _controller: "AppBundle:Informe:libroIvaVentas" }
+    methods:  [GET, POST]
+
+informe_libroIvaVentas_imprimir:
+    path:    /libroIvaVentas_imprimir
+    defaults: { _controller: "AppBundle:Informe:libroIvaVentas_imprimir" }
+    methods:  [GET, POST]
+
+informe_libroIvaVentas_imprimirexcel:
+    path:    /libroIvaVentas_imprimirExcel
+    defaults: { _controller: "AppBundle:Informe:libroIvaVentas_imprimirexcel" }
+    methods:  [GET, POST]
