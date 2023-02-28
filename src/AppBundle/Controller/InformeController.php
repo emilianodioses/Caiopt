@@ -538,7 +538,7 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('comprobante.fecha','tipo.descripcion','CONCAT(comprobante.puntoVenta,\' - \',comprobante.numero) as nro_comprobante',
+            ->select('comprobante.fecha','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','comprobante.totalNeto','cliente.documentoNumero',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
 		    'comprobante.total')
@@ -572,7 +572,7 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('comprobante.fecha','tipo.descripcion','CONCAT(comprobante.puntoVenta,\' - \',comprobante.numero) as nro_comprobante',
+            ->select('comprobante.fecha','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','comprobante.totalNeto','cliente.documentoNumero',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
                 'comprobante.total')
@@ -620,7 +620,7 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','CONCAT(comprobante.puntoVenta,\' - \',comprobante.numero) as nro_comprobante',
+            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','cliente.documentoNumero','comprobante.totalNeto',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
                 'comprobante.total')
