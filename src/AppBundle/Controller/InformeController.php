@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\PuntoVenta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,9 @@ class InformeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $puntos_venta = $em->getRepository('AppBundle:PuntoVenta')->findBy(array('activo' => true),array('numero' => 'ASC'));
+        $todosPts = new PuntoVenta();
+        $todosPts->setNumero("Todos");
+        array_unshift($puntos_venta,$todosPts);
 
     	return $this->render('informe/afipventasalicuotas.html.twig', array(
                 'puntos_venta' => $puntos_venta));
@@ -28,6 +32,7 @@ class InformeController extends Controller
         $fecha_desde = new \DateTime($request->get('fecha_desde')." 00:00:00");
         $fecha_hasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
         $punto_venta = $request->get('punto_venta');
+        $punto_venta = $punto_venta == "Todos"? null : $punto_venta;
 
         $em = $this->getDoctrine()->getManager();
 
