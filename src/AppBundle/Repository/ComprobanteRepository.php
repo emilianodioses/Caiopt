@@ -106,13 +106,16 @@ class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
                     AND c.movimiento = \'Venta\'
         			AND c.fecha >= :fecha_desde
         			AND c.fecha <= :fecha_hasta
-        			AND c.puntoVenta = :punto_venta
                     AND c.caeNumero IS NOT NULL ';
+        if ($punto_venta)
+            $query = $query.' AND c.puntoVenta = :punto_venta';
 
         $qb = $this->getEntityManager()->createQuery($query)
                 ->setParameter('fecha_desde', $fecha_desde)
-                ->setParameter('fecha_hasta', $fecha_hasta)
-                ->setParameter('punto_venta', $punto_venta);
+                ->setParameter('fecha_hasta', $fecha_hasta);
+
+        if ($punto_venta)
+            $qb->setParameter('punto_venta', $punto_venta);
 
         return $qb->getResult();
     }
