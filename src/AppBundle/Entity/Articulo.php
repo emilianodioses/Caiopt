@@ -136,14 +136,6 @@ class Articulo
      */
     private $colorCristal;
 
-    /***** CAMPOS MEDIDAS
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ancho", type="decimal", precision=16, scale=2)
-     */
-    private $ancho;
-
     /**
      * @var string
      *
@@ -162,7 +154,13 @@ class Articulo
      * @ORM\Column(name="puente", type="decimal", precision=16, scale=2)
      */
     private $puente;
-    /***** CAMPOS MEDIDAS
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ancho", type="decimal", precision=16, scale=2)
+     */
+    private $ancho;
+    
      /**
      * @var string
      *

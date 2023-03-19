@@ -93,7 +93,8 @@ class ArticuloType extends AbstractType
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
 
-                ->add('activo', null, array('label' => 'Activo',))
+
+            ->add('activo', null, array('label' => 'Activo',))
                 ->add('categoria', EntityType::class, array(
                     'label' => 'Categoria',
                     'class' => 'AppBundle:ArticuloCategoria',
