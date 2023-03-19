@@ -106,37 +106,12 @@ class Articulo
      * @ORM\Column(name="orden_trabajo", type="boolean")
      */
     private $ordenTrabajo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="genero", type="string", length=255)
-     */
-    private $genero;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="material", type="string", length=255, nullable=true)
-     */
-    private $material;
-
-    /**
+        /**
      * @var string
      *
      * @ORM\Column(name="forma", type="string", length=255, nullable=true)
      */
     private $forma;
-
-    /**
-     * @var \ArticuloEstilo
-     *
-     * @ORM\ManyToOne(targetEntity="ArticuloEstilo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEstilo", referencedColumnName="id")
-     * })
-     */
-    private $estilo;
 
     /**
      * @var string
@@ -160,6 +135,40 @@ class Articulo
      * @ORM\Column(name="color_cristal", type="string", length=255, nullable=true)
      */
     private $colorCristal;
+
+    /***** CAMPOS MEDIDAS
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ancho", type="decimal", precision=16, scale=2)
+     */
+    private $ancho;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="alto", type="decimal", precision=16, scale=2)
+     */
+    private $alto;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mayor_distancia", type="decimal", precision=16, scale=2)
+     */
+    private $mayor_distancia;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="puente", type="decimal", precision=16, scale=2)
+     */
+    private $puente;
+    /***** CAMPOS MEDIDAS
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="tipoAro", type="string", length=255, nullable=true)
+     */
+    private $tipoAro;
 
     /**
      * @var \Comprobante
@@ -560,30 +569,6 @@ class Articulo
     }
 
     /**
-     * Set genero
-     *
-     * @param string $genero
-     *
-     * @return Articulo
-     */
-    public function setGenero($genero)
-    {
-        $this->genero = $genero;
-
-        return $this;
-    }
-
-    /**
-     * Get genero
-     *
-     * @return string
-     */
-    public function getGenero()
-    {
-        return $this->genero;
-    }
-
-    /**
      * Set material
      *
      * @param string $material
@@ -630,28 +615,7 @@ class Articulo
     {
         return $this->forma;
     }
-    /**
-     * Get estilo
-     *
-     * @return string
-     */
-    public function getestilo()
-    {
-        return $this->estilo;
-    }
-    /**
-     * Set Estilo
-     *
-     * @param int idEstilo
-     *
-     * @return Articulo
-     */
-    public function setestilo($estilo)
-    {
-        $this->estilo = $estilo;
 
-        return $this;
-    }
     /**
      * Get marco
      *
@@ -722,6 +686,109 @@ class Articulo
         return $this->colorCristal;
     }
 
+    /********* DATOS MEDIDAS
+     /**
+     * Set ancho
+     * @param string $ancho
+     * @return Articulo
+     */
+    public function setAncho($ancho)
+    {
+        $this->ancho = $ancho;
+
+        return $this;
+    }
+     /**
+     * Get ancho
+     * @return string
+     */
+    public function getAncho()
+    {
+        return $this->ancho;
+    }
+    /**
+    * Set alto
+    * @param string $alto
+    * @return Articulo
+    */
+    public function setAlto($alto)
+    {
+        $this->alto = $alto;
+
+        return $this;
+    }
+    /**
+     * Get alto
+     * @return string
+     */
+    public function getAlto()
+    {
+        return $this->alto;
+    }
+
+    /**
+     * Set mayor_distancia
+     * @param string $mayor_distancia
+     * @return Articulo
+     */
+    public function setMayorDistancia($mayor_distancia)
+    {
+        $this->mayor_distancia = $mayor_distancia;
+
+        return $this;
+    }
+    /**
+     * Get mayor_distancia
+     * @return string
+     */
+    public function getMayorDistancia()
+    {
+        return $this->mayor_distancia;
+    }
+
+    /**
+     * Set puente
+     * @param string puente
+     * @return Articulo
+     */
+    public function setPuente($puente)
+    {
+        $this->puente = $puente;
+
+        return $this;
+    }
+    /**
+     * Get puente
+     * @return string
+     */
+    public function getPuente()
+    {
+        return $this->puente;
+    }
+    /********* DATOS MEDIDAS
+    /**
+     * Set tipoAro
+     * @param string tipoAro
+     * @return Articulo
+     */
+    public function setTipoAro($tipoAro)
+    {
+        $this->tipoAro = $tipoAro;
+
+        return $this;
+    }
+    /**
+     * Get tipoAro
+     * @return string
+     */
+    public function getTipoAro()
+    {
+        return $this->tipoAro;
+    }
+     /**
+     * @return string
+     *
+     */
     public function __toString()
     {
         return $this->descripcion;
