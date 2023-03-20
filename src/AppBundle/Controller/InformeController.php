@@ -12,6 +12,12 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 
 class InformeController extends Controller
 {
+    public static function mb_str_pad($texto, $longitud, $relleno = ' ', $tipo_pad = STR_PAD_RIGHT, $codificacion = null)
+    {
+        $diff = empty($codificacion) ? (strlen($texto) - mb_strlen($texto)) : (strlen($texto) - mb_strlen($texto, $codificacion));
+        return str_pad($texto, ($longitud + $diff), $relleno, $tipo_pad);
+    }
+
     public function afipventasalicuotasAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -56,7 +62,7 @@ class InformeController extends Controller
                 $fileContent .= sprintf("%020d", $comprobante->getAfipNumero()); //Número de comprobante hasta
                 $fileContent .= sprintf("%02d", $documento_tipo->getCodigo()); //Código de documento del comprador
                 $fileContent .= sprintf("%020d", $comprobante->getClienteDocumentoNumero()); //Número de identificación del comprador
-                $fileContent .= substr(str_pad(strtoupper($comprobante->getClienteRazonSocial()), 30), 0, 30); //Apellido y nombre o denominación del comprador
+                $fileContent .= mb_substr(InformeController::mb_str_pad(strtoupper($comprobante->getClienteRazonSocial()), 30), 0, 30); //Apellido y nombre o denominación del comprador
                 $fileContent .= sprintf("%015d", $comprobante->getTotal()*100); //Importe total de la operación
                 $fileContent .= sprintf("%015d", 0); //Importe total de conceptos que no integran el precio neto gravado
                 $fileContent .= sprintf("%015d", 0); //Percepción a no categorizados
