@@ -78,6 +78,7 @@ class InformeController extends Controller
                 $fileContent .= sprintf("%015d", 0); //Otros Tributos
                 $fileContent .= sprintf("%08d", 0); //Fecha de Vencimiento de Pago
 
+                $fileContent .= "\r";
                 $fileContent .= "\n";
             }
         }
@@ -114,6 +115,7 @@ class InformeController extends Controller
                         $fileContent .= sprintf("%04d", $alicuotas[$alicuotaIva->getId()]['Codigo']); //Alícuota de IVA
                         $fileContent .= sprintf("%015d", $alicuotas[$alicuota_id]['Importe']*100); //Impuesto Liquidado
 
+                        $fileContent .= "\r";
                         $fileContent .= "\n";
                     }
                 }
