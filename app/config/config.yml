@@ -89,7 +89,10 @@ doctrine:
                 DAY: DoctrineExtensions\Query\Mysql\Day
                 DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
                 YEAR: DoctrineExtensions\Query\Mysql\Year
-
+            string_functions:
+                LPAD: DoctrineExtensions\Query\Mysql\Lpad
+                RPAD: DoctrineExtensions\Query\Mysql\Rpad
+                
 # Swiftmailer Configuration
 swiftmailer:
     transport:  '%mailer_transport%'

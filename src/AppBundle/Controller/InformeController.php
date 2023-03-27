@@ -527,4 +527,131 @@ class InformeController extends Controller
       return true;
 
     }
+
+    /**
+     *Reporte Libro Iva Ventas
+     */
+    public function libroIvaVentasAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+
+        $query = $em->getRepository('AppBundle:Comprobante')
+            ->createQueryBuilder('comprobante')
+            ->join('comprobante.tipo','tipo')
+            ->join('comprobante.cliente','cliente')
+            ->select('comprobante.fecha','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+                'comprobante.clienteRazonSocial','comprobante.totalNeto','cliente.documentoNumero',
+                'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
+		    'comprobante.total')
+            ->andWhere('tipo.codigo = 1 OR tipo.codigo = 6') // Factura A y Factura B: TODO: Refactorizar a constante
+            ->andWhere('comprobante.fecha >= :fechaDesde')
+            ->andWhere('comprobante.fecha <= :fechaHasta')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+             $informeIvaVentas = $query->getQuery()
+            ->getResult();
+
+
+        return $this->render('informe/libroIvaVentas.html.twig', array(
+            'informeIvaVentas' => $informeIvaVentas,
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+
+        ));
+    }
+
+    public function libroIvaVentas_imprimirAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+
+        $query = $em->getRepository('AppBundle:Comprobante')
+            ->createQueryBuilder('comprobante')
+            ->join('comprobante.tipo','tipo')
+            ->join('comprobante.cliente','cliente')
+            ->select('comprobante.fecha','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+                'comprobante.clienteRazonSocial','comprobante.totalNeto','cliente.documentoNumero',
+                'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
+                'comprobante.total')
+            ->andWhere('tipo.codigo = 1 OR tipo.codigo = 6') // Factura A y Factura B: TODO: Refactorizar a constante
+            ->andWhere('comprobante.fecha >= :fechaDesde')
+            ->andWhere('comprobante.fecha <= :fechaHasta')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        $informeIvaVentas = $query->getQuery()
+            ->getResult();
+
+
+        $ventasTemplate = 'informe/libroIvaVentas_imprimir.html.twig';
+        $html = $this->renderView($ventasTemplate, array(
+            '$informeIvaVentas' => $informeIvaVentas,
+            'informeIvaVentas' => $informeIvaVentas,
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+        ));
+
+        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetFont('helvetica', '', 11, '', true);
+        $pdf->AddPage();
+
+        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+        $filename = "informe_iva_ventas";
+        $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a file
+
+        return true;
+    }
+
+    public function libroIvaVentas_imprimirExcelAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+
+        $query = $em->getRepository('AppBundle:Comprobante')
+            ->createQueryBuilder('comprobante')
+            ->join('comprobante.tipo','tipo')
+            ->join('comprobante.cliente','cliente')
+            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+                'comprobante.clienteRazonSocial','cliente.documentoNumero','comprobante.totalNeto',
+                'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
+                'comprobante.total')
+            ->andWhere('tipo.codigo = 1 OR tipo.codigo = 6') // Factura A y Factura B: TODO: Refactorizar a constante
+            ->andWhere('comprobante.fecha >= :fechaDesde')
+            ->andWhere('comprobante.fecha <= :fechaHasta')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        $informeIvaVentas = $query->getQuery()
+            ->getResult();
+
+        $f = fopen('php://memory', 'w');
+        $rows = array('Fecha','Comprobante','Nro Comp.','Cliente','CUIT o Doc','Neto','Conc No Grav Ret/Perc/PCta', 'Deb Fiscal IVA Discrim.',
+            'Acrecen Op Exentas', 'Total Operac');
+        fputcsv($f,$rows,";");
+
+        foreach ($informeIvaVentas as $line) {
+            fputcsv($f, $line, ";");
+
+        }
+        fseek($f, 0);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="LibroIvaVentas.csv";');
+        fpassthru($f);
+        return new Response();
+    }
+
 }
