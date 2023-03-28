@@ -100,10 +100,10 @@ class PedidoController extends controller
                     $articulo->setMarca($marca);
                     $articulo->setDescripcion($pedidoDetalle->getArticulo()->getDescripcion());
                     $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
-                    $articulo->setGenero('');
+//                    $articulo->setGenero('');
                     $articulo->setMaterial('');
                     $articulo->setForma('');
-                    $articulo->setEstilo('');
+//                    $articulo->setEstilo('');
                     $articulo->setTipoAro('');
                     $articulo->setColorMarco('');
                     $articulo->setColorCristal('');

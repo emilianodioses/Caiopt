@@ -139,25 +139,25 @@ class Articulo
     /**
      * @var string
      *
-     * @ORM\Column(name="alto", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="alto", type="decimal", precision=16, scale=2, nullable=true)
      */
     private $alto;
     /**
      * @var string
      *
-     * @ORM\Column(name="mayor_distancia", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="mayor_distancia", type="decimal", precision=16, scale=2, nullable=true)
      */
     private $mayor_distancia;
     /**
      * @var string
      *
-     * @ORM\Column(name="puente", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="puente", type="decimal", precision=16, scale=2, nullable=true)
      */
     private $puente;
     /**
      * @var string
      *
-     * @ORM\Column(name="ancho", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="ancho", type="decimal", precision=16, scale=2, nullable=true)
      */
     private $ancho;
     /**
@@ -165,7 +165,7 @@ class Articulo
      *
      * @ORM\ManyToOne(targetEntity="ArticuloEstilo")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idTipoAro", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idTipoAro", referencedColumnName="id", nullable=true)
      * })
      */
     private $tipoAro;
