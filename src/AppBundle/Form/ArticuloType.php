@@ -20,10 +20,10 @@ class ArticuloType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $generos = array(
-            'Masculino' => 'Masculino',
-            'Femenino' => 'Femenino',
-            'Niños' => 'Niños');
+//        $generos = array(
+//            'Masculino' => 'Masculino',
+//            'Femenino' => 'Femenino',
+//            'Niños' => 'Niños');
 
         $builder->add('iva', EntityType::class, array(
                     'label' => 'IVA',
