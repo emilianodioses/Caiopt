@@ -566,31 +566,6 @@ class Articulo
     {
         return $this->updatedAt;
     }
-
-    /**
-     * Set material
-     *
-     * @param string $material
-     *
-     * @return Articulo
-     */
-    public function setMaterial($material)
-    {
-        $this->material = $material;
-
-        return $this;
-    }
-
-    /**
-     * Get material
-     *
-     * @return string
-     */
-    public function getMaterial()
-    {
-        return $this->material;
-    }
-
     /**
      * Set forma
      *
