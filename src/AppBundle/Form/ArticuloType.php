@@ -52,33 +52,11 @@ class ArticuloType extends AbstractType
                 //->add('cantidadMinima', null, array('label' => 'Cantidad Minima',))
                 ->add('precioModifica', HiddenType::class, array('label' => 'Precio Modificable',))
                 ->add('ordenTrabajo', HiddenType::class, array('label' => 'Orden de Trabajo',))
-                ->add('genero',ChoiceType::class,array(
-                        'label'=>'Genero',
-                        'choices' => $generos,
-                            'choices_as_values' => true))  
-                ->add('material', null, array(
-                    'label' => 'Material',
-                    'required'=> false,
-                    'empty_data' => '',
-                    'attr' => array('style' => 'text-transform: uppercase')
-                ))
                 ->add('forma', HiddenType::class, array(
                     'label' => 'Forma',
                     'required'=> false,
                     'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
-                ))
-                ->add('estilo', EntityType::class, array(
-                    'label' => 'Estilo',
-                    'class' => 'AppBundle:ArticuloEstilo',
-                    'required' => true,
-                    'choice_label' => 'descripcion',
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('l')
-                            ->where('l.activo = 1')
-                            ->orderBy('l.descripcion', 'ASC')
-                            ;
-                    }
                 ))
                 ->add('marco', EntityType::class, array(
                     'label' => 'Marco',
@@ -104,19 +82,35 @@ class ArticuloType extends AbstractType
                     'empty_data' => '',
                     'attr' => array('style' => 'text-transform: uppercase')
                 ))
-                ->add('activo', null, array('label' => 'Activo',))
-                ->add('categoria', EntityType::class, array(
-                    'label' => 'Categoria',
-                    'class' => 'AppBundle:ArticuloCategoria',
+                ->add('ancho', null, array('label' => 'Ancho',))
+                ->add('alto', null, array('label' => 'Alto',))
+                ->add('mayor_distancia', null, array('label' => 'Mayor Distancia',))
+                ->add('puente', null, array('label' => 'Puente',))
+                ->add('tipoAro', EntityType::class, array(
+                    'label' => 'Tipo Aro',
+                    'class' => 'AppBundle:ArticuloEstilo',
                     'required' => true,
                     'choice_label' => 'descripcion',
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.descripcion', 'ASC')
-                                   ;
-                           }
+                        return $er->createQueryBuilder('l')
+                            ->where('l.activo = 1')
+                            ->orderBy('l.descripcion', 'ASC')
+                            ;
+                    }
                 ))
+                ->add('activo', null, array('label' => 'Activo',))
+                    ->add('categoria', EntityType::class, array(
+                        'label' => 'Categoria',
+                        'class' => 'AppBundle:ArticuloCategoria',
+                        'required' => true,
+                        'choice_label' => 'descripcion',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('l')
+                                       ->where('l.activo = 1')
+                                       ->orderBy('l.descripcion', 'ASC')
+                                       ;
+                               }
+                    ))
                 ->add('marca', EntityType::class, array(
                     'label' => 'Marca',
                     'class' => 'AppBundle:ArticuloMarca',

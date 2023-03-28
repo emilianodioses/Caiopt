@@ -104,6 +104,7 @@ class PedidoController extends controller
                     $articulo->setMaterial('');
                     $articulo->setForma('');
                     $articulo->setEstilo('');
+                    $articulo->setTipoAro('');
                     $articulo->setColorMarco('');
                     $articulo->setColorCristal('');
                     $articulo->setActivo(true);
