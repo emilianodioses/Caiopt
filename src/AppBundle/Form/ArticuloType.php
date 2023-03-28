@@ -86,27 +86,31 @@ class ArticuloType extends AbstractType
                 ->add('alto', null, array('label' => 'Alto',))
                 ->add('mayor_distancia', null, array('label' => 'Mayor Distancia',))
                 ->add('puente', null, array('label' => 'Puente',))
-                ->add('tipoAro', null, array(
+                ->add('tipoAro', EntityType::class, array(
                     'label' => 'Tipo Aro',
-                    'required'=> false,
-                    'empty_data' => '',
-                    'attr' => array('style' => 'text-transform: uppercase')
-                ))
-
-
-            ->add('activo', null, array('label' => 'Activo',))
-                ->add('categoria', EntityType::class, array(
-                    'label' => 'Categoria',
-                    'class' => 'AppBundle:ArticuloCategoria',
+                    'class' => 'AppBundle:ArticuloEstilo',
                     'required' => true,
                     'choice_label' => 'descripcion',
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                               return $er->createQueryBuilder('l')
-                                   ->where('l.activo = 1')
-                                   ->orderBy('l.descripcion', 'ASC')
-                                   ;
-                           }
+                        return $er->createQueryBuilder('l')
+                            ->where('l.activo = 1')
+                            ->orderBy('l.descripcion', 'ASC')
+                            ;
+                    }
                 ))
+                ->add('activo', null, array('label' => 'Activo',))
+                    ->add('categoria', EntityType::class, array(
+                        'label' => 'Categoria',
+                        'class' => 'AppBundle:ArticuloCategoria',
+                        'required' => true,
+                        'choice_label' => 'descripcion',
+                        'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                                   return $er->createQueryBuilder('l')
+                                       ->where('l.activo = 1')
+                                       ->orderBy('l.descripcion', 'ASC')
+                                       ;
+                               }
+                    ))
                 ->add('marca', EntityType::class, array(
                     'label' => 'Marca',
                     'class' => 'AppBundle:ArticuloMarca',

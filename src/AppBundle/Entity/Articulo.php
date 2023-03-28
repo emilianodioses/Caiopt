@@ -160,15 +160,16 @@ class Articulo
      * @ORM\Column(name="ancho", type="decimal", precision=16, scale=2)
      */
     private $ancho;
-    
-     /**
-     * @var string
+    /**
+     * @var \ArticuloEstilo
      *
-     * @ORM\Column(name="tipoAro", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="ArticuloEstilo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idTipoAro", referencedColumnName="id")
+     * })
      */
     private $tipoAro;
-
-    /**
+     /**
      * @var \Comprobante
      *
      * @ORM\ManyToOne(targetEntity="Comprobante")
@@ -766,7 +767,9 @@ class Articulo
     /********* DATOS MEDIDAS
     /**
      * Set tipoAro
-     * @param string tipoAro
+     *
+     * @param int tipoAro
+     *
      * @return Articulo
      */
     public function setTipoAro($tipoAro)
@@ -777,7 +780,9 @@ class Articulo
     }
     /**
      * Get tipoAro
+     *
      * @return string
+     *
      */
     public function getTipoAro()
     {
