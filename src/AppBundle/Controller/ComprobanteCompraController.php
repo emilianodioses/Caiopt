@@ -400,7 +400,7 @@ class ComprobanteCompraController extends controller
                     $articulo->setDescripcion($comprobanteDetalle->getObservaciones());
                     $articulo->setIva($iva_21); //Asigno 21% de iva, después habría si es correcto
 //                    $articulo->setGenero('');
-                    $articulo->setMaterial('');
+//                    $articulo->setMaterial('');
                     $articulo->setForma('');
 //                    $articulo->setEstilo('');
                     $articulo->setColorMarco('');
