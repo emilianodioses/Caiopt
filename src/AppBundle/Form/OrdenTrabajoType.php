@@ -143,6 +143,7 @@ class OrdenTrabajoType extends AbstractType
                     'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('armado', null, array('label' => 'Armado','required' => false,))
+            ->add('armazon_propio', null, array('label' => 'Armazon Propio','required' => false,))
                 ->add('otrosTrabajos', null, array('label' => 'Otros Trabajos','required' => false,))
                 ->add('total',FloatType::class, array(
                     'attr' => array(
