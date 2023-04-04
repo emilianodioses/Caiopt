@@ -79,7 +79,7 @@ class ArticuloType extends AbstractType
                 ))
                 ->add('ancho', null, array('label' => 'Ancho',))
                 ->add('alto', null, array('label' => 'Alto',))
-                ->add('mayor_distancia', null, array('label' => 'Mayor Distancia',))
+                ->add('mayor_distancia', null, array('label' => 'Distancia Mayor',))
                 ->add('puente', null, array('label' => 'Puente',))
                 ->add('tipoAro', EntityType::class, array(
                     'label' => 'Tipo Aro',
