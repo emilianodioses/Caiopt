@@ -127,7 +127,12 @@ class OrdenTrabajo
      * @ORM\Column(name="armado", type="boolean")
      */
     private $armado;
-
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="armazon_propio", type="boolean")
+     */
+    private $armazon_propio;
     /**
      * @var string
      *
@@ -721,7 +726,29 @@ class OrdenTrabajo
     {
         return $this->armado;
     }
+    /**
+     * Set armazon_propio
+     *
+     * @param boolean $armazon_propio
+     *
+     * @return OrdenTrabajo
+     */
+    public function setArmazonPropio($armazon_propio)
+    {
+        $this->armazon_propio = $armazon_propio;
 
+        return $this;
+    }
+
+    /**
+     * Get armazon_propio
+     *
+     * @return boolean
+     */
+    public function getArmazonPropio()
+    {
+        return $this->armazon_propio;
+    }
     /**
      * Set numeroTaller
      *
