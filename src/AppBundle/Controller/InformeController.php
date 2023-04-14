@@ -113,8 +113,7 @@ class InformeController extends Controller
                         $fileContent .= sprintf("%020d", $comprobante->getAfipNumero()); //Número de comprobante
                         $fileContent .= sprintf("%015d", $alicuotas[$alicuotaIva->getId()]['BaseImp']*100); //Importe neto gravado
                         $fileContent .= sprintf("%04d", $alicuotas[$alicuotaIva->getId()]['Codigo']); //Alícuota de IVA
-                        $fileContent .= sprintf("%015d", $alicuotas[$alicuota_id]['Importe']*100); //Impuesto Liquidado
-
+                        $fileContent .= sprintf("%015d", $alicuotas[$alicuotaIva->getId()]['Importe']*100); //Impuesto Liquidado
                         $fileContent .= "\r";
                         $fileContent .= "\n";
                     }
