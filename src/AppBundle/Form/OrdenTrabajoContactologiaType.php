@@ -202,28 +202,28 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'Ojo Izquierdo Curvas'))
                 ->add('ojoIzquierdoCurvas',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'Ojo Derecho Curvas'))
                 ->add('ojoIzquierdoDiametro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'Ojo Izquierdo Diametro'))
                 ->add('ojoDerechoDiametro',FloatType::class, array(
                     'attr' => array(
                     'required' => true,
                     'empty_data' => 0,
-                    'step' => 0.25,
+                    'step' => 1,
                     ),
                     'label' => 'Ojo Derecho Diametro'))
                 ->add('ojoDerechoAV',FloatType::class, array(
