@@ -54,7 +54,16 @@
 
             <tbody>
 {#              {% set transporte = 0%}#}
-              {% for comprobante in informeIvaVentas %}
+                {% set totalNeto = 0 %}
+                {% set NoGrav = 0 %}
+                {% set DebFiscal = 0 %}
+                {% set IvaDisc = 0 %}
+                {% set IvaExento = 0 %}
+                {% set TotalOps = 0 %}
+                {% set Alic = 21.000 %}
+                {% set Ret = 0 %}
+
+                {% for comprobante in informeIvaVentas %}
 {#                    {% set comprobante = reciboComprobante.comprobante %}#}
                 <tr>
                     <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
@@ -71,14 +80,51 @@
                     {#                      <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>#}
                     {#                      </a>#}
                     {#                    </td>#}
+                    {% set totalNeto = totalNeto + comprobante.totalNeto %}
+                    {% set NoGrav = NoGrav + comprobante.totalNoGravado %}
+
+                    {% if comprobante.codigo == '6' %}
+                        {% set DebFiscal = DebFiscal + comprobante.importeIva %}
+                    {% else %}
+                        {% set IvaDisc = IvaDisc + comprobante.importeIva %}
+                    {% endif %}>
+
+                    {% set IvaExento = IvaExento + comprobante.importeIvaExento %}
+                    {% set TotalOps = TotalOps + comprobante.total %}
+
                 </tr>
               {% endfor %}
             </tbody>
         </table>
-      </form>
-    </div>
-{#        <div style="display: flex; justify-content: flex-end">#}
+        <div style="display: flex; text-align: center">
+            <div>
+                Totales Mensuales: {{ totalNeto }} - {{ NoGrav }} - {{ DebFiscal }} - {{ IvaExento }} - {{ TotalOps }}
+            </div>
+            <div>
+                {{ Ret }} - {{ IvaDisc }} - {{ IvaExento }}
+            </div>
+            <div>
+                <div style="display: flex; text-align: left">
+                    Totales Mensuales
+                </div>
+
+                <div style="display: flex; text-align: left">
+                    -----------------------------
+                </div>
+                <div>
+                   <div style="display: flex; text-align: left">Neto: {{ totalNeto }}</div>
+                   <div style="display: flex; text-align: left">Déb. Fisc.: {{ DebFiscal }}</div>
+                   <div style="display: flex; text-align: left">Iva Acrec.: {{ IvaExento }}</div>
+                   <div style="display: flex; text-align: left">Alíc.: {{ Alic }}</div>
+                </div>
+
+            </div>
+        </div>
+
+{#                <div style="display: flex; justify-content: flex-end">#}
 {#        <div id="total" style="font-size: 11; bold: 1"> TRANSPORTE : {{transporte}}</div>#}
 {#        </div>#}
+
     {% endfor %}
+
 </body>

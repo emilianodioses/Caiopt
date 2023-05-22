@@ -550,7 +550,7 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('comprobante.fecha','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+            ->select('comprobante.fecha','tipo.descripcion','tipo.codigo','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','comprobante.totalNeto','cliente.documentoNumero',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
 		    'comprobante.total')
@@ -584,7 +584,7 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('comprobante.fecha','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+            ->select('comprobante.fecha','tipo.descripcion','tipo.codigo','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','comprobante.totalNeto','cliente.documentoNumero',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
                 'comprobante.total')
@@ -632,7 +632,7 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','tipo.codigo','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','cliente.documentoNumero','comprobante.totalNeto',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
                 'comprobante.total')
@@ -654,6 +654,7 @@ class InformeController extends Controller
             fputcsv($f, $line, ";");
 
         }
+
         fseek($f, 0);
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="LibroIvaVentas.csv";');
