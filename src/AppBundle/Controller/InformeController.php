@@ -579,7 +579,6 @@ class InformeController extends Controller
         $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
         $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
 
-
         $query = $em->getRepository('AppBundle:Comprobante')
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
@@ -624,6 +623,15 @@ class InformeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $totalNeto = 0;
+        $NoGrav = 0;
+        $DebFiscal = 0;
+        $IvaDisc = 0;
+        $IvaExento = 0;
+        $TotalOps = 0;
+        $Alic = 21.000;
+        $Ret = 0;
+
         $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
         $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
 
@@ -632,10 +640,10 @@ class InformeController extends Controller
             ->createQueryBuilder('comprobante')
             ->join('comprobante.tipo','tipo')
             ->join('comprobante.cliente','cliente')
-            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','tipo.codigo','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
+            ->select('SUBSTRING(comprobante.fecha, 1, 10)','tipo.descripcion','CONCAT(LPAD(comprobante.puntoVenta,5,0),\' - \',LPAD(comprobante.numero,8,0)) as nro_comprobante',
                 'comprobante.clienteRazonSocial','cliente.documentoNumero','comprobante.totalNeto',
                 'comprobante.totalNoGravado','comprobante.importeIva','comprobante.importeIvaExento',
-                'comprobante.total')
+                'comprobante.total', 'tipo.codigo')
             ->andWhere('tipo.codigo = 1 OR tipo.codigo = 6') // Factura A y Factura B: TODO: Refactorizar a constante
             ->andWhere('comprobante.fecha >= :fechaDesde')
             ->andWhere('comprobante.fecha <= :fechaHasta')
@@ -651,9 +659,25 @@ class InformeController extends Controller
         fputcsv($f,$rows,";");
 
         foreach ($informeIvaVentas as $line) {
-            fputcsv($f, $line, ";");
-
+            fputcsv($f, array_slice($line, 0, 10), ";");
+            $totalNeto = $totalNeto + $line['totalNeto'];
+            $NoGrav = $NoGrav + $line['totalNoGravado'];
+            if ($line['codigo'] == 6)
+                $DebFiscal = $DebFiscal + $line['importeIva'];
+            else
+                $IvaDisc = $IvaDisc + $line['importeIva'];
+            $IvaExento = $IvaExento + $line['importeIvaExento'];
+            $TotalOps = $TotalOps + $line['total'];
         }
+
+        $totals = array('','','','','Totales mensuales',$totalNeto,$NoGrav, $DebFiscal, $IvaExento, $TotalOps);
+        fputcsv($f,$totals,";");
+        $totals2 = array('','','','','','',$Ret, $IvaDisc, $IvaExento, '');
+        fputcsv($f,$totals2,";");
+        $totals3 = array('Totales mensuales','Neto: '.$totalNeto ,'Debito fiscal: '.$DebFiscal,
+            'Iva Acrec: '. $IvaExento,'Alic.: 21','','', '', '', '');
+        fputcsv($f,$totals3,";");
+
 
         fseek($f, 0);
         header('Content-Type: text/csv');
