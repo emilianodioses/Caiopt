@@ -591,6 +591,7 @@ class InformeController extends Controller
             ->andWhere('tipo.codigo = 1 OR tipo.codigo = 6') // Factura A y Factura B: TODO: Refactorizar a constante
             ->andWhere('comprobante.fecha >= :fechaDesde')
             ->andWhere('comprobante.fecha <= :fechaHasta')
+            ->andWhere('comprobante.caeNumero IS NOT NULL')
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta);
 
