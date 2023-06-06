@@ -37,13 +37,8 @@ Articulo
                             </div>
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(edit_form.gananciaPorcentaje) }}
-                            </div> 
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
-                                {{ form_row(edit_form.precioVentaSinIva) }}
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 {{ form_row(edit_form.precioVenta) }}
                             </div>
                         </div>
@@ -242,12 +237,13 @@ $(document).ready( function() {
         var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
         var r_porcentaje_ganancia = $('#appbundle_articulo_gananciaPorcentaje').val();
 
-        var porcentajeTarjeta = 1.15; //porcentaje aplicado para guardar SIEMPRE el precio de tarjeta
+        // var porcentajeTarjeta = 1.15; //porcentaje aplicado para guardar SIEMPRE el precio de tarjeta
 
-        var precio_venta_sin_iva = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
-        var precio_venta_sin_tarjeta = parseFloat(precio_venta_sin_iva) * parseFloat(1+(r_iva/100));
+        // var precio_venta_sin_iva = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
+        // var precio_venta_sin_tarjeta = parseFloat(precio_venta_sin_iva) * parseFloat(1+(r_iva/100));
 
-        var precio_venta = parseFloat(precio_venta_sin_tarjeta * porcentajeTarjeta);
+        // var precio_venta = parseFloat(precio_venta_sin_tarjeta * porcentajeTarjeta);
+        var precio_venta = parseFloat((r_precio_costo * (1 + (r_iva/100))) * (1 + (r_porcentaje_ganancia/100)));
 
         if (r_porcentaje_ganancia === '') {
             //var precio_venta = 0;
@@ -259,8 +255,8 @@ $(document).ready( function() {
             $('#appbundle_articulo_precioCosto').val(0);
         }
 
-        $('#appbundle_articulo_precioVentaSinIva').val(precio_venta_sin_iva.toFixed(3));
-        $('#appbundle_articulo_precioVenta').val(precio_venta.toFixed(3));
+        // $('#appbundle_articulo_precioVentaSinIva').val(precio_venta_sin_iva.toFixed(2));
+        $('#appbundle_articulo_precioVenta').val(precio_venta.toFixed(2));
 
         return true;
     }
