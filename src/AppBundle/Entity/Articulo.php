@@ -66,12 +66,12 @@ class Articulo
      */
     private $precioVenta;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="precio_venta_sin_iva", type="decimal", precision=16, scale=2)
-     */
-    private $precioVentaSinIva;
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="precio_venta_sin_iva", type="decimal", precision=16, scale=2)
+//     */
+//    private $precioVentaSinIva;
 
     /**
      * @var \ArticuloMarca

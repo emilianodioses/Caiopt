@@ -213,24 +213,24 @@ $(document).ready( function() {
         fnCalcularPrecioVenta();
     });
 
-    $('#appbundle_articulo_precioVentaSinIva').change(function() {
-        fnCalcularPorcentajeGanancia();
-    });
+    // $('#appbundle_articulo_precioVentaSinIva').change(function() {
+    //     fnCalcularPorcentajeGanancia();
+    // });
 
     $('#appbundle_articulo_iva').change(function() {
         fnCalcularPrecioVenta();
     });
 
-    function fnCalcularPorcentajeGanancia() {
-        var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
-        var r_precio_venta_sin_iva = $('#appbundle_articulo_precioVentaSinIva').val();
-
-        var porcentaje_ganancia = (((parseFloat(r_precio_venta_sin_iva) / parseFloat(r_precio_costo))-1) * 100) ;
-
-        $('#appbundle_articulo_gananciaPorcentaje').val(porcentaje_ganancia.toFixed(0));
-
-        return true;
-    }
+    // function fnCalcularPorcentajeGanancia() {
+    //     var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
+    //     var r_precio_venta_sin_iva = $('#appbundle_articulo_precioVentaSinIva').val();
+    //
+    //     var porcentaje_ganancia = (((parseFloat(r_precio_venta_sin_iva) / parseFloat(r_precio_costo))-1) * 100) ;
+    //
+    //     $('#appbundle_articulo_gananciaPorcentaje').val(porcentaje_ganancia.toFixed(0));
+    //
+    //     return true;
+    // }
 
     function fnCalcularPrecioVenta() {
         var r_iva = $('#appbundle_articulo_iva :selected').text();
@@ -251,7 +251,7 @@ $(document).ready( function() {
         }
 
         if (r_precio_costo === '') {
-            var precio_venta_sin_iva = 0;
+            // var precio_venta_sin_iva = 0;
             $('#appbundle_articulo_precioCosto').val(0);
         }
 
