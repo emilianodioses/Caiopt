@@ -18,3 +18,12 @@
 /contini.sublime-workspace
 /src/afip_res/TA-27327353840-wsfe.xml
 /src/afip_res/TA-30715288075-wsfe-production.xml
+.idea/.gitignore
+.idea/03-optica.iml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/jsLinters/jshint.xml
