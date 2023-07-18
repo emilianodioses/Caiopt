@@ -92,13 +92,15 @@
     <table width="100%" cellspacing="0" border="1">
         <tbody>
             <tr>
-                <td style="text-align: center" width="55%"><b>Artículo</b></td>
+                <td style="text-align: center" width="40%"><b>Artículo</b></td>
                 {#
                 <td style="text-align: center">Marca</td>
                 <td style="text-align: center">Material</td>
                 <td style="text-align: center">Forma</td>
                 <td style="text-align: center">Estilo</td>
                 #}
+                <td style="text-align: center" width="15%">T. Cristal</td>
+
                 <td style="text-align: center" width="15%">P. Venta</td>
                 {% if pagina_nro == 1 %}
                     <td style="text-align: center" width="15%">Bonificación</td>
@@ -114,6 +116,7 @@
                     <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.forma }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.estilo }}</td>
                     #}
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.tipoCristal }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.precioVenta }}</td>
                     {% if pagina_nro == 1 %}
                         <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
