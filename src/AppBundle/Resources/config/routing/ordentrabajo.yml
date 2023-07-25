@@ -35,6 +35,9 @@ ordentrabajo_cerrar:
 
 ordentrabajo_find:
     path:     /find
-    defaults: { _controller: "AppBundle:OrdenTrabajo:find" }    
+    defaults: { _controller: "AppBundle:OrdenTrabajo:find" }
 
+ordentrabajo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:OrdenTrabajo:findSelect2" }
     

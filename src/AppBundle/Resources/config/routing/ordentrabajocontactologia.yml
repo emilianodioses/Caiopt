@@ -35,4 +35,7 @@ ordentrabajocontactologia_cerrar:
 
 ordentrabajocontactologia_find:
     path:     /find
-    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:find" }        
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:find" }
+ordentrabajocontactologia_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:findSelect2" }
