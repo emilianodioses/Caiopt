@@ -393,4 +393,28 @@ class OrdenTrabajoController extends Controller
         $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
         $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
     }
+
+    public function findSelect2Action(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
+
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
+        }
+
+        $result = $em->createQuery('
+                        SELECT ot.id as id, ot.id as text
+                        FROM AppBundle:OrdenTrabajo ot
+                        WHERE (lower(ot.id) LIKE :text_search)
+                        AND ot.activo = 1
+                        ORDER BY ot.id DESC
+                        ')
+            ->setParameter('text_search', '%'.$text_search.'%')
+            ->setMaxResults($pageLimit)
+            ->getArrayResult();
+
+        return new JsonResponse($result);
+    }
 }

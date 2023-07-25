@@ -175,31 +175,43 @@ class ComprobanteType extends AbstractType
                       'cache_timeout' => 60000, // if 'cache' is true
                       'language' => 'es',
                       ))
-                  ->add('ordenTrabajo', EntityType::class, array(
+                  ->add('ordenTrabajo', Select2EntityType::class, array(
                       'label' => 'OT Optica',
                       'class' => 'AppBundle:OrdenTrabajo',
+                      'remote_route' => 'ordentrabajo_find_select2',
+                      'placeholder' => 'Seleccione una orden de trabajo',
                       'required' => false,
-                      'choice_label' => 'id',
-                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                 return $er->createQueryBuilder('l')
-                                     ->where('l.activo = 1')
-                                     ->orderBy('l.id', 'DESC')
-                                     ->setMaxResults(100)
-                                     ;
-                             }
+                      'attr' => [
+                          'class' => 'ordentrabajo',
+                      ],
+                      'primary_key' => 'id',
+                      'text_property' => 'text',
+                      'minimum_input_length' => 2,
+                      'page_limit' => 10,
+                      'allow_clear' => false,
+                      'delay' => 250,
+                      'cache' => true,
+                      'cache_timeout' => 60000, // if 'cache' is true
+                      'language' => 'es',
                   ))
-                  ->add('ordenTrabajoContactologia', EntityType::class, array(
+                  ->add('ordenTrabajoContactologia', Select2EntityType::class, array(
                       'label' => 'OT Contactologia',
                       'class' => 'AppBundle:OrdenTrabajoContactologia',
+                      'remote_route' => 'ordentrabajocontactologia_find_select2',
+                      'placeholder' => 'Seleccione una orden de trabajo contactologia',
                       'required' => false,
-                      'choice_label' => 'id',
-                      'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
-                                 return $er->createQueryBuilder('l')
-                                     ->where('l.activo = 1')
-                                     ->orderBy('l.id', 'DESC')
-                                     ->setMaxResults(100)
-                                     ;
-                             }
+                      'attr' => [
+                          'class' => 'ordentrabajocontactologia',
+                      ],
+                      'primary_key' => 'id',
+                      'text_property' => 'text',
+                      'minimum_input_length' => 2,
+                      'page_limit' => 10,
+                      'allow_clear' => false,
+                      'delay' => 250,
+                      'cache' => true,
+                      'cache_timeout' => 60000, // if 'cache' is true
+                      'language' => 'es',
                   ))
                   ->add('obraSocialPlan', EntityType::class, array(
                       'label' => 'Obra Social - Plan',
