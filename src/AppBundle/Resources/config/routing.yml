@@ -165,3 +165,7 @@ app_articuloestilo:
 app_articulomarco:
     resource: "@AppBundle/Resources/config/routing/articulomarco.yml"
     prefix:   /articulomarco
+
+app_parametro:
+    resource: "@AppBundle/Resources/config/routing/parametro.yml"
+    prefix:   /parametro
