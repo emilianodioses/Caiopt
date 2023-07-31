@@ -74,10 +74,6 @@ class ParametroController extends Controller
             $parametro->setUpdatedAt(new \DateTime("now"));
 
             $em->persist($parametro);
-
-            $articulos = $em->getRepository('AppBundle:Articulo')->findBy(array('activo' => true));
-
-
             $em->flush();
 
             return $this->redirectToRoute('parametro_show', array('id' => $parametro->getId()));
