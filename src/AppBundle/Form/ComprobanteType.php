@@ -204,7 +204,7 @@ class ComprobanteType extends AbstractType
                           'class' => 'ordentrabajocontactologia',
                       ],
                       'primary_key' => 'id',
-                      'text_property' => 'text',
+                      'text_property' => 'comprobante',
                       'minimum_input_length' => 2,
                       'page_limit' => 10,
                       'allow_clear' => false,
