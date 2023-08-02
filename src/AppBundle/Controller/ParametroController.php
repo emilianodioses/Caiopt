@@ -48,7 +48,7 @@ class ParametroController extends Controller
             15/*limit per page*/
         );
 
-        return $this->render('Parametro/index.html.twig', array(
+        return $this->render('parametro/index.html.twig', array(
             'pagination' => $pagination,
             'texto' => $texto
         ));
