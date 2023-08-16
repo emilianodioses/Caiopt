@@ -11,7 +11,7 @@ Panel Principal
   <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-left">
       <li class="active"><a href="#principal" data-toggle="tab">Principal</a></li>
-      <li><a href="#estadistica" data-toggle="tab">Estadisticas Venta</a></li>
+      <li><a href="#estadistica" data-toggle="tab">Estadísticas Venta</a></li>
     </ul>
     <div class="tab-content no-padding">
       <div class="chart tab-pane active" id="principal" style="position: relative">
@@ -138,7 +138,7 @@ Panel Principal
                       {% for ordenTrabajo in ordenesTrabajo %}
                         {% if ordenTrabajo.estado == 'Pendiente' %}
                           <tr>
-                              <td>Orden Optica</td>
+                              <td>Orden Óptica</td>
                               <td>{{ ordenTrabajo.id }}</td>
                               <td>{{ ordenTrabajo.cliente }}</td>
                               <td>{{ ordenTrabajo.comprobante }}</td>
@@ -172,7 +172,7 @@ Panel Principal
                       {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
                         {% if ordenTrabajoContactologia.estado == 'Pendiente' %}
                           <tr>
-                              <td>Contactologia</td>
+                              <td>Contactología</td>
                               <td>{{ ordenTrabajoContactologia.id }}</td>
                               <td>{{ ordenTrabajoContactologia.cliente }}</td>
                               <td>{{ ordenTrabajoContactologia.comprobante }}</td>
@@ -222,7 +222,7 @@ Panel Principal
                       {% for ordenTrabajo in ordenesTrabajo %}
                         {% if ordenTrabajo.estado != 'Pendiente' and ordenTrabajo.estado != 'Finalizado' %}
                           <tr>
-                              <td>Orden Optica</td>
+                              <td>Orden Óptica</td>
                               <td>{{ ordenTrabajo.id }}</td>
                               <td>{{ ordenTrabajo.cliente }}</td>
                               <td>{{ ordenTrabajo.comprobante }}</td>
@@ -256,7 +256,7 @@ Panel Principal
                       {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
                         {% if ordenTrabajoContactologia.estado != 'Pendiente' and ordenTrabajoContactologia.estado != 'Finalizado' %}
                           <tr>
-                              <td>Contactologia</td>
+                              <td>Contactología</td>
                               <td>{{ ordenTrabajoContactologia.id }}</td>
                               <td>{{ ordenTrabajoContactologia.cliente }}</td>
                               <td>{{ ordenTrabajoContactologia.comprobante }}</td>
@@ -341,7 +341,7 @@ Panel Principal
                       {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
                         {% if ordenTrabajoContactologia.estado == 'Finalizado' %}
                           <tr>
-                              <td>Contactologia</td>
+                              <td>Contactología</td>
                               <td>{{ ordenTrabajoContactologia.id }}</td>
                               <td>{{ ordenTrabajoContactologia.cliente }}</td>
                               <td>{{ ordenTrabajoContactologia.comprobante }}</td>
