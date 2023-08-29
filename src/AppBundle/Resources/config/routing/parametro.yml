@@ -27,3 +27,12 @@ parametro_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Parametro:delete" }
     methods:  [GET, POST]
+
+parametro_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Parametro:findSelect2" }
+
+parametro_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:Parametro:find" }
+
