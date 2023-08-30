@@ -65,31 +65,33 @@
         {% endfor %}
         </tbody>
     </table>
-    <br>
-    <br>
-    <br>
-    &nbsp;<br>
 
-    <br>
-    <br>
-    <b>Totales</b><br>
-    <br>
-    <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
-
-        <tbody>
+    <table align="left"  width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
         <tr>
-            <td style="text-align: center" width="40%">Total</td>
-            <td style="text-align: center" width="15%">Iva</td>
-            <td style="text-align: center" width="15%">Total Presupuesto</td>
+            <td align="right" width="85%">
+                Total
+            </td>
+            <td style="text-align: right" width="15%">
+                {{ presupuesto.total }}
+            </td>
         </tr>
-            <tr>
-                <td style="text-align: center">{{ presupuesto.total }}</td>
-                <td style="text-align: center">{{ presupuesto.iva21 }}</td>
-                <td style="text-align: center">{{ presupuesto.totalPresupuesto }}</td>
-            </tr>
-        </tbody>
+        <tr>
+            <td align="right" width="85%">
+                Iva
+            </td>
+            <td style="text-align: right" width="15%">
+                {{ presupuesto.iva21 }}
+            </td>
+        </tr>
+        <tr>
+            <td align="right" width="85%">
+                Total Presupuesto
+            </td>
+            <td style="text-align: right" width="15%">
+                {{ presupuesto.totalPresupuesto }}
+            </td>
+        </tr>
     </table>
-
     <br>
     &nbsp;<br>
     {#
