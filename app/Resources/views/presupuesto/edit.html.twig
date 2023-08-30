@@ -82,6 +82,10 @@ Presupuesto
     $('.item').on('change', function(){
         fnRenglonChange($(this));
     });
+
+    $("#PresupuestoType_iva21").change(function() {
+        fnCalcularTotales();
+    });
     //>> FIN FUNCIONES
     
     function fnArticuloChange(articulo) {
@@ -132,6 +136,7 @@ Presupuesto
         var total = 0;
         var totalPresupuesto = 0;
         var totalIva = 0;
+        // var r_iva = $(this).find("input.iva21");
 
         $("#PresupuestoType_presupuestoDetalles tr.item").each(function() {
             var r_totalDetalle = $(this).find("input.totalDetalle");
@@ -145,7 +150,7 @@ Presupuesto
 
         $("#PresupuestoType_total").val(total.toFixed(2));
         $("#PresupuestoType_totalPresupuesto").val(totalPresupuesto.toFixed(2));
-        $("#PresupuestoType_iva21").val(iva21.toFixed(2));
+        // $("#PresupuestoType_iva21").val(iva21.toFixed(2));
 
         return true;
     }
