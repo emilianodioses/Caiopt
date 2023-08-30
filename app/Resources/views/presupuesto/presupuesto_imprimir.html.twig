@@ -1,0 +1,102 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..2 %}
+
+    <table width="100%" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+                <td width="30%" align="center">
+                    <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                    <b>OPTICA CONTINI</b>
+                    <br>
+                    <br>
+                    <b> Mas de 70 años a la vista </b>
+                </td>
+
+                <td width="40%" align="left">
+                    <b><u>ATENCION:</u></b>
+                    <br>
+                    Pasados los 30 días podrá ajustarse el precio
+                    <br>
+                    por inflación
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <tbody>
+            <tr>
+                <td width="35%" align="left">
+                    <b>Fecha Presupuesto: </b> {{ presupuesto.fechaPresup  | date('d-m-Y')}}}}
+                    <br>
+                    <b>Entrega: </b> {{ presupuesto.plazoEntrega}}
+                    <br>
+                    <b>Retiro: </b> {{ presupuesto.retiro}}
+                    <br>
+                    <b>Moneda: </b> {{ presupuesto.moneda}}
+                    <br>
+                    <b>Forma Pago: </b> {{ presupuesto.formaPago}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+        <tbody>
+            <tr>
+                <td width="35%" align="left">
+                    <b>Nombre: </b> {{ presupuesto.cliente.nombre}}
+                    <br>
+                    <b>Teléfono: </b> {{ presupuesto.cliente.telefono}}
+                    <br>
+                    <b>Direccion: </b> {{ presupuesto.cliente.direccion}}
+                    <br>
+                    <b>DNI: </b> {{ presupuesto.cliente.documentoNumero}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+        <tbody>
+            <tr>
+                <td style="text-align: center" width="40%"><b>Artículo</b></td>
+                <td style="text-align: center" width="15%">Cantidad</td>
+                <td style="text-align: center" width="15%">P. Unitario</td>
+                <td style="text-align: center" width="15%">Bonificación</td>
+                <td style="text-align: center" width="15%">Total Detalle</td>
+            </tr>
+            {% for presupuestoDetalle in presupuestodetalles %}
+                <tr>
+                    <td style="text-align: center">{{ presupuestoDetalle.articulo.descripcion}}</td>
+                    <td style="text-align: center">{{ presupuestoDetalle.cantidad }}</td>
+                    <td style="text-align: center">{{ presupuestoDetalle.precioUnit }}</td>
+                    <td style="text-align: center">{{ presupuestoDetalle.importeBonificacion }}</td>
+                    <td style="text-align: center">{{ presupuestoDetalle.totalDetalle }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{#    <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">#}
+{#        <tbody>#}
+{#            <tr>#}
+{#                <td style="text-align: center" width="40%"><b>Totales</b></td>#}
+{#                <td style="text-align: center" width="15%">total</td>#}
+{#                <td style="text-align: center" width="15%">Iva</td>#}
+{#                <td style="text-align: center" width="15%">Total Presupuesto</td>#}
+{#            </tr>#}
+{#            {% for presupuesto in presupuesto %}#}
+{#                <tr>#}
+{#                    <td style="text-align: center">{{ presupuesto.articulo.descripcion }}</td>#}
+{#                    <td style="text-align: center">{{ presupuesto.total }}</td>#}
+{#                    <td style="text-align: center">{{ presupuesto.iva21 }}</td>#}
+{#                    <td style="text-align: center">{{ presupuesto.totalPresupuesto }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{% endfor %}
+
+</body>

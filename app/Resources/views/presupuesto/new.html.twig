@@ -1,0 +1,182 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Nuevo Presupuesto
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>
+
+{% form_theme form 'presupuesto/formCollection.html.twig' %}
+{{ form(form) }}
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    window.onload = function() {
+        fnClienteChange($("#PresupuestoType_cliente"));
+    }
+
+    $('.cliente').change(function() {
+        fnClienteChange($(this));
+    });
+
+    $("#PresupuestoType_iva21").change(function() {
+        fnCalcularTotales();
+    });
+
+    $('.presupuestoDetalle-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 1,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Agregar Artículo"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            // entrega = element.find("PresupuestoType_entrega");
+
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
+
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
+            //
+            // entrega.on('change', function(){
+            //     fnCalcularSaldo();
+            // });
+
+            return true;
+         },
+
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    function fnClienteChange(cliente) {
+        if (!(cliente.val() > 0)) {
+            return true;
+        }
+
+        var data = { clienteId: cliente.val() };
+
+        return true;
+    }
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+        var cantidad = renglon.find("input.cantidad");
+        var total = renglon.find("input.totalDetalle");
+        var importeBonificacion = renglon.find("input.importeBonificacion");
+        var precioUnit = renglon.find("input.precioUnit");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                cantidad.val(1);
+                precioUnit.val(articulo.precioVenta);
+                total.val(total);
+                importeBonificacion.val(0);
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var r_importeBonificacion = renglon.find("input.importeBonificacion");
+        var r_precioUnit = renglon.find("input.precioUnit");
+        var r_totalDetalle = renglon.find("input.totalDetalle");
+        var r_cantidad = renglon.find("input.cantidad");
+        var r_totalArt = renglon.find("input.totalArt");
+
+        var totalArt = parseFloat(r_cantidad.val() * r_precioUnit.val()).toFixed(2);
+        var totalDet = parseFloat(totalArt - r_importeBonificacion.val()).toFixed(2);
+
+        r_totalArt.val(totalArt);
+        r_totalDetalle.val(totalDet);
+
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        var total = 0;
+        var totalPresupuesto = 0;
+        var totalIva = 0;
+
+        $("#PresupuestoType_presupuestoDetalles tr.item").each(function() {
+            // var r_cantidad = $(this).find("input.cantidad");
+            var r_totalDetalle = $(this).find("input.totalDetalle");
+            var r_iva = $("#PresupuestoType_iva21");
+            totalIva = parseFloat(r_totalDetalle.val() * r_iva.val() / (parseFloat(100) + parseFloat(r_iva.val())));
+            total += parseFloat(r_totalDetalle.val());
+            totalPresupuesto = parseFloat((totalIva) + parseFloat(total));
+        });
+
+        $("#PresupuestoType_total").val(total.toFixed(2));
+        $("#PresupuestoType_totalPresupuesto").val(totalPresupuesto.toFixed(2));
+
+        return true;
+    }
+
+
+
+
+</script>
+
+{% endblock %}
