@@ -169,3 +169,7 @@ app_articulomarco:
 app_parametro:
     resource: "@AppBundle/Resources/config/routing/parametro.yml"
     prefix:   /parametro
+
+app_presupuesto:
+    resource: "@AppBundle/Resources/config/routing/presupuesto.yml"
+    prefix:   /presupuesto
