@@ -269,13 +269,8 @@ class PresupuestoController extends Controller
         // remove default header/footer
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        //$pdf->SetAuthor('Our Code World');
-        //$pdf->SetTitle(('Our Code World Title'));
-        //$pdf->SetSubject('Our Code World Subject');
-        //$pdf->setFontSubsetting(true);
         $pdf->SetFont('helvetica', '', 11, '', true);
-        //$pdf->SetMargins(20,20,40, true);
-        $pdf->AddPage();
+       $pdf->AddPage();
 
         $filename = 'test';//$ordenTrabajo->getNumero();
 
