@@ -72,6 +72,10 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
                 ))
+            ->add('valorNro',FloatType::class, array(
+                'label' => false,
+                'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => '% FormaPago', 'class' => 'valorNro', 'step' => 0.01),
+            ))
                 ->add('fechaEntrega',DateType::class,array(
                     'label'=>false,
                     'widget' => 'single_text',

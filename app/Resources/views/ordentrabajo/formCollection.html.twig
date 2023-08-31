@@ -284,6 +284,7 @@
                             <th>Tipo Cristal</th>
                             <th>Estado</th>
                             <th>Forma de Pago</th>
+                            <th>Porcentaje</th>
                             <!--<th>% Obra Social / Bonificación</th>-->
                             <th>Bonificación</th>
                             <th>Precio Venta</th>
@@ -309,7 +310,8 @@
         <td width="25%">{{ form_widget(form.articulo) }}</td>
         <td width="8%">{{ form_widget(form.tipoCristal) }}</td>
         <td width="10%">{{ form_widget(form.estado) }}</td>
-        <td width="15%">{{ form_widget(form.parametro) }}</td>
+        <td width="10%">{{ form_widget(form.parametro) }}</td>
+        <td width="5%">{{ form_widget(form.valorNro) }}</td>
         <!--<td>{{ form_widget(form.porcentajeBonificacion) }}</td>-->
         <td>{{ form_widget(form.importeBonificacion) }}</td>
         <td>{{ form_widget(form.precioVenta) }}</td>

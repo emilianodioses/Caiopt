@@ -205,6 +205,9 @@ $(function(){
 
     function fnParametroChange(parametro) {
         var data = { parametroId: parametro.val() };
+        var renglon = parametro.closest("tr");
+
+        var valorNro = renglon.find("input.valorNro");
 
         $.ajax({
             type: 'POST',
@@ -212,6 +215,10 @@ $(function(){
             data: data,
             success: function(resp){
                 var parametro = $.parseJSON(resp.parametro);
+
+                valorNro.val(parametro.valorNro);
+
+                fnRenglonChange(renglon);
             }
         });
 
@@ -219,6 +226,7 @@ $(function(){
     }
 
     function fnRenglonChange(renglon) {
+        var r_valorNro = renglon.find("input.valorNro");
         var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
         var r_precioVenta = renglon.find("input.precioVenta");

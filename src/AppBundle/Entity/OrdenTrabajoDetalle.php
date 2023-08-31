@@ -68,6 +68,13 @@ class OrdenTrabajoDetalle
     /**
      * @var string
      *
+     * @ORM\Column(name="valorNro", type="decimal", precision=16, scale=2)
+     */
+    private $valorNro;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
      */
     private $total; 
@@ -344,6 +351,29 @@ class OrdenTrabajoDetalle
         return $this->parametro;
     }
 
+    /**
+     * Set valorNro
+     *
+     * @param integer $valorNro
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setValorNro($valorNro)
+    {
+        $this->valorNro = $valorNro;
+
+        return $this;
+    }
+
+    /**
+     * Get valorNro
+     *
+     * @return integer
+     */
+    public function getValorNro()
+    {
+        return $this->valorNro;
+    }
 
     /**
      * Set importeBonificacion
