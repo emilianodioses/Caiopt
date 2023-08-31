@@ -53,6 +53,29 @@ class OrdenTrabajoDetalleType extends AbstractType
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
                     ))
+                ->add('parametro', Select2EntityType::class, array(
+                    'label' => 'Parametro',
+                    'class' => 'AppBundle:Parametro',
+                    'remote_route' => 'parametro_find_select2',
+                    'placeholder' => 'Seleccione un parametro',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'parametro',
+                    ],
+                    'primary_key' => 'id',
+                    'text_property' => 'valorTexto',
+                    'minimum_input_length' => 0,
+                    'page_limit' => 10,
+                    'allow_clear' => false,
+                    'delay' => 250,
+                    'cache' => true,
+                    'cache_timeout' => 60000, // if 'cache' is true
+                    'language' => 'es',
+                ))
+            ->add('valorNro',FloatType::class, array(
+                'label' => false,
+                'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => '% FormaPago', 'class' => 'valorNro', 'step' => 0.01),
+            ))
                 ->add('fechaEntrega',DateType::class,array(
                     'label'=>false,
                     'widget' => 'single_text',

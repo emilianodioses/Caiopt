@@ -51,10 +51,15 @@ $(function(){
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
             articulo = element.find("select.articulo");
+            parametro = element.find("select.parametro");
             entrega = element.find("OrdenTrabajoType_entrega");
 
             articulo.on('change', function(){
                 fnArticuloChange($(this));
+            });
+
+            parametro.on('change', function(){
+                fnParametroChange($(this));
             });
 
             element.on('change', function(){
@@ -81,18 +86,41 @@ $(function(){
                 width: "100%",
             });
 
+        parametro.select2({
+                ajax: {
+                    delay: 250,
+                    url: "{{ url('parametro_find_select2') }}",//+"?page_limit=10",
+                    data: function (params) {
+                        var queryParameters = {
+                            q: params.term
+                        }
+
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                },
+                width: "100%",
+            });
+
             entrega.on('change', function(){
                 fnCalcularSaldo();
             });
 
             return true;
          },
-         after_remove: function(collection, element) {
-            //Recalculo todos los totales
-            fnCalcularTotales();
 
-            return true;
+
+         after_remove: function(collection, element) {
+             //Recalculo todos los totales
+             fnCalcularTotales();
+
+             return true;
          }
+
     });
 
     function fnClienteChange(cliente) {
@@ -175,7 +203,30 @@ $(function(){
         return true;
     }
 
+    function fnParametroChange(parametro) {
+        var data = { parametroId: parametro.val() };
+        var renglon = parametro.closest("tr");
+
+        var valorNro = renglon.find("input.valorNro");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('parametro_find') }}" ,
+            data: data,
+            success: function(resp){
+                var parametro = $.parseJSON(resp.parametro);
+
+                valorNro.val(parametro.valorNro);
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
     function fnRenglonChange(renglon) {
+        var r_valorNro = renglon.find("input.valorNro");
         var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
         var r_precioVenta = renglon.find("input.precioVenta");
