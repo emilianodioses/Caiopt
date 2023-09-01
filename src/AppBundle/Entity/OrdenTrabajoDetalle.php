@@ -66,9 +66,9 @@ class OrdenTrabajoDetalle
     private $parametro;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="valorNro", type="decimal", precision=16, scale=2)
+     * @ORM\Column(name="valorNro", type="integer")
      */
     private $valorNro;
 
