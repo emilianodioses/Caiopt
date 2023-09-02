@@ -1,0 +1,26 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: contini
+    database_user: root
+    database_password: root 
+    mailer_transport: smtp
+    mailer_host: smtp.googlemail.com
+    mailer_user: infoopticacontini@gmail.com
+    mailer_password: Contini123!
+    mailer_auth_mode: login
+    mailer_port: 465
+    mailer_encryption: ssl
+    mail_response_host: localhost/
+    secret: ThisTokenIsNotSoSecretChangeIt
+    dir_upload: 'C:\xampp_7.2.34\htdocs\symfony\optica-contini\var\comprobantes'
+    dir_download: 'C:\xampp_7.2.34\htdocs\symfony\optica-contini\var\comprobantes'
+    dir_comprobantes: 'C:\xampp_7.2.34\htdocs\symfony\optica-contini\var\comprobantes'
+    dir_libreria: 'C:\xampp_7.2.34\htdocs\symfony\optica-contini\phpqrcode'
+    empresa: 'OPTICA CONTINI'
+    empresa_razon_social: 'FLORES, NORA ELINA Y NANZER, MARIA JULIA'
+    empresa_condicion: 'IVA Responsable Inscripto'
+    empresa_cuit: '30715288075'
+    empresa_ingresos_brutos: 971-711524-9
+    empresa_inicio_actividades: 01-08-2016
