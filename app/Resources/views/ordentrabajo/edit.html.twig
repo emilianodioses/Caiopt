@@ -141,9 +141,8 @@ Orden de Óptica
 
     function fnParametroChange(parametro) {
         var data = { parametroId: parametro.val() };
-        // var renglon = parametro.closest("tr");
-
-        // var valorNro = renglon.find("input.valorNro");
+        var renglon = parametro.closest("tr");
+        var valorNro = renglon.find("input.valorNro");
 
         $.ajax({
             type: 'POST',
@@ -151,10 +150,8 @@ Orden de Óptica
             data: data,
             success: function(resp){
                 var parametro = $.parseJSON(resp.parametro);
-
-                // valorNro.val(parametro.valorNro);
-                //
-                // fnRenglonChange(renglon);
+                valorNro.val(parametro.valorNro);
+                fnRenglonChange(renglon);
             }
         });
 
@@ -165,8 +162,9 @@ Orden de Óptica
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
         var r_precioVenta = renglon.find("input.precioVenta");
         var r_total = renglon.find("input.total");
+        var valorNro = renglon.find("input.valorNro");
 
-        var total = parseFloat(r_precioVenta.val() - r_importeBonificacion.val()).toFixed(2);
+        var total = parseFloat((r_precioVenta.val() * (1+(valorNro.val()/100))) - r_importeBonificacion.val()).toFixed(2);
 
         r_total.val(total);   
         
