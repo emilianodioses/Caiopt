@@ -74,7 +74,7 @@ class OrdenTrabajoDetalleType extends AbstractType
                 ))
                 ->add('valorNro', IntegerType::class, array(
                     'label' => false,
-                    'attr' => array('readonly' => true, 'placeholder' => '% FormaPago', 'class' => 'valorNro'),
+                    'attr' => array('readonly' => true, 'placeholder' => '%', 'class' => 'valorNro'),
                 ))
                 ->add('fechaEntrega',DateType::class, array(
                     'label'=>false,
