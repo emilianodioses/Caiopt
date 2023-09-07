@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -62,7 +61,8 @@ class PresupuestoType extends AbstractType
                 ->add('retiro',TextareaType::class,array(
                     'label'=>'Sucursal de retiro',
                     'required' => false,
-                    'empty_data' => ''  ,
+                    'empty_data' => '',
+                    'disabled' => true,
                     'attr' => array('rows' => '1')))
                 ->add('formaPago',ChoiceType::class,array(
                     'label'=>'Formas de Pago',
