@@ -58,6 +58,9 @@ class PresupuestoType extends AbstractType
                 ->add('plazoEntrega', IntegerType::class, array(
                     'required' => true,
                     'label' => 'Plazo Entrega (Días hábiles)'))
+                ->add('validezPresupuesto', IntegerType::class, array(
+                    'required' => true,
+                    'label' => 'Validez presupuesto (en días)'))
                 ->add('retiro',TextareaType::class,array(
                     'label'=>'Sucursal de retiro',
                     'required' => false,

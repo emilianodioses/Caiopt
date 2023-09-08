@@ -48,7 +48,7 @@ class PresupuestoDetalleType extends AbstractType
                     ))
                 ->add('precioUnit',FloatType::class,array(
                     'label'=>'Precio Venta',
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioUnit', 'step' => 0.01),
+                    'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioUnit', 'step' => 0.01),
                 ))
                 ->add('importeBonificacion',FloatType::class,array(
                     'label'=>'Importe Bonificación',
