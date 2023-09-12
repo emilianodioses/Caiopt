@@ -43,6 +43,12 @@ class Presupuesto
      */
     private $plazoEntrega;
     /**
+     * @var int
+     *
+     * @ORM\Column(name="validez_presupuesto", type="integer")
+     */
+    private $validezPresupuesto;
+    /**
      * @var string
      *
      * @ORM\Column(name="retiro", type="string", length=255, unique=true)
@@ -210,6 +216,28 @@ class Presupuesto
     public function getPlazoEntrega()
     {
         return $this->plazoEntrega;
+    }
+     /**
+     * Set validezPresupuesto
+     *
+     * @param integer $validezPresupuesto
+     *
+     * @return Presupuesto
+     */
+    public function setValidezPresupuesto($validezPresupuesto)
+    {
+        $this->validezPresupuesto = $validezPresupuesto;
+
+        return $this;
+    }
+    /**
+     * Get plazoEntrega
+     *
+     * @return int
+     */
+    public function getValidezPresupuesto()
+    {
+        return $this->validezPresupuesto;
     }
     /**
      * Set retiro
@@ -542,5 +570,7 @@ class Presupuesto
     {
         $this->presupuestoDetalles->remove($presupuestoDetalle);
     }
+
+
 
 }

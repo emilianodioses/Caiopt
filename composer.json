@@ -25,6 +25,7 @@
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "knplabs/knp-paginator-bundle": "^2.8",
+        "laminas/laminas-zendframework-bridge": "*",
         "ninsuo/symfony-collection": "dev-master",
         "select2/select2": "~4.0",
         "sensio/distribution-bundle": "*",
@@ -41,7 +42,7 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/maker-bundle": "^1.29",
+        "symfony/maker-bundle": "*",
         "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
