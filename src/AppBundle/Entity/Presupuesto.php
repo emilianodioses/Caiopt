@@ -133,12 +133,6 @@ class Presupuesto
      */
     private $usuario;
     /**
-     * @var string
-     *
-     * @ORM\Column(name="formaPago", type="string", length=255, unique=true)
-     */
-    private $formaPago;
-    /**
      * @var ArrayCollection PresupuestoDetalle
      */
     protected $presupuestoDetalles;
@@ -370,28 +364,6 @@ class Presupuesto
     public function getMoneda()
     {
         return $this->moneda;
-    }
-    /**
-     * Set formaPago
-     *
-     * @param string $formaPago
-     *
-     * @return Presupuesto
-     */
-    public function setFormaPago($formaPago)
-    {
-        $this->formaPago = $formaPago;
-
-        return $this;
-    }
-    /**
-     * Get formaPago
-     *
-     * @return string
-     */
-    public function getFormaPago()
-    {
-        return $this->formaPago;
     }
     /**
      * Set estado

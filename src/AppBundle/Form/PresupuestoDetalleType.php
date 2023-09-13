@@ -22,6 +22,9 @@ class PresupuestoDetalleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $formasPago = array(
+            'Cuenta Corriente' => 'Cuenta Corriente',
+            'Efectivo' => 'Efectivo');
 
         $builder->add('cantidad',IntegerType::class,array(
                     'required' => true,
@@ -46,6 +49,10 @@ class PresupuestoDetalleType extends AbstractType
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
                     ))
+                ->add('formaPago',ChoiceType::class,array(
+                    'label'=>'Forma de Pago',
+                    'choices' => $formasPago,
+                    'choices_as_values' => true))
                 ->add('precioUnit',FloatType::class,array(
                     'label'=>'Precio Venta',
                     'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioUnit', 'step' => 0.01),

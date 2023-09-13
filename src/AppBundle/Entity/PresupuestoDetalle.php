@@ -101,6 +101,12 @@ class PresupuestoDetalle
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="forma_pago", type="string", length=255, unique=true)
+     */
+    private $formaPago;
 
     /****************************************************************
      * Get id
@@ -345,5 +351,27 @@ class PresupuestoDetalle
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+    /**
+     * Set formaPago
+     *
+     * @param string $formaPago
+     *
+     * @return PresupuestoDetalle
+     */
+    public function setFormaPago($formaPago)
+    {
+        $this->formaPago = $formaPago;
+
+        return $this;
+    }
+    /**
+     * Get formaPago
+     *
+     * @return string
+     */
+    public function getFormaPago()
+    {
+        return $this->formaPago;
     }
 }

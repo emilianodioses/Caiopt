@@ -21,10 +21,6 @@ class PresupuestoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $formasPago = array(
-            'Cuenta Corriente' => 'Cuenta Corriente',
-            'Efectivo' => 'Efectivo');
-
         $porcentajeIva = array(
             '0.00' => '0.00',
             '10.50' => '10.50',
@@ -68,10 +64,6 @@ class PresupuestoType extends AbstractType
                     'empty_data' => '',
                     'disabled' => true,
                     'attr' => array('rows' => '1')))
-                ->add('formaPago',ChoiceType::class,array(
-                    'label'=>'Formas de Pago',
-                    'choices' => $formasPago,
-                    'choices_as_values' => true))
                 ->add('presupuestoDetalles', CollectionType::class, array(
                         'entry_type'   => PresupuestoDetalleType::class,
                         'entry_options' => [
