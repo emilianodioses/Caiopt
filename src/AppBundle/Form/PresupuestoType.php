@@ -91,6 +91,11 @@ class PresupuestoType extends AbstractType
                     'label'=>'Total',
                     'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
                 ))
+                ->add('totalBonificacion',FloatType::class, array(
+                    'attr' => array(
+                        'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
+                    ),
+                    'label' => 'Bonificación $'))
                 ->add('iva21',ChoiceType::class,array(
                     'label'=>'Iva',
                     'choices' => $porcentajeIva,

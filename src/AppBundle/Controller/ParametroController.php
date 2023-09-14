@@ -198,7 +198,7 @@ class ParametroController extends Controller
         $result = $em->createQuery('
                         SELECT r.id as id, r.valorTexto as text
                         FROM AppBundle:Parametro r
-                        WHERE r.activo = 1 AND r.codigo = 5 AND (
+                        WHERE r.activo = 1 AND (
                             lower(r.descripcion) LIKE :text_search  OR 
                             lower(r.valorNro) LIKE :text_search  OR 
                             lower(r.valorTexto) LIKE :text_search

@@ -104,9 +104,28 @@ class PresupuestoDetalle
     /**
      * @var string
      *
-     * @ORM\Column(name="forma_pago", type="string", length=255, unique=true)
+     * @ORM\Column(name="porcentaje_bonificacion", type="decimal", precision=16, scale=2, nullable=true)
      */
-    private $formaPago;
+    private $porcentajeBonificacion;
+
+    
+    /**
+     * @var \Parametro
+     *
+     * @ORM\ManyToOne(targetEntity="Parametro")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_parametro", referencedColumnName="id")
+     * })
+     */
+    private $parametro;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="valorNro", type="integer")
+     */
+    private $valorNro;
+
 
     /****************************************************************
      * Get id
@@ -353,25 +372,73 @@ class PresupuestoDetalle
         return $this->updatedBy;
     }
     /**
-     * Set formaPago
+     * Set parametro
      *
-     * @param string $formaPago
+     * @param \AppBundle\Entity\Parametro $parametro
      *
-     * @return PresupuestoDetalle
+     * @return OrdenTrabajoDetalle
      */
-    public function setFormaPago($formaPago)
+    public function setParametro(\AppBundle\Entity\Parametro $parametro = null)
     {
-        $this->formaPago = $formaPago;
+        $this->parametro = $parametro;
 
         return $this;
     }
+
     /**
-     * Get formaPago
+     * Get parametro
+     *
+     * @return \AppBundle\Entity\Parametro
+     */
+    public function getParametro()
+    {
+        return $this->parametro;
+    }
+
+    /**
+     * Set valorNro
+     *
+     * @param integer $valorNro
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setValorNro($valorNro)
+    {
+        $this->valorNro = $valorNro;
+
+        return $this;
+    }
+
+    /**
+     * Get valorNro
+     *
+     * @return integer
+     */
+    public function getValorNro()
+    {
+        return $this->valorNro;
+    }
+    /**
+     * Set porcentajeBonificacion
+     *
+     * @param string $porcentajeBonificacion
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setPorcentajeBonificacion($porcentajeBonificacion)
+    {
+        $this->porcentajeBonificacion = $porcentajeBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentajeBonificacion
      *
      * @return string
      */
-    public function getFormaPago()
+    public function getPorcentajeBonificacion()
     {
-        return $this->formaPago;
+        return $this->porcentajeBonificacion;
     }
 }

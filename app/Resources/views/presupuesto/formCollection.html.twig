@@ -48,6 +48,9 @@
                         {{ form_row(form.total)}}
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.totalBonificacion)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.iva21)}}
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
@@ -107,8 +110,9 @@
                             <th>Artículo</th>
                             <th>Cantidad</th>
                             <th>Forma de pago</th>
-                            <th>Precio Venta</th>
+                            <th>Porcentaje</th>
                             <th>Bonificación</th>
+                            <th>Precio Venta</th>
                             <th>Total</th>
                         </thead>
                         <tbody>
@@ -129,10 +133,10 @@
     <tr {{ block('widget_attributes') }}>
         <td width="20%">{{ form_widget(form.articulo) }}</td>
         <td width="10%">{{ form_widget(form.cantidad) }}</td>
-        <td width="15%">{{ form_widget(form.formaPago) }}</td>
-        
-        <td width="10%">{{ form_widget(form.precioUnit) }}</td>
+        <td width="15%">{{ form_widget(form.parametro) }}</td>
+        <td width="5%">{{ form_widget(form.valorNro) }}</td>
         <td width="10%">{{ form_widget(form.importeBonificacion) }}</td>
+        <td width="10%">{{ form_widget(form.precioUnit) }}</td>
         <td width="10%">{{ form_widget(form.totalDetalle) }}</td>
         <td class="text-danger">
             <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>

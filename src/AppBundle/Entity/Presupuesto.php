@@ -136,6 +136,13 @@ class Presupuesto
      * @var ArrayCollection PresupuestoDetalle
      */
     protected $presupuestoDetalles;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="total_bonificacion", type="decimal", precision=16, scale=2)
+     */
+    private $totalBonificacion = '0';
     /**************************************************************
     /**
      * Set cliente
@@ -543,6 +550,29 @@ class Presupuesto
         $this->presupuestoDetalles->remove($presupuestoDetalle);
     }
 
+    /**
+     * Set totalBonificacion
+     *
+     * @param string $totalBonificacion
+     *
+     * @return OrdenTrabajo
+     */
+    public function setTotalBonificacion($totalBonificacion)
+    {
+        $this->totalBonificacion = $totalBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get totalBonificacion
+     *
+     * @return string
+     */
+    public function getTotalBonificacion()
+    {
+        return $this->totalBonificacion;
+    }
 
 
 }

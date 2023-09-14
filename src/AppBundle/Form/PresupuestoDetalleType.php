@@ -48,11 +48,39 @@ class PresupuestoDetalleType extends AbstractType
                     'cache' => true,
                     'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'es',
-                    ))
+                ))
+                ->add('parametro', Select2EntityType::class, array(
+                    'label' => 'Parametro',
+                    'class' => 'AppBundle:Parametro',
+                    'remote_route' => 'parametro_find_select2',
+                    'placeholder' => 'Seleccione un parametro',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'parametro',
+                    ],
+                    'primary_key' => 'id',
+                    'text_property' => 'valorTexto',
+                    'minimum_input_length' => 0,
+                    'page_limit' => 10,
+                    'allow_clear' => false,
+                    'delay' => 250,
+                    'cache' => true,
+                    'cache_timeout' => 60000, // if 'cache' is true
+                    'language' => 'es',
+                ))
+                ->add('valorNro', IntegerType::class, array(
+                    'label' => false,
+                    'attr' => array('readonly' => true, 'placeholder' => '%', 'class' => 'valorNro'),
+                ))
+                ->add('porcentajeBonificacion',HiddenType::class,array(
+                    'label'=>'% Bonificación',
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => '% Bonificacion', 'class' => 'porcentajeBonificacion', 'step' => 0.1),
+                        ))
+                /*
                 ->add('formaPago',ChoiceType::class,array(
                     'label'=>'Forma de Pago',
                     'choices' => $formasPago,
-                    'choices_as_values' => true))
+                    'choices_as_values' => true))*/
                 ->add('precioUnit',FloatType::class,array(
                     'label'=>'Precio Venta',
                     'attr' => array('readonly' => false, 'size' => 3, 'placeholder' => 'Precio Venta', 'class' => 'precioUnit', 'step' => 0.01),
