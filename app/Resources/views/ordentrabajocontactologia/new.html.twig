@@ -48,10 +48,15 @@ $(function(){
         elements_parent_selector: '%id% tbody',
         after_add: function(collection, element) {
             articulo = element.find("select.articulo");
+            parametro = element.find("select.parametro");
             entrega = element.find("OrdenTrabajoContactologiaType_entrega");
 
             articulo.on('change', function(){
                 fnArticuloChange($(this));
+            });
+
+            parametro.on('change', function(){
+                fnParametroChange($(this));
             });
 
             element.on('change', function(){
@@ -74,6 +79,26 @@ $(function(){
                       results: data
                     };
                   },
+                },
+                width: "100%",
+            });
+
+            parametro.select2({
+                ajax: {
+                    delay: 250,
+                    url: "{{ url('parametro_find_select2') }}",//+"?page_limit=10",
+                    data: function (params) {
+                        var queryParameters = {
+                            q: params.term
+                        }
+
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
                 },
                 width: "100%",
             });
@@ -166,16 +191,34 @@ $(function(){
         return true;
     }
 
+    function fnParametroChange(parametro) {
+        var data = { parametroId: parametro.val() };
+        var renglon = parametro.closest("tr");
+        var valorNro = renglon.find("input.valorNro");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('parametro_find') }}" ,
+            data: data,
+            success: function(resp){
+                var parametro = $.parseJSON(resp.parametro);
+                valorNro.val(parametro.valorNro);
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
     function fnRenglonChange(renglon) {
         var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
         var r_importeBonificacion = renglon.find("input.importeBonificacion");
         var r_precioVenta = renglon.find("input.precioVenta");
         var r_total = renglon.find("input.total");
+        var valorNro = renglon.find("input.valorNro");
 
-        var importeBonificacion = parseFloat(r_precioVenta.val()*r_porcentajeBonificacion.val()/100).toFixed(2);
-
-        r_importeBonificacion.val(importeBonificacion);
-        var total = parseFloat(r_precioVenta.val() - r_importeBonificacion.val()).toFixed(2);
+        var total = parseFloat((r_precioVenta.val() * (1+(valorNro.val()/100))) - r_importeBonificacion.val()).toFixed(2);
 
         r_total.val(total);
 
