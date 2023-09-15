@@ -43,6 +43,12 @@ class Presupuesto
      */
     private $plazoEntrega;
     /**
+     * @var int
+     *
+     * @ORM\Column(name="validez_presupuesto", type="integer")
+     */
+    private $validezPresupuesto;
+    /**
      * @var string
      *
      * @ORM\Column(name="retiro", type="string", length=255, unique=true)
@@ -127,15 +133,16 @@ class Presupuesto
      */
     private $usuario;
     /**
-     * @var string
-     *
-     * @ORM\Column(name="formaPago", type="string", length=255, unique=true)
-     */
-    private $formaPago;
-    /**
      * @var ArrayCollection PresupuestoDetalle
      */
     protected $presupuestoDetalles;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="total_bonificacion", type="decimal", precision=16, scale=2)
+     */
+    private $totalBonificacion = '0';
     /**************************************************************
     /**
      * Set cliente
@@ -210,6 +217,28 @@ class Presupuesto
     public function getPlazoEntrega()
     {
         return $this->plazoEntrega;
+    }
+     /**
+     * Set validezPresupuesto
+     *
+     * @param integer $validezPresupuesto
+     *
+     * @return Presupuesto
+     */
+    public function setValidezPresupuesto($validezPresupuesto)
+    {
+        $this->validezPresupuesto = $validezPresupuesto;
+
+        return $this;
+    }
+    /**
+     * Get plazoEntrega
+     *
+     * @return int
+     */
+    public function getValidezPresupuesto()
+    {
+        return $this->validezPresupuesto;
     }
     /**
      * Set retiro
@@ -342,28 +371,6 @@ class Presupuesto
     public function getMoneda()
     {
         return $this->moneda;
-    }
-    /**
-     * Set formaPago
-     *
-     * @param string $formaPago
-     *
-     * @return Presupuesto
-     */
-    public function setFormaPago($formaPago)
-    {
-        $this->formaPago = $formaPago;
-
-        return $this;
-    }
-    /**
-     * Get formaPago
-     *
-     * @return string
-     */
-    public function getFormaPago()
-    {
-        return $this->formaPago;
     }
     /**
      * Set estado
@@ -542,4 +549,30 @@ class Presupuesto
     {
         $this->presupuestoDetalles->remove($presupuestoDetalle);
     }
+
+    /**
+     * Set totalBonificacion
+     *
+     * @param string $totalBonificacion
+     *
+     * @return OrdenTrabajo
+     */
+    public function setTotalBonificacion($totalBonificacion)
+    {
+        $this->totalBonificacion = $totalBonificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get totalBonificacion
+     *
+     * @return string
+     */
+    public function getTotalBonificacion()
+    {
+        return $this->totalBonificacion;
+    }
+
+
 }

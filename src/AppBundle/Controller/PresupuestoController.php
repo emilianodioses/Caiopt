@@ -55,6 +55,9 @@ class PresupuestoController extends Controller
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
 
+        // Obtengo sucursal actual
+        $sucuralActual = $this->getUser()->getSucursal();
+
         if (!$secure->isAuthorized('OrdenTrabajo', 'New', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
@@ -70,6 +73,7 @@ class PresupuestoController extends Controller
 
         $presupuesto->setFechaPresup(new \DateTime("now"));
         $presupuesto->setUsuario($this->getUser());
+        $presupuesto->setRetiro($sucuralActual);
         $form = $this->createForm(PresupuestoType::class, $presupuesto);
         $form->handleRequest($request);
 

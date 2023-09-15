@@ -59,7 +59,7 @@ class Parametro
     /**
      * @var \Parametro
      *
-     * @ORM\ManyToOne(targetEntity="Parametro")
+     * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      * })
@@ -76,7 +76,7 @@ class Parametro
     /**
      * @var \Parametro
      *
-     * @ORM\ManyToOne(targetEntity="Parametro")
+     * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
      * })
@@ -307,11 +307,11 @@ class Parametro
     /**
      * Set updatedBy
      *
-     * @param \AppBundle\Entity\Parametro $updatedBy
+     * @param \AppBundle\Entity\Usuario $updatedBy
      *
      * @return Parametro
      */
-    public function setUpdatedBy(\AppBundle\Entity\Parametro $updatedBy = null)
+    public function setUpdatedBy(\AppBundle\Entity\Usuario $updatedBy = null)
     {
         $this->updatedBy = $updatedBy;
 
@@ -321,7 +321,7 @@ class Parametro
     /**
      * Get updatedBy
      *
-     * @return \AppBundle\Entity\Parametro
+     * @return \AppBundle\Entity\Usuario
      */
     public function getUpdatedBy()
     {
