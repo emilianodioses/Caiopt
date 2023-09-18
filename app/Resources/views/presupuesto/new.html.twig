@@ -218,13 +218,22 @@ $(function(){
             var r_importeBonificacion = $(this).find("input.importeBonificacion");
 
             //totalIva = parseFloat(r_totalDetalle.val() * r_iva.val() / (parseFloat(100) + parseFloat(r_iva.val())));
+<<<<<<< Updated upstream
+=======
+            totalIva = parseFloat(r_totalDetalle.val()) * (parseFloat(r_iva.val()) / 100 + 1);
+            console.log(totalIva);
+>>>>>>> Stashed changes
             total += parseFloat(r_totalDetalle.val());
             total_bonificacion += parseFloat(r_importeBonificacion.val());
         });
 
+<<<<<<< Updated upstream
         var totalIva = parseFloat(total) * (r_iva / 100);
         totalPresupuesto = parseFloat((totalIva) + parseFloat(total));
 
+=======
+        $("#PresupuestoType_totalIva").val(totalIva.toFixed(2));
+>>>>>>> Stashed changes
         $("#PresupuestoType_total").val(total.toFixed(2));
         $("#PresupuestoType_totalPresupuesto").val(totalPresupuesto.toFixed(2));
         //$("#PresupuestoType_totalBonificacion").val(total_bonificacion.toFixed(2));
