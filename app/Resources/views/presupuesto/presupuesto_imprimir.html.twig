@@ -2,11 +2,11 @@
 {% for pagina_nro in 1..1 %}
 
     {% set phoneNumbers = [
-    '3476373157',
-    '3476541424',
-    '3476210926',
-    '3417418841',
-    '1163071653'
+    '3476373157 - San Lorenzo',
+    '3476541424 - San Lorenzo',
+    '3476210926 - Pto. Gral San Martín',
+    '3417418841 - Cap. Bermúdez',
+    '1163071653 - Palermo, CABA'
     ] %}
 
     <h2 align="center">PRESUPUESTO</h2>
@@ -23,10 +23,18 @@
            
             <td align="rigth">
                 {% for phoneNumber in phoneNumbers %}
-                    <h4>WhatsApp: {{ phoneNumber }}</h4>
+                    <h5>WhatsApp: {{ phoneNumber }}</h5>
                     
                 {% endfor %}
             </td>
+
+            {#
+            <td align="rigth">
+                <h4>
+                    WhatsApp: {{ sucursalActual.telefono }} <br> {{ sucursalActual.nombre }}, {{ sucursalActual.localidad }}
+                </h4>
+            </td>#}
+
         </tr>
         </tbody>
     </table>
