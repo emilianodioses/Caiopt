@@ -259,9 +259,15 @@ class PresupuestoController extends Controller
 
         $presupuestoTemplate = 'presupuesto/presupuesto_imprimir.html.twig';
 
+        $iva = (float)$presupuesto->getIva21() / 100;
+
+        $totalIva = (float)$presupuesto->getTotal() * $iva;
+        $totalIva = number_format($totalIva, 2, '.', '');
+
         $html = $this->renderView($presupuestoTemplate, array(
             'presupuestodetalles' => $presupuestodetalles,
             'presupuesto' => $presupuestos,
+            'iva' => $totalIva,
         )
         );
 
