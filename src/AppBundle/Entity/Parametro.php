@@ -35,7 +35,7 @@ class Parametro
     /**
      * @var string
      *
-     * @ORM\Column(name="valorTexto", type="string", length=255, unique=true)
+     * @ORM\Column(name="valorTexto", type="string", length=255, unique=true, nullable=true)
      */
     private $valorTexto;
     /**
