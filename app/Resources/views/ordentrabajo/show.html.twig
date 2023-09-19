@@ -428,7 +428,13 @@
                                             <td>{{ ordenTrabajoDetalle.articulo.tipoAro }}</td>
                                             <td>{{ ordenTrabajoDetalle.articulo.colorMarco }}</td>
                                             <td>{{ ordenTrabajoDetalle.articulo.colorCristal }}</td>
-                                            <td>{{ ordenTrabajoDetalle.parametro.valorTexto }}</td>
+
+                                            {% if ordenTrabajoDetalle.parametro is not null %}
+                                                <td>{{ ordenTrabajoDetalle.parametro.valorTexto }}</td>
+                                            {% else %}
+                                                <td> - <td>
+                                            {% endif %} 
+
                                             <td>{{ ordenTrabajoDetalle.importeBonificacion }}</td>
                                             <td>{{ ordenTrabajoDetalle.precioVenta }}</td>
                                             <td>{{ ordenTrabajoDetalle.total }}</td>
