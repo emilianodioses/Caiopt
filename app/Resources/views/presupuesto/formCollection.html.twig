@@ -28,7 +28,7 @@
                         {{ form_row(form.plazoEntrega) }}
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        {{ form_row(form.formaPago) }}
+                        {{ form_row(form.validezPresupuesto) }}
                     </div>
                 </div>
             </div>
@@ -46,6 +46,9 @@
                 <div class="row">
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.total)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.totalBonificacion)}}
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         {{ form_row(form.iva21)}}
@@ -106,8 +109,10 @@
                         <thead>
                             <th>Artículo</th>
                             <th>Cantidad</th>
-                            <th>Precio Venta</th>
+                            <th>Forma de pago</th>
+                            <th>Porcentaje</th>
                             <th>Bonificación</th>
+                            <th>Precio Venta</th>
                             <th>Total</th>
                         </thead>
                         <tbody>
@@ -126,10 +131,12 @@
 
     {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
     <tr {{ block('widget_attributes') }}>
-        <td width="25%">{{ form_widget(form.articulo) }}</td>
+        <td width="20%">{{ form_widget(form.articulo) }}</td>
         <td width="10%">{{ form_widget(form.cantidad) }}</td>
-        <td width="10%">{{ form_widget(form.precioUnit) }}</td>
+        <td width="15%">{{ form_widget(form.parametro) }}</td>
+        <td width="5%">{{ form_widget(form.valorNro) }}</td>
         <td width="10%">{{ form_widget(form.importeBonificacion) }}</td>
+        <td width="10%">{{ form_widget(form.precioUnit) }}</td>
         <td width="10%">{{ form_widget(form.totalDetalle) }}</td>
         <td class="text-danger">
             <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>

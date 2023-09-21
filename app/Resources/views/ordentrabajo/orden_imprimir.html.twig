@@ -81,6 +81,10 @@
                     <b>Fecha Receta: </b> {% if not ordenTrabajo.fechaReceta is empty %} {{ ordenTrabajo.fechaReceta | date('d-m-Y') }} {% endif %}
                     <br>
                     <b>Vendedor: </b> {{ ordenTrabajo.usuario}}<br>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%">
                     <b>Observaciones: </b> {{ ordenTrabajo.observaciones }}
                 </td>
             </tr>
@@ -261,14 +265,6 @@
         <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
     {% endif %}
     #}
-    {% if not loop.last %}
-        <br>
-        <br>
-        <br>
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-        <br>
-        <br>
-        <br>
-    {% endif %}
+   
     {% endfor %}
 </body>

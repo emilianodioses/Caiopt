@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -11,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\Range;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 
@@ -21,10 +21,6 @@ class PresupuestoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $formasPago = array(
-            'Cuenta Corriente' => 'Cuenta Corriente',
-            'Efectivo' => 'Efectivo');
-
         $porcentajeIva = array(
             '0.00' => '0.00',
             '10.50' => '10.50',
@@ -59,15 +55,15 @@ class PresupuestoType extends AbstractType
                 ->add('plazoEntrega', IntegerType::class, array(
                     'required' => true,
                     'label' => 'Plazo Entrega (Días hábiles)'))
+                ->add('validezPresupuesto', IntegerType::class, array(
+                    'required' => true,
+                    'label' => 'Validez presupuesto (en días)'))
                 ->add('retiro',TextareaType::class,array(
                     'label'=>'Sucursal de retiro',
                     'required' => false,
-                    'empty_data' => ''  ,
+                    'empty_data' => '',
+                    'disabled' => true,
                     'attr' => array('rows' => '1')))
-                ->add('formaPago',ChoiceType::class,array(
-                    'label'=>'Formas de Pago',
-                    'choices' => $formasPago,
-                    'choices_as_values' => true))
                 ->add('presupuestoDetalles', CollectionType::class, array(
                         'entry_type'   => PresupuestoDetalleType::class,
                         'entry_options' => [
@@ -95,6 +91,11 @@ class PresupuestoType extends AbstractType
                     'label'=>'Total',
                     'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
                 ))
+                ->add('totalBonificacion',FloatType::class, array(
+                    'attr' => array(
+                        'readonly' => true, 'step' => 0.01, 'class' => 'bonificacion'
+                    ),
+                    'label' => 'Bonificación $'))
                 ->add('iva21',ChoiceType::class,array(
                     'label'=>'Iva',
                     'choices' => $porcentajeIva,
