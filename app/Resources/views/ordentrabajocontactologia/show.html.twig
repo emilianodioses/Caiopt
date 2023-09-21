@@ -561,7 +561,13 @@
                                             <td>{{ ordenTrabajoContactologiaDetalle.articulo.tipoAro }}</td>
                                             <td>{{ ordenTrabajoContactologiaDetalle.articulo.colorMarco }}</td>
                                             <td>{{ ordenTrabajoContactologiaDetalle.articulo.colorCristal }}</td>
+
+                                            {% if ordenTrabajoContactologiaDetalle.parametro is not null %}
                                             <td>{{ ordenTrabajoContactologiaDetalle.parametro.valorTexto }}</td>
+                                            {% else %}
+                                            <td> - <td>
+                                                {% endif %}
+                                            
                                             <td>{{ ordenTrabajoContactologiaDetalle.importeBonificacion }}</td>
                                             <td>{{ ordenTrabajoContactologiaDetalle.precioVenta }}</td>
                                             <td>{{ ordenTrabajoContactologiaDetalle.total }}</td>
