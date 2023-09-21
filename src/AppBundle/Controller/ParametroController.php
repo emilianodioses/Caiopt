@@ -5,15 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Parametro;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Parametro controller.
@@ -160,6 +158,60 @@ class ParametroController extends Controller
             ->getForm()
             ;
     }
+
+    public function findAction(Request $req) {
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        // Add Circular reference handler
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer = new Serializer($normalizers, array('json' => new JsonEncoder()));
+
+        $parametro = $this->getDoctrine()->getManager('default')->getRepository('AppBundle:Parametro')
+            ->find($req->get('parametroId'));
+
+        $parametro_array = array();
+        $parametro_array['valorTexto'] = $parametro->getValorTexto();
+        $parametro_array['descripcion'] = $parametro->getDescripcion();
+        $parametro_array['valorNro'] = $parametro->getValorNro();
+        $parametro_array['valorImporte'] = $parametro->getValorImporte();
+        //$articulo_array['']
+
+        $j_parametro = $serializer->serialize($parametro_array, 'json');
+
+        return JsonResponse::create(array('parametro' => $j_parametro));
+    }
+
+
+    public function findSelect2Action(Request $request) {
+        $em = $em = $this->getDoctrine()->getManager('default');
+
+        $text_search = $request->get('q');
+        $pageLimit = $request->get('page_limit');
+
+        if (!is_numeric($pageLimit) || $pageLimit > 10) {
+            $pageLimit = 10;
+        }
+
+        $result = $em->createQuery('
+                        SELECT r.id as id, r.valorTexto as text
+                        FROM AppBundle:Parametro r
+                        WHERE r.activo = 1 AND r.codigo = 5 AND (
+                            lower(r.descripcion) LIKE :text_search  OR 
+                            lower(r.valorNro) LIKE :text_search  OR 
+                            lower(r.valorTexto) LIKE :text_search
+                        )
+                        ORDER BY r.valorTexto ASC
+                        ')
+            ->setParameter('text_search', '%'.$text_search.'%')
+            ->setMaxResults($pageLimit)
+            ->getArrayResult();
+
+        return new JsonResponse($result);
+    }
+
 
 //    public function elegirParametroAction(Request $request)
 //    {

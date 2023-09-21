@@ -56,6 +56,23 @@ class OrdenTrabajoDetalle
     private $porcentajeBonificacion;
 
     /**
+     * @var \Parametro
+     *
+     * @ORM\ManyToOne(targetEntity="Parametro")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="parametro_id", referencedColumnName="id")
+     * })
+     */
+    private $parametro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valorNro", type="decimal", precision=16, scale=2)
+     */
+    private $valorNro;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="total", type="decimal", precision=16, scale=2)
@@ -307,6 +324,55 @@ class OrdenTrabajoDetalle
     public function getArticulo()
     {
         return $this->articulo;
+    }
+
+
+    /**
+     * Set parametro
+     *
+     * @param \AppBundle\Entity\Parametro $parametro
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setParametro(\AppBundle\Entity\Parametro $parametro = null)
+    {
+        $this->parametro = $parametro;
+
+        return $this;
+    }
+
+    /**
+     * Get parametro
+     *
+     * @return \AppBundle\Entity\Parametro
+     */
+    public function getParametro()
+    {
+        return $this->parametro;
+    }
+
+    /**
+     * Set valorNro
+     *
+     * @param integer $valorNro
+     *
+     * @return OrdenTrabajoDetalle
+     */
+    public function setValorNro($valorNro)
+    {
+        $this->valorNro = $valorNro;
+
+        return $this;
+    }
+
+    /**
+     * Get valorNro
+     *
+     * @return integer
+     */
+    public function getValorNro()
+    {
+        return $this->valorNro;
     }
 
     /**
