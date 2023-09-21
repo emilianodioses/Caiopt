@@ -27,3 +27,6 @@
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/jsLinters/jshint.xml
+composer.json
+composer.lock
+
