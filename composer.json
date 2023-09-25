@@ -34,7 +34,7 @@
         "symfony/symfony": "3.4.*",
         "tetranz/select2entity-bundle": "2.*",
         "twig/twig": "^1.0||^2.0",
-        "whiteoctober/tcpdf-bundle": "^1.1"        
+        "whiteoctober/tcpdf-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -60,7 +60,7 @@
     },
     "config": {
         "platform": {
-            "php": "5.6"
+            "php": "7.4.33"
         },
         "sort-packages": true,
         "allow-plugins": {
