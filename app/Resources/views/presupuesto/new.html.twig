@@ -207,8 +207,8 @@ $(function(){
     }
 
    function fnCalcularTotales() {
-        var total = 0;
-        var totalPresupuesto = 0;
+        var total_sin_iva = 0;
+        var total_presupuesto = 0;
         var total_bonificacion = 0;
         var r_iva = $("#PresupuestoType_iva21").val();
 
@@ -218,15 +218,21 @@ $(function(){
             var r_importeBonificacion = $(this).find("input.importeBonificacion");
 
             //totalIva = parseFloat(r_totalDetalle.val() * r_iva.val() / (parseFloat(100) + parseFloat(r_iva.val())));
-            total += parseFloat(r_totalDetalle.val());
+            total_presupuesto += parseFloat(r_totalDetalle.val());
             total_bonificacion += parseFloat(r_importeBonificacion.val());
         });
 
-        var totalIva = parseFloat(total) * (r_iva / 100);
-        totalPresupuesto = parseFloat((totalIva) + parseFloat(total));
+        var totalIva = parseFloat(total_presupuesto) * (r_iva / 100);
+        total_sin_iva =  parseFloat(total_presupuesto) - parseFloat(totalIva);
+        total_presupuesto -= total_bonificacion;
 
-        $("#PresupuestoType_total").val(total.toFixed(2));
-        $("#PresupuestoType_totalPresupuesto").val(totalPresupuesto.toFixed(2));
+        console.log(totalIva);
+        console.log(total_sin_iva);
+        console.log(total_presupuesto);
+        
+
+        $("#PresupuestoType_total").val(total_sin_iva.toFixed(2));
+        $("#PresupuestoType_totalPresupuesto").val(total_presupuesto.toFixed(2));
         //$("#PresupuestoType_totalBonificacion").val(total_bonificacion.toFixed(2));
 
         return true;
