@@ -14,7 +14,7 @@
         "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.4",
         "afipsdk/afip.php": "^0.6.0",
         "almasaeed2010/adminlte": "~2.4",
         "beberlei/doctrineextensions": "^1.1",
@@ -34,7 +34,7 @@
         "symfony/symfony": "3.4.*",
         "tetranz/select2entity-bundle": "2.*",
         "twig/twig": "^1.0||^2.0",
-        "whiteoctober/tcpdf-bundle": "^1.1",        
+        "whiteoctober/tcpdf-bundle": "^1.1"        
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
