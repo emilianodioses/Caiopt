@@ -30,3 +30,8 @@ articulo_find:
 articulo_find_select2:
     path:     /findSelect2
     defaults: { _controller: "AppBundle:Articulo:findSelect2" }
+
+articulo_ajuste:
+    path:     /articuloAjuste
+    defaults: { _controller: "AppBundle:Articulo:articuloAjuste" }
+    methods:  [GET, POST]

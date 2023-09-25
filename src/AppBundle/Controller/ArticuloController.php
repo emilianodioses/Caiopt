@@ -286,4 +286,27 @@ class ArticuloController extends Controller
         
         return new JsonResponse($result);
     }
+
+    public function articuloAjusteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $marcas = $em->getRepository('AppBundle:ArticuloMarca')->findBy(array('activo' => true));
+        $categorias = $em->getRepository('AppBundle:ArticuloCategoria')->findBy(array('activo' => true));
+        $marca = $request->query->get('marca', 0);
+        $categoria = $request->query->get('categoria', 0);
+
+        if (isset($_GET['ajustec'])) {
+            $ajuste = $request->query->get('ajuste', 0);
+            $em->getRepository('AppBundle:Articulo')->updateByAjuste($marca,$categoria,$ajuste);
+        }
+        $articulos = $em->getRepository('AppBundle:Articulo')->findByAjuste($marca,$categoria);
+
+        return $this->render('articulo/articuloAjuste.html.twig', array(
+            'marcas' => $marcas,
+            'categorias' => $categorias,
+            'articulos' => $articulos,
+            'marcaSel' => $marca,
+            'categoriaSel' => $categoria
+        ));
+    }
 }
