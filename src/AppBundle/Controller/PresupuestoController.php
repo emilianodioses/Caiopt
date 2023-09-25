@@ -264,7 +264,7 @@ class PresupuestoController extends Controller
 
         $iva = (float)$presupuesto->getIva21() / 100;
 
-        $totalIva = (float)$presupuesto->getTotal() * $iva;
+        $totalIva = (float)$presupuesto->getTotalPresupuesto() * $iva;
         $totalIva = number_format($totalIva, 2, '.', '');
 
         $html = $this->renderView($presupuestoTemplate, array(
