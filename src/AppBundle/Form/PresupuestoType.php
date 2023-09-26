@@ -89,8 +89,8 @@ class PresupuestoType extends AbstractType
                     'empty_data' => ''  ,
                     'attr' => array('rows' => '1')))
                 ->add('total',FloatType::class,array(
-                    'label'=>'Total',
-                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total', 'class' => 'total', 'step' => 0.01),
+                    'label'=>'Subtotal',
+                    'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Subtotal', 'class' => 'total', 'step' => 0.01),
                 ))
                 ->add('totalBonificacion',FloatType::class, array(
                     'attr' => array(
