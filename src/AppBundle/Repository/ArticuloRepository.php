@@ -30,4 +30,44 @@ class ArticuloRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
+
+    public function findByAjuste($marca, $categoria) {
+        $query = 'SELECT a.id, a.codigo, a.precioVenta, am.descripcion as descMarca, ac.descripcion as descCat, a.precioVenta, a.descripcion FROM AppBundle:Articulo a ';
+        $query.= 'INNER JOIN a.marca am ';
+        $query.= 'INNER JOIN a.categoria ac ';
+        $query.= "WHERE 1=1 ";
+        if ($marca <> 0)
+            $query.= "AND am.id = :marca ";
+        if ($categoria <> 0)
+            $query.= "AND ac.id = :categoria ";
+        $query.= 'ORDER BY a.marca ASC ';
+
+        $qb = $this->getEntityManager()->createQuery($query);
+
+        if ($marca <> 0)
+            $qb->setParameter('marca',$marca);
+        if ($categoria <> 0)
+            $qb->setParameter('categoria',$categoria);
+        return $qb->getArrayResult();
+    }
+
+    public function updateByAjuste($marca, $categoria, $porcentaje) {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $query = $queryBuilder->update('AppBundle:Articulo', 'a')
+            ->set('a.precioVenta', 'a.precioVenta*(1+(:ajuste/100))')
+            ->setParameter('ajuste', $porcentaje);
+
+        if ($marca <> 0){
+            $query->andWhere('a.marca = :marca');
+            $query->setParameter('marca', $marca);
+        }
+
+        if ($categoria <> 0){
+            $query->andWhere('a.categoria = :categoria');
+            $query->setParameter('categoria',$categoria);
+        }
+
+        $query->getQuery()->execute();
+        
+    }
 }
