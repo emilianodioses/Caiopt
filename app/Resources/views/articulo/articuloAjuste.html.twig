@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-Ajuste Articulos
+Ajuste Artículos
 {% endblock %}
 
 {% block header_description %}
@@ -30,7 +30,7 @@ Ajuste Articulos
                                 </div>
 
                                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                    <label class="control-label required" for="fecha">Categoria</label>
+                                    <label class="control-label required" for="fecha">Categoría</label>
                                     <select id="categoria" name="categoria" class="form-control">
                                         <option value=0>Todas</option>
                                         {% for categoria in categorias %}
@@ -77,10 +77,10 @@ Ajuste Articulos
                     <div class="box-body table-responsive no-padding">
                         <table id="articulo_articuloAjuste" class="table table-hover">
                             <tr>
-                                <th style="width: 7%">codigo</th>
+                                <th style="width: 7%">Código</th>
                                 <th>Marca</th>
-                                <th>Categoria</th>
-                                <th>Descripcíon</th>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
                                 <th>Precio Venta</th>
                             </tr>
                             <tbody>
