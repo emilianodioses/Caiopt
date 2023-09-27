@@ -57,14 +57,17 @@ class ArticuloRepository extends \Doctrine\ORM\EntityRepository
             ->set('a.precioVenta', 'a.precioVenta*(1+(:ajuste/100))')
             ->setParameter('ajuste', $porcentaje);
 
-        if ($marca <> 0)
-            $query->where('a.marca = :marca');
-        if ($categoria <> 0)
-            $query->where('a.categoria = :categoria');
-        if ($marca <> 0)
-            $query->setParameter('marca',$marca);
-        if ($categoria <> 0)
+        if ($marca <> 0){
+            $query->andWhere('a.marca = :marca');
+            $query->setParameter('marca', $marca);
+        }
+
+        if ($categoria <> 0){
+            $query->andWhere('a.categoria = :categoria');
             $query->setParameter('categoria',$categoria);
+        }
+
         $query->getQuery()->execute();
+        
     }
 }
