@@ -289,6 +289,13 @@ class ArticuloController extends Controller
 
     public function articuloAjusteAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+
+        if (!$secure->isAuthorized('ArticuloCategoria', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $marcas = $em->getRepository('AppBundle:ArticuloMarca')->findBy(array('activo' => true));
         $categorias = $em->getRepository('AppBundle:ArticuloCategoria')->findBy(array('activo' => true));
