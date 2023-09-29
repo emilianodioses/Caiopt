@@ -51,11 +51,16 @@ class ArticuloRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getArrayResult();
     }
 
-    public function updateByAjuste($marca, $categoria, $porcentaje) {
+    public function updateByAjuste($marca, $categoria, $porcentaje, $updated_by, $update_at) {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $query = $queryBuilder->update('AppBundle:Articulo', 'a')
             ->set('a.precioVenta', 'a.precioVenta*(1+(:ajuste/100))')
-            ->setParameter('ajuste', $porcentaje);
+            ->set('a.updatedBy', ':id_usuario')
+            ->set('a.updatedAt', ':updated_at')
+            ->setParameter('ajuste', $porcentaje)
+            ->setParameter('id_usuario', $updated_by)
+            ->setParameter('updated_at', $update_at);
+
 
         if ($marca <> 0){
             $query->andWhere('a.marca = :marca');
