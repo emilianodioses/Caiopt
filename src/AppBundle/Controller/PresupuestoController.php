@@ -254,7 +254,7 @@ class PresupuestoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // Obtengo sucursal actual
-        //$sucuralActual = $this->getUser()->getSucursal();
+        $sucuralActual = $this->getUser()->getSucursal();
 
         $presupuestos = $em->getRepository('AppBundle:Presupuesto')->find($presupuesto);
 
@@ -271,7 +271,7 @@ class PresupuestoController extends Controller
             'presupuestodetalles' => $presupuestodetalles,
             'presupuesto' => $presupuestos,
             'iva' => $totalIva,
-            //'sucursalActual' => $sucuralActual
+            'sucursalActual' => $sucuralActual
         )
         );
 

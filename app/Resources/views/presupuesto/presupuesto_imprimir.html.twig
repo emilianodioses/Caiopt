@@ -1,41 +1,22 @@
 <body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
 {% for pagina_nro in 1..1 %}
-
-    {% set phoneNumbers = [
-    '3476373157 - San Lorenzo',
-    '3476541424 - San Lorenzo',
-    '3476210926 - Pto. Gral San Martín',
-    '3417418841 - Cap. Bermúdez',
-    '1163071653 - Palermo, CABA'
-    ] %}
-
     <h2 align="center">PRESUPUESTO</h2>
     <br>
     <table width="100%" cellspacing="0" border="0">
         <tbody>
-        <tr>
-            <td width="40%" align="center">
-                <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
-                <b>OPTICA CONTINI</b><br>
-                <br>
-                <b> Mas de 70 años a la vista </b>
-            </td>
-           
-            <td align="rigth">
-                {% for phoneNumber in phoneNumbers %}
-                    <h5>WhatsApp: {{ phoneNumber }}</h5>
-                    
-                {% endfor %}
-            </td>
-
-            {#
-            <td align="rigth">
-                <h4>
-                    WhatsApp: {{ sucursalActual.telefono }} <br> {{ sucursalActual.nombre }}, {{ sucursalActual.localidad }}
-                </h4>
-            </td>#}
-
-        </tr>
+            <tr>
+                <td width="40%" align="center">
+                    <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                    <b>OPTICA CONTINI</b><br>
+                    <br>
+                    <b> Mas de 70 años a la vista </b>
+                </td>
+                <td align="right">
+                    <h4>
+                        {{ sucursalActual.telefono }} <br> {{ sucursalActual.nombre }}, {{ sucursalActual.localidad }}
+                    </h4>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -52,10 +33,11 @@
         </tr>
         <tr>
             <td width="60%"><b>Fecha Presupuesto:</b> {{ presupuesto.fechaPresup  | date('d-m-Y')}}</td>
+            <td width="60%"><b>Retiro:</b> {{ presupuesto.retiro}}</td>
             <td width="60%"><b>Plazo Entrega:</b> {{ presupuesto.plazoEntrega}}</td>
         </tr>
         <tr>
-            <td width="60%"><b>Retiro:</b> {{ presupuesto.retiro}}</td>
+            <td width="60%"><b>Validez Presupuesto:</b> {{ presupuesto.validezPresupuesto }} días</td>
             <td width="60%"><b>Moneda:</b> {{ presupuesto.moneda}}</td>
         </tr>
         {#
@@ -112,6 +94,11 @@
             </td>
             <td style="text-align: right" width="15%">
                 {{ presupuesto.totalPresupuesto }}
+            </td>
+        </tr>
+        <tr>
+            <td width="100%">
+                <b>Observaciones: </b> {{ presupuesto.observaciones }}
             </td>
         </tr>
     </table>

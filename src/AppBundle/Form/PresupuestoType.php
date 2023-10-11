@@ -105,6 +105,12 @@ class PresupuestoType extends AbstractType
                 ->add('totalPresupuesto',FloatType::class,array(
                     'label'=>'Total Presupuesto',
                     'attr' => array('readonly' => true, 'size' => 3, 'placeholder' => 'Total Presupuesto', 'class' => 'totalPresupuesto', 'step' => 0.01),
+                ))
+                ->add('observaciones',TextareaType::class,array(
+                    'label'=>'Observaciones',
+                    'required' => false,
+                    'empty_data' => ''  ,
+                    'attr' => array('rows' => '1')
                 ));
 
     }/**
