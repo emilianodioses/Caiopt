@@ -289,6 +289,18 @@ class ArticuloController extends Controller
 
     public function articuloAjusteAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+        
+        if (!$secure->isAuthorized('Articulo', 'AjustePrecio', $this->getUser()->getRol())):
+            $response = new Response('<b>Acceso denegado:</b>
+                <br>Solicite acceso a su administrador: Articulos - Ajuste Precios');
+    
+        $response->setContent($response->getContent() . '<br><a href="javascript:history.back()">Volver atrás</a>');
+        
+        return $response;
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $marcas = $em->getRepository('AppBundle:ArticuloMarca')->findBy(array('activo' => true));
         $categorias = $em->getRepository('AppBundle:ArticuloCategoria')->findBy(array('activo' => true));
