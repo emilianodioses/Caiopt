@@ -226,13 +226,6 @@ $(function(){
         total_sin_iva =  parseFloat(total_presupuesto) - parseFloat(totalIva);
         total_presupuesto -= total_bonificacion;
 
-        var iva = 1 + r_iva / 100;
-        console.log('IVA: ' + iva)
-        console.log('Total IVA: ' + totalIva);
-        console.log('Subtotal: ' + total_sin_iva);
-        console.log('Total presupuesto: ' + total_presupuesto);
-        
-
         $("#PresupuestoType_total").val(total_sin_iva.toFixed(2));
         $("#PresupuestoType_totalPresupuesto").val(total_presupuesto.toFixed(2));
         //$("#PresupuestoType_totalBonificacion").val(total_bonificacion.toFixed(2));
