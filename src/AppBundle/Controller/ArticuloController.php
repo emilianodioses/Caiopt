@@ -289,15 +289,24 @@ class ArticuloController extends Controller
 
     public function articuloAjusteAction(Request $request)
     {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+
+        if (!$secure->isAuthorized('ArticuloCategoria', 'Index', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
         $em = $this->getDoctrine()->getManager();
         $marcas = $em->getRepository('AppBundle:ArticuloMarca')->findBy(array('activo' => true));
         $categorias = $em->getRepository('AppBundle:ArticuloCategoria')->findBy(array('activo' => true));
         $marca = $request->query->get('marca', 0);
         $categoria = $request->query->get('categoria', 0);
+        $updated_by = $this->getUser()->getId();
+        $updated_at = new \DateTime("now");
 
         if (isset($_GET['ajustec'])) {
             $ajuste = $request->query->get('ajuste', 0);
-            $em->getRepository('AppBundle:Articulo')->updateByAjuste($marca,$categoria,$ajuste);
+            $em->getRepository('AppBundle:Articulo')->updateByAjuste($marca, $categoria, $ajuste, $updated_by, $updated_at);
         }
         $articulos = $em->getRepository('AppBundle:Articulo')->findByAjuste($marca,$categoria);
 
