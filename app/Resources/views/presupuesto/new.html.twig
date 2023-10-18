@@ -222,13 +222,15 @@ $(function(){
             total_bonificacion += parseFloat(r_importeBonificacion.val());
         });
 
-        var totalIva = parseFloat(total_presupuesto) * (r_iva / 100);
+        var totalIva = parseFloat(total_presupuesto) - ( parseFloat(total_presupuesto) / (1 + r_iva / 100) );
         total_sin_iva =  parseFloat(total_presupuesto) - parseFloat(totalIva);
         total_presupuesto -= total_bonificacion;
 
-        console.log(totalIva);
-        console.log(total_sin_iva);
-        console.log(total_presupuesto);
+        var iva = 1 + r_iva / 100;
+        console.log('IVA: ' + iva)
+        console.log('Total IVA: ' + totalIva);
+        console.log('Subtotal: ' + total_sin_iva);
+        console.log('Total presupuesto: ' + total_presupuesto);
         
 
         $("#PresupuestoType_total").val(total_sin_iva.toFixed(2));
