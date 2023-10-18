@@ -143,6 +143,14 @@ class Presupuesto
      * @ORM\Column(name="total_bonificacion", type="decimal", precision=16, scale=2)
      */
     private $totalBonificacion = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observaciones", type="string", length=255, nullable=true)
+     */
+    private $observaciones;
+
     /**************************************************************
     /**
      * Set cliente
@@ -572,6 +580,30 @@ class Presupuesto
     public function getTotalBonificacion()
     {
         return $this->totalBonificacion;
+    }
+
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     *
+     * @return OrdenTrabajo
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
     }
 
 

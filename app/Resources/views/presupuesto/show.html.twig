@@ -53,6 +53,10 @@
                                         <td>{{ presupuesto.fechaPresup | date('d-m-Y') }}</td>
                                     {% endif %}
                                     <tr>
+                                        <th>Validez Presupuesto</th>
+                                        <td>{{ presupuesto.validezPresupuesto }} días</td>
+                                    </tr>
+                                    <tr>
                                         <th>Plazo Entrega</th>
                                         <td>{{ presupuesto.plazoEntrega }}</td>
                                     </tr>
@@ -67,6 +71,10 @@
                                     <tr>
                                         <th>Usuario</th>
                                         <td>{{ presupuesto.usuario }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Observaciones</th>
+                                        <td>{{ presupuesto.observaciones }}</td>
                                     </tr>
                                 </tbody>
                             </table>
