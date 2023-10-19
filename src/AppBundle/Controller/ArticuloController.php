@@ -293,12 +293,7 @@ class ArticuloController extends Controller
         $secure = $this->container->get('SecureAction');
 
         if (!$secure->isAuthorized('ArticuloCategoria', 'Index', $this->getUser()->getRol())):
-            $response = new Response('<b>Acceso denegado:</b>
-                <br>Solicite acceso a su administrador: Articulos - Ajuste Precios');
-            
-        $response->setContent($response->getContent() . '<br><a href="javascript:history.back()">Volver atrás</a>');
-        
-        return $response;
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
         $em = $this->getDoctrine()->getManager();
