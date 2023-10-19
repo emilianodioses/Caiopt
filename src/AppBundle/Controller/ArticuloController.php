@@ -296,12 +296,6 @@ class ArticuloController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
-    
-        $response->setContent($response->getContent() . '<br><a href="javascript:history.back()">Volver atrás</a>');
-        
-        return $response;
-        endif;
-
         $em = $this->getDoctrine()->getManager();
         $marcas = $em->getRepository('AppBundle:ArticuloMarca')->findBy(array('activo' => true));
         $categorias = $em->getRepository('AppBundle:ArticuloCategoria')->findBy(array('activo' => true));
