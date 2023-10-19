@@ -292,9 +292,10 @@ class ArticuloController extends Controller
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
         
-        if (!$secure->isAuthorized('Articulo', 'New', $this->getUser()->getRol())):
+        if (!$secure->isAuthorized('ArticuloCategoria', 'Index', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
+
     
         $response->setContent($response->getContent() . '<br><a href="javascript:history.back()">Volver atrás</a>');
         
