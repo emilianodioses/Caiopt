@@ -67,7 +67,7 @@ class OrdenTrabajoContactologiaController extends Controller
      * Creates a new ordenTrabajoContactologia entity.
      *
      */
-    public function newAction(Request $request, $clienteId=null)
+    public function newAction(Request $request, $clienteId)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
