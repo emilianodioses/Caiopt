@@ -67,7 +67,7 @@ class OrdenTrabajoContactologiaController extends Controller
      * Creates a new ordenTrabajoContactologia entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $clienteId)
     {
         // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -76,7 +76,18 @@ class OrdenTrabajoContactologiaController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
+        $em = $this->getDoctrine()->getManager();
+
         $ordenTrabajoContactologia = new Ordentrabajocontactologia();
+
+        if ($clienteId > 0) {
+            $cliente = $em->getRepository('AppBundle:Cliente')->find($clienteId);
+            $ordenTrabajoContactologia->setCliente($cliente);
+            if (!is_null($cliente->getObraSocialPlan())) {
+                $ordenTrabajoContactologia->setObraSocialPlan($cliente->getObraSocialPlan());
+            }
+        }
+
         $ordenTrabajoContactologia->setFechaRecepcion(new \DateTime("now"));
         $ordenTrabajoContactologia->setUsuario($this->getUser());
         $form = $this->createForm('AppBundle\Form\OrdenTrabajoContactologiaType', $ordenTrabajoContactologia);

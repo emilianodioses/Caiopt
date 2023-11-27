@@ -9,8 +9,8 @@ ordentrabajocontactologia_show:
     methods:  GET
 
 ordentrabajocontactologia_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:new" }
+    path:     /{clienteId}/new
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:new" , clienteId:0 }
     methods:  [GET, POST]
 
 ordentrabajocontactologia_edit:
