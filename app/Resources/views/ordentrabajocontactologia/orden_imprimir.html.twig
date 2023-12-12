@@ -99,15 +99,17 @@
             <td style="text-align: center" width="55%"><b>Artículo</b></td>
             <td style="text-align: center" width="15%">P. Venta</td>
             {% if pagina_nro == 1 %}
-                <td style="text-align: center" width="15%">Bonificación</td>
+            <td style="text-align: center" width="11%">Forma de pago</td>
+                <td style="text-align: center" width="10%">Bonificación</td>
             {% endif %}
-            <td style="text-align: center" width="15%">Total</td>
+            <td style="text-align: center" width="10%">Total</td>
         </tr>
         {% for ordenTrabajoContactologiaDetalle in ordentrabajocontactologiadetalles %}
             <tr>
                 <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.articulo.descripcion }}</td>
                 <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.precioVenta }}</td>
                 {% if pagina_nro == 1 %}
+                <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.parametro.descripcion }}</td>
                     <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.importeBonificacion }}</td>
                 {% endif %}
                 <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.total }}</td>

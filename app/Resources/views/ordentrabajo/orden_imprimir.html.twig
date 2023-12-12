@@ -107,9 +107,10 @@
 
                 <td style="text-align: center" width="15%">P. Venta</td>
                 {% if pagina_nro == 1 %}
-                    <td style="text-align: center" width="15%">Bonificación</td>
+                    <td style="text-align: center" width="10%">Forma de pago</td>
+                    <td style="text-align: center" width="10%">Bonificación</td>
                 {% endif %}
-                <td style="text-align: center" width="15%">Total</td>
+                <td style="text-align: center" width="10%">Total</td>
             </tr>
             {% for ordenTrabajoDetalle in ordentrabajodetalles %}
                 <tr>
@@ -123,8 +124,10 @@
                     <td style="text-align: center">{{ ordenTrabajoDetalle.tipoCristal }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.precioVenta }}</td>
                     {% if pagina_nro == 1 %}
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.parametro.descripcion }}</td>
                         <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
                     {% endif %}
+                    
                     <td style="text-align: center">{{ ordenTrabajoDetalle.total }}</td>
                 </tr>
             {% endfor %}
