@@ -50,7 +50,7 @@ Pedidos de Compras
                       <a href="{{ path('pedido_edit', { 'id': pedido.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                       {% if pedido.activo %}
-                          <a href="{{ path('pedido_delete', { 'id': pedido.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('pedido_delete', { 'id': pedido.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('pedido_delete', { 'id': pedido.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>

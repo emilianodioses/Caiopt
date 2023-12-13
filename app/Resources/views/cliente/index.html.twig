@@ -60,7 +60,7 @@ Clientes
                       <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                       {% if cliente.activo %}
-                          <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('cliente_delete', { 'id': cliente.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>

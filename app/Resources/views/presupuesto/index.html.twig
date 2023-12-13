@@ -61,7 +61,7 @@
                                     <a href="{{ path('presupuesto_edit', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                                     </a>
                                     {% if presupuesto.activo %}
-                                        <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                        <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                                         </a>
                                     {% else %}
                                         <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
