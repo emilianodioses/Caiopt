@@ -131,5 +131,18 @@ class ComprobanteRepository extends \Doctrine\ORM\EntityRepository
 
         return count($qb->getResult());
     }
+
+    public function findLast_recibo($comprobanteId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $comprobanteId)
+            ->andWhere('c.movimiento = :movimiento')
+            ->setParameter('movimiento', 'Venta') // Asumiendo que los recibos son de tipo "Venta"
+            ->orderBy('c.fecha', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
 
