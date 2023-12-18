@@ -149,18 +149,28 @@ $(function(){
     }
 
     function submitform() {
-        var comprobantes = getComprobantes();
-        comprobantes = JSON.stringify(comprobantes);
+        var comprobantesSeleccionados = getComprobantes();
+        if (comprobantesSeleccionados.length === 0)
+            {
+            alert('Selecciona al menos un comprobante.') ;
+            return false}
+        else
+            {
+                var comprobantes = getComprobantes();
+                comprobantes = JSON.stringify(comprobantes);
 
-        var form = document.getElementsByName("ReciboType")[0];
+                var form = document.getElementsByName("ReciboType")[0];
 
-        $('<input />').attr('type', 'hidden')
-            .attr('name', "comprobantes")
-            .attr('value', comprobantes)
-            .appendTo(form);
+                $('<input />').attr('type', 'hidden')
+                    .attr('name', "comprobantes")
+                    .attr('value', comprobantes)
+                    .appendTo(form);
 
-        return true;
-    };
+                return true;
+            };
+        }
+
+
 </script>          
 
 {% endblock %}

@@ -58,7 +58,7 @@
                       </a>
                       #}
                       {% if ordenPago.activo %}
-                          <a href="{{ path('ordenpago_delete', { 'id': ordenPago.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('ordenpago_delete', { 'id': ordenPago.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('ordenpago_delete', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>

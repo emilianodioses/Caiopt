@@ -108,7 +108,7 @@ Comprobantes de Ventas
                       <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                       {% if comprobante.activo %}
-                          <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>

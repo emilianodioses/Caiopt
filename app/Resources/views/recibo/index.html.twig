@@ -58,7 +58,7 @@ Recibos
                       </a>
                       #}
                       {% if recibo.activo %}
-                          <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>

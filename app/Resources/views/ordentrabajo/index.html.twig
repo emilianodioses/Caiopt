@@ -135,7 +135,7 @@
                       <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
                       </a>
                       {% if ordenTrabajo.activo %}
-                          <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
                           </a>
                       {% else %}
                           <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
