@@ -53,14 +53,8 @@
                                         <th>Obra Social - Plan</th>
                                         <td>{{ ordenTrabajoContactologia.obraSocialPlan }}</td>
                                     </tr>
-                                    <tr>
-                                        <th>Comprobante</th>
-                                        {% if ordenTrabajoContactologia.comprobante is empty %}
-                                            <td></td>
-                                        {% else %}
-                                            <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajoContactologia.comprobante.Id }) }}">{{ordenTrabajoContactologia.comprobante}}</a></td>
-                                        {% endif %}
-                                    </tr>
+
+
                                     <tr>
                                         <th>Observaciones</th>
                                         <td>{{ ordenTrabajoContactologia.observaciones }}</td>
