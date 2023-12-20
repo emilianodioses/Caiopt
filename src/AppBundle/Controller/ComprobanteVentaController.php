@@ -767,14 +767,7 @@ class ComprobanteVentaController extends Controller
             $clienteDocumentoNumero = $cliente->getDocumentoNumero();
         }
 
-        $comprobanteFecha = $this->getDoctrine()->getRepository(Comprobante::class);
-        $comprobanteId = $comprobante->getId();
-        $lastRecibo = $comprobanteFecha->findLast_Recibo($comprobanteId);
-
-        if ($lastRecibo !== null) {
-            $reciboDate = $lastRecibo->getFecha()->format('Ymd'); // Suponiendo que 'fecha' es la propiedad que contiene la fecha en la entidad Comprobante
-            // Aquí puedes acceder a otras propiedades de $lastRecibo según sea necesario
-        }
+        $comprobanteFecha = $comprobante->getFecha()->format('Ymd');
 
         $comprobanteTotal = $comprobante->getTotal();
         $comprobanteTotalNeto = $comprobante->getTotalNeto();
@@ -814,7 +807,7 @@ class ComprobanteVentaController extends Controller
                 'DocNro'    => $clienteDocumentoNumero,  // Número de documento del comprador (0 consumidor final)
             //  'CbteDesde' 	=> 5,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno//agregué ceci
 	          //    'CbteHasta' 	=> 5,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno//agregué ceci
-                'CbteFch'   => $reciboDate, // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
+                'CbteFch'   => $comprobanteFecha, // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
                 'ImpTotal'  => $comprobanteTotal, // Importe total del comprobante
                 'ImpTotConc'    => 0,   // Importe neto no gravado
                 'ImpNeto'   => $comprobanteTotalNeto, // Importe neto gravado
@@ -905,16 +898,7 @@ class ComprobanteVentaController extends Controller
 
             //Genero el qr
             $qr_version = '1';
-
-            $comprobanteFecha = $this->getDoctrine()->getRepository(Comprobante::class);
-            $comprobanteId = $comprobante->getId();
-            $lastRecibo = $comprobanteFecha->findLast_Recibo($comprobanteId);
-
-            if ($lastRecibo !== null) {
-                $reciboDate = $lastRecibo->getFecha()->format('Ymd'); // Suponiendo que 'fecha' es la propiedad que contiene la fecha en la entidad Comprobante
-            }
-
-            $qr_fecha = $reciboDate->format('Y-m-d'); //$cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
+            $qr_fecha = $comprobante->getFecha()->format('Y-m-d'); //$cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
             $qr_cuit =  $this->container->getParameter('empresa_cuit');//$empresa_cuit; //'27327353840';
             $qr_pto_vta =  $comprobante->getPuntoVenta(); //cliente_cuenta->getFacturaSucursal(); //'2';
             $qr_tipo_cmp = $comprobante->getTipo(); //'11';
