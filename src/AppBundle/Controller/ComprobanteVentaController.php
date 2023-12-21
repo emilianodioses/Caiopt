@@ -911,7 +911,7 @@ class ComprobanteVentaController extends Controller
             $lastRecibo = $comprobanteFecha->findLast_Recibo($comprobanteId);
 
             if ($lastRecibo !== null) {
-                $reciboDate = \DateTime::createFromFormat('Y-m-d', $lastRecibo); // Suponiendo que 'fecha' es la propiedad que contiene la fecha en la entidad Comprobante
+                $reciboDate = $lastRecibo->getFecha(); // Suponiendo que 'fecha' es la propiedad que contiene la fecha en la entidad Comprobante
             }
 
             $qr_fecha = $reciboDate->format('Y-m-d'); //$cliente->getFacturaFecha()->format('Y-m-d') ;//prueba 7-22 '2022-04-20'; $comprobante->getFecha();
