@@ -37,6 +37,10 @@ $(function(){
         fnClienteChange($(this));
     });
 
+    $('.medico').change(function() {
+        fnMedicoChange($(this));
+    });
+
     $('.ordenTrabajoContactologiaDetalle-collection').collection({
         allow_duplicate: false,
         allow_up: false,
@@ -161,6 +165,12 @@ $(function(){
         });
 
         return true;
+    }
+
+    function fnMedicoChange(medico) {
+
+        var data = {medicoId: medico.val()};
+
     }
 
     function fnArticuloChange(articulo) {
