@@ -88,11 +88,11 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('medico', Select2EntityType::class, array(
                       'label' => 'Médico',
-                      'required' => false,
                       'class' => 'AppBundle:Medico',
                       'remote_route' => 'medico_find_select2',
                       'placeholder' => 'Seleccione un Medico',
-                      'attr' => [
+                    'required' => false,
+                    'attr' => [
                               'class' => 'medico',
                           ],
                       'primary_key' => 'id',
