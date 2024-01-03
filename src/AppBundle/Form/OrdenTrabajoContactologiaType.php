@@ -73,7 +73,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                            }
                 ))
                 ->add('fechaRecepcion',DateType::class,array(
-                    'label'=>'Fecha Recepción',
+                    'label'=>'Fecha Recepcion',
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'html5' => true,
@@ -87,7 +87,7 @@ class OrdenTrabajoContactologiaType extends AbstractType
                     'required' => false,
                     'attr' => ['class' => 'js-datepicker', 'autocomplete' => 'off']))
                 ->add('medico', Select2EntityType::class, array(
-                      'label' => 'Médico',
+                      'label' => 'Medico',
                       'class' => 'AppBundle:Medico',
                       'remote_route' => 'medico_find_select2',
                       'placeholder' => 'Seleccione un Medico',
