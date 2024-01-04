@@ -59,7 +59,19 @@ class OrdenTrabajoContactologiaType extends AbstractType
                                    ;
                            }
                 ))
-
+                ->add('comprobante', EntityType::class, array(
+                    'label' => 'Comprobante',
+                    'class' => 'AppBundle:Comprobante',
+                    'required' => false,
+                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er) {
+                            return $er->createQueryBuilder('l')
+                                ->where('l.activo = 1')
+                                ->andWhere('l.movimiento = ?1')
+                                ->setParameter(1, 'Venta')
+                                ->orderBy('l.id', 'ASC')
+                                ->setMaxResults(50);
+                            }
+                ))
                 ->add('fechaRecepcion',DateType::class,array(
                     'label'=>'Fecha Recepcion',
                     'widget' => 'single_text',
