@@ -109,7 +109,15 @@
                 <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.articulo.descripcion }}</td>
                 <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.precioVenta }}</td>
                 {% if pagina_nro == 1 %}
-                <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.parametro.descripcion }}</td>
+
+                    <td style="text-align: center">
+                        {% if ordenTrabajoContactologiaDetalle.parametro is not null %}
+                            {{ ordenTrabajoContactologiaDetalle.parametro.descripcion }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
                     <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.importeBonificacion }}</td>
                 {% endif %}
                 <td style="text-align: center">{{ ordenTrabajoContactologiaDetalle.total }}</td>
