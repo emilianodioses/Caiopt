@@ -59,7 +59,8 @@ class OrdenTrabajoContactologiaController extends Controller
 
         return $this->render('ordentrabajocontactologia/index.html.twig', array(
             'pagination1' => $pagination1,
-            'pagination2' => $pagination2
+            'pagination2' => $pagination2,
+            'texto' => $texto
         ));
     }
 
@@ -94,7 +95,6 @@ class OrdenTrabajoContactologiaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
 
             $sucursal = $em->getRepository('AppBundle:Sucursal')->find($this->getUser()->getSucursal()->getId());       
         
@@ -160,32 +160,6 @@ class OrdenTrabajoContactologiaController extends Controller
             'ordentrabajocontactologiadetalles' => $ordentrabajocontactologiadetalles,
             'delete_form' => $deleteForm->createView(),
         ));
-    }
-
-    /**
-     * Cerrar orden de trabajo
-     *
-     */
-    public function cerrarAction($id)
-    {
-        // Permisos de Usuario para Acciones
-        $secure = $this->container->get('SecureAction');
-        
-        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Cerrar', $this->getUser()->getRol())):
-            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
-        endif;
-
-        $em = $this->getDoctrine()->getManager();
-
-        $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
-        $ordenTrabajoContactologia->setEstado("Finalizado");  
-
-        $ordenTrabajoContactologia->setUpdatedBy($this->getUser()); 
-        $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now")); 
-        
-        $em->flush();
-        
-        return $this->redirectToRoute('ordentrabajocontactologia_show', array('id' => $ordenTrabajoContactologia->getId()));
     }
 
     /**
@@ -274,6 +248,32 @@ class OrdenTrabajoContactologiaController extends Controller
         $em->flush();
         
         return $this->redirectToRoute('ordentrabajocontactologia_index');
+    }
+
+    /**
+     * Cerrar orden de trabajo
+     *
+     */
+    public function cerrarAction($id)
+    {
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+
+        if (!$secure->isAuthorized('OrdenTrabajOcontactologia', 'Cerrar', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($id);
+        $ordenTrabajoContactologia->setEstado("Finalizado");
+
+        $ordenTrabajoContactologia->setUpdatedBy($this->getUser());
+        $ordenTrabajoContactologia->setUpdatedAt(new \DateTime("now"));
+
+        $em->flush();
+
+        return $this->redirectToRoute('ordentrabajocontactologia_show', array('id' => $ordenTrabajoContactologia->getId()));
     }
 
     /**
