@@ -33,6 +33,10 @@ $(function(){
 
 <script type="text/javascript">
 
+     window.onload = function() {
+        fnClienteChange($("#OrdenTrabajoContactologiaType_cliente"));
+    }
+
     $('.cliente').change(function() {
         fnClienteChange($(this));
     });
