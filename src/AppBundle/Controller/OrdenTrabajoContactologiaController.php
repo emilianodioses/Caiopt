@@ -325,7 +325,7 @@ class OrdenTrabajoContactologiaController extends Controller
      * Imprime la orden de trabajo
      *
      */
-    public function ordenImprimirAction(Request $request, OrdentrabajoContactologia $ordenTrabajoContactologia, OrdenTrabajo $ordenTrabajo)
+    public function ordenImprimirAction(Request $request, OrdentrabajoContactologia $ordenTrabajoContactologia)
     {
         // Permisos de Usuario para Acciones
         /*
@@ -338,7 +338,7 @@ class OrdenTrabajoContactologiaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($ordenTrabajo);
+        //$ordenesTrabajo = $em->getRepository('AppBundle:OrdenTrabajo')->find($ordenTrabajo);
 
         $ordenTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->find($ordenTrabajoContactologia);
 
@@ -349,7 +349,7 @@ class OrdenTrabajoContactologiaController extends Controller
         $html = $this->renderView($ordenTemplate, array(
             'ordentrabajocontactologiadetalles' => $ordentrabajocontactologiadetalles,
             'ordenTrabajoContactologia' => $ordenTrabajoContactologia,
-            'ordenTrabajo' => $ordenesTrabajo,
+            //'ordenTrabajo' => $ordenesTrabajo,
 
             )
         );
