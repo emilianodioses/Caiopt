@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
+use AppBundle\Entity\Cliente;
+use AppBundle\Entity\Comprobante;
+use AppBundle\Entity\OrdenTrabajo;
+use AppBundle\Entity\PagoTipo;
+use AppBundle\Entity\ReciboComprobante;
 
 class InformeController extends Controller
 {
@@ -687,6 +692,88 @@ class InformeController extends Controller
         header('Content-Disposition: attachment; filename="LibroIvaVentas.csv";');
         fpassthru($f);
         return new Response();
+    }
+
+
+    // Informe ventas con tarjeta de crédito
+    public function ventasCreditoAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+        // Creo la consulta
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+        ->select('cli.nombre, c.fecha, c.total, ot.id, rc.id')
+        ->from(Cliente::class, 'cli')
+        ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+        ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
+        ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+        ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+        ->where('pt.id = :tipoId')
+        ->setParameter('tipoId', 3)
+        ->getQuery();
+
+        // Obtengo los resultados de la consulta
+        $ventasCredito = $query->getResult();
+        
+        
+        return $this->render('informe/ventasCredito.html.twig', array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'ventasCredito' => $ventasCredito
+        ));
+    }
+
+
+    // Imprimir tabla de ventas con tarjeta crédito en formato excel
+    public function ventasCredito_imprimirExcelAction(Request $request){
+
+        // Creo la consulta
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+        ->select('cli.nombre, c.fecha, c.total, ot.id, rc.id')
+        ->from(Cliente::class, 'cli')
+        ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+        ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
+        ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+        ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+        ->where('pt.id = :tipoId')
+        ->setParameter('tipoId', 3)
+        ->getQuery();
+
+        // Obtengo los resultados
+        $ventasCredito = $query->getResult();
+
+        // Crear archivo csv
+        $file = fopen('php://memory', 'w');
+        $rows = array('Cliente','Facturada','Nro Interno',
+                        'Fecha','Total','Pendiente pago');
+        fputcsv($file,$rows,";");
+
+        foreach ($ventasCredito as $venta) {
+            fputcsv($file, array(
+                $venta['nombre'],
+                'Falta',
+                $venta['id'],
+                $venta['fecha']->format('d-m-Y'),
+                $venta['total'],
+                isset($venta['id']) ? 'Pagado' : 'Pendiente'
+            ), ';');
+        }
+
+        rewind($file);
+        $content = stream_get_contents($file);
+        fclose($file);
+
+         // Enviar archivo CSV al navegador
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConCredito.csv"');
+
+        return $response;
+
     }
 
 }
