@@ -9,6 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
+use AppBundle\Entity\Cliente;
+use AppBundle\Entity\Comprobante;
+use AppBundle\Entity\OrdenTrabajo;
+use AppBundle\Entity\PagoTipo;
+use AppBundle\Entity\ReciboComprobante;
+use Doctrine\ORM\Query\Expr\GroupBy;
 
 class InformeController extends Controller
 {
@@ -688,5 +694,94 @@ class InformeController extends Controller
         fpassthru($f);
         return new Response();
     }
+
+
+// Informe de ventas en efectivo
+    public function ventasEfectivoAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+                (c.total - sum(rc.importe)) as diferencia')
+            ->from(Cliente::class, 'cli')
+            ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+            ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
+            ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+            ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+            ->where('pt.id = :tipoId')
+            ->andWhere('c.fecha >= :fechaDesde')
+            ->andWhere('c.fecha <= :fechaHasta')
+            ->groupBy('cli.id, c.id')
+            ->orderBy('cli.nombre')
+            ->setParameter('tipoId', 1)
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta)
+            ->getQuery();
+
+        $ventasEfectivo = $query->getResult();
+
+        return $this->render('informe/ventasEfectivo.html.twig', array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'ventasEfectivo' => $ventasEfectivo
+        ));
+    }
+
+
+    // Excel Ventas en Efectivo
+    public function ventasEfectivo_imprimirExcelAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+                    ( c.total - sum(rc.importe) ) as diferencia')
+            ->from(Cliente::class, 'cli')
+            ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+            ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
+            ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+            ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+            ->where('pt.id = :tipoId')
+            ->groupBy('cli.id, c.id')
+            ->orderBy('cli.nombre')
+            ->setParameter('tipoId', 1)
+            ->getQuery();
+
+        // Obtengo los resultados
+        $ventasEfectivo = $query->getResult();
+
+        // Crear archivo csv
+        $file = fopen('php://memory', 'w');
+        $rows = array('Cliente','Facturada','Nro Interno',
+            'Fecha','Total','Pendiente pago');
+        fputcsv($file,$rows,";");
+
+        foreach ($ventasEfectivo as $venta) {
+            fputcsv($file, array(
+                $venta['nombre'],
+                isset($venta['caeNumero']) ? 'SI' : 'NO',
+                $venta['id_OT'],
+                $venta['fecha']->format('d-m-Y'),
+                $venta['total'],
+                ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
+            ), ';');
+        }
+
+        rewind($file);
+        $content = stream_get_contents($file);
+        fclose($file);
+
+        // Enviar archivo CSV al navegador
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConEfectivo.csv"');
+
+        return $response;
+
+    }
+
 
 }

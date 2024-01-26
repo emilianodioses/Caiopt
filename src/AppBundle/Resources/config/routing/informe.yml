@@ -42,3 +42,13 @@ informe_libroIvaVentas_imprimirexcel:
     path:    /libroIvaVentas_imprimirExcel
     defaults: { _controller: "AppBundle:Informe:libroIvaVentas_imprimirexcel" }
     methods:  [GET, POST]
+
+informe_ventasEfectivo:
+    path:    /ventas_efectivo
+    defaults: { _controller: "AppBundle:Informe:ventasEfectivo" }
+    methods:  [GET, POST]
+
+informe_ventasEfectivo_imprimirExcel:
+    path:    /ventasEfectivo_imprimirexcel
+    defaults: { _controller: "AppBundle:Informe:ventasEfectivo_imprimirExcel" }
+    methods:  [GET, POST]
