@@ -14,6 +14,7 @@ use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\OrdenTrabajo;
 use AppBundle\Entity\PagoTipo;
 use AppBundle\Entity\ReciboComprobante;
+use Doctrine\ORM\Query\Expr\GroupBy;
 
 class InformeController extends Controller
 {
@@ -704,13 +705,16 @@ class InformeController extends Controller
         // Creo la consulta
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
-        ->select('cli.nombre, c.fecha, c.total, ot.id, rc.id')
+        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+                    ( c.total - sum(rc.importe) ) as diferencia')
         ->from(Cliente::class, 'cli')
         ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
         ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
         ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
         ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
         ->where('pt.id = :tipoId')
+        ->groupBy('cli.id, c.id')
+        ->orderBy('cli.nombre')
         ->setParameter('tipoId', 3)
         ->getQuery();
 
@@ -733,13 +737,16 @@ class InformeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
-        ->select('cli.nombre, c.fecha, c.total, ot.id, rc.id')
+        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+                    ( c.total - sum(rc.importe) ) as diferencia')
         ->from(Cliente::class, 'cli')
         ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
         ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
         ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
         ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
         ->where('pt.id = :tipoId')
+        ->groupBy('cli.id, c.id')
+        ->orderBy('cli.nombre')
         ->setParameter('tipoId', 3)
         ->getQuery();
 
@@ -755,11 +762,11 @@ class InformeController extends Controller
         foreach ($ventasCredito as $venta) {
             fputcsv($file, array(
                 $venta['nombre'],
-                'Falta',
-                $venta['id'],
+                isset($venta['caeNumero']) ? 'SI' : 'NO',
+                $venta['id_OT'],
                 $venta['fecha']->format('d-m-Y'),
                 $venta['total'],
-                isset($venta['id']) ? 'Pagado' : 'Pendiente'
+                ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
             ), ';');
         }
 

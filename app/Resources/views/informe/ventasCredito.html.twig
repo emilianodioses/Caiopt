@@ -84,12 +84,16 @@ Ventas con tarjeta de crédito
                 <tr>                    
                     
                     <td style='text-align:center'>{{ ventaCredito.nombre }}</td>
-                    <td style='text-align:center'>Something</td>
-                    <td style='text-align:center'>{{ ventaCredito.id }}</td>
+                    {% if ventaCredito.caeNumero is null %}
+                    <td style='text-align:center'>No</td>
+                    {% else %}
+                    <td style='text-align:center'>Si</td>
+                    {% endif %}
+                    <td style='text-align:center'>{{ ventaCredito.id_OT }}</td>
                     <td style='text-align:center'>{{ ventaCredito.fecha|date('d-m-Y') }}</td>
                     <td style='text-align:center'>{{ ventaCredito.total }}</td>
-                    {% if ventaCredito.id is null %}
-                    <td style='text-align:center'>Si</td>
+                    {% if ventaCredito.diferencia > 0 %}
+                    <td style='text-align:center'>Si ({{ ventaCredito.diferencia }})</td>
                     {% else %}
                     <td style='text-align:center'>No</td>
                     {% endif %}
