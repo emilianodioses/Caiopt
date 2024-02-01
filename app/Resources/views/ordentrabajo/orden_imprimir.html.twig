@@ -124,8 +124,15 @@
                     <td style="text-align: center">{{ ordenTrabajoDetalle.tipoCristal }}</td>
                     <td style="text-align: center">{{ ordenTrabajoDetalle.precioVenta }}</td>
                     {% if pagina_nro == 1 %}
-                    <td style="text-align: center">{{ ordenTrabajoDetalle.parametro.descripcion }}</td>
-                        <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
+
+                        <td style="text-align: center">
+                            {% if ordenTrabajoDetalle.parametro is not null %}
+                                {{ ordenTrabajoDetalle.parametro.descripcion }}
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>                        <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
                     {% endif %}
                     
                     <td style="text-align: center">{{ ordenTrabajoDetalle.total }}</td>
