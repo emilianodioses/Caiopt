@@ -705,7 +705,7 @@ class InformeController extends Controller
         // Creo la consulta
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
-        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total, pt.nombre as tipoPago,
                     ( c.total - sum(rc.importe) ) as diferencia')
         ->from(Cliente::class, 'cli')
         ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')

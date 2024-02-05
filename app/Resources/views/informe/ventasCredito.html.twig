@@ -32,6 +32,9 @@ Ventas con tarjeta de crédito
                     <span class="input-group-addon input-sm">F. Hasta</span>
                     <input name="fecha_hasta" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Hasta" value="{{fecha_hasta}}">
                   </div>
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </span>
                 </div>
               </div>
              
@@ -73,8 +76,9 @@ Ventas con tarjeta de crédito
                     <th style='text-align:center'>Facturada</th>
                     <th style='text-align:center'>Nro Interno</th>
                     <th style='text-align:center'>Fecha</th>
-                    <th style='text-align:center'>Total</th>
+                    <th style='text-align:center'>Total pagado</th>
                     <th style='text-align:center'>Pendiente de pago</th>
+                    <th style='text-align:center'>Tipo de pago</th>
                     <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
@@ -97,7 +101,7 @@ Ventas con tarjeta de crédito
                     {% else %}
                     <td style='text-align:center'>No</td>
                     {% endif %}
-                    
+                    <td style='text-align:center'>{{ ventaCredito.tipoPago }}</td>
                     {#
                     <td>
                       <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
