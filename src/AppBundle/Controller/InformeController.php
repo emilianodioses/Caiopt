@@ -14,6 +14,9 @@ use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\OrdenTrabajo;
 use AppBundle\Entity\PagoTipo;
 use AppBundle\Entity\ReciboComprobante;
+use AppBundle\Entity\ClientePago;
+use AppBundle\Entity\Recibo;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\Expr\GroupBy;
 
 class InformeController extends Controller
@@ -705,23 +708,26 @@ class InformeController extends Controller
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
-                (c.total - sum(rc.importe)) as diferencia')
+            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo')
             ->from(Cliente::class, 'cli')
             ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
-            ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
             ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
             ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-            ->where('pt.id = :tipoId')
-            ->andWhere('c.fecha >= :fechaDesde')
+            ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
+            ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
+            ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'cp.pagoTipo = pt.id')
+            ->where('c.fecha >= :fechaDesde')
             ->andWhere('c.fecha <= :fechaHasta')
-            ->groupBy('cli.id, c.id')
-            ->orderBy('cli.nombre')
-            ->setParameter('tipoId', 1)
+            ->andWhere('pt.id = :pagoTipoId')
+            ->groupBy('cli.id, c.id, ot.id, pt.id')
+            ->orderBy('c.fecha')
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta)
+            ->setParameter('pagoTipoId', 1) // ID del tipo de pago para ventas en efectivo
             ->getQuery();
 
         $ventasEfectivo = $query->getResult();
+
 
         return $this->render('informe/ventasEfectivo.html.twig', array(
             'fecha_desde' => $fechaDesde->format('d-m-Y'),
@@ -735,19 +741,28 @@ class InformeController extends Controller
     public function ventasEfectivo_imprimirExcelAction(Request $request){
 
         $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
-                    ( c.total - sum(rc.importe) ) as diferencia')
+            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo')
             ->from(Cliente::class, 'cli')
             ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
-            ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
             ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
             ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-            ->where('pt.id = :tipoId')
-            ->groupBy('cli.id, c.id')
-            ->orderBy('cli.nombre')
-            ->setParameter('tipoId', 1)
+            ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
+            ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
+            ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'cp.pagoTipo = pt.id')
+            ->andWhere('c.fecha >= :fechaDesde')
+            ->andWhere('c.fecha <= :fechaHasta')
+            ->andWhere('pt.id = :pagoTipoId')
+            ->groupBy('cli.id, c.id, ot.id, pt.id')
+            ->orderBy('c.fecha')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta)
+            ->setParameter('pagoTipoId', 1) // ID del tipo de pago para ventas en efectivo
             ->getQuery();
 
         // Obtengo los resultados
