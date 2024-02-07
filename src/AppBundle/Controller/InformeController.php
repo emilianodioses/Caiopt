@@ -771,7 +771,7 @@ class InformeController extends Controller
         // Crear archivo csv
         $file = fopen('php://memory', 'w');
         $rows = array('Cliente','Facturada','Nro Interno',
-            'Fecha','Total','Pendiente pago');
+            'Fecha','Total Venta','Pendiente pago');
         fputcsv($file,$rows,";");
 
         foreach ($ventasEfectivo as $venta) {
