@@ -699,7 +699,9 @@ class InformeController extends Controller
     // Informe ventas con tarjeta de crédito
     public function ventasCreditoAction(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        
+        //Seteo fecha de comienzo para el filtro por fecha 1 de enero 2021
+        $fechaDesde = new \DateTime('2021-01-01 00:00:00');
         $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
 
         // Creo la consulta
@@ -712,10 +714,14 @@ class InformeController extends Controller
         ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
         ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
         ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-        ->where('pt.id = :tipoId')
+        ->andWhere('pt.id = :tipoId')
+        ->andWhere('c.fecha >= :fechaDesde')
+        ->andWhere('c.fecha <= :fechaHasta')
         ->groupBy('cli.id, c.id')
         ->orderBy('cli.nombre')
         ->setParameter('tipoId', 3)
+        ->SetParameter('fechaDesde', $fechaDesde)
+        ->SetParameter('fechaHasta', $fechaHasta)
         ->getQuery();
 
         // Obtengo los resultados de la consulta
