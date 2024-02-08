@@ -732,7 +732,45 @@ class InformeController extends Controller
         return $this->render('informe/ventasEfectivo.html.twig', array(
             'fecha_desde' => $fechaDesde->format('d-m-Y'),
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
-            'ventasEfectivo' => $ventasEfectivo
+            'ventasEfectivo' => $ventasEfectivo));
+        }
+
+
+    // Informe ventas con tarjeta de crédito
+    public function ventasCreditoAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+        // Creo la consulta
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total, pt.nombre as tipoPago,
+                    ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
+        ->from(Cliente::class, 'cli')
+        ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+        ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
+        ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+        ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+        ->andWhere('pt.id = :tipoId')
+        ->andWhere('c.fecha >= :fechaDesde')
+        ->andWhere('c.fecha <= :fechaHasta')
+        ->groupBy('cli.id, c.id, ot.id, pt.id')
+        ->orderBy('c.fecha')
+        ->setParameter('tipoId', 3)
+        ->SetParameter('fechaDesde', $fechaDesde)
+        ->SetParameter('fechaHasta', $fechaHasta)
+        ->getQuery();
+
+        // Obtengo los resultados de la consulta
+        $ventasCredito = $query->getResult();
+        
+        
+        return $this->render('informe/ventasCredito.html.twig', array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'ventasCredito' => $ventasCredito
         ));
     }
 
@@ -768,13 +806,73 @@ class InformeController extends Controller
         // Obtengo los resultados
         $ventasEfectivo = $query->getResult();
 
+         // Crear archivo csv
+         $file = fopen('php://memory', 'w');
+         $rows = array('Cliente','Facturada','Nro Interno',
+             'Fecha','Total Venta','Pendiente pago');
+         fputcsv($file,$rows,";");
+ 
+         foreach ($ventasEfectivo as $venta) {
+             fputcsv($file, array(
+                 $venta['nombre'],
+                 isset($venta['caeNumero']) ? 'SI' : 'NO',
+                 $venta['id_OT'],
+                 $venta['fecha']->format('d-m-Y'),
+                 $venta['total'],
+                 ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
+             ), ';');
+         }
+ 
+         rewind($file);
+         $content = stream_get_contents($file);
+         fclose($file);
+ 
+         // Enviar archivo CSV al navegador
+         $response = new Response($content);
+         $response->headers->set('Content-Type', 'text/csv');
+         $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConEfectivo.csv"');
+ 
+         return $response;
+ 
+     }
+    
+    // Imprimir tabla de ventas con tarjeta crédito en formato excel
+    public function ventasCredito_imprimirExcelAction(Request $request){
+
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
+        // Creo la consulta
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+                    ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
+        ->from(Cliente::class, 'cli')
+        ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+        ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
+        ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+        ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+        ->andWhere('pt.id = :tipoId')
+        ->andWhere('c.fecha >= :fechaDesde')
+        ->andWhere('c.fecha <= :fechaHasta')
+        ->groupBy('cli.id, c.id, ot.id, pt.id')
+        ->orderBy('c.fecha')
+        ->setParameter('tipoId', 3)
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta)
+        ->getQuery();
+
+        // Obtengo los resultados
+        $ventasCredito = $query->getResult();
+
         // Crear archivo csv
         $file = fopen('php://memory', 'w');
         $rows = array('Cliente','Facturada','Nro Interno',
             'Fecha','Total Venta','Pendiente pago');
         fputcsv($file,$rows,";");
-
-        foreach ($ventasEfectivo as $venta) {
+        
+        foreach ($ventasCredito as $venta) {
             fputcsv($file, array(
                 $venta['nombre'],
                 isset($venta['caeNumero']) ? 'SI' : 'NO',
@@ -782,6 +880,7 @@ class InformeController extends Controller
                 $venta['fecha']->format('d-m-Y'),
                 $venta['total'],
                 ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
+                ($venta['diferencia'] > 0) ? 'Pendiente ( '.$venta['diferencia'].' )'  : 'Pagado'
             ), ';');
         }
 
@@ -793,10 +892,13 @@ class InformeController extends Controller
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConEfectivo.csv"');
+         // Enviar archivo CSV al navegador
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConCredito.csv"');
 
         return $response;
 
     }
-
 
 }
