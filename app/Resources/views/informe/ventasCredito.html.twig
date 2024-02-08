@@ -78,7 +78,6 @@ Ventas con tarjeta de crédito
                     <th style='text-align:center'>Fecha</th>
                     <th style='text-align:center'>Total venta</th>
                     <th style='text-align:center'>Pendiente de pago</th>
-                    <th style='text-align:center'>Tipo de pago</th>
                     <th style="width: 8%">Acciones</th>
                 </tr>
             <tbody>
@@ -101,7 +100,6 @@ Ventas con tarjeta de crédito
                     {% else %}
                     <td style='text-align:center'>No</td>
                     {% endif %}
-                    <td style='text-align:center'>{{ ventaCredito.tipoPago }}</td>
                     {#
                     <td>
                       <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
@@ -115,8 +113,12 @@ Ventas con tarjeta de crédito
         <br>
         <div class="box-body table-responsive no-padding">
 
-         <a href="{{path('informe_ventascredito_imprimirExcel')}}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+         <a href="{{path('informe_ventascredito_imprimirExcel', 
+            {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta}) }}", 
+            class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir Excel</a>
           </a>
+
+        
 
         </div>
         <br>

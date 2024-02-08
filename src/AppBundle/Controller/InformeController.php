@@ -700,15 +700,14 @@ class InformeController extends Controller
     public function ventasCreditoAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         
-        //Seteo fecha de comienzo para el filtro por fecha 1 de enero 2021
-        $fechaDesde = new \DateTime('2021-01-01 00:00:00');
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
         $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
 
         // Creo la consulta
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
         ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total, pt.nombre as tipoPago,
-                    ( c.total - sum(rc.importe) ) as diferencia')
+                    ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
         ->from(Cliente::class, 'cli')
         ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
         ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
@@ -717,8 +716,8 @@ class InformeController extends Controller
         ->andWhere('pt.id = :tipoId')
         ->andWhere('c.fecha >= :fechaDesde')
         ->andWhere('c.fecha <= :fechaHasta')
-        ->groupBy('cli.id, c.id')
-        ->orderBy('cli.nombre')
+        ->groupBy('cli.id, c.id, ot.id, pt.id')
+        ->orderBy('c.fecha')
         ->setParameter('tipoId', 3)
         ->SetParameter('fechaDesde', $fechaDesde)
         ->SetParameter('fechaHasta', $fechaHasta)
@@ -739,21 +738,28 @@ class InformeController extends Controller
     // Imprimir tabla de ventas con tarjeta crédito en formato excel
     public function ventasCredito_imprimirExcelAction(Request $request){
 
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+
         // Creo la consulta
         $em = $this->getDoctrine()->getManager();
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
         ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
-                    ( c.total - sum(rc.importe) ) as diferencia')
+                    ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
         ->from(Cliente::class, 'cli')
         ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
         ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
         ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
         ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-        ->where('pt.id = :tipoId')
-        ->groupBy('cli.id, c.id')
-        ->orderBy('cli.nombre')
+        ->andWhere('pt.id = :tipoId')
+        ->andWhere('c.fecha >= :fechaDesde')
+        ->andWhere('c.fecha <= :fechaHasta')
+        ->groupBy('cli.id, c.id, ot.id, pt.id')
+        ->orderBy('c.fecha')
         ->setParameter('tipoId', 3)
+        ->setParameter('fechaDesde', $fechaDesde)
+        ->setParameter('fechaHasta', $fechaHasta)
         ->getQuery();
 
         // Obtengo los resultados
@@ -762,7 +768,7 @@ class InformeController extends Controller
         // Crear archivo csv
         $file = fopen('php://memory', 'w');
         $rows = array('Cliente','Facturada','Nro Interno',
-                        'Fecha','Total','Pendiente pago');
+                        'Fecha','Total Venta','Pendiente pago');
         fputcsv($file,$rows,";");
 
         foreach ($ventasCredito as $venta) {
@@ -772,7 +778,7 @@ class InformeController extends Controller
                 $venta['id_OT'],
                 $venta['fecha']->format('d-m-Y'),
                 $venta['total'],
-                ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
+                ($venta['diferencia'] > 0) ? 'Pendiente ( '.$venta['diferencia'].' )'  : 'Pagado'
             ), ';');
         }
 
