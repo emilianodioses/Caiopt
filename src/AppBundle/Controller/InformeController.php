@@ -871,7 +871,7 @@ class InformeController extends Controller
         $rows = array('Cliente','Facturada','Nro Interno',
             'Fecha','Total Venta','Pendiente pago');
         fputcsv($file,$rows,";");
-        
+
         foreach ($ventasCredito as $venta) {
             fputcsv($file, array(
                 $venta['nombre'],
@@ -879,7 +879,6 @@ class InformeController extends Controller
                 $venta['id_OT'],
                 $venta['fecha']->format('d-m-Y'),
                 $venta['total'],
-                ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
                 ($venta['diferencia'] > 0) ? 'Pendiente ( '.$venta['diferencia'].' )'  : 'Pagado'
             ), ';');
         }
