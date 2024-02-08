@@ -848,21 +848,23 @@ class InformeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
-        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total, pt.nombre as tipoPago,
                     ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
         ->from(Cliente::class, 'cli')
         ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
-        ->innerJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = c.tipo')
         ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
         ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-        ->andWhere('pt.id = :tipoId')
+        ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
+        ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
+        ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = cp.pagoTipo')
+        ->andWhere('pt.id = :pagoTipoId')
         ->andWhere('c.fecha >= :fechaDesde')
         ->andWhere('c.fecha <= :fechaHasta')
         ->groupBy('cli.id, c.id, ot.id, pt.id')
         ->orderBy('c.fecha')
-        ->setParameter('tipoId', 3)
-        ->setParameter('fechaDesde', $fechaDesde)
-        ->setParameter('fechaHasta', $fechaHasta)
+        ->setParameter('pagoTipoId', 3)
+        ->SetParameter('fechaDesde', $fechaDesde)
+        ->SetParameter('fechaHasta', $fechaHasta)
         ->getQuery();
 
         // Obtengo los resultados
