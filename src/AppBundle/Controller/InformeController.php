@@ -890,10 +890,6 @@ class InformeController extends Controller
         $content = stream_get_contents($file);
         fclose($file);
 
-        // Enviar archivo CSV al navegador
-        $response = new Response($content);
-        $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConEfectivo.csv"');
          // Enviar archivo CSV al navegador
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
