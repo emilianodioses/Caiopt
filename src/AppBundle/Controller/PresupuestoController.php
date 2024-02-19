@@ -293,4 +293,33 @@ class PresupuestoController extends Controller
         $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
     }
 
+
+    //Buscar todos los presupuestos del cliente seleccionado
+    public function historialPresupuestoAction($clienteId){
+        // Permisos de Usuario para Acciones
+        $secure = $this->container->get('SecureAction');
+
+        if (!$secure->isAuthorized('OrdenTrabajo', 'Edit', $this->getUser()->getRol())):
+            return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
+        endif;
+
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+        ->select('p')
+        ->from(Presupuesto::class, 'p')
+        ->where('p.idCliente = :idCliente')
+        ->setParameter('idCliente', $clienteId)
+        ->getQuery();
+        /*$presupuestos = $em->getRepository('AppBundle:Presupuesto')
+                            ->findByIdCliente($clienteId);*/
+        
+        // Obtengo los resultados
+        $presupuestos = $query->getResult();
+
+        return $this->render('presupuesto/presupuestos_cliente.html.twig', array(
+            'presupuestos' => $presupuestos,
+        ));
+    }
+
 }

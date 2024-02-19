@@ -377,6 +377,7 @@ Cliente
                         <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
                         <a href="{{ path('ordentrabajo_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Orden Optica"><span class="glyphicon glyphicon-briefcase"></span>Orden Optica</a>
                         <a href="{{ path('presupuesto_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Presupuesto"><span class="glyphicon glyphicon-list-alt"></span>Presupuesto</a>
+                        <a href="{{ path('presupuesto_historial_cliente', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Historial Presupuesto"><span class="glyphicon glyphicon-list-alt"></span>Historial Presupuesto</a>
                     </div>
                 </div>
             </div>
