@@ -10,6 +10,7 @@ namespace AppBundle\Repository;
  */
 class PresupuestoRepository extends \Doctrine\ORM\EntityRepository
 {
+    
     public function findByTexto($texto) {
         $query = 'SELECT a  FROM AppBundle:Presupuesto a
                  INNER JOIN a.cliente c
@@ -18,7 +19,7 @@ class PresupuestoRepository extends \Doctrine\ORM\EntityRepository
         if ($texto != '')
             $query .= ' AND (a.id LIKE :texto OR c.nombre LIKE :texto OR c.documentoNumero LIKE :texto) ';
 
-        $query .= ' ORDER BY a.idCliente ASC ';
+        $query .= ' ORDER BY a.fechaPresup DESC';
 
         $qb = $this->getEntityManager()->createQuery($query);
 
