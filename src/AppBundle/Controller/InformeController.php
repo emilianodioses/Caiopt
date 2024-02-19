@@ -755,12 +755,12 @@ class InformeController extends Controller
         ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
         ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
         ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = cp.pagoTipo')
-        ->andWhere('pt.id = :pagoTipoId')
+        // IDs de tipo de pago Tarjeta de crédito, débito y transferencia
+        ->andWhere($queryBuilder->expr()->in('pt.id', [2, 3, 5])) 
         ->andWhere('c.fecha >= :fechaDesde')
         ->andWhere('c.fecha <= :fechaHasta')
         ->groupBy('cli.id, c.id, ot.id, pt.id')
         ->orderBy('c.fecha')
-        ->setParameter('pagoTipoId', 3)
         ->SetParameter('fechaDesde', $fechaDesde)
         ->SetParameter('fechaHasta', $fechaHasta)
         ->getQuery();
@@ -857,12 +857,11 @@ class InformeController extends Controller
         ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
         ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
         ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = cp.pagoTipo')
-        ->andWhere('pt.id = :pagoTipoId')
+        ->andWhere($queryBuilder->expr()->in('pt.id', [2, 3, 5])) 
         ->andWhere('c.fecha >= :fechaDesde')
         ->andWhere('c.fecha <= :fechaHasta')
         ->groupBy('cli.id, c.id, ot.id, pt.id')
         ->orderBy('c.fecha')
-        ->setParameter('pagoTipoId', 3)
         ->SetParameter('fechaDesde', $fechaDesde)
         ->SetParameter('fechaHasta', $fechaHasta)
         ->getQuery();
