@@ -15,6 +15,11 @@ Ventas con tarjeta de crédito
       <div class="box">
         <div class="box-header">
           <h3 class="box-title"></h3>
+            <div>
+                <label class="control-label">Sucursal</label>
+                {{ form_widget(informeForm.sucursal, { 'attr': {'name': 'informe[sucursal]'} }) }}
+                <input type="hidden" id="informe__token" name="informe[_token]" value="{{ csrf_token('your_intention_token') }}">
+            </div>
           <div class="box-tools">
             <div class="row">
               <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">

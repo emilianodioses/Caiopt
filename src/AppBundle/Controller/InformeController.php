@@ -16,8 +16,11 @@ use AppBundle\Entity\PagoTipo;
 use AppBundle\Entity\ReciboComprobante;
 use AppBundle\Entity\ClientePago;
 use AppBundle\Entity\Recibo;
+use AppBundle\Entity\Sucursal;
+use AppBundle\Form\InformeType;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\Expr\GroupBy;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class InformeController extends Controller
 {
@@ -698,17 +701,51 @@ class InformeController extends Controller
         return new Response();
     }
 
+// Método para transformar sucursales a opciones para el formulario
+    private function transformSucursalesToChoices($sucursales)
+    {
+        $choices = [];
+        foreach ($sucursales as $sucursal) {
+            $choices[$sucursal->getId()] = $sucursal->getNombre();
+        }
+        return $choices;
+    }
 
 // Informe de ventas en efectivo
-    public function ventasEfectivoAction(Request $request){
+    public function ventasEfectivoAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
-        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $fechaDesde = new \DateTime($request->get('fecha_desde') . " 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta') . " 23:59:59");
+        $sucursalIds = null;
+        $informeData = $request->get('informe');
+        if (isset($informeData['sucursal'])) {
+            $sucursalIds = $informeData['sucursal'];
+        }
+
+// Si $sucursalIds es nulo o no es un array, asigna un valor predeterminado
+        if ($sucursalIds === null || !is_array($sucursalIds)) {
+            $sucursalIds = [];
+        }
+
+        $sucursales = $em->getRepository(Sucursal::class)->findAll();
+
+        // Construir el formulario
+        $informeForm = $this->createForm(InformeType::class, null, [
+            'sucursales' => $sucursales,
+        ]);
+
+        $informeForm->handleRequest($request);
+
+        if ($informeForm->isSubmitted() && $informeForm->isValid()) {
+            // Obtener las sucursales seleccionadas del formulario
+            $sucursalIds = $informeForm->get('sucursal')->getData();
+        }
 
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
-            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo')
+        (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo')
             ->from(Cliente::class, 'cli')
             ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
             ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
@@ -719,21 +756,29 @@ class InformeController extends Controller
             ->where('c.fecha >= :fechaDesde')
             ->andWhere('c.fecha <= :fechaHasta')
             ->andWhere('pt.id = :pagoTipoId')
-            ->groupBy('cli.id, c.id, ot.id, pt.id')
-            ->orderBy('c.fecha')
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta)
             ->setParameter('pagoTipoId', 1) // ID del tipo de pago para ventas en efectivo
-            ->getQuery();
+            ->groupBy('cli.id, c.id, ot.id, pt.id')
+            ->orderBy('c.fecha');
 
-        $ventasEfectivo = $query->getResult();
+        // Agregar condición de sucursal si se seleccionan sucursales
+        if (!empty($sucursalIds)) {
+            $query->andWhere('c.sucursal IN (:sucursalIds)')
+                ->setParameter('sucursalIds', $sucursalIds);
+        }
 
+        $ventasEfectivo = $query->getQuery()->getResult();
 
+        // Renderizar la plantilla
         return $this->render('informe/ventasEfectivo.html.twig', array(
             'fecha_desde' => $fechaDesde->format('d-m-Y'),
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
-            'ventasEfectivo' => $ventasEfectivo));
-        }
+            'ventasEfectivo' => $ventasEfectivo,
+            'sucursales' => $sucursales, // Pasar las sucursales disponibles a la plantilla Twig
+            'informeForm' => $informeForm->createView(), // Pasar el formulario a la plantilla
+        ));
+    }
 
 
     // Informe ventas con tarjeta de crédito
@@ -742,6 +787,31 @@ class InformeController extends Controller
         
         $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
         $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $sucursalIds = null;
+        $informeData = $request->get('informe');
+        if (isset($informeData['sucursal'])) {
+            $sucursalIds = $informeData['sucursal'];
+        }
+
+// Si $sucursalIds es nulo o no es un array, asigna un valor predeterminado
+        if ($sucursalIds === null || !is_array($sucursalIds)) {
+            $sucursalIds = [];
+        }
+
+        $sucursales = $em->getRepository(Sucursal::class)->findAll();
+
+        // Construir el formulario
+        $informeForm = $this->createForm(InformeType::class, null, [
+            'sucursales' => $sucursales,
+        ]);
+
+        $informeForm->handleRequest($request);
+
+        if ($informeForm->isSubmitted() && $informeForm->isValid()) {
+            // Obtener las sucursales seleccionadas del formulario
+            $sucursalIds = $informeForm->get('sucursal')->getData();
+        }
+
 
         // Creo la consulta
         $queryBuilder = $em->createQueryBuilder();
@@ -762,17 +832,23 @@ class InformeController extends Controller
         ->orderBy('c.fecha')
         ->setParameter('pagoTipoId', 3)
         ->SetParameter('fechaDesde', $fechaDesde)
-        ->SetParameter('fechaHasta', $fechaHasta)
-        ->getQuery();
+        ->SetParameter('fechaHasta', $fechaHasta);
+
+        // Agregar condición de sucursal si se seleccionan sucursales
+        if (!empty($sucursalIds)) {
+            $query->andWhere('c.sucursal IN (:sucursalIds)')
+                ->setParameter('sucursalIds', $sucursalIds);
+        }
 
         // Obtengo los resultados de la consulta
-        $ventasCredito = $query->getResult();
-        
-        
+        $ventasCredito = $query->getQuery()->getResult();
+
         return $this->render('informe/ventasCredito.html.twig', array(
             'fecha_desde' => $fechaDesde->format('d-m-Y'),
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
-            'ventasCredito' => $ventasCredito
+            'ventasCredito' => $ventasCredito,
+            'sucursales' => $sucursales, // Pasar las sucursales disponibles a la plantilla Twig
+            'informeForm' => $informeForm->createView(), // Pasar el formulario a la plantilla
         ));
     }
 
