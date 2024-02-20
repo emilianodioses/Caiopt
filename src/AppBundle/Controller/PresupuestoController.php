@@ -6,6 +6,7 @@ use AppBundle\Entity\Presupuesto;
 use AppBundle\Entity\PresupuestoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Form\PresupuestoType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -295,27 +296,20 @@ class PresupuestoController extends Controller
 
 
     //Buscar todos los presupuestos del cliente seleccionado
-    public function historialPresupuestoAction($clienteId){
-        // Permisos de Usuario para Acciones
+    public function historialPresupuestoAction($clienteId, 
+            EntityManagerInterface $em){
+        
+                // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
 
         if (!$secure->isAuthorized('OrdenTrabajo', 'Edit', $this->getUser()->getRol())):
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
-        $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->createQueryBuilder();
-        $query = $queryBuilder
-        ->select('p')
-        ->from(Presupuesto::class, 'p')
-        ->where('p.idCliente = :idCliente')
-        ->setParameter('idCliente', $clienteId)
-        ->getQuery();
-        /*$presupuestos = $em->getRepository('AppBundle:Presupuesto')
-                            ->findByIdCliente($clienteId);*/
         
-        // Obtengo los resultados
-        $presupuestos = $query->getResult();
+        $repository = $em->getRepository(Presupuesto::class);
+        $presupuestos = $repository->findBy(['idCliente' => $clienteId]);
+        
 
         return $this->render('presupuesto/presupuestos_cliente.html.twig', array(
             'presupuestos' => $presupuestos,

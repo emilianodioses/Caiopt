@@ -30,10 +30,10 @@ class PresupuestoRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function findByIdCliente($idCliente){
-        $query = 'SELECT p FROM AppBundle:Presupuesto p
-                    WHERE p.idCliente = :idCliente';
-        
-        $qb = $this->getEntityManager()->createQuery($query);
-        $qb->setParameter('idCliente', $idCliente);
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.idCliente = :idCliente')
+            ->setParameter('idCliente', $idCliente)
+            ->getQuery()
+            ->getResult();
     }
 }
