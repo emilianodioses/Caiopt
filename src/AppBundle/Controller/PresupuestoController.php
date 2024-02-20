@@ -296,8 +296,7 @@ class PresupuestoController extends Controller
 
 
     //Buscar todos los presupuestos del cliente seleccionado
-    public function historialPresupuestoAction($clienteId, 
-            EntityManagerInterface $em){
+    public function historialPresupuestoAction($clienteId){
         
                 // Permisos de Usuario para Acciones
         $secure = $this->container->get('SecureAction');
@@ -306,9 +305,10 @@ class PresupuestoController extends Controller
             return new Response('Acceso denegado. Por favor solicite acceso al administrador de sistema.');
         endif;
 
-        
+        $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository(Presupuesto::class);
         $presupuestos = $repository->findBy(['idCliente' => $clienteId]);
+        //$presupuestos = $repository->findByIdCliente($clienteId);
         
 
         return $this->render('presupuesto/presupuestos_cliente.html.twig', array(
