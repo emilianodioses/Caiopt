@@ -6,6 +6,7 @@ use AppBundle\Entity\Presupuesto;
 use AppBundle\Entity\PresupuestoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Form\PresupuestoType;
+use AppBundle\Repository\PresupuestoRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,15 +29,17 @@ class PresupuestoController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
+        
         $texto = $request->get('texto','');
 
         $query = $em->getRepository('AppBundle:Presupuesto')->findByTexto($texto);
+        $presupuestos = $query->getResult();
+
 
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $query,
+            $presupuestos,
             $request->query->get('page', 1)/*page number*/,
             15/*limit per page*/
         );
