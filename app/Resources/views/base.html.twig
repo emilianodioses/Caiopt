@@ -276,6 +276,20 @@ desired effect
             </a>
             <ul class="treeview-menu">
               <li><a href="{{path('informe_afipventasalicuotas')}}">Afip Ventas y Alícuotas</a></li>
+
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-eye"></i> <span>Colegio de Ópticos</span>
+                  <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{path('informe_colegioOpticoOT')}}">Orden de Trabajo</a></li>
+                  <li><a href="{{path('informe_colegioOpticoOTcontactologia')}}">Orden Contactología</a></li>
+                </ul>
+              </li>
+
               <li><a href="{{path('estadistica_ventas')}}">Ventas</a></li>
               <li><a href="{{path('informe_gastos')}}">Gastos</a></li>
               <li><a href="{{path('informe_ivadebitocredito')}}">IVA Débito/Crédito</a></li>
@@ -283,6 +297,8 @@ desired effect
               <li><a href="{{path('informe_libroIvaVentas')}}">Libro Iva Ventas</a></li>
               <li><a href="{{path('informe_ventasEfectivo')}}">Ventas Efectivo</a></li>
               <li><a href="{{path('informe_ventascredito')}}">Ventas Tarj. crédito</a></li>
+
+
             </ul>
           </li>
 
