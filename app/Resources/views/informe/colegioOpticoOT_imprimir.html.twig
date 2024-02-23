@@ -1,7 +1,12 @@
 {% block body %}
     <body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
     <!-- Contenido de tu cuerpo Twig aquí -->
+    {% set contador = 0 %}
     {% for informeOT in informeOTs %}
+        {% if contador > 0 and contador % 4 == 0 %}
+            <!-- Salto de página -->
+            <div style="page-break-after: always;"></div>
+        {% endif %}
         <div class="box-body table-responsive no-padding">
             <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black;">
                 <thead>
@@ -21,9 +26,8 @@
                 </tr>
                 <tr>
                     <td style="width: 50%;"><b>Médico:</b> {{ informeOT.medicoNombre }} </td>
-                    <td style="width: 50%;"></td>
+                    <td style="width: 50%;"><b>Emp.:</b> Opt. Contini</td>
                 </tr>
-                <!-- Información adicional -->
                 <tr>
                     <td colspan="2" style="width: 100%;"><b>Cristales:</b> {{ informeOT.cantidadCristales }}
                         {% set tiposCristales = informeOT.tipoCristal|split(',') %}
@@ -33,10 +37,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="width: 100%;"><b>Emp.:</b> Opt. Contini</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b><br><br><br><br></td>
+                    <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b><br><br><br><br><br><br></td>
                 </tr>
                 </tbody>
             </table>
@@ -63,10 +64,10 @@
                         <b>O.I :</b> ESF: {{ informeOT.cercaOjoIzquierdoEsfera }}, CIL: {{ informeOT.cercaOjoIzquierdoCilindro }}, EJE: {{ informeOT.cercaOjoIzquierdoEje }}
                     </td>
                 </tr>
-                <!-- Aquí puedes continuar con las filas del cuadro de graduaciones -->
                 </tbody>
             </table>
         </div>
+        {% set contador = contador + 1 %}
     {% endfor %}
     <!-- /.box-body -->
     </body>
