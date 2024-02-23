@@ -4,12 +4,13 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Repository\PresupuestoRepository;
 
 /**
  * Presupuesto
  *
  * @ORM\Table(name="presupuesto")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PresupuestoRepository")
+ * @ORM\Entity(repositoryClass=PresupuestoRepository::class)
  */
 class Presupuesto
 {

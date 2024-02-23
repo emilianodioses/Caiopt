@@ -40,3 +40,7 @@ presupuesto_find:
 presupuesto_find_select2:
     path:     /findSelect2
     defaults: { _controller: "AppBundle:Presupuesto:findSelect2" }
+
+presupuesto_historial_cliente:
+    path:     /{clienteId}/historialPresupuesto
+    defaults: { _controller: "AppBundle:Presupuesto:historialPresupuesto" }
