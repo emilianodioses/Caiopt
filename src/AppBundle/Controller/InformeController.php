@@ -822,7 +822,7 @@ class InformeController extends Controller
                  $venta['fecha']->format('d-m-Y'),
                  $venta['total'],
                  ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
-             ), ';');
+                ), ';');
          }
  
          rewind($file);
@@ -872,7 +872,7 @@ class InformeController extends Controller
         // Crear archivo csv
         $file = fopen('php://memory', 'w');
         $rows = array('Cliente','Facturada','Nro Interno',
-            'Fecha','Total Venta','Pendiente pago');
+            'Fecha','Total Venta','Forma de pago', 'Pendiente pago');
         fputcsv($file,$rows,";");
 
         foreach ($ventasCredito as $venta) {
@@ -882,8 +882,9 @@ class InformeController extends Controller
                 $venta['id_OT'],
                 $venta['fecha']->format('d-m-Y'),
                 $venta['total'],
+                $venta['tipoPago'],
                 ($venta['diferencia'] > 0) ? 'Pendiente ( '.$venta['diferencia'].' )'  : 'Pagado'
-            ), ';');
+                ), ';');
         }
 
         rewind($file);
