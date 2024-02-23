@@ -1,0 +1,73 @@
+{% block body %}
+    <body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    <!-- Contenido de tu cuerpo Twig aquí -->
+    {% for informeOT in informeOTscontactologia %}
+        <div class="box-body table-responsive no-padding">
+            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black;">
+                <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; border: 1px solid black;">Orden de Trabajo Contactología</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Información de la Orden de Trabajo contactología -->
+                <tr>
+                    <td style="width: 50%;"><b>Nro Interno:</b> {{ informeOT.id_OrdenTrabajo }} </td>
+                    <td style="width: 50%;"><b>Cliente:</b> {{ informeOT.nombreCliente }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;"><b>Dirección:</b> {{ informeOT.direccion }}</td>
+                    <td style="width: 50%;"><b>Fecha Receta:</b> {{ informeOT.fechaReceta|date('d-m-Y') }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;"><b>Médico:</b> {{ informeOT.medicoNombre }} </td>
+                    <td style="width: 50%;"></td>
+                </tr>
+                <!-- Información adicional -->
+                <tr>
+                    <td colspan="2" style="width: 100%;"><b>Cristales:</b> {{ informeOT.cantidadCristales }}
+                        {% set tiposCristales = informeOT.tipoCristal|split(',') %}
+                        {% for tipoCristal in tiposCristales %}
+                            {{ tipoCristal }}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="width: 100%;"><b>Emp.:</b> Opt. Contini</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b><br><br><br><br></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Graduaciones -->
+            <table id="graduaciones_ot_{{ loop.index }}" width="100%" cellspacing="0" border="1" style="margin-top: 10px;">
+                <tbody>
+                <tr>
+                    <td colspan="5" align="left"><b>Graduaciones</b></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Lejos</b></td>
+                    <td colspan="3"><b>Cerca</b></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border: 1px solid black;">
+                        <b>O.D :</b> ESF: {{ informeOT.lejosOjoDerechoEsfera }}, CIL: {{ informeOT.lejosOjoDerechoCilindro }}, EJE: {{ informeOT.lejosOjoDerechoEje }}
+                        <br>
+                        <b>O.I :</b> ESF: {{ informeOT.lejosOjoIzquierdoEsfera }}, CIL: {{ informeOT.lejosOjoIzquierdoCilindro }}, EJE: {{ informeOT.lejosOjoIzquierdoEje }}
+                    </td>
+                    <td colspan="3" style="border: 1px solid black;">
+                        <b>O.D :</b> ESF: {{ informeOT.cercaOjoDerechoEsfera }}, CIL: {{ informeOT.cercaOjoDerechoCilindro }}, EJE: {{ informeOT.cercaOjoDerechoEje }}
+                        <br>
+                        <b>O.I :</b> ESF: {{ informeOT.cercaOjoIzquierdoEsfera }}, CIL: {{ informeOT.cercaOjoIzquierdoCilindro }}, EJE: {{ informeOT.cercaOjoIzquierdoEje }}
+                    </td>
+                </tr>
+                <!-- Aquí puedes continuar con las filas del cuadro de graduaciones -->
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+    <!-- /.box-body -->
+    </body>
+{% endblock %}

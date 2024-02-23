@@ -20,6 +20,19 @@
                                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
+                                            <span class="input-group-addon input-sm">Sucursal</span>
+                                                <select class="form-control" id="sucursal" name="sucursal">
+                                                    <option value="0" selected = "selected">Todas</option>
+                                                        {% for sucursal in sucursales %}
+                                                            <option value="{{sucursal.id}}" {% if sucursal_id == sucursal.id %} selected {%endif%}> {{sucursal.nombre}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
                                             <span class="input-group-addon input-sm">F. Desde</span>
                                             <input name="fecha_desde" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Desde" value="{{ fecha_desde }}">
                                         </div>
@@ -66,7 +79,9 @@
                     </div>
                     <br>
                     <div class="box-body table-responsive no-padding">
-                        <a href="{{ path('informe_colegioOpticoOT_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+                        <a href="{{ path('informe_colegioOpticoOT_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta, 'sucursal': sucursal_id}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe">
+                            <span class="glyphicon glyphicon-print"></span>Imprimir
+                        </a>
                     </div>
                     <br>
                 </div>
