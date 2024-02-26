@@ -34,6 +34,9 @@ Cliente
     <li class="nav">
         <a href="#tabs-4" data-toggle="tab">Órdenes de Trabajo</a>
     </li>
+    <li class="nav">
+        <a href="#tabs-5" data-toggle="tab">Historial presupuesto</a>
+    </li>
 </ul>
 
 <div class="row">
@@ -299,6 +302,7 @@ Cliente
                             </div>
                         </div>            
                     </div>
+        
 
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <div class="box box-success">
@@ -360,6 +364,65 @@ Cliente
                 </div>
             </div>
         </div>
+
+        <div class="tab-pane" id="tabs-5">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Historial presupuestos </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>Fecha Presupuesto</th>
+                                        <th>Plazo Entrega</th>
+                                        <th>Retiro</th>
+                                        <th>Cliente</th>
+                                        <th>Subtotal</th>
+                                        <th>Iva</th>
+                                        <th>Total Presupuesto</th>
+                                        <th style="width: 5%">Acciones</th>
+                                    </tr>
+                                <tbody>
+                                    {% for presupuesto in presupuestos %}
+                                        <tr>
+                                            {% if presupuesto.fechaPresup is empty %}
+                                                <td></td>
+                                            {% else %}
+                                                <td>{{ presupuesto.fechaPresup | date('d-m-Y') }}</td>
+                                            {% endif %}
+                                            <td>{{ presupuesto.plazoEntrega }}</td>
+                                            <td>{{ presupuesto.retiro }}</td>
+                                            <td>{{ presupuesto.cliente }}</td>
+                                            <td>{{ presupuesto.total }}</td>
+                                            <td>{{ presupuesto.iva21 }}</td>
+                                            <td>{{ presupuesto.totalPresupuesto }}</td>
+                                            <td>
+                                                <a href="{{ path('presupuesto_show', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                                </a>
+                                                <a href="{{ path('presupuesto_edit', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                                </a>
+                                                {% if presupuesto.activo %}
+                                                    <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                                    </a>
+
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>  
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -377,7 +440,6 @@ Cliente
                         <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
                         <a href="{{ path('ordentrabajo_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Orden Optica"><span class="glyphicon glyphicon-briefcase"></span>Orden Optica</a>
                         <a href="{{ path('presupuesto_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Presupuesto"><span class="glyphicon glyphicon-list-alt"></span>Presupuesto</a>
-                        <a href="{{ path('presupuesto_historial_cliente', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Historial Presupuesto"><span class="glyphicon glyphicon-list-alt"></span>Historial Presupuesto</a>
                     </div>
                 </div>
             </div>

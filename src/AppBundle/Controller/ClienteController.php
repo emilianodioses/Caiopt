@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Presupuesto;
 
 /**
  * Cliente controller.
@@ -122,6 +123,10 @@ class ClienteController extends Controller
 
         $ordenesTrabajoContactologia = $em->getRepository('AppBundle:OrdenTrabajoContactologia')->findBy(array('activo'=>1, 'cliente' => $cliente));
 
+        //Buscar todos los presupuestos del cliente seleccionado
+        $presupuestoRepository = $em->getRepository(Presupuesto::class);
+        $presupuestos = $presupuestoRepository->findBy(['cliente' => $cliente]);
+        
         $deleteForm = $this->createDeleteForm($cliente);
 
         return $this->render('cliente/show.html.twig', array(
@@ -130,6 +135,7 @@ class ClienteController extends Controller
             'recibos' => $recibos,
             'ordenesTrabajo' => $ordenesTrabajo,
             'ordenesTrabajoContactologia' => $ordenesTrabajoContactologia,
+            'presupuestos' => $presupuestos,
             'delete_form' => $deleteForm->createView(),
         ));
     }

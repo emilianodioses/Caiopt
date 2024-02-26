@@ -33,10 +33,10 @@ class PresupuestoRepository extends EntityRepository
         return $qb;
     }
 
-    public function findByIdCliente($idCliente){
+    public function findByIdCliente($cliente){
         return $this->createQueryBuilder('p')
             ->andWhere('p.idCliente = :idCliente')
-            ->setParameter('idCliente', $idCliente)
+            ->setParameter('idCliente', $cliente->getId())
             ->getQuery()
             ->getResult();
     }
