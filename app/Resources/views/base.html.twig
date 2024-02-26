@@ -269,20 +269,43 @@ desired effect
           </li>
 
           <li class="treeview">
-            <a href="#" id="personas"><i class="glyphicon glyphicon-info-sign"></i> <span>Informes</span>
+            <a href="#" id="personas">
+              <i class="glyphicon glyphicon-info-sign"></i> <span>Informes</span>
               <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{path('informe_afipventasalicuotas')}}">Afip Ventas y Alícuotas</a></li>
-              <li><a href="{{path('estadistica_ventas')}}">Ventas</a></li>
-              <li><a href="{{path('informe_gastos')}}">Gastos</a></li>
-              <li><a href="{{path('informe_ivadebitocredito')}}">IVA Débito/Crédito</a></li>
-              <li><a href="{{path('informe_recibosVentasMedicos')}}">Comprobantes por Médico</a></li>
-              <li><a href="{{path('informe_libroIvaVentas')}}">Libro Iva Ventas</a></li>
-              <li><a href="{{path('informe_ventasEfectivo')}}">Ventas Efectivo</a></li>
-              <li><a href="{{path('informe_ventascredito')}}">Ventas Tarj. crédito</a></li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-money"></i> <span> Contabilidad </span>
+                  <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+                </a>
+                <ul class="treeview-menu">
+                  <!-- Aquí puedes redistribuir los elementos relacionados con pagos -->
+                  <li><a href="{{ path('informe_afipventasalicuotas') }}">Afip Ventas y Alícuotas</a></li>
+                  <li><a href="{{ path('informe_ivadebitocredito') }}">IVA Débito/Crédito</a></li>
+                  <li><a href="{{ path('informe_libroIvaVentas') }}">Libro Iva Ventas</a></li>
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-shopping-cart"></i> <span>Ventas</span>
+                  <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+                </a>
+                <ul class="treeview-menu">
+                  <!-- Aquí puedes redistribuir los elementos relacionados con ventas -->
+                  <li><a href="{{ path('estadistica_ventas') }}">Ventas</a></li>
+                  <li><a href="{{ path('informe_ventasEfectivo') }}">Ventas Efectivo</a></li>
+                  <li><a href="{{ path('informe_ventascredito') }}">Ventas Tarj. crédito</a></li>
+                </ul>
+              </li>
+              <li><a href="{{ path('informe_gastos') }}">Gastos</a></li>
+              <li><a href="{{ path('informe_recibosVentasMedicos') }}">Comprobantes por Médico</a></li>
             </ul>
           </li>
 
