@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\OrdenTrabajoContactologiaDetalle;
 use AppBundle\Entity\PuntoVenta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,8 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 use AppBundle\Entity\Cliente;
 use AppBundle\Entity\Comprobante;
 use AppBundle\Entity\OrdenTrabajo;
+use AppBundle\Entity\OrdenTrabajoDetalle;
+use AppBundle\Entity\OrdenTrabajoContactologia;
 use AppBundle\Entity\PagoTipo;
 use AppBundle\Entity\ReciboComprobante;
 use AppBundle\Entity\ClientePago;
@@ -898,6 +901,213 @@ class InformeController extends Controller
 
         return $response;
 
+    }
+
+
+    // Informe Colegio de Ópticos OT
+    public function colegioOpticoOTAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde') . " 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta') . " 23:59:59");
+        $sucursalId = $request->get('sucursal');
+
+        $sucursales = $em->getRepository('AppBundle:Sucursal')->findAll();
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('ot.id as id_OT, ot.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
+        ot.fechaReceta, med.nombre as medicoNombre')
+            ->from(OrdenTrabajo::class, 'ot')
+            ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = ot.cliente')
+            ->leftJoin('ot.medico', 'med')
+            ->where('ot.fechaReceta >= :fechaDesde')
+            ->andWhere('ot.fechaReceta <= :fechaHasta')
+            ->orderBy('ot.fechaReceta')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query
+                ->leftJoin('ot.sucursal', 'sucursal')
+                ->andWhere('sucursal.id = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $informeOTs = $query->getQuery()->getResult();
+
+        return $this->render('informe/colegioOpticoOT.html.twig', array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'informeOTs' => $informeOTs,
+            'sucursal_id' => $sucursalId,
+            'sucursales' => $sucursales,
+        ));
+    }
+
+
+    /**
+     * Reporte Colegio de Ópticos OT
+     */
+    public function colegioOpticoOT_imprimirAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $sucursalId = $request->get('sucursal');
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('ot.id as id_OT, ot.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
+            ot.fechaReceta, med.nombre as medicoNombre, 
+            ot.lejosOjoDerechoEsfera, ot.lejosOjoDerechoCilindro, ot.lejosOjoDerechoEje,
+            ot.lejosOjoIzquierdoEsfera, ot.lejosOjoIzquierdoCilindro, ot.lejosOjoIzquierdoEje,
+            ot.cercaOjoDerechoEsfera, ot.cercaOjoDerechoCilindro, ot.cercaOjoDerechoEje,
+            ot.cercaOjoIzquierdoEsfera, ot.cercaOjoIzquierdoCilindro, ot.cercaOjoIzquierdoEje,
+            COUNT(otd.id) as cantidadCristales, otd.tipoCristal')
+            ->from(OrdenTrabajo::class, 'ot')
+            ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = ot.cliente')
+            ->leftJoin('ot.medico', 'med')
+            ->leftJoin(OrdenTrabajoDetalle::class, 'otd', 'WITH', 'otd.ordenTrabajo = ot.id')
+            ->where('ot.fechaReceta >= :fechaDesde')
+            ->andWhere('ot.fechaReceta <= :fechaHasta')
+            ->orderBy('ot.fechaReceta')
+            ->groupBy('ot.id, otd.tipoCristal')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query
+                ->leftJoin('ot.sucursal', 'sucursal')
+                ->andWhere('sucursal.id = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $informeOTs = $query->getQuery()->getResult();
+
+        $OTsTemplate = 'informe/colegioOpticoOT_imprimir.html.twig';
+        $html = $this->renderView($OTsTemplate, array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'informeOTs' => $informeOTs,
+            'sucursal_id' => $sucursalId,
+        ));
+
+        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetFont('helvetica', '', 11, '', true);
+        $pdf->AddPage();
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $filename = "informe_colegioMedico_OT";
+        $pdf->Output($filename.".pdf",'I');
+
+        return true;
+    }
+
+
+
+    // Informe Colegio de Ópticos OT contactología
+    public function colegioOpticoOTcontactologiaAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $sucursalId = $request->get('sucursal');
+
+        $sucursales = $em->getRepository('AppBundle:Sucursal')->findAll();
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('otc.id as id_OT, otc.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
+        otc.fechaReceta, med.nombre as medicoNombre')
+            ->from(OrdenTrabajoContactologia::class, 'otc')
+            ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = otc.cliente')
+            ->leftJoin('otc.medico', 'med')
+            ->where('otc.fechaReceta >= :fechaDesde')
+            ->andWhere('otc.fechaReceta <= :fechaHasta')
+            ->orderBy('otc.fechaReceta')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query
+                ->leftJoin('otc.sucursal', 'sucursal')
+                ->andWhere('sucursal.id = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $informeOTscontactologia = $query->getQuery()->getResult();
+
+        return $this->render('informe/colegioOpticoOTcontactologia.html.twig', array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'informeOTscontactologia' => $informeOTscontactologia,
+            'sucursal_id' => $sucursalId,
+            'sucursales' => $sucursales,
+        ));
+    }
+
+    /**
+     * Reporte Colegio de Ópticos OT
+     */
+    public function colegioOpticoOTcontactologia_imprimirAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
+        $sucursalId = $request->get('sucursal');
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('otc.id as id_OT, otc.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
+            otc.fechaReceta, med.nombre as medicoNombre,
+            otc.lejosOjoDerechoEsfera, otc.lejosOjoDerechoCilindro, otc.lejosOjoDerechoEje,
+            otc.lejosOjoIzquierdoEsfera, otc.lejosOjoIzquierdoCilindro, otc.lejosOjoIzquierdoEje,
+            otc.cercaOjoDerechoEsfera, otc.cercaOjoDerechoCilindro, otc.cercaOjoDerechoEje,
+            otc.cercaOjoIzquierdoEsfera, otc.cercaOjoIzquierdoCilindro, otc.cercaOjoIzquierdoEje,
+            COUNT(otcd.id) as cantidadCristales, otcd.tipoCristal')
+            ->from(OrdenTrabajoContactologia::class, 'otc')
+            ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = otc.cliente')
+            ->leftJoin('otc.medico', 'med')
+            ->leftJoin(OrdenTrabajoContactologiaDetalle::class, 'otcd', 'WITH', 'otcd.ordenTrabajoContactologia = otc.id')
+            ->where('otc.fechaReceta >= :fechaDesde')
+            ->andWhere('otc.fechaReceta <= :fechaHasta')
+            ->orderBy('otc.fechaReceta')
+            ->groupBy('otc.id, otcd.tipoCristal')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        if ($sucursalId > 0) {
+            $query
+                ->leftJoin('otc.sucursal', 'sucursal')
+                ->andWhere('sucursal.id = :sucursalId')
+                ->setParameter('sucursalId', $sucursalId);
+        }
+
+        $informeOTscontactologia = $query->getQuery()->getResult();
+
+        $OTsTemplate = 'informe/colegioOpticoOTcontactologia_imprimir.html.twig';
+        $html = $this->renderView($OTsTemplate, array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'informeOTscontactologia' => $informeOTscontactologia,
+            'sucursal_id' => $sucursalId,
+        ));
+
+        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetFont('helvetica', '', 11, '', true);
+        $pdf->AddPage();
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $filename = "informe_colegioMedico_OT";
+        $pdf->Output($filename.".pdf",'I');
+
+        return true;
     }
 
 }

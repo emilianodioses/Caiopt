@@ -1,0 +1,92 @@
+{% block body %}
+    <body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    <!-- Contenido de tu cuerpo Twig aquí -->
+    {% set contador = 0 %}
+    {% for informeOT in informeOTscontactologia %}
+        {% if contador > 0 and contador % 4 == 0 %}
+        <!-- Salto de página -->
+        <div style="page-break-after: always;"></div>
+    {% endif %}
+        <div class="box-body table-responsive no-padding">
+            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black;">
+                <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; border: 1px solid black;">Orden de Trabajo Contactología</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <!-- Información de la Orden de Trabajo -->
+                    <td>
+                        <table>
+                            <tr>
+                                <td><b>RP. N°:</b> {{ informeOT.id_OrdenTrabajo }} <br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Cliente:</b> {{ informeOT.nombreCliente }} <br> </td>
+                            </tr>
+                            <tr>
+                                <td><b>Domicilio:</b> {{ informeOT.direccion }} <br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Fecha Receta:</b> {{ informeOT.fechaReceta|date('d-m-Y') }} <br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Médico:</b> {{ informeOT.medicoNombre }} <br> </td>
+                            </tr>
+                            <tr>
+                                <td><b>Emp.:</b> Opt. Contini <br> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width: 100%;"><b>Cristales:</b> {{ informeOT.cantidadCristales }}
+                                    {% set tiposCristales = informeOT.tipoCristal|split(',') %}
+                                    {% for tipoCristal in tiposCristales %}
+                                        {{ tipoCristal }}
+                                    {% endfor %}
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <!-- Graduaciones -->
+                    <td>
+                        <table id="graduaciones_ot_{{ loop.index }}" width="100%" cellspacing="0" border="1" style="margin-top: 10px;">
+                            <tbody>
+                            <tr>
+                                <td colspan="4" align="center"><b>Graduaciones</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-bottom: 20px;"><b>Lejos</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="border: 1px solid black;">
+                                    <b>O.D :</b> ESF: {{ informeOT.lejosOjoDerechoEsfera }}, CIL: {{ informeOT.lejosOjoDerechoCilindro }}, EJE: {{ informeOT.lejosOjoDerechoEje }}
+                                    <br>
+                                    <b>O.I :</b> ESF: {{ informeOT.lejosOjoIzquierdoEsfera }}, CIL: {{ informeOT.lejosOjoIzquierdoCilindro }}, EJE: {{ informeOT.lejosOjoIzquierdoEje }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-bottom: 20px;"><b>Cerca</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="border: 1px solid black;">
+                                    <b>O.D :</b> ESF: {{ informeOT.cercaOjoDerechoEsfera }}, CIL: {{ informeOT.cercaOjoDerechoCilindro }}, EJE: {{ informeOT.cercaOjoDerechoEje }}
+                                    <br>
+                                    <b>O.I :</b> ESF: {{ informeOT.cercaOjoIzquierdoEsfera }}, CIL: {{ informeOT.cercaOjoIzquierdoCilindro }}, EJE: {{ informeOT.cercaOjoIzquierdoEje }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {% set contador = contador + 1 %}
+    {% endfor %}
+    <!-- /.box-body -->
+    </body>
+{% endblock %}
