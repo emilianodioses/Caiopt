@@ -717,35 +717,14 @@ class InformeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $fechaDesde = new \DateTime($request->get('fecha_desde') . " 00:00:00");
         $fechaHasta = new \DateTime($request->get('fecha_hasta') . " 23:59:59");
-        $sucursalIds = null;
-        $informeData = $request->get('informe');
-        if (isset($informeData['sucursal'])) {
-            $sucursalIds = $informeData['sucursal'];
-        }
-
-// Si $sucursalIds es nulo o no es un array, asigna un valor predeterminado
-        if ($sucursalIds === null || !is_array($sucursalIds)) {
-            $sucursalIds = [];
-        }
+        $sucursalIds = $request->get('sucursal');
 
         $sucursales = $em->getRepository(Sucursal::class)->findAll();
-
-        // Construir el formulario
-        $informeForm = $this->createForm(InformeType::class, null, [
-            'sucursales' => $sucursales,
-        ]);
-
-        $informeForm->handleRequest($request);
-
-        if ($informeForm->isSubmitted() && $informeForm->isValid()) {
-            // Obtener las sucursales seleccionadas del formulario
-            $sucursalIds = $informeForm->get('sucursal')->getData();
-        }
 
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
-        (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo')
+            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo, s.nombre as nombreSucursal')
             ->from(Cliente::class, 'cli')
             ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
             ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
@@ -753,6 +732,7 @@ class InformeController extends Controller
             ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
             ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
             ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'cp.pagoTipo = pt.id')
+            ->leftJoin(Sucursal::class, 's', 'WITH', 's.id = c.sucursal')
             ->where('c.fecha >= :fechaDesde')
             ->andWhere('c.fecha <= :fechaHasta')
             ->andWhere('pt.id = :pagoTipoId')
@@ -776,94 +756,25 @@ class InformeController extends Controller
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
             'ventasEfectivo' => $ventasEfectivo,
             'sucursales' => $sucursales, // Pasar las sucursales disponibles a la plantilla Twig
-            'informeForm' => $informeForm->createView(), // Pasar el formulario a la plantilla
+            'sucursal_ids' => $sucursalIds, // Pasar los IDs de sucursales seleccionadas
         ));
     }
 
 
-    // Informe ventas con tarjeta de crédito
-    public function ventasCreditoAction(Request $request){
+// Informe de ventas con tarjeta de crédito
+    public function ventasCreditoAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-        
-        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
-        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
-        $sucursalIds = null;
-        $informeData = $request->get('informe');
-        if (isset($informeData['sucursal'])) {
-            $sucursalIds = $informeData['sucursal'];
-        }
-
-// Si $sucursalIds es nulo o no es un array, asigna un valor predeterminado
-        if ($sucursalIds === null || !is_array($sucursalIds)) {
-            $sucursalIds = [];
-        }
+        $fechaDesde = new \DateTime($request->get('fecha_desde') . " 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta') . " 23:59:59");
+        $sucursalIds = $request->get('sucursal');
 
         $sucursales = $em->getRepository(Sucursal::class)->findAll();
-
-        // Construir el formulario
-        $informeForm = $this->createForm(InformeType::class, null, [
-            'sucursales' => $sucursales,
-        ]);
-
-        $informeForm->handleRequest($request);
-
-        if ($informeForm->isSubmitted() && $informeForm->isValid()) {
-            // Obtener las sucursales seleccionadas del formulario
-            $sucursalIds = $informeForm->get('sucursal')->getData();
-        }
-
-
-        // Creo la consulta
-        $queryBuilder = $em->createQueryBuilder();
-        $query = $queryBuilder
-        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total, pt.nombre as tipoPago,
-                    ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
-        ->from(Cliente::class, 'cli')
-        ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
-        ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
-        ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-        ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
-        ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
-        ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = cp.pagoTipo')
-        ->andWhere('pt.id = :pagoTipoId')
-        ->andWhere('c.fecha >= :fechaDesde')
-        ->andWhere('c.fecha <= :fechaHasta')
-        ->groupBy('cli.id, c.id, ot.id, pt.id')
-        ->orderBy('c.fecha')
-        ->setParameter('pagoTipoId', 3)
-        ->SetParameter('fechaDesde', $fechaDesde)
-        ->SetParameter('fechaHasta', $fechaHasta);
-
-        // Agregar condición de sucursal si se seleccionan sucursales
-        if (!empty($sucursalIds)) {
-            $query->andWhere('c.sucursal IN (:sucursalIds)')
-                ->setParameter('sucursalIds', $sucursalIds);
-        }
-
-        // Obtengo los resultados de la consulta
-        $ventasCredito = $query->getQuery()->getResult();
-
-        return $this->render('informe/ventasCredito.html.twig', array(
-            'fecha_desde' => $fechaDesde->format('d-m-Y'),
-            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
-            'ventasCredito' => $ventasCredito,
-            'sucursales' => $sucursales, // Pasar las sucursales disponibles a la plantilla Twig
-            'informeForm' => $informeForm->createView(), // Pasar el formulario a la plantilla
-        ));
-    }
-
-
-    // Excel Ventas en Efectivo
-    public function ventasEfectivo_imprimirExcelAction(Request $request){
-
-        $em = $this->getDoctrine()->getManager();
-        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
-        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
 
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
-            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo')
+        (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo, s.nombre as nombreSucursal')
             ->from(Cliente::class, 'cli')
             ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
             ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
@@ -871,6 +782,56 @@ class InformeController extends Controller
             ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
             ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
             ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'cp.pagoTipo = pt.id')
+            ->leftJoin(Sucursal::class, 's', 'WITH', 's.id = c.sucursal')
+            ->where('c.fecha >= :fechaDesde')
+            ->andWhere('c.fecha <= :fechaHasta')
+            ->andWhere('pt.id = :pagoTipoId')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta)
+            ->setParameter('pagoTipoId', 3) // ID del tipo de pago para ventas con tarjeta de crédito
+            ->groupBy('cli.id, c.id, ot.id, pt.id')
+            ->orderBy('c.fecha');
+
+        // Agregar condición de sucursal si se seleccionan sucursales
+        if (!empty($sucursalIds)) {
+            $query->andWhere('c.sucursal IN (:sucursalIds)')
+                ->setParameter('sucursalIds', $sucursalIds);
+        }
+
+        $ventasCredito = $query->getQuery()->getResult();
+
+        // Renderizar la plantilla
+        return $this->render('informe/ventasCredito.html.twig', array(
+            'fecha_desde' => $fechaDesde->format('d-m-Y'),
+            'fecha_hasta' => $fechaHasta->format('d-m-Y'),
+            'ventasCredito' => $ventasCredito,
+            'sucursales' => $sucursales, // Pasar las sucursales disponibles a la plantilla Twig
+            'sucursal_ids' => $sucursalIds, // Pasar los IDs de sucursales seleccionadas
+        ));
+    }
+
+
+
+// Excel Ventas en Efectivo
+    public function ventasEfectivo_imprimirExcelAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fechaDesde = new \DateTime($request->get('fecha_desde') . " 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta') . " 23:59:59");
+        $sucursalIds = $request->get('sucursal');
+
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('cli.nombre as nombreCliente, ot.id as id_OT, c.caeNumero, c.fecha, c.total,
+            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as pagoTipo, s.nombre as nombreSucursal')
+            ->from(Cliente::class, 'cli')
+            ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+            ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+            ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+            ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
+            ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
+            ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'cp.pagoTipo = pt.id')
+            ->leftJoin(Sucursal::class, 's', 'WITH', 's.id = c.sucursal')
             ->andWhere('c.fecha >= :fechaDesde')
             ->andWhere('c.fecha <= :fechaHasta')
             ->andWhere('pt.id = :pagoTipoId')
@@ -878,88 +839,31 @@ class InformeController extends Controller
             ->orderBy('c.fecha')
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta)
-            ->setParameter('pagoTipoId', 1) // ID del tipo de pago para ventas en efectivo
-            ->getQuery();
+            ->setParameter('pagoTipoId', 1); // ID del tipo de pago para ventas en efectivo
+
+        // Agregar condición de sucursal si se seleccionan sucursales
+        if (!empty($sucursalIds)) {
+            $query->andWhere('c.sucursal IN (:sucursalIds)')
+                ->setParameter('sucursalIds', $sucursalIds);
+        }
 
         // Obtengo los resultados
-        $ventasEfectivo = $query->getResult();
-
-         // Crear archivo csv
-         $file = fopen('php://memory', 'w');
-         $rows = array('Cliente','Facturada','Nro Interno',
-             'Fecha','Total Venta','Pendiente pago');
-         fputcsv($file,$rows,";");
- 
-         foreach ($ventasEfectivo as $venta) {
-             fputcsv($file, array(
-                 $venta['nombre'],
-                 isset($venta['caeNumero']) ? 'SI' : 'NO',
-                 $venta['id_OT'],
-                 $venta['fecha']->format('d-m-Y'),
-                 $venta['total'],
-                 ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado'
-             ), ';');
-         }
- 
-         rewind($file);
-         $content = stream_get_contents($file);
-         fclose($file);
- 
-         // Enviar archivo CSV al navegador
-         $response = new Response($content);
-         $response->headers->set('Content-Type', 'text/csv');
-         $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConEfectivo.csv"');
- 
-         return $response;
- 
-     }
-    
-    // Imprimir tabla de ventas con tarjeta crédito en formato excel
-    public function ventasCredito_imprimirExcelAction(Request $request){
-
-        $fechaDesde = new \DateTime($request->get('fecha_desde')." 00:00:00");
-        $fechaHasta = new \DateTime($request->get('fecha_hasta')." 23:59:59");
-
-        // Creo la consulta
-        $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->createQueryBuilder();
-        $query = $queryBuilder
-        ->select('cli.nombre, ot.id as id_OT, c.caeNumero, c.fecha, c.total, pt.nombre as tipoPago,
-                    ( c.total - COALESCE(SUM(rc.importe), 0) ) as diferencia')
-        ->from(Cliente::class, 'cli')
-        ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
-        ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
-        ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
-        ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
-        ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
-        ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = cp.pagoTipo')
-        ->andWhere('pt.id = :pagoTipoId')
-        ->andWhere('c.fecha >= :fechaDesde')
-        ->andWhere('c.fecha <= :fechaHasta')
-        ->groupBy('cli.id, c.id, ot.id, pt.id')
-        ->orderBy('c.fecha')
-        ->setParameter('pagoTipoId', 3)
-        ->SetParameter('fechaDesde', $fechaDesde)
-        ->SetParameter('fechaHasta', $fechaHasta)
-        ->getQuery();
-
-        // Obtengo los resultados
-        $ventasCredito = $query->getResult();
+        $ventasEfectivo = $query->getQuery()->getResult();
 
         // Crear archivo csv
         $file = fopen('php://memory', 'w');
-        $rows = array('Cliente','Facturada','Nro Interno',
-            'Fecha','Total Venta','Pendiente pago');
-        fputcsv($file,$rows,";");
+        $rows = array('Cliente', 'Facturada', 'Nro Interno', 'Fecha', 'Total Venta', 'Pendiente pago', 'Sucursal');
+        fputcsv($file, $rows, ";");
 
-        foreach ($ventasCredito as $venta) {
+        foreach ($ventasEfectivo as $venta) {
             fputcsv($file, array(
-                $venta['nombre'],
+                $venta['nombreCliente'],
                 isset($venta['caeNumero']) ? 'SI' : 'NO',
                 $venta['id_OT'],
                 $venta['fecha']->format('d-m-Y'),
                 $venta['total'],
-                ($venta['diferencia'] > 0) ? 'Pendiente ( '.$venta['diferencia'].' )'  : 'Pagado'
+                ($venta['diferencia'] > 0) ? 'Pendiente' : 'Pagado',
+                $venta['nombreSucursal']
             ), ';');
         }
 
@@ -971,13 +875,77 @@ class InformeController extends Controller
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConEfectivo.csv"');
-         // Enviar archivo CSV al navegador
+
+        return $response;
+    }
+
+
+// Imprimir tabla de ventas con tarjeta crédito en formato excel
+    public function ventasCredito_imprimirExcelAction(Request $request)
+    {
+        $fechaDesde = new \DateTime($request->get('fecha_desde') . " 00:00:00");
+        $fechaHasta = new \DateTime($request->get('fecha_hasta') . " 23:59:59");
+        $sucursalIds = $request->get('sucursal');
+
+        // Creo la consulta
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('cli.nombre as nombreCliente, ot.id as id_OT, c.caeNumero, c.fecha, c.total, 
+            (c.total - COALESCE(SUM(rc.importe), 0)) as diferencia, pt.nombre as tipoPago, s.nombre as nombreSucursal')
+            ->from(Cliente::class, 'cli')
+            ->innerJoin(Comprobante::class, 'c', 'WITH', 'cli.id = c.cliente')
+            ->leftJoin(OrdenTrabajo::class, 'ot', 'WITH', 'ot.id = c.ordenTrabajo')
+            ->leftJoin(ReciboComprobante::class, 'rc', 'WITH', 'rc.comprobante = c.id')
+            ->leftJoin(Recibo::class, 'r', 'WITH', 'r.id = rc.recibo')
+            ->leftJoin(ClientePago::class, 'cp', 'WITH', 'cp.recibo = r.id')
+            ->leftJoin(PagoTipo::class, 'pt', 'WITH', 'pt.id = cp.pagoTipo')
+            ->leftJoin(Sucursal::class, 's', 'WITH', 's.id = c.sucursal')
+            ->andWhere('pt.id = :pagoTipoId')
+            ->andWhere('c.fecha >= :fechaDesde')
+            ->andWhere('c.fecha <= :fechaHasta')
+            ->groupBy('cli.id, c.id, ot.id, pt.id')
+            ->orderBy('c.fecha')
+            ->setParameter('pagoTipoId', 3)
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
+        // Agregar condición de sucursal si se seleccionan sucursales
+        if (!empty($sucursalIds)) {
+            $query->andWhere('c.sucursal IN (:sucursalIds)')
+                ->setParameter('sucursalIds', $sucursalIds);
+        }
+
+        // Obtengo los resultados
+        $ventasCredito = $query->getQuery()->getResult();
+
+        // Crear archivo csv
+        $file = fopen('php://memory', 'w');
+        $rows = array('Cliente', 'Facturada', 'Nro Interno', 'Fecha', 'Total Venta', 'Pendiente pago', 'Sucursal');
+        fputcsv($file, $rows, ";");
+
+        foreach ($ventasCredito as $venta) {
+            fputcsv($file, array(
+                $venta['nombreCliente'],
+                isset($venta['caeNumero']) ? 'SI' : 'NO',
+                $venta['id_OT'],
+                $venta['fecha']->format('d-m-Y'),
+                $venta['total'],
+                ($venta['diferencia'] > 0) ? 'Pendiente ( ' . $venta['diferencia'] . ' )' : 'Pagado',
+                $venta['nombreSucursal']
+            ), ';');
+        }
+
+        rewind($file);
+        $content = stream_get_contents($file);
+        fclose($file);
+
+        // Enviar archivo CSV al navegador
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="InformeVentasConCredito.csv"');
 
         return $response;
-
     }
 
 }
