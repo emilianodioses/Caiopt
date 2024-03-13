@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-    Informe de Ordenes de Trabajo Contactología
+    Libro Recetario Digital Órdenes Contactología
 {% endblock %}
 
 {% block header_description %}
@@ -22,7 +22,6 @@
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-addon input-sm">Sucursal</span>
                                             <select class="form-control" id="sucursal" name="sucursal">
-                                                <option value="0" selected = "selected">Todas</option>
                                                 {% for sucursal in sucursales %}
                                                     <option value="{{sucursal.id}}" {% if sucursal_id == sucursal.id %} selected {%endif%}> {{sucursal.nombre}}</option>
                                                 {% endfor %}
