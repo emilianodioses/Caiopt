@@ -61,6 +61,34 @@ class Sucursal
     private $whatsapp;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tecnico_optico", type="string", length=255, nullable=true)
+     */
+    private $tecnicoOptico;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tecnico_optico_matricula", type="string", length=255, nullable=true)
+     */
+    private $tecnicoOpticoMatricula;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tecnico_contactologo", type="string", length=255, nullable=true)
+     */
+    private $tecnicoContactologo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tecnico_contactologo_matricula", type="string", length=255, nullable=true)
+     */
+    private $tecnicoContactologoMatricula;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -356,4 +384,102 @@ class Sucursal
     {
         return $this->whatsapp;
     }
+
+    /**
+     * Set tecnicoOptico
+     *
+     * @param string $tecnicoOptico
+     *
+     * @return Sucursal
+     */
+    public function setTecnicoOptico($tecnicoOptico)
+    {
+        $this->tecnicoOptico = $tecnicoOptico;
+
+        return $this;
+    }
+
+    /**
+     * Get tecnicoOptico
+     *
+     * @return string
+     */
+    public function getTecnicoOptico()
+    {
+        return $this->tecnicoOptico;
+    }
+
+    /**
+     * Set tecnicoOpticoMatricula
+     *
+     * @param string $tecnicoOpticoMatricula
+     *
+     * @return Sucursal
+     */
+
+    public function setTecnicoOpticoMatricula($tecnicoOpticoMatricula)
+    {
+        $this->tecnicoOpticoMatricula = $tecnicoOpticoMatricula;
+
+        return $this;
+    }
+
+    /**
+     * Get tecnicoOpticoMatricula
+     *
+     * @return string
+     */
+    public function getTecnicoOpticoMatricula()
+    {
+        return $this->tecnicoOpticoMatricula;
+    }
+
+    /**
+     * Set tecnicoContactologo
+     *
+     * @param string $tecnicoContactologo
+     *
+     * @return Sucursal
+     */
+    public function setTecnicoContactologo($tecnicoContactologo)
+    {
+        $this->tecnicoContactologo = $tecnicoContactologo;
+
+        return $this;
+    }
+
+    /**
+     * Get tecnicoContactologo
+     *
+     * @return string
+     */
+    public function getTecnicoContactologo()
+    {
+        return $this->tecnicoContactologo;
+    }
+
+    /**
+     * Set tecnicoContactologo
+     *
+     * @param string $tecnicoContactologo
+     *
+     * @return Sucursal
+     */
+    public function setTecnicoContactologoMatricula($tecnicoContactologoMatricula)
+    {
+        $this->tecnicoContactologoMatricula = $tecnicoContactologoMatricula;
+
+        return $this;
+    }
+
+    /**
+     * Get tecnicoContactologoMatricula
+     *
+     * @return string
+     */
+    public function getTecnicoContactologoMatricula()
+    {
+        return $this->tecnicoContactologoMatricula;
+    }
+
 }

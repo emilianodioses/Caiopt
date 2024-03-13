@@ -43,6 +43,26 @@ class SucursalType extends AbstractType
                     'label' => 'Teléfono',
                     'required' => false,
                     'empty_data' => '',
+                ))
+                ->add('tecnicoOptico', null, array(
+                    'label' => 'Técnico Óptico',
+                    'required' => false,
+                    'empty_data' => '',
+                ))
+                ->add('tecnicoOpticoMatricula', null, array(
+                    'label' => 'Técnico Óptico Matrícula',
+                    'required' => false,
+                    'empty_data' => '',
+                ))
+                ->add('tecnicoContactologo', null, array(
+                    'label' => 'Técnico Contactólogo',
+                    'required' => false,
+                    'empty_data' => '',
+                ))
+                ->add('tecnicoContactologoMatricula', null, array(
+                    'label' => 'Técnico Contactólogo Matrícula',
+                    'required' => false,
+                    'empty_data' => '',
                 ));
     }/**
      * {@inheritdoc}
