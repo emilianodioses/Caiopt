@@ -3,15 +3,28 @@
     <!-- Contenido de tu cuerpo Twig aquí -->
     {% set contador = 0 %}
     {% for informeOT in informeOTs %}
-        {% if contador > 0 and contador % 4 == 0 %}
+        {% if contador > 0 and contador % 3 == 0 %}
             <!-- Salto de página -->
             <div style="page-break-after: always;"></div>
         {% endif %}
         <div class="box-body table-responsive no-padding">
-            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black;">
+            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black; padding-top: 5px">
                 <thead>
                 <tr>
-                    <th colspan="2" style="text-align: center; border: 1px solid black;">Información de la Orden de Trabajo</th>
+                    <td colspan="1">
+                        <br>
+                        <img width="40" height="40" src="{{ asset('img/logooptica.jpg')}}">
+                    </td>
+                    <td colspan="1">
+                    <b>OPTICA CONTINI</b>
+                        {% if sucursal %}
+                            <br>
+                            {{ sucursal.direccion }} - {{ sucursal.localidad.nombre }}
+                            {{ sucursal.localidad.provincia.nombre }}
+                            <br>
+                            <b>Teléfono:</b> {{ sucursal.telefono }}
+                        {% endif %}
+                    </td>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,10 +45,23 @@
                                 <td><b>Fecha Receta:</b> {{ informeOT.fechaReceta|date('d-m-Y') }} <br></td>
                             </tr>
                             <tr>
-                                <td><b>Médico:</b> {{ informeOT.medicoNombre }} <br> </td>
+                                <td><b>Fecha Recepción:</b>
+                                    {% if informeOT.fechaRecepcion is empty %}
+
+                                    {% else %}
+                                        {{ informeOT.fechaRecepcion | date('d-m-Y') }}
+                                    {% endif %}
+                                    <b> Fecha Entrega:</b>
+                                    {% if informeOT.fechaEntrega is empty %}
+
+                                    {% else %}
+                                        {{ informeOT.fechaEntrega | date('d-m-Y') }}
+                                    {% endif %}
+                                    <br>
+                                </td>
                             </tr>
                             <tr>
-                                <td><b>Emp.:</b> Opt. Contini <br> </td>
+                                <td><b>Médico:</b> {{ informeOT.medicoNombre }} - {{ informeOT.medicoMatricula }} <br> </td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="width: 100%;"><b>Cristales:</b> {{ informeOT.cantidadCristales }}
@@ -47,7 +73,10 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b></td>
+                                <td colspan="2" style="width: 100%;"><b>Armazón:</b> {{ informeOT.descripcionMarcos|raw }} <br></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b> {{ sucursal.tecnicoOptico }} - {{ sucursal.tecnicoOpticoMatricula }} </td>
                             </tr>
                         </table>
                     </td>

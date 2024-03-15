@@ -3,15 +3,28 @@
     <!-- Contenido de tu cuerpo Twig aquí -->
     {% set contador = 0 %}
     {% for informeOT in informeOTscontactologia %}
-        {% if contador > 0 and contador % 4 == 0 %}
+        {% if contador > 0 and contador % 3 == 0 %}
         <!-- Salto de página -->
         <div style="page-break-after: always;"></div>
     {% endif %}
         <div class="box-body table-responsive no-padding">
-            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black;">
+            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black; padding-top: 5px">
                 <thead>
                 <tr>
-                    <th colspan="2" style="text-align: center; border: 1px solid black;">Orden de Trabajo Contactología</th>
+                    <td colspan="1">
+                        <br>
+                        <img width="40" height="40" src="{{ asset('img/logooptica.jpg')}}">
+                    </td>
+                    <td colspan="1">
+                        <b>OPTICA CONTINI</b>
+                        {% if sucursal %}
+                            <br>
+                            {{ sucursal.direccion }} - {{ sucursal.localidad.nombre }}
+                            {{ sucursal.localidad.provincia.nombre }}
+                            <br>
+                            <b>Teléfono:</b> {{ sucursal.telefono }}
+                        {% endif %}
+                    </td>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,10 +45,23 @@
                                 <td><b>Fecha Receta:</b> {{ informeOT.fechaReceta|date('d-m-Y') }} <br></td>
                             </tr>
                             <tr>
-                                <td><b>Médico:</b> {{ informeOT.medicoNombre }} <br> </td>
+                                <td><b>Fecha Recepción:</b>
+                                    {% if informeOT.fechaRecepcion is empty %}
+
+                                    {% else %}
+                                        {{ informeOT.fechaRecepcion | date('d-m-Y') }}
+                                    {% endif %}
+                                    <b> Fecha Entrega:</b>
+                                    {% if informeOT.fechaEntrega is empty %}
+
+                                    {% else %}
+                                        {{ informeOT.fechaEntrega | date('d-m-Y') }}
+                                    {% endif %}
+                                    <br>
+                                </td>
                             </tr>
                             <tr>
-                                <td><b>Emp.:</b> Opt. Contini <br> </td>
+                                <td><b>Médico:</b> {{ informeOT.medicoNombre }} <br> </td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="width: 100%;"><b>Cristales:</b> {{ informeOT.cantidadCristales }}
@@ -47,13 +73,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b></td>
+                                <td colspan="2" style="width: 100%;"><b>Armazón:</b> {{ informeOT.descripcionMarcos|raw }} <br></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b> {{ sucursal.tecnicoContactologo }} - {{ sucursal.tecnicoContactologoMatricula }}</td>
                             </tr>
                         </table>
                     </td>
                     <!-- Graduaciones -->
                     <td>
-                        <table id="graduaciones_ot_{{ loop.index }}" width="100%" cellspacing="0" border="1" style="margin-top: 10px;">
+                        <table id="graduaciones_ot_{{ loop.index }}" width="101%" cellspacing="0" border="1" style="margin-top: 10px; font-size: 7pt">
                             <tbody>
                             <tr>
                                 <td colspan="4" align="center"><b>Graduaciones</b></td>
@@ -76,6 +105,71 @@
                                     <b>O.D :</b> ESF: {{ informeOT.cercaOjoDerechoEsfera }}, CIL: {{ informeOT.cercaOjoDerechoCilindro }}, EJE: {{ informeOT.cercaOjoDerechoEje }}
                                     <br>
                                     <b>O.I :</b> ESF: {{ informeOT.cercaOjoIzquierdoEsfera }}, CIL: {{ informeOT.cercaOjoIzquierdoCilindro }}, EJE: {{ informeOT.cercaOjoIzquierdoEje }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" cellspacing="0" border="1" style="font-size: 7pt">
+                            <tbody>
+                            <tr>
+                                <td style="width: 7%" align="center"></td>
+                                <td style="width: 13%" align="center">Horizontal</td>
+                                <td style="width: 12%" align="center">Vertical</td>
+                                <td style="width: 11%" align="center">Curvas</td>
+                                <td style="width: 13%" align="center">Diámetro</td>
+                                <td style="width: 37%" align="center">Características</td>
+                                <td style="width: 8%"align="center">AV</td>
+                            </tr>
+                            <tr>
+                                <td align="center">RC - OD</td>
+                                <td align="center">
+                                    {% if informeOT.rcOjoDerechoHorizontal > 0 %}+{% endif %}
+                                    {{ informeOT.rcOjoDerechoHorizontal }}
+                                </td>
+                                <td align="center">
+                                    {% if informeOT.rcOjoDerechoVertical > 0 %}+{% endif %}
+                                    {{ informeOT.rcOjoDerechoVertical }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if informeOT.ojoDerechoCurvas > 0 %}+{% endif %}
+                                    {{ informeOT.ojoDerechoCurvas }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if informeOT.ojoDerechoDiametro > 0 %}+{% endif %}
+                                    {{ informeOT.ojoDerechoDiametro }}
+                                </td>
+                                <td style="text-align: center">
+                                    {{ informeOT.ojoDerechoCaracteristicas }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if informeOT.ojoDerechoAV > 0 %}+{% endif %}
+                                    {{ informeOT.ojoDerechoAV }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">RC - OI</td>
+                                <td align="center">
+                                    {% if informeOT.rcOjoIzquierdoHorizontal > 0 %}+{% endif %}
+                                    {{ informeOT.rcOjoIzquierdoHorizontal }}
+                                </td>
+                                <td align="center">
+                                    {% if informeOT.rcOjoIzquierdoVertical > 0 %}+{% endif %}
+                                    {{ informeOT.rcOjoIzquierdoVertical }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if informeOT.ojoIzquierdoCurvas > 0 %}+{% endif %}
+                                    {{ informeOT.ojoIzquierdoCurvas }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if informeOT.ojoIzquierdoDiametro > 0 %}+{% endif %}
+                                    {{ informeOT.ojoIzquierdoDiametro }}
+                                </td>
+                                <td style="text-align: center">
+                                    {{ informeOT.ojoIzquierdoCaracteristicas }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if informeOT.ojoIzquierdoAV > 0 %}+{% endif %}
+                                    {{ informeOT.ojoIzquierdoAV }}
                                 </td>
                             </tr>
                             </tbody>

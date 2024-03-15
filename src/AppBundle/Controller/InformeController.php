@@ -995,20 +995,23 @@ class InformeController extends Controller
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('ot.id as id_OT, ot.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
-            ot.fechaReceta, med.nombre as medicoNombre, 
+            ot.fechaReceta, med.nombre as medicoNombre, med.matricula as medicoMatricula,
             ot.lejosOjoDerechoEsfera, ot.lejosOjoDerechoCilindro, ot.lejosOjoDerechoEje,
             ot.lejosOjoIzquierdoEsfera, ot.lejosOjoIzquierdoCilindro, ot.lejosOjoIzquierdoEje,
             ot.cercaOjoDerechoEsfera, ot.cercaOjoDerechoCilindro, ot.cercaOjoDerechoEje,
             ot.cercaOjoIzquierdoEsfera, ot.cercaOjoIzquierdoCilindro, ot.cercaOjoIzquierdoEje,
-            COUNT(otd.id) as cantidadCristales, otd.tipoCristal')
+            COUNT(otd.id) as cantidadCristales, otd.tipoCristal, ot.fechaRecepcion, ot.fechaEntrega,
+            GROUP_CONCAT(marco.descripcion SEPARATOR \', \') as descripcionMarcos')
             ->from(OrdenTrabajo::class, 'ot')
             ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = ot.cliente')
             ->leftJoin('ot.medico', 'med')
             ->leftJoin(OrdenTrabajoDetalle::class, 'otd', 'WITH', 'otd.ordenTrabajo = ot.id')
+            ->leftJoin('otd.articulo', 'a') // Relacionar con la tabla de artículo
+            ->leftJoin('a.marco', 'marco') // Relacionar con la tabla de marco
             ->where('ot.fechaReceta >= :fechaDesde')
             ->andWhere('ot.fechaReceta <= :fechaHasta')
             ->orderBy('ot.fechaReceta')
-            ->groupBy('ot.id, otd.tipoCristal')
+            ->groupBy('ot.id, otd.id, otd.tipoCristal')
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta);
 
@@ -1017,6 +1020,7 @@ class InformeController extends Controller
                 ->leftJoin('ot.sucursal', 'sucursal')
                 ->andWhere('sucursal.id = :sucursalId')
                 ->setParameter('sucursalId', $sucursalId);
+            $sucursal = $em->getRepository(Sucursal::class)->find($sucursalId);
         }
 
         $informeOTs = $query->getQuery()->getResult();
@@ -1027,6 +1031,7 @@ class InformeController extends Controller
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
             'informeOTs' => $informeOTs,
             'sucursal_id' => $sucursalId,
+            'sucursal' => $sucursal,
         ));
 
         $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -1098,16 +1103,22 @@ class InformeController extends Controller
         $queryBuilder = $em->createQueryBuilder();
         $query = $queryBuilder
             ->select('otc.id as id_OT, otc.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
-            otc.fechaReceta, med.nombre as medicoNombre,
+            otc.fechaReceta, med.nombre as medicoNombre, med.matricula as medicoMatricula,
             otc.lejosOjoDerechoEsfera, otc.lejosOjoDerechoCilindro, otc.lejosOjoDerechoEje,
             otc.lejosOjoIzquierdoEsfera, otc.lejosOjoIzquierdoCilindro, otc.lejosOjoIzquierdoEje,
             otc.cercaOjoDerechoEsfera, otc.cercaOjoDerechoCilindro, otc.cercaOjoDerechoEje,
             otc.cercaOjoIzquierdoEsfera, otc.cercaOjoIzquierdoCilindro, otc.cercaOjoIzquierdoEje,
-            COUNT(otcd.id) as cantidadCristales, otcd.tipoCristal')
+            otc.rcOjoDerechoHorizontal, otc.rcOjoDerechoVertical, otc.rcOjoIzquierdoHorizontal,
+            otc.rcOjoIzquierdoVertical, otc.ojoDerechoCurvas, otc.ojoDerechoDiametro, otc.ojoDerechoCaracteristicas, 
+            otc.ojoDerechoAV, otc.ojoIzquierdoCurvas, otc.ojoIzquierdoDiametro, otc.ojoIzquierdoCaracteristicas,
+            otc.ojoIzquierdoAV, COUNT(otcd.id) as cantidadCristales, otcd.tipoCristal, otc.fechaRecepcion, 
+            otc.fechaEntrega, GROUP_CONCAT(marco.descripcion SEPARATOR \', \') as descripcionMarcos')
             ->from(OrdenTrabajoContactologia::class, 'otc')
             ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = otc.cliente')
             ->leftJoin('otc.medico', 'med')
             ->leftJoin(OrdenTrabajoContactologiaDetalle::class, 'otcd', 'WITH', 'otcd.ordenTrabajoContactologia = otc.id')
+            ->leftJoin('otcd.articulo', 'a') // Relacionar con la tabla de artículo
+            ->leftJoin('a.marco', 'marco') // Relacionar con la tabla de marco
             ->where('otc.fechaReceta >= :fechaDesde')
             ->andWhere('otc.fechaReceta <= :fechaHasta')
             ->orderBy('otc.fechaReceta')
@@ -1120,6 +1131,7 @@ class InformeController extends Controller
                 ->leftJoin('otc.sucursal', 'sucursal')
                 ->andWhere('sucursal.id = :sucursalId')
                 ->setParameter('sucursalId', $sucursalId);
+            $sucursal = $em->getRepository(Sucursal::class)->find($sucursalId);
         }
 
         $informeOTscontactologia = $query->getQuery()->getResult();
@@ -1130,6 +1142,7 @@ class InformeController extends Controller
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
             'informeOTscontactologia' => $informeOTscontactologia,
             'sucursal_id' => $sucursalId,
+            'sucursal' => $sucursal,
         ));
 
         $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);

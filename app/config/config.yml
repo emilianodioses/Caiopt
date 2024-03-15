@@ -92,6 +92,8 @@ doctrine:
             string_functions:
                 LPAD: DoctrineExtensions\Query\Mysql\Lpad
                 RPAD: DoctrineExtensions\Query\Mysql\Rpad
+                group_concat: DoctrineExtensions\Query\Mysql\GroupConcat
+
                 
 # Swiftmailer Configuration
 swiftmailer:
