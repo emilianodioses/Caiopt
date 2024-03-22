@@ -996,18 +996,11 @@ class InformeController extends Controller
         $query = $queryBuilder
             ->select('ot.id as id_OT, ot.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
             ot.fechaReceta, med.nombre as medicoNombre, med.matricula as medicoMatricula,
-            ot.lejosOjoDerechoEsfera, ot.lejosOjoDerechoCilindro, ot.lejosOjoDerechoEje,
-            ot.lejosOjoIzquierdoEsfera, ot.lejosOjoIzquierdoCilindro, ot.lejosOjoIzquierdoEje,
-            ot.cercaOjoDerechoEsfera, ot.cercaOjoDerechoCilindro, ot.cercaOjoDerechoEje,
-            ot.cercaOjoIzquierdoEsfera, ot.cercaOjoIzquierdoCilindro, ot.cercaOjoIzquierdoEje,
-            COUNT(otd.id) as cantidadCristales, otd.tipoCristal, ot.fechaRecepcion, ot.fechaEntrega,
-            GROUP_CONCAT(marco.descripcion SEPARATOR \', \') as descripcionMarcos')
+            COUNT(otd.id) as cantidadCristales, otd.tipoCristal, ot.fechaRecepcion, ot.fechaEntrega')
             ->from(OrdenTrabajo::class, 'ot')
             ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = ot.cliente')
             ->leftJoin('ot.medico', 'med')
             ->leftJoin(OrdenTrabajoDetalle::class, 'otd', 'WITH', 'otd.ordenTrabajo = ot.id')
-            ->leftJoin('otd.articulo', 'a') // Relacionar con la tabla de artículo
-            ->leftJoin('a.marco', 'marco') // Relacionar con la tabla de marco
             ->where('ot.fechaReceta >= :fechaDesde')
             ->andWhere('ot.fechaReceta <= :fechaHasta')
             ->orderBy('ot.fechaReceta')
@@ -1015,23 +1008,131 @@ class InformeController extends Controller
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta);
 
+        $informeOTs = $query->getQuery()->getResult();
+
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder2 = $em->createQueryBuilder();
+        $query2 = $queryBuilder2
+            ->select('ot.id, ot.fechaReceta, cli.nombre as nombreCliente, cli.direccion, med.nombre as medicoNombre,
+            med.matricula as medicoMatricula, ot.lejosOjoDerechoEsfera, ot.lejosOjoDerechoCilindro, ot.lejosOjoDerechoEje,
+            ot.lejosOjoIzquierdoEsfera, ot.lejosOjoIzquierdoCilindro, ot.lejosOjoIzquierdoEje,
+            ot.cercaOjoDerechoEsfera, ot.cercaOjoDerechoCilindro, ot.cercaOjoDerechoEje,
+            ot.cercaOjoIzquierdoEsfera, ot.cercaOjoIzquierdoCilindro, ot.cercaOjoIzquierdoEje,
+            ot.fechaRecepcion, ot.fechaEntrega, GROUP_CONCAT(marco.descripcion SEPARATOR \', \') as descripcionMarcos')
+            ->from(OrdenTrabajo::class, 'ot')
+            ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = ot.cliente')
+            ->leftJoin('ot.medico', 'med')
+            ->leftJoin(OrdenTrabajoDetalle::class, 'otd', 'WITH', 'otd.ordenTrabajo = ot.id')
+            ->leftJoin('otd.articulo', 'a') // Relacionar con la tabla de artículo
+            ->leftJoin('a.marco', 'marco')
+            ->where('ot.fechaReceta >= :fechaDesde')
+            ->andWhere('ot.fechaReceta <= :fechaHasta')
+            ->orderBy('ot.fechaReceta')
+            ->groupBy('ot.id, ot.fechaReceta, cli.nombre, cli.direccion, med.nombre, med.matricula, ot.lejosOjoDerechoEsfera, ot.lejosOjoDerechoCilindro, ot.lejosOjoDerechoEje, ot.lejosOjoIzquierdoEsfera, ot.lejosOjoIzquierdoCilindro, ot.lejosOjoIzquierdoEje, ot.cercaOjoDerechoEsfera, ot.cercaOjoDerechoCilindro, ot.cercaOjoDerechoEje, ot.cercaOjoIzquierdoEsfera, ot.cercaOjoIzquierdoCilindro, ot.cercaOjoIzquierdoEje, ot.fechaRecepcion, ot.fechaEntrega')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
         if ($sucursalId > 0) {
-            $query
+            $query2
                 ->leftJoin('ot.sucursal', 'sucursal')
                 ->andWhere('sucursal.id = :sucursalId')
                 ->setParameter('sucursalId', $sucursalId);
             $sucursal = $em->getRepository(Sucursal::class)->find($sucursalId);
         }
 
-        $informeOTs = $query->getQuery()->getResult();
+        $ordenes_trabajo = $query2->getQuery()->getResult();
+
+        $idAnterior = null;
+        $cantidadLejos = 0;
+        $cantidadCerca = 0;
+        $cantidadBifocal = 0;
+        $cantidadOcupacional = 0;
+        $cantidadProgresivo = 0;
+        $arregloCristales = array();
+
+        // Recorro los resultados de la consulta para obtener las cantidades de los
+        // diferentes tipos de cristales que correspondan a la misma OT
+        foreach ($informeOTs as $informeOT ){
+            $idActual = $informeOT['id_OT'];
+            $tipoCristal = $informeOT['tipoCristal'];
+            if ($idActual == $idAnterior){
+                switch($tipoCristal){
+                    case 'Lejos':
+                        $cantidadLejos = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Cerca':
+                        $cantidadCerca = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Bifocal':
+                        $cantidadBifocal = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Ocupacional':
+                        $cantidadOcupacional = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Progresivo':
+                        $cantidadProgresivo = $informeOT['cantidadCristales'];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else{
+                // Armo string
+                $cristales = "Lejos ($cantidadLejos), Cerca ($cantidadCerca), 
+                    Bifocal ($cantidadBifocal), Ocupacional ($cantidadOcupacional),
+                    Progresivo ($cantidadProgresivo)";
+
+                // Agrego el string al arreglo
+                $arregloCristales[$idAnterior] = $cristales;
+
+                // Reinicio contadores
+                $idAnterior = $idActual;
+                $cantidadLejos = 0;
+                $cantidadCerca = 0;
+                $cantidadBifocal = 0;
+                $cantidadOcupacional = 0;
+                $cantidadProgresivo = 0;
+
+                // Asignar cantidad del primer informe que no pasa por true
+                // ya que la variable IdAnterior se inicializa en null
+                switch($tipoCristal){
+                    case 'Lejos':
+                        $cantidadLejos = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Cerca':
+                        $cantidadCerca = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Bifocal':
+                        $cantidadBifocal = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Ocupacional':
+                        $cantidadOcupacional = $informeOT['cantidadCristales'];
+                        break;
+                    case 'Progresivo':
+                        $cantidadProgresivo = $informeOT['cantidadCristales'];
+                        break;
+                }
+            }
+        }
+
+        // Armo el string con el último elemento del arreglo
+        // ya que este entra por false en el if
+        $cristales = "Lejos ($cantidadLejos), Cerca ($cantidadCerca), 
+        Bifocal ($cantidadBifocal), Ocupacional ($cantidadOcupacional),
+        Progresivo ($cantidadProgresivo)";
+
+        // Agrego el string al arreglo
+        $arregloCristales[$idAnterior] = $cristales;
 
         $OTsTemplate = 'informe/colegioOpticoOT_imprimir.html.twig';
         $html = $this->renderView($OTsTemplate, array(
             'fecha_desde' => $fechaDesde->format('d-m-Y'),
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
             'informeOTs' => $informeOTs,
+            'ordenes_trabajo' => $ordenes_trabajo,
             'sucursal_id' => $sucursalId,
             'sucursal' => $sucursal,
+            'arreglo_cristales' => $arregloCristales
         ));
 
         $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -1104,21 +1205,12 @@ class InformeController extends Controller
         $query = $queryBuilder
             ->select('otc.id as id_OT, otc.id as id_OrdenTrabajo, cli.nombre as nombreCliente, cli.direccion, 
             otc.fechaReceta, med.nombre as medicoNombre, med.matricula as medicoMatricula,
-            otc.lejosOjoDerechoEsfera, otc.lejosOjoDerechoCilindro, otc.lejosOjoDerechoEje,
-            otc.lejosOjoIzquierdoEsfera, otc.lejosOjoIzquierdoCilindro, otc.lejosOjoIzquierdoEje,
-            otc.cercaOjoDerechoEsfera, otc.cercaOjoDerechoCilindro, otc.cercaOjoDerechoEje,
-            otc.cercaOjoIzquierdoEsfera, otc.cercaOjoIzquierdoCilindro, otc.cercaOjoIzquierdoEje,
-            otc.rcOjoDerechoHorizontal, otc.rcOjoDerechoVertical, otc.rcOjoIzquierdoHorizontal,
-            otc.rcOjoIzquierdoVertical, otc.ojoDerechoCurvas, otc.ojoDerechoDiametro, otc.ojoDerechoCaracteristicas, 
-            otc.ojoDerechoAV, otc.ojoIzquierdoCurvas, otc.ojoIzquierdoDiametro, otc.ojoIzquierdoCaracteristicas,
-            otc.ojoIzquierdoAV, COUNT(otcd.id) as cantidadCristales, otcd.tipoCristal, otc.fechaRecepcion, 
-            otc.fechaEntrega, GROUP_CONCAT(marco.descripcion SEPARATOR \', \') as descripcionMarcos')
+            COUNT(otcd.id) as cantidadCristales, otcd.tipoCristal, otc.fechaRecepcion, 
+            otc.fechaEntrega')
             ->from(OrdenTrabajoContactologia::class, 'otc')
             ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = otc.cliente')
             ->leftJoin('otc.medico', 'med')
             ->leftJoin(OrdenTrabajoContactologiaDetalle::class, 'otcd', 'WITH', 'otcd.ordenTrabajoContactologia = otc.id')
-            ->leftJoin('otcd.articulo', 'a') // Relacionar con la tabla de artículo
-            ->leftJoin('a.marco', 'marco') // Relacionar con la tabla de marco
             ->where('otc.fechaReceta >= :fechaDesde')
             ->andWhere('otc.fechaReceta <= :fechaHasta')
             ->orderBy('otc.fechaReceta')
@@ -1126,23 +1218,118 @@ class InformeController extends Controller
             ->setParameter('fechaDesde', $fechaDesde)
             ->setParameter('fechaHasta', $fechaHasta);
 
+        $informeOTscontactologia = $query->getQuery()->getResult();
+
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder2 = $em->createQueryBuilder();
+        $query2 = $queryBuilder2
+            ->select('otc.id, otc.fechaReceta, cli.nombre as nombreCliente, cli.direccion, med.nombre as medicoNombre,
+            med.matricula as medicoMatricula, otc.lejosOjoDerechoEsfera, otc.lejosOjoDerechoCilindro, otc.lejosOjoDerechoEje,
+            otc.lejosOjoIzquierdoEsfera, otc.lejosOjoIzquierdoCilindro, otc.lejosOjoIzquierdoEje,
+            otc.cercaOjoDerechoEsfera, otc.cercaOjoDerechoCilindro, otc.cercaOjoDerechoEje,
+            otc.cercaOjoIzquierdoEsfera, otc.cercaOjoIzquierdoCilindro, otc.cercaOjoIzquierdoEje,
+			otc.rcOjoDerechoHorizontal, otc.rcOjoDerechoVertical, otc.rcOjoIzquierdoHorizontal,
+            otc.rcOjoIzquierdoVertical, otc.ojoDerechoCurvas, otc.ojoDerechoDiametro, otc.ojoDerechoCaracteristicas, 
+            otc.ojoDerechoAV, otc.ojoIzquierdoCurvas, otc.ojoIzquierdoDiametro, otc.ojoIzquierdoCaracteristicas,
+            otc.ojoIzquierdoAV, otc.fechaRecepcion, otc.fechaEntrega, GROUP_CONCAT(marco.descripcion SEPARATOR \', \') as descripcionMarcos')
+            ->from(OrdenTrabajoContactologia::class, 'otc')
+            ->leftJoin(Cliente::class, 'cli', 'WITH', 'cli.id = otc.cliente')
+            ->leftJoin('otc.medico', 'med')
+            ->leftJoin(OrdenTrabajoDetalle::class, 'otcd', 'WITH', 'otcd.ordenTrabajo = otc.id')
+            ->leftJoin('otcd.articulo', 'a') // Relacionar con la tabla de artículo
+            ->leftJoin('a.marco', 'marco')
+            ->where('otc.fechaReceta >= :fechaDesde')
+            ->andWhere('otc.fechaReceta <= :fechaHasta')
+            ->orderBy('otc.fechaReceta')
+            ->groupBy('otc.id, otc.fechaReceta, cli.nombre, cli.direccion, med.nombre, med.matricula, otc.lejosOjoDerechoEsfera, otc.lejosOjoDerechoCilindro, otc.lejosOjoDerechoEje, otc.lejosOjoIzquierdoEsfera, otc.lejosOjoIzquierdoCilindro, otc.lejosOjoIzquierdoEje, otc.cercaOjoDerechoEsfera, otc.cercaOjoDerechoCilindro, otc.cercaOjoDerechoEje, otc.cercaOjoIzquierdoEsfera, otc.cercaOjoIzquierdoCilindro, otc.cercaOjoIzquierdoEje, otc.rcOjoDerechoHorizontal, otc.rcOjoDerechoVertical, otc.rcOjoIzquierdoHorizontal, otc.rcOjoIzquierdoVertical, otc.ojoDerechoCurvas, otc.ojoDerechoDiametro, otc.ojoDerechoCaracteristicas, otc.ojoDerechoAV, otc.ojoIzquierdoCurvas, otc.ojoIzquierdoDiametro, otc.ojoIzquierdoCaracteristicas, otc.fechaRecepcion, otc.fechaEntrega')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaHasta);
+
         if ($sucursalId > 0) {
-            $query
+            $query2
                 ->leftJoin('otc.sucursal', 'sucursal')
                 ->andWhere('sucursal.id = :sucursalId')
                 ->setParameter('sucursalId', $sucursalId);
             $sucursal = $em->getRepository(Sucursal::class)->find($sucursalId);
         }
 
-        $informeOTscontactologia = $query->getQuery()->getResult();
+        $ordenes_trabajo_contactologia = $query2->getQuery()->getResult();
 
-        $OTsTemplate = 'informe/colegioOpticoOTcontactologia_imprimir.html.twig';
-        $html = $this->renderView($OTsTemplate, array(
+        $idAnterior = null;
+        $cantidadLejos = 0;
+        $cantidadMonoVision = 0;
+        $cantidadMultifocal = 0;
+        $arregloCristales = array();
+
+        // Recorro los resultados de la consulta para obtener las cantidades de los
+        // diferentes tipos de cristales que correspondan a la misma otc
+        foreach ($informeOTscontactologia as $informeOTcontactologia ){
+            $idActual = $informeOTcontactologia['id_OT'];
+            $tipoCristal = $informeOTcontactologia['tipoCristal'];
+            if ($idActual == $idAnterior){
+                switch($tipoCristal){
+                    case 'Lejos':
+                        $cantidadLejos = $informeOTcontactologia['cantidadCristales'];
+                        break;
+                    case 'Mono Visión':
+                        $cantidadMonoVision = $informeOTcontactologia['cantidadCristales'];
+                        break;
+                    case 'Multifocal':
+                        $cantidadMultifocal = $informeOTcontactologia['cantidadCristales'];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else{
+                // Armo string
+                $cristales = "Lejos ($cantidadLejos), Mono Visión ($cantidadMonoVision), 
+                    Multifocal ($cantidadMultifocal)";
+
+                // Agrego el string al arreglo
+                $arregloCristales[$idAnterior] = $cristales;
+
+                // Reinicio contadores
+                $idAnterior = $idActual;
+                $cantidadLejos = 0;
+                $cantidadMonoVision = 0;
+                $cantidadMultifocal = 0;
+
+                // Asignar cantidad del primer informe que no pasa por true
+                // ya que la variable IdAnterior se inicializa en null
+                switch($tipoCristal){
+                    case 'Lejos':
+                        $cantidadLejos = $informeOTcontactologia['cantidadCristales'];
+                        break;
+                    case 'Mono Visión':
+                        $cantidadMonoVision = $informeOTcontactologia['cantidadCristales'];
+                        break;
+                    case 'Multifocal':
+                        $cantidadMultifocal = $informeOTcontactologia['cantidadCristales'];
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        // Armo el string con el último elemento del arreglo
+        // ya que este entra por false en el if
+        $cristales = "Lejos ($cantidadLejos), Mono Visión ($cantidadMonoVision), 
+        Multifocal ($cantidadMultifocal)";
+
+        // Agrego el string al arreglo
+        $arregloCristales[$idAnterior] = $cristales;
+
+        $otcsTemplate = 'informe/colegioOpticoOTcontactologia_imprimir.html.twig';
+        $html = $this->renderView($otcsTemplate, array(
             'fecha_desde' => $fechaDesde->format('d-m-Y'),
             'fecha_hasta' => $fechaHasta->format('d-m-Y'),
             'informeOTscontactologia' => $informeOTscontactologia,
+            'ordenes_trabajo_contactologia' => $ordenes_trabajo_contactologia,
             'sucursal_id' => $sucursalId,
             'sucursal' => $sucursal,
+            'arreglo_cristales' => $arregloCristales
         ));
 
         $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
