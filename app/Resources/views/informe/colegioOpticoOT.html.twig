@@ -78,7 +78,7 @@
                     </div>
                     <br>
                     <div class="box-body table-responsive no-padding">
-                        <a href="{{ path('informe_colegioOpticoOT_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta, 'sucursal': sucursal_id}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe">
+                        <a href="{{ path('informe_colegioOpticoOT_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta, 'sucursal': sucursal_id ?: 1}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe">
                             <span class="glyphicon glyphicon-print"></span>Imprimir
                         </a>
                     </div>
