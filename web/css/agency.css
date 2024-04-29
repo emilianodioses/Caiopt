@@ -111,16 +111,16 @@ img::-moz-selection {
   right: 0;
   padding: 13px;
   text-transform: uppercase;
-  color: #003366; /* Color azul oscuro */
+  color: #dee8f1; /* Color azul oscuro */
   border: 0;
-  background-color: #003366;
+  background-color: #e1e2e2;
   font-family: "Times New Roman", Times, serif; /* Fuente con serifa */
   font-weight: bold; /* Negrita */
 }
 
 
 #mainNav .navbar-brand {
-  color: #003366;
+  color: #d5dbe0;
   font-family: "Times New Roman", Times, serif; /* Fuente con serifa */
   font-weight: bold; /* Negrita */
 }
