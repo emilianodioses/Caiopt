@@ -113,15 +113,16 @@ img::-moz-selection {
   text-transform: uppercase;
   color: #003366; /* Color azul oscuro */
   border: 0;
-  background-color: #fed136;
+  background-color: #003366;
   font-family: "Times New Roman", Times, serif; /* Fuente con serifa */
   font-weight: bold; /* Negrita */
 }
 
 
 #mainNav .navbar-brand {
-  color: #fed136;
-  font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
+  color: #003366;
+  font-family: "Times New Roman", Times, serif; /* Fuente con serifa */
+  font-weight: bold; /* Negrita */
 }
 
 #mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
