@@ -22,8 +22,8 @@ parameters:
     dir_download: /home/fracich/Proyectos/optica-contini/var/downloads
     dir_comprobantes: /home/fracich/Proyectos/optica-contini/var/comprobantes
 
-    empresa: 'OPTICA CONTINI'
-    empresa_razon_social: 'FLORES, NORA ELINA Y NANZER, MARIA JULIA'
+    empresa: 'OPTICA'
+    empresa_razon_social: 'OPTICA'
     empresa_condicion: 'IVA Responsable Inscripto'
     empresa_cuit: '30715288075'
     empresa_ingresos_brutos: '971-711524-9'
