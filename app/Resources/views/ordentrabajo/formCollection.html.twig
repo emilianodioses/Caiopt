@@ -1,0 +1,329 @@
+{% block OrdenTrabajoType_widget %}
+
+<div class="row">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        {{ form_start(form) }}
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> General </h3>
+            </div>
+            <div class="box-body">
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.cliente) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.obraSocialPlan) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.medico) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {# form_row(form.comprobante) #}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {{ form_row(form.fechaReceta) }}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {{ form_row(form.fechaRecepcion) }}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {{ form_row(form.fechaEntrega) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        {{ form_row(form.otrosTrabajos) }}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {{ form_row(form.usuario)}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(form.observaciones) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Laboratorio </h3>
+            </div>
+            <div class="box-body">
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        {{ form_row(form.taller) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.fechaTallerPedido) }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.fechaTallerEntrega) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.numeroTaller) }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.estado) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.armado) }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ form_row(form.armazon_propio) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_start(form) }}
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Optica </h3>
+            </div>
+            <div class="box-body">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th colspan="6" style="text-align: center"><b>ACTUAL</b></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="text-align: center"><b>VISION</b></th>
+                                    <th style="text-align: center"><b>ESF.</b></th>
+                                    <th style="text-align: center"><b>CIL.</b></th>
+                                    <th style="text-align: center"><b>EJE.</b></th>
+                                    <th style="text-align: center"><b>DNP.</b></th>
+                                    <th style="text-align: center"><b>HP.</b></th>
+                                    <th style="text-align: center"><b>HPU.</b></th>
+                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                        <td><b>OD</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.antesLejosOjoDerechoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesLejosOjoDerechoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesLejosOjoDerechoEje) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesOjoDerechoDnp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesOjoDerechoHp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesOjoDerechoHpu) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>OI</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.antesLejosOjoIzquierdoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesLejosOjoIzquierdoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesLejosOjoIzquierdoEje) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesOjoIzquierdoDnp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesOjoIzquierdoHp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesOjoIzquierdoHpu) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center" rowspan="2"><b>CERCA</b></td>
+                                        <td><b>OD</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoDerechoEje) }}</td>
+                                        <td style="text-align: center"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>OI</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.antesCercaOjoIzquierdoEje) }}</td>
+                                        <td style="text-align: center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th colspan="6" style="text-align: center"><b>NUEVA</b></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="text-align: center"><b>VISIÓN</b></th>
+                                    <th style="text-align: center"><b>ESF.</b></th>
+                                    <th style="text-align: center"><b>CIL.</b></th>
+                                    <th style="text-align: center"><b>EJE.</b></th>
+                                    <th style="text-align: center"><b>DNP.</b></th>
+                                    <th style="text-align: center"><b>HP.</b></th>
+                                    <th style="text-align: center"><b>HPU.</b></th>
+                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                        <td><b>OD</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.lejosOjoDerechoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.lejosOjoDerechoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.lejosOjoDerechoEje) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.ojoDerechoDnp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.ojoDerechoHp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.ojoDerechoHpu) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>OI</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.lejosOjoIzquierdoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.lejosOjoIzquierdoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.lejosOjoIzquierdoEje) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.ojoIzquierdoDnp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.ojoIzquierdoHp) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.ojoIzquierdoHpu) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center" rowspan="2"><b>CERCA</b></td>
+                                        <td><b>OD</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoDerechoEje) }}</td>
+                                        <td style="text-align: center"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>OI</b></td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoEsfera) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoCilindro) }}</td>
+                                        <td style="text-align: center">{{ form_widget(form.cercaOjoIzquierdoEje) }}</td>
+                                        <td style="text-align: center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_widget(form.ordenTrabajoDetalles) }}
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.total)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.totalBonificacion)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.entrega)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.saldo)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('ordentrabajo_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Órdenes Óptica
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{# By default, collection uses the form_widget block to create its markup, but we want a table #}
+{% block collection_widget %}
+
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': form_widget(prototype)}) %}
+        {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+    {% endif %}
+    {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+    {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+    {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+
+    {{ form_errors(form) }}
+
+    {# Don't forget to add the collection attributes in your markup #}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
+                </div>
+
+                <div class="form-group ">
+                    <table {{ block('widget_attributes') }}>
+                        <thead>
+                            <th>Artículo</th>
+                            <th>Tipo Cristal</th>
+                            <th>Estado</th>
+                            <th>Forma de Pago</th>
+                            <th>Porcentaje</th>
+                            <!--<th>% Obra Social / Bonificación</th>-->
+                            <th>Bonificación</th>
+                            <th>Precio Venta</th>
+                            <th>Total</th>
+                            <th>Fecha Entrega</th>
+                        </thead>
+                        <tbody>
+                            {% for item in form %}
+                                {{ form_widget(item) }}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block OrdenTrabajoDetalleType_widget %}
+
+    {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
+    <tr {{ block('widget_attributes') }}>
+        <td width="25%">{{ form_widget(form.articulo) }}</td>
+        <td width="8%">{{ form_widget(form.tipoCristal) }}</td>
+        <td width="10%">{{ form_widget(form.estado) }}</td>
+        <td width="10%">{{ form_widget(form.parametro) }}</td>
+        <td width="5%">{{ form_widget(form.valorNro) }}</td>
+        <!--<td>{{ form_widget(form.porcentajeBonificacion) }}</td>-->
+        <td>{{ form_widget(form.importeBonificacion) }}</td>
+        <td>{{ form_widget(form.precioVenta) }}</td>
+        <td width="7%"><b>{{ form_widget(form.total) }}</b></td>
+        <td>{{ form_widget(form.fechaEntrega) }}</td>
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            <a href="#" class="collection-duplicate btn btn-default" title="Duplicate element"><span class="glyphicon glyphicon-th-large"></span></a>
+        </td>
+    </tr>
+
+{% endblock %}
+
+{% block OrdenTrabajoDetalleType_label %}{% endblock %}

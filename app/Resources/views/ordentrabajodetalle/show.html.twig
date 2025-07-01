@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ordentrabajodetalle</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ordenTrabajoDetalle.id }}</td>
+            </tr>
+            <tr>
+                <th>Lejosojoderechoeje</th>
+                <td>{{ ordenTrabajoDetalle.lejosOjoDerechoEje }}</td>
+            </tr>
+            <tr>
+                <th>Lejosojoizquieroeje</th>
+                <td>{{ ordenTrabajoDetalle.lejosOjoIzquieroEje }}</td>
+            </tr>
+            <tr>
+                <th>Lejosojoderechocilindro</th>
+                <td>{{ ordenTrabajoDetalle.lejosOjoDerechoCilindro }}</td>
+            </tr>
+            <tr>
+                <th>Lejosojoizquierdocilindro</th>
+                <td>{{ ordenTrabajoDetalle.lejosOjoIzquierdoCilindro }}</td>
+            </tr>
+            <tr>
+                <th>Lejosojoderechoesfera</th>
+                <td>{{ ordenTrabajoDetalle.lejosOjoDerechoEsfera }}</td>
+            </tr>
+            <tr>
+                <th>Lejosojoizquierdoesfera</th>
+                <td>{{ ordenTrabajoDetalle.lejosOjoIzquierdoEsfera }}</td>
+            </tr>
+            <tr>
+                <th>Cercaojoderechoeje</th>
+                <td>{{ ordenTrabajoDetalle.cercaOjoDerechoEje }}</td>
+            </tr>
+            <tr>
+                <th>Cercaojoizquierdoeje</th>
+                <td>{{ ordenTrabajoDetalle.cercaOjoIzquierdoEje }}</td>
+            </tr>
+            <tr>
+                <th>Cercaojoderechocilindro</th>
+                <td>{{ ordenTrabajoDetalle.cercaOjoDerechoCilindro }}</td>
+            </tr>
+            <tr>
+                <th>Cercaojoizquierdocilindro</th>
+                <td>{{ ordenTrabajoDetalle.cercaOjoIzquierdoCilindro }}</td>
+            </tr>
+            <tr>
+                <th>Cercaojoderechoesfera</th>
+                <td>{{ ordenTrabajoDetalle.cercaOjoDerechoEsfera }}</td>
+            </tr>
+            <tr>
+                <th>Cercaojoizquierdoesfera</th>
+                <td>{{ ordenTrabajoDetalle.cercaOjoIzquierdoEsfera }}</td>
+            </tr>
+            <tr>
+                <th>Ojoderechodnp</th>
+                <td>{{ ordenTrabajoDetalle.ojoDerechoDnp }}</td>
+            </tr>
+            <tr>
+                <th>Ojoizquierdodnp</th>
+                <td>{{ ordenTrabajoDetalle.ojoIzquierdoDnp }}</td>
+            </tr>
+            <tr>
+                <th>Fechaentrega</th>
+                <td>{% if ordenTrabajoDetalle.fechaEntrega %}{{ ordenTrabajoDetalle.fechaEntrega|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Diasestimados</th>
+                <td>{{ ordenTrabajoDetalle.diasEstimados }}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ ordenTrabajoDetalle.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if ordenTrabajoDetalle.createdAt %}{{ ordenTrabajoDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ ordenTrabajoDetalle.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if ordenTrabajoDetalle.updatedAt %}{{ ordenTrabajoDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if ordenTrabajoDetalle.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ ordenTrabajoDetalle.estado }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ordentrabajodetalle_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('ordentrabajodetalle_edit', { 'id': ordenTrabajoDetalle.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

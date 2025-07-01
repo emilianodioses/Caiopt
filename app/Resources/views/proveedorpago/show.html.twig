@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proveedorpago</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ proveedorPago.id }}</td>
+            </tr>
+            <tr>
+                <th>Importe</th>
+                <td>{{ proveedorPago.importe }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if proveedorPago.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ proveedorPago.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if proveedorPago.createdAt %}{{ proveedorPago.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ proveedorPago.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if proveedorPago.updatedAt %}{{ proveedorPago.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proveedorpago_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('proveedorpago_edit', { 'id': proveedorPago.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

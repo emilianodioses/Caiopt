@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Recibocomprobantes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Importe</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reciboComprobante in reciboComprobantes %}
+            <tr>
+                <td><a href="{{ path('recibocomprobante_show', { 'id': reciboComprobante.id }) }}">{{ reciboComprobante.id }}</a></td>
+                <td>{{ reciboComprobante.importe }}</td>
+                <td>{% if reciboComprobante.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ reciboComprobante.createdBy }}</td>
+                <td>{% if reciboComprobante.createdAt %}{{ reciboComprobante.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ reciboComprobante.updatedBy }}</td>
+                <td>{% if reciboComprobante.updatedAt %}{{ reciboComprobante.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('recibocomprobante_show', { 'id': reciboComprobante.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('recibocomprobante_edit', { 'id': reciboComprobante.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('recibocomprobante_new') }}">Create a new reciboComprobante</a>
+        </li>
+    </ul>
+{% endblock %}

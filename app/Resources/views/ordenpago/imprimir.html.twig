@@ -1,0 +1,161 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..1 %}
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="40%" align="center">
+                        <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                        <b>OPTICA</b><br>
+                        <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
+                        {{ordenPago.sucursal.direccion}} - {{ordenPago.sucursal.localidad.nombre}}, {{ordenPago.sucursal.localidad.provincia.nombre}}<br>
+                        {{empresaCondicion}}
+                    </td>
+                    <td width="20%" align="center">
+                        <span style="font-size:28pt"><b>X</b></span>
+                        <br>
+                        Documento No Válido<br>
+                        Como Factura
+                    </td>
+                    <td width="40%" align="left">
+                        {% if loop.index == 1 %}
+                            <b>ORIGINAL</b>
+                        {% else %}
+                            <b>DUPLICADO</b>
+                        {% endif %}
+                        <br>
+                        <br>
+                        <b>ORDEN DE PAGO</b><br>
+                        <b>{{ ordenPago.numero }}</b><br>
+                        <b>{{ordenPago.fecha | date('d-m-Y')}}</b><br>
+                        <br>
+                        <b>CUIT:</b> {{ empresaCuit }}<br>
+                        <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
+                        <b>Inicio Actividades:</b> {{ empresaInicioActividades }}<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%"><b>Proveedor:</b> {{ordenPago.proveedor.nombre}}</td>
+                    <td width="40%"><b>{{ordenPago.proveedor.DocumentoTipo}}:</b> {{ordenPago.proveedor.DocumentoNumero}}</td>
+                </tr>
+                <tr>
+                    <td><b>Domicilio:</b> {{ordenPago.proveedor.Direccion}}</td>
+                    <td><b>Localidad:</b> {{ordenPago.proveedor.Localidad}}</td>
+                </tr>
+                <tr>
+                    <td><b>Condición de IVA:</b> {{ordenPago.proveedor.IvaCondicion}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <thead>
+                <tr>
+                    <th><b>Pto. Venta</b></th>
+                    <th><b>Nº Int.</b></th>
+                    <th><b>Nº Fac.</b></th>
+                    <th><b>Nº OT.</b></th>
+                    <th><b>Tipo</b></th>
+                    <th><b>Total</b></th>
+                    <th><b>Pagado</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ordenPagoComprobante in ordenPagoComprobantes %}
+                    {% set comprobante = ordenPagoComprobante.comprobante %}
+                    <tr>
+                        <td>{{ comprobante.puntoVenta }}</td>
+                        <td>{{ comprobante.numero }}</td>
+                        {% if comprobante.afipNumero is empty %}
+                          <td></td>
+                        {% else %}
+                          <td>{{ comprobante.afipNumero }}</td>
+                        {% endif %}
+                        {% if comprobante.ordenTrabajo is empty %}
+                          <td>-</td>
+                        {% else %}
+                          <td>{{ comprobante.ordenTrabajo.id }}</td>
+                        {% endif %}
+                        <td>{{ comprobante.tipo.descripcion }}</td>
+                        <td>{{ comprobante.total }}</td>
+                        <td>{{ ordenPagoComprobante.importe }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <thead>
+                <tr>
+                    <th><b>Tipo de Pago</b></th>
+                    <th><b>Banco</b></th>
+                    <th><b>Fecha</b></th>
+                    <th><b>Número</b></th>
+                    <th><b>Importe</b></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for proveedorPago in proveedorPagos %}
+                <tr>
+                    <td>{{ proveedorPago.pagoTipo.nombre }}</td>
+                    {% if proveedorPago.banco is empty %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{ proveedorPago.banco }}</td>
+                    {% endif %}
+                    {% if proveedorPago.fecha is empty %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{ proveedorPago.fecha | date('d-m-Y') }}</td>
+                    {% endif %}
+                    {% if proveedorPago.numero is empty %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{ proveedorPago.numero }}</td>
+                    {% endif %}
+                    <td>{{ proveedorPago.importe }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <b>Total:</b> $ {{ordenPago.total}}<br>
+        <br>
+        Son pesos: {{ordenPagoTotalTexto}}<br>
+        <br>
+
+        <b>Observaciones:</b> {% if ordenPago.observaciones is empty %}---{% else %}{{ordenPago.observaciones}}{% endif %}<br>
+        <br>
+        Recibí los valores arriba indicados
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div align="center">Firma</div>
+
+        {#
+        {% if loop.index < 2 %}
+            <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
+        {% endif %}
+        #}
+    {% endfor %}
+</body>

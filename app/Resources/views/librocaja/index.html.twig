@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Libro Caja
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('librocaja_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por fecha" value="{{texto}}"/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('librocaja_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
+                  <th>Fecha</th>
+                  <th>Saldo Inicial</th>
+                  <th>Saldo Final</th>
+                  <th>Caja</th>
+                  <th>Diferencia</th>
+                  <th>Acciones</th>
+              </tr>
+            <tbody>
+            {% for librocaja in pagination %}
+                <tr>
+                  <td>{{ librocaja.fecha | date('d-m-Y') }}</td>
+                  <td>{{ librocaja.saldoInicial }}</td>
+                  <td>{{ librocaja.saldoFinal }}</td>
+                  <td>{{ librocaja.caja }}</td>
+                  <td>{{ librocaja.diferencia }}</td>
+                  <td>
+                      <a href="{{ path('librocaja_show', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('librocaja_edit', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      {#
+                      {% if librocaja.activo %}
+                          <a href="{{ path('librocaja_delete', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('librocaja_delete', { 'id': librocaja.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                      #}
+                  </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

@@ -1,0 +1,66 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..1 %}
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="100%" align="center">
+                        <img width="226" height="64" src="{{ asset('img/logo3.jpg')}}"><br>
+                        <b>OPTICA</b><br>
+                        <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
+                        {{pedido.sucursal.direccion}} - {{pedido.sucursal.localidad.nombre}}, {{pedido.sucursal.localidad.provincia.nombre}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+
+        <h1 align="center">Pedido de Compra N° {{pedido.numero}}</h1>
+
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%"><b>Proveedor:</b> {{pedido.proveedor.nombre}}</td>
+                    <td width="40%"><b>{{pedido.proveedor.documentoTipo}}:</b> {{pedido.proveedor.documentoNumero}}</td>
+                </tr>
+                <tr>
+                    <td><b>Domicilio:</b> {{pedido.proveedor.direccion}}</td>
+                    <td><b>Localidad:</b> {{pedido.proveedor.localidad}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+        
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <tbody>
+                <tr>
+                    <th width="10%"><b>Cod.</b></th>
+                    <th width="80%"><b>Descripción</b></th>
+                    <th width="10%"><b>Cantidad</b></th>
+                </tr>
+                {% for pedidoDetalle in pedidoDetalles %}
+                    <tr>
+                        <td>{{ pedidoDetalle.articulo.codigo}}</td>
+                        <td>{{ pedidoDetalle.articulo.descripcion }}</td>
+                        <td>{{ pedidoDetalle.cantidad }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        <b>Observaciones:</b> {% if not pedido.observaciones is empty %}{{pedido.observaciones}}{% endif %}<br>
+        <br>
+
+        {#}
+        {% if loop.index < 2 %}
+            <p style="page-break-after: always; text-align: right;font-size:10pt;"></p>
+        {% endif %}
+        #}
+    {% endfor %}
+</body>

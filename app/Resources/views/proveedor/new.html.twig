@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Proveedor
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_start(form) }}
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                </div>
+                <div class="box-body">
+                    {{ form_errors(form) }}
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.nombre) }}                            
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.documentoTipo) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.documentoNumero) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.localidad) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.direccion) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.telefono) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.email) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">   
+                            {{ form_row(form.contacto) }}
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.ivaCondicion) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('proveedor_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Proveedores
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<script type="text/javascript">
+    function fnAfipPersonaFind() {
+        var cuit = $("#appbundle_proveedor_documentoNumero").val();
+
+        if (cuit == '') {
+            alert('Debe ingresar un CUIT para buscar');
+            return false;
+        }
+        else if(cuit.length != 11) {
+            alert('Debe ingresar un CUIT válido para buscar');
+            return false;
+        }
+
+        var data = {'cuit': cuit };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('afip_find_persona') }}" ,
+            data: data,
+            success: function(resp){
+                if (resp.existe) {
+                    var persona = $.parseJSON(resp.persona);
+                    $("#appbundle_proveedor_documentoTipo").val(persona.documento_tipo_id);
+                    $("#appbundle_proveedor_localidad").val(persona.localidad_id);
+                    $("#appbundle_proveedor_nombre").val(persona.apellido+' '+persona.nombre);
+                    $("#appbundle_proveedor_direccion").val(persona.domicilio); 
+                }
+                else {
+                    alert('No se pueden encontrar datos con ese CUIT.');
+                }
+                return true;
+            }
+        });
+
+        return true;
+    }
+</script>
+{% endblock %}
+

@@ -1,0 +1,366 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Editar Recibo
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}  
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>
+
+{% block ReciboType_widget %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Recibo</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Observaciones</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tabs-1"> 
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                {{ form_start(form) }}
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">           
+                            {# form_widget(form.saldo, { 'attr': {'class': 'hide'} }) #}
+                            {# form_widget(form.pendiente, { 'attr': {'class': 'hide'} }) #}
+                            
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.cliente)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.numero)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.fecha)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">           
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h1>$ {{recibo.cliente.saldo}}</h1>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">    
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table class="table table-hover">
+                            <thead>
+                                <th width="50%">Tipo de Pago</th>
+                                <th>Importe</th>
+                            </thead>
+                            <tbody>
+                                {% for clientePago in recibo.clientePagos %}
+                                    <tr>
+                                        <td>{{clientePago.pagoTipo.nombre}}</td>
+                                        <td>{{clientePago.importe}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table id="recibo_comprobantes" class="table table-hover">
+                            <thead>
+                                <th hidden>Recibo Comprobante ID</th>
+                                <th hidden>Comprobante ID</th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 12%">Pto. Venta</th>
+                                <th style="width: 12%">Nº Int.</th>
+                                <th style="width: 12%">Nº Fac.</th>
+                                <th style="width: 12%">Nº OT.</th>
+                                <th style="width: 20%">Tipo</th>
+                                <th>Total</th>
+                                <th>Pendiente</th>
+                                <th style="width: 5%">Acc</th>
+                            </thead>
+                            <tbody>
+                                {% for reciboComprobante in reciboComprobantes %}
+                                    {% set comprobante = reciboComprobante.comprobante %}
+                                    <tr class="item">
+                                        {% if reciboComprobante.id > 0 %}
+                                            <td hidden>{{reciboComprobante.id}}</td>
+                                            <td hidden>{{comprobante.id}}</td>
+                                            <td></td>
+                                            <td>{{ comprobante.puntoVenta }}</td>
+                                            <td>{{ comprobante.numero }}</td>
+                                            {% if comprobante.afipNumero is empty %}
+                                              <td></td>
+                                            {% else %}
+                                              <td>{{ comprobante.afipNumero }}</td>
+                                            {% endif %}
+                                            {% if comprobante.ordenTrabajo is empty %}
+                                              <td>-</td>
+                                            {% else %}
+                                              <td>{{ comprobante.ordenTrabajo.id }}</td>
+                                            {% endif %}
+                                            <td>{{ comprobante.tipo.descripcion }}</td>
+                                            <td>{{ comprobante.total }}</td>
+                                            <td class="pendiente">{{ reciboComprobante.importe }}</td>
+                                            <td>
+                                                <a href="{{ path('recibo_cliente_delete', { 'reciboComprobante': reciboComprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                            </td>
+                                        {% else %}
+                                            <td hidden>0</td>
+                                            <td hidden>{{comprobante.id}}</td>
+                                            <td><input type="checkbox" id="{{ comprobante.id }}" name="{{ comprobante.id }}" onchange="comprobante_checked(this)"></td>
+                                            <td>{{ comprobante.puntoVenta }}</td>
+                                            <td>{{ comprobante.numero }}</td>
+                                            {% if comprobante.afipNumero is empty %}
+                                              <td></td>
+                                            {% else %}
+                                              <td>{{ comprobante.afipNumero }}</td>
+                                            {% endif %}
+                                            {% if comprobante.ordenTrabajo is empty %}
+                                              <td>-</td>
+                                            {% else %}
+                                              <td>{{ comprobante.ordenTrabajo.id }}</td>
+                                            {% endif %}
+                                            <td>{{ comprobante.tipo.descripcion }}</td>
+                                            <td>{{ comprobante.total }}</td>
+                                            <td class="pendiente">{{ comprobante.pendiente }}</td>
+                                            <td></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                    </div>
+                    <div class="box-body">                
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 
+                                <label class="control-label required" >Total Pendiente</label>   
+                                <input type="number" id="total_pendiente" name="total_pendiente" readonly="readonly" step="0.01" class="form-control" value="0.00">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.total)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.disponible)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="tabs-2">          
+        {{ form_row(form.observaciones)}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('recibo_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Recibos
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script type="text/javascript">
+    var COL_RECIBO_COMPROBANTE_ID = 0;
+    var COL_COMPROBANTE_ID = 1;
+    var COL_CHECKBOX = 2;
+    var COL_PUNTOVENTA = 3;
+    var COL_NRO_INTERNO = 4;
+    var COL_NRO_FACTURA = 5;
+    var COL_NRO_OT = 6;
+    var COL_TIPO = 7;
+    var COL_TOTAL = 8;
+    var COL_PENDIENTE = 9;
+
+    function fnCalcularTotales() {
+        var total = $("#ReciboType_total").val();
+        var pendiente = parseFloat($('#total_pendiente').val());
+
+        var disponible = total - pendiente;
+        if (disponible < 0) {
+            disponible = 0;
+        }
+
+        
+        $("#ReciboType_disponible").val(disponible.toFixed(2));
+
+        //$("#ReciboType_totalCosto").val(total_costo.toFixed(2));
+        //$("#ReciboType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
+
+        return true;
+    }
+
+    function comprobante_checked(argument) {
+        var total = 0;
+
+        $('#recibo_comprobantes tr').each(function(row, tr){
+            comprobante_id = $(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text();
+            recibo_comprobante_id = $(tr).find('td:eq('+COL_RECIBO_COMPROBANTE_ID+')').text();
+            tipo = $(tr).find('td:eq('+COL_TIPO+')').text();
+            
+            if (recibo_comprobante_id == 0) {
+                var x = document.getElementById($(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text());
+
+                if (x !== null) {
+                    if (x.checked) {
+                        if (tipo == 'NOTA DE CREDITO A' ||
+                            tipo == 'NOTA DE CREDITO B' || 
+                            tipo == 'NOTA DE CREDITO C') {
+                            
+                            total -= parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                        }
+                        else {
+                            total += parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                        }
+                    }
+                }
+            }
+            else {
+                if (tipo == 'NOTA DE CREDITO A' ||
+                    tipo == 'NOTA DE CREDITO B' || 
+                    tipo == 'NOTA DE CREDITO C') {
+                    
+                    total -= parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                }
+                else {
+                    total += parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                }
+            }
+        });
+
+        $('#total_pendiente').val(total.toFixed(2));
+        fnCalcularTotales();
+    };
+
+    function getComprobantes(){
+        var TableData = new Array();
+        var i = 0;
+        
+        $('#recibo_comprobantes tr').each(function(row, tr){
+            comprobante_id = $(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text();
+            recibo_comprobante_id = $(tr).find('td:eq('+COL_RECIBO_COMPROBANTE_ID+')').text();
+            
+            if (recibo_comprobante_id == 0) {
+                var x = document.getElementById($(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text());
+
+                if (x !== null) {
+                    if (x.checked) {
+                        TableData[i]={  "id": comprobante_id
+                                      , "recibo_comprobante_id": recibo_comprobante_id };
+
+                        i++;
+                    }
+                }
+            }
+            else {
+                TableData[i]={  "id": comprobante_id
+                              , "recibo_comprobante_id": recibo_comprobante_id };
+
+                i++;
+            }
+        });
+
+        return TableData;
+    }
+
+    function submitform() {
+        var comprobantes = getComprobantes();
+        /*
+        if (comprobantes.length == 0) {
+            alert ('Debe seleccionar al menos un comprobante');
+            event.preventDefault();
+            return false;
+        }
+        */
+        comprobantes = JSON.stringify(comprobantes);
+
+        var form = document.getElementsByName("ReciboType")[0];
+
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "comprobantes")
+            .attr('value', comprobantes)
+            .appendTo(form);
+
+        return true;
+    };
+</script>          
+
+{% endblock %}

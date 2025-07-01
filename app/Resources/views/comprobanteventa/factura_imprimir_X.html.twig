@@ -1,0 +1,111 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..2 %}
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="40%" align="center">
+                        <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                        <b>OPTICA</b><br>
+                        <b>Razón Social:</b> {{ empresaRazonSocial}}<br>
+                        {{comprobante.sucursal.direccion}} - {{comprobante.sucursal.localidad.nombre}}, {{comprobante.sucursal.localidad.provincia.nombre}}<br>
+                        {{empresaCondicion}}
+                    </td>
+                    <td width="20%" align="center">
+                        <span style="font-size:28pt"><b>X</b></span>
+                        <br>
+                        SIN VALIDEZ
+                    </td>
+                    <td width="40%" align="left">
+                        {% if loop.index == 1 %}
+                            <b>ORIGINAL</b>
+                        {% else %}
+                            <b>DUPLICADO</b>
+                        {% endif %}
+                        <br>
+                        <br>
+                        <b>COMPROBANTE INTERNO</b><br>
+                        <b>N°: {{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.numero)}}</b><br>
+                        <b>Fecha: {{comprobante.fecha | date('d-m-Y')}}</b><br>
+                        <br>
+                        <b>CUIT:</b> {{ empresaCuit }}<br>
+                        <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
+                        <b>Inicio Actividades:</b> {{ empresaInicioActividades }}<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%"><b>Razón Social:</b> {{comprobante.clienteRazonSocial}}</td>
+                    <td width="40%"><b>{{comprobante.clienteDocumentoTipo}}:</b> {{comprobante.clienteDocumentoNumero}}</td>
+                </tr>
+                <tr>
+                    <td><b>Domicilio:</b> {{comprobante.clienteDomicilio}}</td>
+                    <td><b>Localidad:</b> {{comprobante.clienteLocalidad}}</td>
+                </tr>
+                <tr>
+                    <td><b>Condición de IVA:</b> {{comprobante.clienteIvaCondicion}}</td>
+                </tr>
+                <tr>
+                    <td><b>Condición de Venta:</b> Otra</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+        
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <tbody>
+                <tr>
+                    <th width="8%"><b>Cod.</b></th>
+                    <th width="52%"><b>Descripción</b></th>
+                    <th width="10%"><b>Cantidad</b></th>
+                    <th width="10%"><b>Precio U.</b></th>
+                    <th width="10%"><b>Bonif. %</b></th>
+                    <th width="10%"><b>Subtotal</b></th>
+                </tr>
+                {% for comprobanteDetalle in comprobanteDetalles %}
+                    <tr>
+                        <td>{{ comprobanteDetalle.articulo.codigo}}</td>
+                        <td>{{ comprobanteDetalle.articulo.descripcion }}</td>
+                        <td>{{ comprobanteDetalle.cantidad }}</td>
+                        <td>{{ comprobanteDetalle.precioUnitario }}</td>    
+                        <td>{{ comprobanteDetalle.porcentajeBonificacion }}</td>
+                        <td>{{ comprobanteDetalle.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        <b>Observaciones:</b> {% if not comprobante.observaciones is empty %}{{comprobante.observaciones}}{% endif %}<br>
+        <br>
+
+        <table width="100%" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%">
+                    </td>
+                    <td width="40%">
+                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', '')}}<br>
+                        <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
+                        <b>Total:</b> $ {{comprobante.total}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if loop.index < 2 %}
+            <p style="page-break-after: always; text-align: right;font-size:10pt;"></p>
+        {% endif %}
+    {% endfor %}
+</body>

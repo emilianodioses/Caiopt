@@ -1,0 +1,30 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: contini
+    database_user: Milseguros
+    database_password: 123456abcde
+    mailer_transport: smtp
+    mailer_host: smtp.googlemail.com
+    mailer_user: ma.ceciliacarletti@gmail.com
+    mailer_password: Contini123!
+
+    mailer_auth_mode: login
+    mailer_port: 465
+    mailer_encryption: ssl
+    mail_response_host: localhost/
+
+    secret: ThisTokenIsNotSoSecretChangeIt
+    dir_upload: /home/fracich/Proyectos/optica-contini/var/uploads
+    dir_download: /home/fracich/Proyectos/optica-contini/var/downloads
+    dir_comprobantes: /home/fracich/Proyectos/optica-contini/var/comprobantes
+
+    empresa: 'OPTICA'
+    empresa_razon_social: 'OPTICA'
+    empresa_condicion: 'IVA Responsable Inscripto'
+    empresa_cuit: '30715288075'
+    empresa_ingresos_brutos: '971-711524-9'
+    empresa_inicio_actividades: '01-08-2016'

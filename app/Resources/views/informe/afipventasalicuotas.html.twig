@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+AFIP Ventas y Alícuotas
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<form id="myform" action="{{ path('informe_afipventasalicuotasexportar') }}" method='POST'>
+    <div class="row">
+        <div class="col-xs-12 col-lg-6">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <label class="control-label required" for="fecha">Fecha Desde</label>
+                            <input type="text" id="fecha_desde" name="fecha_desde" required="required" class="js-datepicker form-control" autocomplete="off" value="{{ "now" | date('d-m-Y')}}">
+                        </div>  
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <label class="control-label required" for="fecha">Fecha Hasta</label>
+                            <input type="text" id="fecha_hasta" name="fecha_hasta" required="required" class="js-datepicker form-control" autocomplete="off" value="{{ "now" | date('d-m-Y')}}">
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <label class="control-label required" for="fecha">Punto de Venta</label>
+                            <select id="punto_venta" name="punto_venta" class="form-control">
+                                {% for pv in puntos_venta %}
+                                    <option value="{{pv.numero}}">{{pv.numero}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-lg-6">
+                            {#
+                            <a href="{{ path('librocaja_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Libro Caja
+                            </a>
+                            #}
+                        </div>
+                        <div class="col-xs-12 col-lg-6">
+                            <button id="submit" name="submit" type="submit" class="btn btn-app pull-right" value="ventas"><i class="fa fa-floppy-o"></i> Ventas</button>
+                            <button id="submit" name="submit" type="submit" class="btn btn-app pull-right" value="alicuotas"><i class="fa fa-floppy-o"></i> Alicuotas</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Bienvenido a C A I O P T elegí tu sucursal
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<section class="content">
+	<div class="row">
+	{% for sucursal in sucursales %}
+			{% set color = ['bg-black','bg-black','bg-black', 'bg-black', 'bg-black', 'bg-black'] %}
+
+			<div class="col-lg-4 col-xs-12">
+				<!-- small box -->
+				<div class="small-box {{color[loop.index0 % (color|length)]}}">
+					<div class="inner">
+						<h3>{{ sucursal.nombre }}</h3>
+						<br>
+						<br>
+					</div>
+					<div class="icon">
+						<i class="fa fa-building"></i>
+					</div>
+					<a href="" onclick="ElegirSucursal('{{sucursal.id}}')" class="small-box-footer">Elegir Sucursal <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+		{% if (loop.index % 3) == 0 %}
+			</div>
+			<div class="row">
+		{% endif %}
+    {% endfor %}
+    </div>
+</section>
+<script type="text/javascript">
+
+function ElegirSucursal(id){
+    $.ajax({
+        type: "POST",
+        url: '{{ url('sucursal_elegirsucursal') }}',
+        data: { sucursalId: id },
+        success: function(resp){
+            if (resp.mensaje > 0) {
+                window.location = '{{ url('dashboard') }}';
+            }
+            else{
+                window.location = '{{ url('dashboard') }}';
+            }
+        }
+    });
+}
+
+</script>
+{% endblock %}              

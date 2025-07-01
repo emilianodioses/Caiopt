@@ -1,0 +1,43 @@
+ordentrabajo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:OrdenTrabajo:index" }
+    methods:  GET
+
+ordentrabajo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:OrdenTrabajo:show" }
+    methods:  GET
+
+ordentrabajo_new:
+    path:     /{clienteId}/new
+    defaults: { _controller: "AppBundle:OrdenTrabajo:new", clienteId:0 }
+    methods:  [GET, POST]
+
+ordentrabajo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:OrdenTrabajo:edit" }
+    methods:  [GET, POST]
+
+ordentrabajo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:OrdenTrabajo:delete" }
+    methods:  [GET, POST] 
+
+ordentrabajo_orden_imprimir:
+    path:     /{id}/ordenImprimir
+    defaults: { _controller: "AppBundle:OrdenTrabajo:ordenImprimir" }
+    methods:  [GET, POST]    
+
+ordentrabajo_cerrar:
+    path:     /{id}/cerrar
+    defaults: { _controller: "AppBundle:OrdenTrabajo:cerrar" }
+    methods:  [GET, POST]
+
+ordentrabajo_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:OrdenTrabajo:find" }
+
+ordentrabajo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:OrdenTrabajo:findSelect2" }
+    

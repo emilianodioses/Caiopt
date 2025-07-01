@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Obra Social
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('obrasocial_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Nombre" value="{{texto}}"/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('obrasocial_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
+                <th>Nombre</th>
+                <th style="width: 10%">Activo</th>
+                <th style="width: 5%">Acciones</th>
+              </tr>
+            <tbody>
+            {% for obrasocial in pagination %}
+                <tr>
+                    <td>{{ obrasocial.nombre }}</td>
+                    <td>{% if obrasocial.activo %}
+                          <span class="label label-success">Activo</span>
+                      {% else %}
+                          <span class="label label-danger">Inactivo</span>
+                      {% endif %}
+                    </td>   
+                    <td>
+                      <a href="{{ path('obrasocial_show', { 'id': obrasocial.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('obrasocial_edit', { 'id': obrasocial.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      {% if obrasocial.activo %}
+                          <a href="{{ path('obrasocial_delete', { 'id': obrasocial.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('obrasocial_delete', { 'id': obrasocial.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}
+

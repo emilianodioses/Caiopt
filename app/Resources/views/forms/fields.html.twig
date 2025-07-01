@@ -1,0 +1,7 @@
+{%- block float_widget -%}
+    {% if value is not empty %}
+        {% set value = value|replace({',': '.'})|number_format(precision|default(scale|default(2)), '.', '') %}
+    {% endif %}
+    {%- set type = type|default('number') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock float_widget -%}

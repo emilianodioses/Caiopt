@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Rol
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Datos Usuario</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Descripcion</th>
+                            <td>{{ rol.descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <th>Activo</th>
+                            <td>{% if rol.activo %}
+                              <span class="label label-success">Activo</span>
+                            {% else %}
+                              <span class="label label-danger">Inactivo</span>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Permisos x Modulo</h3>
+            </div>
+            <div class="box-body">
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+
+                            </tr>   
+                        </thead>
+                        <tbody>
+                        {% for entity in pagination %}
+                            <tr>
+                                <td>{{ entity.funcion }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="box-body">
+                        {# total items count #}
+                        <div class="col-xs-12">{# total items count #}
+                            <div class="count input-sm">
+                                {{ pagination.getTotalItemCount }} registros.
+                            </div>
+                        </div>  
+                        {# display navigation #}
+                        <div class="navigation">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">        
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('rol_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Roles
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('rol_edit', { 'id': rol.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+composer.json merge=ours
+composer.lock merge=ours
+.idea/workspace.xml=ours
+ParametroController.php=ours

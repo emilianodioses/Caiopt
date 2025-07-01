@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>C A I O P T</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+  <link href="{{ asset('select2/css/select2.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/css/bootstrap.min.css') }}"/>        
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/font-awesome/css/font-awesome.min.css')}}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/Ionicons/css/ionicons.min.css')}}">
+
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/plugins/iCheck/all.css')}}">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/plugins/timepicker/bootstrap-timepicker.min.css')}}">
+
+
+
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/dist/css/AdminLTE.min.css')}}">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="{{ asset('AdminLTE_Vendor/dist/css/skins/skin-blue.min.css')}}">  
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <!-- REQUIRED JS SCRIPTS -->
+
+  <!-- jQuery 3 -->
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/jquery/dist/jquery.min.js')}}"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+  <script src="{{ asset('AdminLTE_Vendor/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js')}}"></script>
+
+  <script src="{{ asset('AdminLTE_Vendor/dist/js/adminlte.min.js')}}"></script>
+  
+  <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+
+  <script src="{{ asset('select2/js/select2.min.js') }}" type="text/javascript" ></script>
+  <script src="{{ asset('select2/js/i18n/es.js') }}" type="text/javascript" ></script>
+  
+  <!-- Optionally, you can add Slimscroll and FastClick plugins.
+       Both of these plugins are recommended to enhance the
+       user experience. -->
+       <script>
+            $(document).ready(function() {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    format: 'dd-mm-yyyy',
+                    language: 'es',
+                    orientation: 'bottom',
+                    autoclose: true
+                });
+                //$(".select2-selection").select2({
+                //    language: "es"
+                //});
+
+            });
+        </script>      
+  {% block extra_js %}{% endblock %}
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+<!--<body class="hold-transition skin-blue sidebar-mini">-->
+  <div class="wrapper">
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+      <!-- Logo -->
+      <a href="{{path('homepage')}}" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><img src="{{ asset('web/img/llogooptica_small.jpg') }}" width="50"/></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><img src="{{ asset('web/img/llogooptica_small.jpg')}}" width="50"/>C A I O P T <b> </b></span>
+      </a>
+
+      <!-- Header Navbar -->
+      <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- Sucursal labe -->
+            <li>
+              <!-- Menu toggle button -->
+              <a href="{{path('homepage')}}" title="Sucursal actual"><i class="fa fa-building"></i> {{ app.user.sucursal }}</a>
+            </li>
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- The user image in the navbar-->
+                <img src="{{ asset('profile_pictures')}}/sin_foto.jpg" class="user-image" alt="User Image">
+                <!--<img src="{{ asset('profile_pictures')}}/{{ app.user.id }}.jpg" class="user-image" alt="User Image">-->
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span id="username" class="hidden-xs">{{ app.user.nombre }} {{ app.user.apellido }}</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <!--<img id="imagenperfil" src="{{ asset('profile_pictures')}}/{{ app.user.id }}.jpg" class="img-circle" alt="User Image">-->
+                  <img id="imagenperfil" src="{{ asset('profile_pictures')}}/sin_foto.jpg" class="img-circle" alt="User Image">
+                  <p>
+                    C A I O P T - {{ app.user.sucursal }}
+                  </p>
+                </li>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="{{path('load_logout')}}" class="btn btn-default btn-flat">CERRAR SESIÓN</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+        </div>
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+          <li id="sucursal"><a href="{{path('homepage')}}"><i class="glyphicon glyphicon-home"></i> <span>Cambiar de Sucursal</span></a></li>
+
+          <li><a href="{{path('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Panel General</span></a></li>
+          <li class="treeview">
+            <a href="#" id="personas"><i class="glyphicon glyphicon-user"></i> <span>Personas</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('usuario_index')}}">Usuarios</a></li>
+              <li><a href="{{path('medico_index')}}">Medicos</a></li>
+              <li><a href="{{path('cliente_index')}}">Clientes</a></li>
+              <li><a href="{{path('proveedor_index')}}">Proveedores</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#" id="librocaja"><i class="glyphicon glyphicon-usd"></i> <span>Caja</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('librocaja_index')}}">Libro Caja</a></li>
+              <li><a href="{{path('movimientointerno_index')}}">Movimientos Internos</a></li>
+              <li><a href="{{path('movimientocategoria_index')}}">Categorías de Movimientos</a></li>
+              <li><a href="{{path('cheque_index')}}">Cheques</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#" id="comprobantes"><i class="glyphicon glyphicon-briefcase"></i> <span>Ordenes de Trabajo</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('ordentrabajo_index')}}">Ordenes Optica</a></li>
+              <li><a href="{{path('ordentrabajocontactologia_index')}}">Ordenes Contactología</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#" id="comprobantes"><i class="glyphicon glyphicon-file"></i> <span>Comprobantes</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('comprobantecompra_index')}}">Compras</a></li>
+              <li><a href="{{path('comprobanteventa_index')}}">Ventas</a></li>
+              <li><a href="{{path('ordenpago_index')}}">Ordenes de Pago</a></li>
+              <li><a href="{{path('recibo_index')}}">Recibos</a></li>
+              <li><a href="{{path('pedido_index')}}">Pedidos de Compras</a></li>
+            </ul>
+          </li>
+          
+          <li id="articulo"><a href="{{path('articulo_index')}}"><i class="glyphicon glyphicon-tag"></i> <span>Articulos</span></a>
+              <ul class="treeview-menu">
+                <li><a href="{{path('articulomarca_index')}}">Marca</a></li>
+                <li><a href="{{path('articulocategoria_index')}}">Categoria</a></li>
+                <li><a href="{{path('articuloestilo_index')}}">Tipo Aro</a></li>
+                <li><a href="{{path('articulomarco_index')}}">Marco</a></li>
+                <li><a href="{{path('articulo_ajuste')}}">Ajuste Precios</a></li>
+              </ul>
+          </li>
+
+          <li id="presupuesto"><a href="{{path('presupuesto_index')}}"><i class="glyphicon glyphicon-list-alt"></i> <span>Presupuesto</span></a></li>
+
+          <li id="stock"><a href="{{path('stock_index')}}"><i class="glyphicon glyphicon-tasks"></i> <span>Stock</span></a></li>
+
+          <li class="treeview">
+            <a href="{{path('obrasocial_index')}}"><i class="fa fa-medkit"></i> <span>Obra Social</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('obrasocial_index')}}">Obras Sociales</a></li>
+              <li><a href="{{path('obrasocialplan_index')}}">Planes</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+          <a href="#" id="personas">
+            <i class="glyphicon glyphicon-info-sign"></i> <span>Informes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-money"></i> <span>Contabilidad</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{ path('informe_afipventasalicuotas') }}">Afip Ventas y Alícuotas</a></li>
+                  <li><a href="{{ path('informe_ivadebitocredito') }}">IVA Débito/Crédito</a></li>
+                  <li><a href="{{ path('informe_libroIvaVentas') }}">Libro Iva Ventas</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-shopping-cart"></i> <span>Ventas</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{ path('estadistica_ventas') }}">Ventas</a></li>
+                  <li><a href="{{ path('informe_ventasEfectivo') }}">Ventas Efectivo</a></li>
+                  <li><a href="{{ path('informe_ventascredito') }}">Ventas con Tarj./Trf.</a></li>
+                </ul>
+              </li>
+                <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-eye"></i> <span>Libro Recetario Digital</span>
+                  <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{path('informe_colegioOpticoOT')}}">Orden de Trabajo</a></li>
+                  <li><a href="{{path('informe_colegioOpticoOTcontactologia')}}">Orden Contactología</a></li>
+                </ul>
+              </li>
+              <li><a href="{{ path('informe_gastos') }}">Gastos</a></li>
+              <li><a href="{{ path('informe_recibosVentasMedicos') }}">Comprobantes por Médico</a></li>
+          </ul>
+        </li>
+
+          <li class="treeview">
+            <a href="#" id="personas"><i class="glyphicon glyphicon-cog"></i> <span>Configuración</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{path('banco_index')}}">Bancos</a></li>
+              <li><a href="{{path('puntoventa_index')}}">Puntos de Ventas</a></li>
+              <li><a href="{{path('rol_index')}}">Roles</a></li>
+              <li><a href="{{path('sucursal_index')}}">Sucursales</a></li>
+              <li><a href="{{path('taller_index')}}">Talleres</a></li>
+              <li><a href="{{path('parametro_index')}}">Parametros</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="{{path('load_logout')}}">
+              <i class="fa fa-sign-out"></i> <span>CERRAR SESIÓN</span>
+            </a>
+          </li>
+        </ul>
+        <!-- /.sidebar-menu -->
+      </section>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          {% block header %}
+          {% endblock %}
+          <small>{% block header_description %}{% endblock %}</small>
+        </h1>
+        {#
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+          <li class="active">Here</li>
+        </ol>
+        #}
+      </section>
+
+      <!-- Main content -->
+      <section class="content container-fluid">
+        {% set flashbag_warning = app.session.flashbag.get('warning') %}
+        {% set flashbag_success = app.session.flashbag.get('success') %}
+        {% set flashbag_danger = app.session.flashbag.get('danger') %}
+        {% set flashbag_info = app.session.flashbag.get('info') %}
+            {% if flashbag_warning is not empty %}
+              <div class="alert alert-warning" role="alert">
+                <ul >
+                {% for warning in flashbag_warning%}
+                {{ warning }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+            {% if flashbag_success is not empty %}
+              <div class="alert alert-success" role="alert">
+                <ul >
+                {% for success in flashbag_success%}
+                {{ success }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+            {% if flashbag_danger is not empty %}
+              <div class="alert alert-danger" role="alert">
+                <ul >
+                {% for danger in flashbag_danger%}
+                {{ danger }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+            {% if flashbag_info is not empty %}
+              <div class="alert alert-info" role="alert">
+                <ul >
+                {% for info in flashbag_info%}
+                {{ info }}
+                {% endfor %}
+              </ul>
+              </div>
+            {% endif %}
+        {% block body %}{% endblock %}
+        <nav class="pagination pull-right">
+            {% block paginador %}{% endblock %}
+        </nav>
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    {#
+    <footer class="main-footer">
+      <!-- To the right -->
+      <div class="pull-right hidden-xs">
+        Anything you want
+      </div>
+      <!-- Default to the left -->
+      <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    </footer>
+    #}
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Create the tabs -->
+      <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane active" id="control-sidebar-home-tab">
+          <h3 class="control-sidebar-heading">Recent Activity</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:;">
+                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                  <p>Will be 23 on April 24th</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
+          <h3 class="control-sidebar-heading">Tasks Progress</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:;">
+                <h4 class="control-sidebar-subheading">
+                  Custom Template Design
+                  <span class="pull-right-container">
+                      <span class="label label-danger pull-right">70%</span>
+                    </span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
+        </div>
+        <!-- /.tab-pane -->
+        <!-- Stats tab content -->
+        <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+        <!-- /.tab-pane -->
+        <!-- Settings tab content -->
+        <div class="tab-pane" id="control-sidebar-settings-tab">
+          <form method="post">
+            <h3 class="control-sidebar-heading">General Settings</h3>
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Report panel usage
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Some information about this general settings option
+              </p>
+            </div>
+            <!-- /.form-group -->
+          </form>
+        </div>
+        <!-- /.tab-pane -->
+      </div>
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+    immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+  </div>
+<!-- ./wrapper -->
+</body>
+</html>

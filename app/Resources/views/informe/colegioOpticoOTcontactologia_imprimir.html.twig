@@ -1,0 +1,181 @@
+{% block body %}
+    <body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    <!-- Contenido de tu cuerpo Twig aquí -->
+    {% set contador = 0 %}
+    {% for OT in ordenes_trabajo_contactologia %}
+        {% if contador > 0 and contador % 3 == 0 %}
+        <!-- Salto de página -->
+        <div style="page-break-after: always;"></div>
+    {% endif %}
+        <div class="box-body table-responsive no-padding">
+            <table id="informe_ot_{{ loop.index }}" class="table table-hover" style="width: 100%; border: 1px solid black; padding-top: 5px">
+                <thead>
+                <tr>
+                    <td colspan="1">
+                        <br>
+                        <img width="35" height="35" src="{{ asset('img/logooptica.jpg')}}">
+                    </td>
+                    <td colspan="1">
+                        <b>OPTICA</b>
+                        {% if sucursal %}
+                            <br>
+                            {{ sucursal.direccion }} - {{ sucursal.localidad.nombre }}
+                            {{ sucursal.localidad.provincia.nombre }}
+                            <br>
+                            <b>Teléfono:</b> {{ sucursal.telefono }}
+                        {% endif %}
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <!-- Información de la Orden de Trabajo -->
+                    <td>
+                        <table>
+                            <tr>
+                                <td><b>RP. N°:</b> {{ OT.id }} <br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Cliente:</b> {{ OT.nombreCliente }} <br> </td>
+                            </tr>
+                            <tr>
+                                <td><b>Domicilio:</b> {{ OT.direccion }} <br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Fecha Receta:</b> {{ OT.fechaReceta|date('d-m-Y') }} <br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Fecha Recepción:</b>
+                                    {% if OT.fechaRecepcion is empty %}
+
+                                    {% else %}
+                                        {{ OT.fechaRecepcion | date('d-m-Y') }}
+                                    {% endif %}
+                                    <b> Fecha Entrega:</b>
+                                    {% if OT.fechaEntrega is empty %}
+
+                                    {% else %}
+                                        {{ OT.fechaEntrega | date('d-m-Y') }}
+                                    {% endif %}
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Médico:</b> {{ OT.medicoNombre }} - {{ OT.medicoMatricula }} <br> </td>
+                            </tr>
+                            <tr>
+                                {% if OT.id in arreglo_cristales|keys %}
+                                    <td colspan="2" style="width: 100%;"><b>Cristales:</b> {{ arreglo_cristales[OT.id] }}
+                                        <br>
+                                    </td>
+                                {% else %}
+                                    <td colspan="2" style="width: 100%;"><b>Cristales: - </b><br></td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width: 100%;"><b>Armazón:</b> {{ OT.descripcionMarcos|raw }} <br></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="width: 100%;"><b>Op. Téc.:</b> {{ sucursal.tecnicoContactologo }} - {{ sucursal.tecnicoContactologoMatricula }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <!-- Graduaciones -->
+                    <td>
+                        <table id="graduaciones_ot_{{ loop.index }}" width="101%" cellspacing="0" border="1" style="margin-top: 10px; font-size: 7pt">
+                            <tbody>
+                            <tr>
+                                <td colspan="4" align="center"><b>Graduaciones</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-bottom: 20px;"><b>Lejos</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="border: 1px solid black;">
+                                    <b>O.D :</b> ESF: {{ OT.lejosOjoDerechoEsfera }}, CIL: {{ OT.lejosOjoDerechoCilindro }}, EJE: {{ OT.lejosOjoDerechoEje }}
+                                    <br>
+                                    <b>O.I :</b> ESF: {{ OT.lejosOjoIzquierdoEsfera }}, CIL: {{ OT.lejosOjoIzquierdoCilindro }}, EJE: {{ OT.lejosOjoIzquierdoEje }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-bottom: 20px;"><b>Cerca</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="border: 1px solid black;">
+                                    <b>O.D :</b> ESF: {{ OT.cercaOjoDerechoEsfera }}, CIL: {{ OT.cercaOjoDerechoCilindro }}, EJE: {{ OT.cercaOjoDerechoEje }}
+                                    <br>
+                                    <b>O.I :</b> ESF: {{ OT.cercaOjoIzquierdoEsfera }}, CIL: {{ OT.cercaOjoIzquierdoCilindro }}, EJE: {{ OT.cercaOjoIzquierdoEje }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                        <table width="100%" cellspacing="0" border="1" style="font-size: 7pt">
+                            <tbody>
+                            <tr>
+                                <td style="width: 15%" align="center"></td>
+                                <td style="width: 21%" align="center"><b>Horizontal</b></td>
+                                <td style="width: 16%" align="center"><b>Vertical</b></td>
+                                <td style="width: 15%" align="center"><b>Curvas</b></td>
+                                <td style="width: 20%" align="center"><b>Diámetro</b></td>
+                                <td style="width: 14%"align="center"><b>AV</b></td>
+                            </tr>
+                            <tr>
+                                <td align="center"><b>RC - OD</b></td>
+                                <td align="center">
+                                    {% if OT.rcOjoDerechoHorizontal > 0 %}+{% endif %}
+                                    {{ OT.rcOjoDerechoHorizontal }}
+                                </td>
+                                <td align="center">
+                                    {% if OT.rcOjoDerechoVertical > 0 %}+{% endif %}
+                                    {{ OT.rcOjoDerechoVertical }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if OT.ojoDerechoCurvas > 0 %}+{% endif %}
+                                    {{ OT.ojoDerechoCurvas }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if OT.ojoDerechoDiametro > 0 %}+{% endif %}
+                                    {{ OT.ojoDerechoDiametro }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if OT.ojoDerechoAV > 0 %}+{% endif %}
+                                    {{ OT.ojoDerechoAV }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center"><b>RC - OI</b></td>
+                                <td align="center">
+                                    {% if OT.rcOjoIzquierdoHorizontal > 0 %}+{% endif %}
+                                    {{ OT.rcOjoIzquierdoHorizontal }}
+                                </td>
+                                <td align="center">
+                                    {% if OT.rcOjoIzquierdoVertical > 0 %}+{% endif %}
+                                    {{ OT.rcOjoIzquierdoVertical }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if OT.ojoIzquierdoCurvas > 0 %}+{% endif %}
+                                    {{ OT.ojoIzquierdoCurvas }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if OT.ojoIzquierdoDiametro > 0 %}+{% endif %}
+                                    {{ OT.ojoIzquierdoDiametro }}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if OT.ojoIzquierdoAV > 0 %}+{% endif %}
+                                    {{ OT.ojoIzquierdoAV }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {% set contador = contador + 1 %}
+    {% endfor %}
+    <!-- /.box-body -->
+    </body>
+{% endblock %}

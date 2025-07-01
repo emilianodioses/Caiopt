@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Librocajadetalle</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ libroCajaDetalle.id }}</td>
+            </tr>
+            <tr>
+                <th>Movimiento</th>
+                <td>{{ libroCajaDetalle.movimiento }}</td>
+            </tr>
+            <tr>
+                <th>Descripción</th>
+                <td>{{ libroCajaDetalle.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Importe</th>
+                <td>{{ libroCajaDetalle.importe }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if libroCajaDetalle.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ libroCajaDetalle.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if libroCajaDetalle.createdAt %}{{ libroCajaDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ libroCajaDetalle.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if libroCajaDetalle.updatedAt %}{{ libroCajaDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('librocajadetalle_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

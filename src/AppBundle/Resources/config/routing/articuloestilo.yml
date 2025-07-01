@@ -1,0 +1,32 @@
+articuloestilo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ArticuloEstilo:index" }
+    methods:  GET
+
+articuloestilo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ArticuloEstilo:show" }
+    methods:  GET
+
+articuloestilo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ArticuloEstilo:new" }
+    methods:  [GET, POST]
+
+articuloestilo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ArticuloEstilo:edit" }
+    methods:  [GET, POST]
+
+articuloestilo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ArticuloEstilo:delete" }
+    methods:  [GET, POST]
+
+articuloestilo_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:ArticuloEstilo:find" }
+
+articuloestilo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:ArticuloEstilo:findSelect2" }

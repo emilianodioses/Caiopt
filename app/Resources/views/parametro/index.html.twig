@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Parámetros
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('parametro_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por parametro" value="{{texto}}"/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('parametro_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tr>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Valor Texto</th>
+                <th>Valor Nro</th>
+                <th>Valor Importe</th>
+                <th width="10%">Estado</th>
+                <th width="10%">Acciones</th>
+            </tr>
+            <tbody>
+            {% for parametro in pagination %}
+                <tr>
+                    <td>{{ parametro.codigo }}</td>
+                    <td>{{ parametro.descripcion }}</td>
+                    <td>{{ parametro.valorTexto }}</td>
+                    <td>{{ parametro.valorNro }}</td>
+                    <td>{{ parametro.valorImporte }}</td>
+                    <td>{% if parametro.activo %}
+                        <span class="label label-success">Activo</span>
+                    {% else %}
+                        <span class="label label-danger">Inactivo</span>
+                    {% endif %}
+                    </td>  
+                    <td>
+                        <a href="{{ path('parametro_show', { 'id': parametro.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('parametro_edit', { 'id': parametro.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if parametro.activo %}
+                          <a href="{{ path('parametro_delete', { 'id': parametro.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                        {% else %}
+                          <a href="{{ path('parametro_delete', { 'id': parametro.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                        </a>
+
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

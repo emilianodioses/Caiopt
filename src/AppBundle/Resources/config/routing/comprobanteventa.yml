@@ -1,0 +1,39 @@
+comprobanteventa_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ComprobanteVenta:index" }
+    methods:  GET
+
+comprobanteventa_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ComprobanteVenta:show" }
+    methods:  GET
+
+comprobanteventa_new:
+    path:     /{id}/{tipo}/new
+    defaults: { _controller: "AppBundle:ComprobanteVenta:new", id:0, tipo:"comun" }
+    methods:  [GET, POST]
+
+comprobanteventa_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ComprobanteVenta:edit" }
+    methods:  [GET, POST]
+
+comprobanteventa_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ComprobanteVenta:delete" }
+    methods:  [GET, POST] 
+
+comprobanteventa_facturar:
+    path:     /{id}/facturar
+    defaults: { _controller: "AppBundle:ComprobanteVenta:facturar" }
+    methods:  [GET, POST]
+
+comprobanteventa_factura_imprimir:
+    path:     /{id}/facturaImprimir
+    defaults: { _controller: "AppBundle:ComprobanteVenta:facturaImprimir" }
+    methods:  [GET, POST]
+
+comprobanteventa_enviar_factura:
+    path:     /{id}/enviarFactura
+    defaults: { _controller: "AppBundle:ComprobanteVenta:enviarFactura" }
+    methods:  [GET, POST]    

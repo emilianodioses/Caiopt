@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Librocajadetalles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Movimiento</th>
+                <th>Descripcion</th>
+                <th>Importe</th>
+                <th>Activo</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for libroCajaDetalle in libroCajaDetalles %}
+            <tr>
+                <td><a href="{{ path('librocajadetalle_show', { 'id': libroCajaDetalle.id }) }}">{{ libroCajaDetalle.id }}</a></td>
+                <td>{{ libroCajaDetalle.movimiento }}</td>
+                <td>{{ libroCajaDetalle.descripcion }}</td>
+                <td>{{ libroCajaDetalle.importe }}</td>
+                <td>{% if libroCajaDetalle.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ libroCajaDetalle.createdBy }}</td>
+                <td>{% if libroCajaDetalle.createdAt %}{{ libroCajaDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ libroCajaDetalle.updatedBy }}</td>
+                <td>{% if libroCajaDetalle.updatedAt %}{{ libroCajaDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('librocajadetalle_show', { 'id': libroCajaDetalle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('librocajadetalle_new') }}">Create a new libroCajaDetalle</a>
+        </li>
+    </ul>
+{% endblock %}

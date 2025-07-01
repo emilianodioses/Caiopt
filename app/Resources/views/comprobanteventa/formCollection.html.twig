@@ -1,0 +1,213 @@
+{% block ComprobanteType_widget %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Comprobante</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Observaciones</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tabs-1"> 
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                {{ form_start(form) }}
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">
+                            {{ form_widget(form.numero, { 'attr': {'class': 'hide'} })}}
+                            {{ form_widget(form.totalNoGravado, { 'attr': {'class': 'hide'} })}}
+                            {{ form_widget(form.importeIvaExento, { 'attr': {'class': 'hide'} })}}
+                            {{ form_widget(form.totalCosto, { 'attr': {'class': 'hide'} })}}
+                            {{ form_widget(form.importeTributos, { 'attr': {'class': 'hide'} })}}
+                            {{ form_widget(form.obraSocial, { 'attr': {'class': 'hide'} })}}
+
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.cliente)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.medico)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                {{ form_row(form.tipo)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                {{ form_row(form.fecha)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                {{ form_row(form.puntoVentaId)}}
+                            </div>
+                        </div>
+                        <div class="row">      
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                {{ form_row(form.ordenTrabajo)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                {{ form_row(form.ordenTrabajoContactologia)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.obraSocialPlan)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                {{ form_row(form.usuario)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.comprobanteAsociado) }}                            
+                            </div>  
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_widget(form.comprobanteDetalles) }}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                    </div>
+                    <div class="box-body">                
+                        <div class="row">      
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.totalNeto)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.totalBonificacion)}}
+                            </div>  
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.importeIva)}}
+                            </div>  
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.total)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if op == 'New' %}
+            <div class="row">
+                {% form_theme form.clientePagos 'clientepago/formCollection.html.twig' %}
+                {{ form_widget(form.clientePagos) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="tab-pane" id="tabs-2">          
+        {{ form_row(form.observaciones)}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('comprobanteventa_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Ventas
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{# By default, collection uses the form_widget block to create its markup, but we want a table #}
+{% block collection_widget %}
+{% spaceless %}
+
+    {#
+     # This is almost a copy/paste of jquery.collection.html.twig, we can't use it as it also
+     # use form_widget. Note that we also use form_widget(prototype) instead of form_row(prototype)
+     # to avoid generating extra markup.
+     #}
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': form_widget(prototype)}) %}
+        {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+    {% endif %}
+    {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+    {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+    {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+        
+    {{ form_errors(form) }}
+
+    {# Don't forget to add the collection attributes in your markup #}
+<div class="row">    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Detalles</h3>
+            </div>
+            
+            <div class="form-group">
+                <table {{ block('widget_attributes') }}>
+                    <thead>
+                        <th width="35%">Artículo</th>
+                        <th>Cantidad</th>
+                        <th hidden>P. Unitario</th>
+                        <th hidden>Bonificación %</th>
+                        <th hidden>Bonificación $</th>
+                        <th width="8%">IVA %</th>
+                        <th hidden>IVA $</th>
+                        <th>P. Venta</th>
+                        <th>Total</th>
+                        <th width="5%">&nbsp;</th>
+                    </thead>
+                    <tbody>
+                        {% for item in form %}
+                            {{ form_widget(item) }}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endspaceless %}
+{% endblock %}
+
+{% block ComprobanteDetalleType_widget %}
+
+    {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
+    <tr {{ block('widget_attributes') }}>
+        <td>{{ form_widget(form.articulo) }}</td>
+        <td>{{ form_widget(form.cantidad) }}</td>
+        <td hidden>{{ form_widget(form.precioUnitario) }}</td>
+        <td hidden>{{ form_widget(form.porcentajeBonificacion) }}</td>
+        <td hidden>{{ form_widget(form.importeBonificacion) }}</td>
+        <td>{{ form_widget(form.porcentajeIva) }}</td>
+        <td hidden>{{ form_widget(form.importeIva) }}</td>
+        <td>{{ form_widget(form.precioVenta) }}</td>
+        <td>{{ form_widget(form.total) }}</td>
+
+        <td class="text-center">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            <a href="#" class="collection-duplicate btn btn-default" title="Duplicate element"><span class="glyphicon glyphicon-th-large"></span></a>
+        </td>
+    </tr>
+
+{% endblock %}
+
+

@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Ventas Efectivo
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" action="{{path('informe_ventasEfectivo')}}" method="GET">
+        <div class="row"> 
+            <div class="col-xs-12" style="height: 100px;">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"></h3>
+                        <div class="box-tools">
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon input-sm">Seleccione sucursales:</span>
+                                    <select id="sucursal" name="sucursal[]" multiple class="form-control"> <!-- Aplicamos la clase form-control para que el selector ocupe todo el ancho -->
+                                        {% for sucursal in sucursales %}
+                                            <option value="{{ sucursal.id }}" {% if sucursal.id in sucursal_ids %}selected{% endif %}>
+                                                {{ sucursal.nombre }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row"> <!-- Agrega padding al fondo del row -->
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon input-sm">F. Desde</span>
+                                            <input name="fecha_desde" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Desde" value="{{fecha_desde}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon input-sm">F. Hasta</span>
+                                            <input name="fecha_hasta" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Hasta" value="{{fecha_hasta}}">
+                                        </div>
+
+                                        <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </span>
+                                    </div>
+                                </div>
+
+                                {#
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="input-group input-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                  <div class="input-group input-group-sm">
+                                    <span class="input-group-addon input-sm">Cliente</span>
+                                    <input name="cliente" type="text" class="form-control input-sm" placeholder="Nombre/Documento" value="{{cliente}}">
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="input-group input-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                  <div class="input-group input-group-sm">
+                                    <span class="input-group-addon input-sm">Médico</span>
+                                    <input name="medico" type="text" class="form-control input-sm" placeholder="Nombre/Matrpicula" value="{{medico}}">
+                                  </div>
+                                  <span class="input-group-btn">
+                                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                  </span>
+                                </div>
+                              </div>
+                                #}
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+
+
+                    <div class="box-body table-responsive no-padding">
+                        <table id="informe_recibosVentasMedicos" class="table table-hover">
+                            <tr>
+                                <th style='text-align:center'>Cliente</th>
+                                <th style='text-align:center'>Facturada</th>
+                                <th style='text-align:center'>Nro Interno</th>
+                                <th style='text-align:center'>Fecha</th>
+                                <th style='text-align:center'>Total Venta</th>
+                                <th style='text-align:center'>Pendiente de pago</th>
+                                <th style='text-align:center'>Sucursal</th>
+                            </tr>
+                            <tbody>
+
+                            {% for ventaEfectivo in ventasEfectivo %}
+                                {# {% set venta = reciboComprobante.comprobante %} #}
+                                <tr>
+
+                                    <td style='text-align:center'>{{ ventaEfectivo.nombre }}</td>
+                                    {% if ventaEfectivo.caeNumero is null %}
+                                        <td style='text-align:center'>No</td>
+                                    {% else %}
+                                        <td style='text-align:center'>Si</td>
+                                    {% endif %}
+                                    <td style='text-align:center'>{{ ventaEfectivo.id_OT }}</td>
+                                    <td style='text-align:center'>{{ ventaEfectivo.fecha|date('d-m-Y') }}</td>
+                                    <td style='text-align:center'>{{ ventaEfectivo.total }}</td>
+                                    {% if ventaEfectivo.diferencia > 0 %}
+                                        <td style='text-align:center'>Si ({{ ventaEfectivo.diferencia }})</td>
+                                    {% else %}
+                                        <td style='text-align:center'>No</td>
+                                    {% endif %}
+                                    <td style='text-align:center'>{{ ventaEfectivo.nombreSucursal }}</td>
+                                    {#
+                                    <td>
+                                      <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                      </a>
+                                    </td> #}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="box-body table-responsive no-padding">
+
+                        <a href="{{ path('informe_ventasEfectivo_imprimirExcel',
+                            {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta, 'sucursal':sucursal_ids}) }}",
+                           class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

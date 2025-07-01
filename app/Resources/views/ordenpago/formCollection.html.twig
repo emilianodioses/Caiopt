@@ -1,0 +1,226 @@
+{% block OrdenPagoType_widget %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Orden de Pago</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Observaciones</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tabs-1"> 
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                {{ form_start(form) }}
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">           
+                            {# form_widget(form.saldo, { 'attr': {'class': 'hide'} }) #}
+                            {# form_widget(form.pendiente, { 'attr': {'class': 'hide'} }) #}
+                            
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.proveedor)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.numero)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.fecha)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">           
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h1>$ {{ordenPago.proveedor.saldo}}</h1>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table id="orden_pago_comprobantes" class="table table-hover">
+                            <thead>
+                                <th hidden>Comprobante ID</th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 12%">Pto. Venta</th>
+                                <th style="width: 12%">Nº Fac.</th>
+                                <th style="width: 20%">Tipo</th>
+                                <th>Total</th>
+                                <th>Pendiente</th>
+                                
+                            </thead>
+                            <tbody>
+                                {% for ordenPagoComprobante in ordenPagoComprobantes %}
+                                    {% set comprobante = ordenPagoComprobante.comprobante %}
+                                    <tr class="item">
+                                        <td hidden>{{comprobante.id}}</td>
+                                        <td><input type="checkbox" id="{{ comprobante.id }}" name="{{ comprobante.id }}" onchange="comprobante_checked(this)"></td>
+                                        <td>{{ comprobante.puntoVenta }}</td>
+                                        <td>{{ comprobante.numero }}</td>
+                                        <td>{{ comprobante.tipo.descripcion }}</td>
+                                        <td>{{ comprobante.total }}</td>
+                                        <td class="pendiente">{{ comprobante.pendiente }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        {{ form_widget(form.proveedorPagos) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                    </div>
+                    <div class="box-body">                
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 
+                                <label class="control-label required" >Total Pendiente</label>   
+                                <input type="number" id="total_pendiente" name="total_pendiente" readonly="readonly" step="0.01" class="form-control" value="0.00">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.total)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.disponible)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="tabs-2">          
+        {{ form_row(form.observaciones)}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('ordenpago_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Órdenes de Pago
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{# By default, collection uses the form_widget block to create its markup, but we want a table #}
+{% block collection_widget %}
+{% spaceless %}
+
+    {#
+     # This is almost a copy/paste of jquery.collection.html.twig, we can't use it as it also
+     # use form_widget. Note that we also use form_widget(prototype) instead of form_row(prototype)
+     # to avoid generating extra markup.
+     #}
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': form_widget(prototype)}) %}
+        {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+    {% endif %}
+    {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+    {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+    {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+        
+    {{ form_errors(form) }}
+
+    {# Don't forget to add the collection attributes in your markup #}
+            <div class="form-group ">
+                <table {{ block('widget_attributes') }}>
+                    <thead>
+                        <th width="20%">Tipo de Pago</th>
+                        <th width="20%">Banco</th>
+                        <th width="20%">Fecha</th>
+                        <th>Número</th>
+                        <th>Importe</th>
+                        <th width="5%">&nbsp;</th>
+                    </thead>
+                    <tbody>
+                        {% for item in form %}
+                            {{ form_widget(item) }}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{% endspaceless %}
+{% endblock %}
+
+{% block ProveedorPagoType_widget %}
+
+    {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
+    <tr {{ block('widget_attributes') }}>
+        <td>{{ form_widget(form.pagoTipo) }}</td>
+        <td>{{ form_widget(form.banco) }}</td>
+        <td>{{ form_widget(form.fecha) }}</td>
+        <td>{{ form_widget(form.numero) }}</td>
+        <td>{{ form_widget(form.importe) }}</td>
+        
+        <td width="5%" class="text-center" style="vertical-align:middle">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            <a href="#" class="collection-duplicate btn btn-default" title="Duplicate element"><span class="glyphicon glyphicon-th-large"></span></a>
+        </td>
+    </tr>
+
+{% endblock %}
+

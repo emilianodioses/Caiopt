@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cheque</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cheque.id }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if cheque.fecha %}{{ cheque.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ cheque.numero }}</td>
+            </tr>
+            <tr>
+                <th>Importe</th>
+                <td>{{ cheque.importe }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ cheque.estado }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if cheque.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if cheque.createdAt %}{{ cheque.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if cheque.updatedAt %}{{ cheque.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cheque_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('cheque_edit', { 'id': cheque.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

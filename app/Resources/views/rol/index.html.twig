@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Roles
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('articulo_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 50px;">
+              <span class="input-group-btn">
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('rol_new') }}"><i class="fa fa-plus"></i> Nuevo </a>
+              </span>
+            </div>  
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
+                <th>ID</th>
+                <th>Descripcion</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+              </tr>
+            <tbody>
+            {% for rol in pagination %}
+                <tr>
+                    <td>{{ rol.id }}</td>
+                    <td>{{ rol.descripcion }}</td>
+                    <td>{% if rol.activo %}
+                      <span class="label label-success">Activo</span>
+                      {% else %}
+                        <span class="label label-danger">Inactivo</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <a href="{{ path('rol_show', { 'id': rol.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('rol_edit', { 'id': rol.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      <a href="{{ path('rol_delete', { 'id': rol.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

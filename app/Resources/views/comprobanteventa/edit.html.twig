@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Editar Comprobante de Venta
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
+{% block body %}    
+
+{% form_theme edit_form 'comprobanteventa/formCollection.html.twig' %}
+{{ form(edit_form, {'op': 'Edit'}) }}
+{{ form_end(edit_form) }}
+
+<script type="text/javascript">
+    $('.comprobanteDetalle-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 1,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
+
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            //Inicializo el Select2 recién añadido
+            //Fuente: https://select2.org/data-sources/ajax
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    //<< FUNCIONES PARA LOS ComprobanteDetalle YA EXISTENTES
+    $('.articulo').on('change', function(){
+        fnArticuloChange($(this));
+    });
+
+    $('.item').on('change', function(){
+        fnRenglonChange($(this));
+    });
+    //>> FIN FUNCIONES
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+        var cantidad = renglon.find("input.cantidad");
+        var precioVenta = renglon.find("input.precioVenta");
+        var porcentajeIva = renglon.find("select.porcentajeIva");
+        var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                cantidad.val(1);
+                precioVenta.val(articulo.precioVenta);
+                porcentajeBonificacion.val(0);
+                porcentajeIva.val(parseFloat(articulo.iva).toFixed(2));
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var r_cantidad = renglon.find("input.cantidad");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
+        var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
+        var r_importeBonificacion = renglon.find("input.importeBonificacion");
+        var r_porcentajeIva = renglon.find("select.porcentajeIva");
+        var r_importeIva = renglon.find("input.importeIva");
+        var r_precioVenta = renglon.find("input.precioVenta");
+        var r_total = renglon.find("input.total");
+
+        //Dejo la bonificacion en cero hasta q veamos q hacemos
+        var importe_bonificacion = 0;//parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
+        r_porcentajeBonificacion.val(0);
+        //var precio_neto = parseFloat(r_precioUnitario.val() - parseFloat(importe_bonificacion)).toFixed(2);
+
+        //var precio_venta = parseFloat(parseFloat(precio_neto) + parseFloat(importe_iva)).toFixed(2);
+
+
+        var importe_iva = parseFloat(r_precioVenta.val() * r_porcentajeIva.val() / (parseFloat(100) + parseFloat(r_porcentajeIva.val()))).toFixed(2);
+
+        var precio_unitario = parseFloat(r_precioVenta.val() - importe_iva).toFixed(2);
+        var total = parseFloat(r_cantidad.val() * r_precioVenta.val()).toFixed(2);
+
+        r_importeBonificacion.val(importe_bonificacion);
+        r_precioUnitario.val(precio_unitario);
+        r_importeIva.val(importe_iva);
+        r_total.val(total);   
+        
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        var total_costo = 0;
+        var importe_neto = 0;
+        var total_neto = 0;
+        var total_bonificacion = 0;
+        var total_iva = 0;
+        var total_importe_iva = 0;
+        var total = 0;
+        
+        $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {
+            var r_cantidad = $(this).find("input.cantidad");
+            var r_precioUnitario = $(this).find("input.precioUnitario");
+            var r_porcentajeBonificacion = $(this).find("input.porcentajeBonificacion");
+            var r_importeBonificacion = $(this).find("input.importeBonificacion");
+            var r_porcentajeIva = $(this).find("select.porcentajeIva");
+            var r_importeIva = $(this).find("input.importeIva");
+            var r_precioVenta = $(this).find("input.precioVenta");
+            var r_total = $(this).find("input.total");
+
+            //total_costo += parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
+            importe_neto = parseFloat(r_precioUnitario.val() - r_importeBonificacion.val());
+            total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(2);
+            total_bonificacion += r_cantidad.val() * parseFloat(r_importeBonificacion.val());
+            
+            total_iva += r_cantidad.val() * parseFloat(r_importeIva.val());
+
+            total += parseFloat(r_total.val());
+            //total += parseFloat(importe_iva);
+        });
+
+        $("#ComprobanteType_totalNeto").val(total_neto.toFixed(2));
+        $("#ComprobanteType_importeIva").val(total_iva.toFixed(2));
+        $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(2));
+        $("#ComprobanteType_total").val(total.toFixed(2));
+
+        //$("#ComprobanteType_totalCosto").val(total_costo.toFixed(2));
+        //$("#ComprobanteType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
+
+        return true;
+    }
+    
+    function submitform() {
+            document.forms[0].submit();
+            //document.getElementById('jsform').submit();
+    }
+</script>          
+
+{% endblock %}

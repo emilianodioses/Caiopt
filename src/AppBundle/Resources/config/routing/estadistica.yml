@@ -1,0 +1,5 @@
+estadistica_ventas:
+    path:     /estadistica_ventas
+    defaults: { _controller: "AppBundle:Estadistica:ventas" }
+    methods:  [GET, POST]
+    

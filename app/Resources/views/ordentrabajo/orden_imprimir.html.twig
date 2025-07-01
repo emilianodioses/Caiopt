@@ -1,0 +1,275 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..1 %}
+
+    <table width="100%" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+                <td width="30%" align="center">
+                    <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                    <b>OPTICA</b>
+                    <br>
+                    {{ordenTrabajo.sucursal.direccion}} - {{ordenTrabajo.sucursal.localidad.nombre}}, {{ordenTrabajo.sucursal.localidad.provincia.nombre}}<br>
+                    <b>Teléfono:</b> {{ordenTrabajo.sucursal.telefono}}<br>
+                </td>
+                {% if pagina_nro == 1 %}
+                <td width="30%" align="left" border="1">
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>LABORATORIO:</u></b>
+                    <br>
+                    <br>
+                    Pedido a: {{ ordenTrabajo.taller }}
+                    <br>
+                    Armado: {% if ordenTrabajo.armado %} Si {% else %} No {% endif %}
+                    <br>
+                    Fecha Pedido: {% if not ordenTrabajo.fechaTallerPedido is empty %} {{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }} {% endif %}
+                    <br>
+                    Fecha Entrega: {% if not ordenTrabajo.fechaTallerEntrega is empty %} {{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }} {% endif %}
+                    <br>
+                    Número: {{ ordenTrabajo.numeroTaller }}
+                    <br>
+                </td>
+                {% endif %}
+                <td width="40%" align="left">
+                    <b style="font-size:8">N° Ord: {{ ordenTrabajo.id }}</b><br>
+                    <b style="font-size:8">Comp {{ ordenTrabajo.comprobante }}</b><br>
+                    Fecha Recepcion: {% if not ordenTrabajo.fechaRecepcion is empty %} {{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }} {% endif %}
+                    <br>
+                    <b style="font-size:9">Fecha Entrega: {% if not ordenTrabajo.fechaEntrega is empty %} {{ ordenTrabajo.fechaEntrega | date('d-m-Y') }} {% endif %}</b>
+                    <br>
+                    <br>
+                    <b><u>ATENCION:</u></b>
+                    <br>
+                    Los trabajos recibidos tienen validez por 90
+                    <br>
+                    días, de lo contrario pierde todo derecho
+                    <br>
+                    sobre los mismos. (Art. 873-875 del Codígo Civil)
+                    <br>
+                    Pasados los 30 días podrá ajustarse el precio
+                    <br>
+                    por inflación
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td width="30%" align="left">
+                    <br>
+                    <b>Total: </b> {{ ordenTrabajo.total}}
+                    <br>
+                    ---------------------------------------------
+                    <br>
+                    <b>Entrega: </b> {{ ordenTrabajo.entrega}}
+                    <br>
+                    <b>Saldo: </b> {{ ordenTrabajo.saldo}}
+                </td>
+                <td width="35%" align="left">
+                    <b>Nombre: </b> {{ ordenTrabajo.cliente.nombre}}
+                    <br>
+                    <b>Teléfono: </b> {{ ordenTrabajo.cliente.telefono}}
+                    <br>
+                    <b>Direccion: </b> {{ ordenTrabajo.cliente.direccion}}
+                    <br>
+                    <b>DNI: </b> {{ ordenTrabajo.cliente.documentoNumero}}
+                </td>
+                <td width="35%" align="left">
+                    <b>Medico: </b> {{ ordenTrabajo.medico}}
+                    <br>
+                    <b>Fecha Receta: </b> {% if not ordenTrabajo.fechaReceta is empty %} {{ ordenTrabajo.fechaReceta | date('d-m-Y') }} {% endif %}
+                    <br>
+                    <b>Vendedor: </b> {{ ordenTrabajo.usuario}}<br>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%">
+                    <b>Observaciones: </b> {{ ordenTrabajo.observaciones }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td style="text-align: center" width="40%"><b>Artículo</b></td>
+                {#
+                <td style="text-align: center">Marca</td>
+                <td style="text-align: center">Material</td>
+                <td style="text-align: center">Forma</td>
+                <td style="text-align: center">Estilo</td>
+                #}
+                <td style="text-align: center" width="15%">T. Cristal</td>
+
+                <td style="text-align: center" width="15%">P. Venta</td>
+                {% if pagina_nro == 1 %}
+                    <td style="text-align: center" width="10%">Forma de pago</td>
+                    <td style="text-align: center" width="10%">Bonificación</td>
+                {% endif %}
+                <td style="text-align: center" width="10%">Total</td>
+            </tr>
+            {% for ordenTrabajoDetalle in ordentrabajodetalles %}
+                <tr>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.descripcion }}</td>
+                    {#
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.marca }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.material }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.forma }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.articulo.estilo }}</td>
+                    #}
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.tipoCristal }}</td>
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.precioVenta }}</td>
+                    {% if pagina_nro == 1 %}
+
+                        <td style="text-align: center">
+                            {% if ordenTrabajoDetalle.parametro is not null %}
+                                {{ ordenTrabajoDetalle.parametro.descripcion }}
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>                        <td style="text-align: center">{{ ordenTrabajoDetalle.importeBonificacion }}</td>
+                    {% endif %}
+                    
+                    <td style="text-align: center">{{ ordenTrabajoDetalle.total }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if pagina_nro == 1 %}
+    <br>
+    &nbsp;
+    <br>
+    <b>NUEVA:</b>
+    <br>
+    <table width="100%" cellspacing="0" border="1">
+        <tbody>
+            <tr>
+                <td rowspan="5" align="center">
+                    <br>
+                    &nbsp;
+                    <br>
+                    ESPC.
+                    <br>
+                    RECETA
+                </td>
+                <td colspan="2" align="center">
+                    VISION
+                </td>
+                <td align="center">
+                    ESF.
+                </td>
+                <td align="center">
+                    CIL.
+                </td>
+                <td align="center">
+                    EJE.
+                </td>
+                <td align="center">
+                    DNP.
+                </td>
+                <td align="center">
+                    HP.
+                </td>
+                <td align="center">
+                    HPU.
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    LEJOS
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.lejosOjoDerechoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajo.lejosOjoDerechoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.lejosOjoDerechoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajo.lejosOjoDerechoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.lejosOjoDerechoEje }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.ojoDerechoDnp }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.ojoDerechoHp }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.ojoDerechoHpu }}
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.lejosOjoIzquierdoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajo.lejosOjoIzquierdoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.lejosOjoIzquierdoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajo.lejosOjoIzquierdoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.lejosOjoIzquierdoEje }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.ojoIzquierdoDnp }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.ojoIzquierdoHp }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.ojoIzquierdoHpu }}
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    CERCA
+                </td>
+                <td align="center">
+                    OD
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.cercaOjoDerechoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajo.cercaOjoDerechoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.cercaOjoDerechoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajo.cercaOjoDerechoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.cercaOjoDerechoEje }}
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    OI
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.cercaOjoIzquierdoEsfera > 0 %}+{% endif %}
+                    {{ ordenTrabajo.cercaOjoIzquierdoEsfera }}
+                </td>
+                <td style="text-align: center">
+                    {% if ordenTrabajo.cercaOjoIzquierdoCilindro > 0 %}+{% endif %}
+                    {{ ordenTrabajo.cercaOjoIzquierdoCilindro }}
+                </td>
+                <td style="text-align: center">
+                    {{ ordenTrabajo.cercaOjoIzquierdoEje }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+    
+    {% endfor %}
+</body>

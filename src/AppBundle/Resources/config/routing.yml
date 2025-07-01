@@ -1,0 +1,175 @@
+homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:Default:index" }  
+
+dashboard:
+    path:     /dashboard
+    defaults: { _controller: "AppBundle:Dashboard:index" }  
+
+app_usuario:
+    resource: "@AppBundle/Resources/config/routing/usuario.yml"
+    prefix:   /usuario 
+
+app_load:
+    resource: "@AppBundle/Resources/config/routing/load.yml"
+    prefix:   /acceso
+
+app_cliente:
+    resource: "@AppBundle/Resources/config/routing/cliente.yml"
+    prefix:   /cliente       
+
+app_proveedor:
+    resource: "@AppBundle/Resources/config/routing/proveedor.yml"
+    prefix:   /proveedor
+
+app_articulo:
+    resource: "@AppBundle/Resources/config/routing/articulo.yml"
+    prefix:   /articulo   
+
+app_stock:
+    resource: "@AppBundle/Resources/config/routing/stock.yml"
+    prefix:   /stock   
+
+app_comprobantecompra:
+    resource: "@AppBundle/Resources/config/routing/comprobantecompra.yml"
+    prefix:   /comprobantecompra
+
+app_comprobanteventa:
+    resource: "@AppBundle/Resources/config/routing/comprobanteventa.yml"
+    prefix:   /comprobanteventa    
+    
+app_comprobante_detalle:
+    resource: "@AppBundle/Resources/config/routing/comprobantedetalle.yml"
+    prefix:   /comprobantedetalle    
+
+app_orden_trabajo:
+    resource: "@AppBundle/Resources/config/routing/ordentrabajo.yml"
+    prefix:   /ordentrabajo
+
+app_ordentrabajocontactologia:
+    resource: "@AppBundle/Resources/config/routing/ordentrabajocontactologia.yml"
+    prefix:   /ordentrabajocontactologia    
+
+app_ordentrabajodetalle:
+    resource: "@AppBundle/Resources/config/routing/ordentrabajodetalle.yml"
+    prefix:   /ordentrabajodetalle    
+
+app_sucursal:
+    resource: "@AppBundle/Resources/config/routing/sucursal.yml"
+    prefix:   /sucursal
+
+app_afip:
+    resource: "@AppBundle/Resources/config/routing/afip.yml"
+    prefix:   /afip
+
+app_pagotipo:
+    resource: "@AppBundle/Resources/config/routing/pagotipo.yml"
+    prefix:   /pagotipo
+
+app_recibo:
+    resource: "@AppBundle/Resources/config/routing/recibo.yml"
+    prefix:   /recibo
+
+app_clientepago:
+    resource: "@AppBundle/Resources/config/routing/clientepago.yml"
+    prefix:   /clientepago
+
+app_rol:
+    resource: "@AppBundle/Resources/config/routing/rol.yml"
+    prefix:   /rol   
+     
+app_rolfuncion:
+    resource: "@AppBundle/Resources/config/routing/rolfuncion.yml"
+    prefix:   /rolfuncion
+
+app_ordenpago:
+    resource: "@AppBundle/Resources/config/routing/ordenpago.yml"
+    prefix:   /ordenpago
+
+app_proveedorpago:
+    resource: "@AppBundle/Resources/config/routing/proveedorpago.yml"
+    prefix:   /proveedorpago   
+
+app_medico:
+    resource: "@AppBundle/Resources/config/routing/medico.yml"
+    prefix:   /medico    
+
+app_taller:
+    resource: "@AppBundle/Resources/config/routing/taller.yml"
+    prefix:   /taller    
+
+app_obrasocial:
+    resource: "@AppBundle/Resources/config/routing/obrasocial.yml"
+    prefix:   /obrasocial
+    
+app_obrasocialplan:
+    resource: "@AppBundle/Resources/config/routing/obrasocialplan.yml"
+    prefix:   /obrasocialplan
+
+app_librocaja:
+    resource: "@AppBundle/Resources/config/routing/librocaja.yml"
+    prefix:   /librocaja
+
+app_librocajadetalle:
+    resource: "@AppBundle/Resources/config/routing/librocajadetalle.yml"
+    prefix:   /librocajadetalle
+
+app_informe:
+    resource: "@AppBundle/Resources/config/routing/informe.yml"
+    prefix:   /informe
+
+app_estadistica:
+    resource: "@AppBundle/Resources/config/routing/estadistica.yml"
+    prefix:   /estadistica    
+
+app_pedido:
+    resource: "@AppBundle/Resources/config/routing/pedido.yml"
+    prefix:   /pedido
+
+app_pedidodetalle:
+    resource: "@AppBundle/Resources/config/routing/pedidodetalle.yml"
+    prefix:   /pedidodetalle
+
+app_movimientocategoria:
+    resource: "@AppBundle/Resources/config/routing/movimientocategoria.yml"
+    prefix:   /movimientocategoria
+
+app_movimientointerno:
+    resource: "@AppBundle/Resources/config/routing/movimientointerno.yml"
+    prefix:   /movimientointerno
+
+app_puntoventa:
+    resource: "@AppBundle/Resources/config/routing/puntoventa.yml"
+    prefix:   /puntoventa
+
+app_banco:
+    resource: "@AppBundle/Resources/config/routing/banco.yml"
+    prefix:   /banco
+
+app_cheque:
+    resource: "@AppBundle/Resources/config/routing/cheque.yml"
+    prefix:   /cheque
+
+app_articulomarca:
+    resource: "@AppBundle/Resources/config/routing/articulomarca.yml"
+    prefix:   /articulomarca
+
+app_articulocategoria:
+    resource: "@AppBundle/Resources/config/routing/articulocategoria.yml"
+    prefix:   /articulocategoria
+
+app_articuloestilo:
+    resource: "@AppBundle/Resources/config/routing/articuloestilo.yml"
+    prefix:   /articuloestilo
+
+app_articulomarco:
+    resource: "@AppBundle/Resources/config/routing/articulomarco.yml"
+    prefix:   /articulomarco
+
+app_parametro:
+    resource: "@AppBundle/Resources/config/routing/parametro.yml"
+    prefix:   /parametro
+
+app_presupuesto:
+    resource: "@AppBundle/Resources/config/routing/presupuesto.yml"
+    prefix:   /presupuesto

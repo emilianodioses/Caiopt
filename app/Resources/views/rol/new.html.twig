@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Roles
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_start(form) }}
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales </h3>
+                </div>
+                <div class="box-body">
+                    {{ form_errors(form) }}
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.descripcion) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <select multiple="multiple" id='selected' class="form-control" name="selected" style="height:400px;">
+                                {% for funcionAsignado in funcionesAsignados %}
+                                    <option value="{{funcionAsignado.id}}">{{funcionAsignado.descripcion}}</option>   
+                                {% endfor %}  
+                            </select>
+                        </div>
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: center; vertical-align: middle;">
+                            <input type="button" id="btnAllRight" value=">>" class="btn btn-default" /><br />
+                            <input type="button" id="btnRight" value=">" class="btn btn-default" /><br />
+                            <input type="button" id="btnLeft" value="<" class="btn btn-default" /><br />
+                            <input type="button" id="btnAllLeft" value="<<" class="btn btn-default" />
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <select multiple="multiple" id='notselected' class="form-control" name="notselected" style="height:400px;">
+                                {% for funcionNoAsignado in funcionesNoAsignados %}
+                                    <option value="{{funcionNoAsignado.id}}">{{funcionNoAsignado.descripcion}}</option>   
+                                {% endfor %} 
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('rol_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Roles
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+<script type="text/javascript">
+
+    function getPermisos(){
+        var TableData = new Array();
+        var i = 0;
+
+        var permisos = $('#selected')[0];
+
+        for (var i = 0; i < permisos.length; i++) {
+            var opt = permisos[i];
+            TableData[i]={"id": opt.value};
+        }
+
+        return TableData;   
+    }
+
+    function submitform() {
+        
+        var permisos = getPermisos();        
+        
+        permisos = JSON.stringify(permisos);
+
+        var form = document.getElementsByName("RolType")[0];
+        
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "permisos")
+            .attr('value', permisos)
+            .appendTo(form);
+
+        return true;
+
+    };
+
+    (function () {
+    $('#btnRight').click(function (e) {
+        var selectedOpts = $('#selected option:selected');
+        if (selectedOpts.length == 0) {
+            alert("Nada para mover.");
+            e.preventDefault();
+        }
+
+        $('#notselected').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+    $('#btnAllRight').click(function (e) {
+        var selectedOpts = $('#selected option');
+        if (selectedOpts.length == 0) {
+            alert("Nada para mover.");
+            e.preventDefault();
+        }
+
+        $('#notselected').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+    $('#btnLeft').click(function (e) {
+        var selectedOpts = $('#notselected option:selected');
+        if (selectedOpts.length == 0) {
+            alert("Nada para mover.");
+            e.preventDefault();
+        }
+
+        $('#selected').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+    $('#btnAllLeft').click(function (e) {
+        var selectedOpts = $('#notselected option');
+        if (selectedOpts.length == 0) {
+            alert("Nada para mover.");
+            e.preventDefault();
+        }
+        
+        $('#selected').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    });
+}(jQuery));
+
+</script>  
+
+{% endblock %}

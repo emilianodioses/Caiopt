@@ -1,0 +1,400 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Panel Principal
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs pull-left">
+      <li class="active"><a href="#principal" data-toggle="tab">Principal</a></li>
+      <li><a href="#estadistica" data-toggle="tab">Estadísticas Venta</a></li>
+    </ul>
+    <div class="tab-content no-padding">
+      <div class="chart tab-pane active" id="principal" style="position: relative">
+        <section class="content">
+          <div class="row">
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h3>{{cantidadVentas}}</h3>
+
+                  <p>Ventas</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{path('comprobanteventa_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+              <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3>$ {{totalCaja}}</h3>
+
+                  <p>Caja</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-inbox"></i>
+                </div>
+                <a href="{{path('librocaja_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3>{{cantidadOrdenesTrabajo}}</h3>
+
+                  <p>Ordenes de Trabajo</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-list-alt"></i>
+                </div>
+                <a href="{{path('ordentrabajo_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-red">
+                <div class="inner">
+                  <h3>{{cantidadCompras}}</h3>
+
+                  <p>Compras</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-shopping-cart"></i>
+                </div>
+                <a href="{{path('comprobantecompra_index')}}" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- Calendar -->
+            <div class="col-lg-6 col-xs-12">
+              <div class="box box-solid bg-green-gradient">
+                <div class="box-header">
+                  <i class="fa fa-pie-chart"></i>
+                  <h3 class="box-title">Caja</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                  <!--The calendar -->
+                  <div id="calendar" style="width: 100%"></div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-black">
+                  <div class="row">
+                    {% for cd in cajaDetalles %}
+                      <div class="col-sm-12">
+                        <!-- Progress bars -->
+                        <div class="clearfix">
+                          <span class="pull-left">{{cd['descripcion']}} $ {{cd['total']}}</span>
+                          <small class="pull-right">{{cd['porcentaje']}}%</small>
+                        </div>
+                        <div class="progress xs">
+                          {% if cd['total'] >= 0 %}
+                            <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
+                          {% else %}
+                            <div class="progress-bar progress-bar-red" style="width: {{cd['porcentaje'] * -1}}%;"></div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-xs-12">
+              <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-right">
+                  <li class="active"><a href="#pendientes-chart" data-toggle="tab">Pendientes</a></li>
+                  <li><a href="#marcha-chart" data-toggle="tab">En Marcha</a></li>
+                  <li><a href="#finalizadas-chart" data-toggle="tab">Finalizadas</a></li>
+                  <li class="pull-left header"><i class="fa fa-list-alt"></i> Ordenes de Trabajo</li>
+                </ul>
+                <div class="tab-content no-padding">
+                  <!-- Morris chart - Sales -->
+                  <div class="chart tab-pane active" id="pendientes-chart" style="position: relative; height: 300px;">
+                    <table class="table table-hover">
+                          <tr>
+                            <th>Tipo</th>
+                            <th>Nro.</th>
+                            <th>Cliente</th>
+                            <th>Comprobante</th>
+                            <th>Fecha</th>
+                            <th>Fecha Entrega</th>
+                            <th>Estado</th>
+                            <th style="width: 5%">Acciones</th>
+                        </tr>
+                      <tbody>
+                      {% for ordenTrabajo in ordenesTrabajo %}
+                        {% if ordenTrabajo.estado == 'Pendiente' %}
+                          <tr>
+                              <td>Orden Óptica</td>
+                              <td>{{ ordenTrabajo.id }}</td>
+                              <td>{{ ordenTrabajo.cliente }}</td>
+                              <td>{{ ordenTrabajo.comprobante }}</td>
+                              {% if ordenTrabajo.fechaRecepcion is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
+                              {% endif %}
+                              {% if ordenTrabajo.fechaEntrega is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
+                              {% endif %}
+                              <td>{{ ordenTrabajo.estado }}</td>
+                              <td>
+                                <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                {% if ordenTrabajo.activo %}
+                                    <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                    </a>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endif %}
+                      {% endfor %}
+                      {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                        {% if ordenTrabajoContactologia.estado == 'Pendiente' %}
+                          <tr>
+                              <td>Contactología</td>
+                              <td>{{ ordenTrabajoContactologia.id }}</td>
+                              <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                              <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                              {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                              {% endif %}
+                              {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                              {% endif %}
+                              <td>{{ ordenTrabajoContactologia.estado }}</td>
+                              <td>
+                                <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                {% if ordenTrabajoContactologia.activo %}
+                                    <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                    </a>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endif %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="chart tab-pane" id="marcha-chart" style="position: relative; height: 300px;">
+                    <table class="table table-hover">
+                          <tr>
+                            <th>Tipo</th>
+                            <th>Nro.</th>
+                            <th>Cliente</th>
+                            <th>Comprobante</th>
+                            <th>Fecha</th>
+                            <th>Fecha Entrega</th>
+                            <th>Estado</th>
+                            <th style="width: 5%">Acciones</th>
+                        </tr>
+                      <tbody>
+                      {% for ordenTrabajo in ordenesTrabajo %}
+                        {% if ordenTrabajo.estado != 'Pendiente' and ordenTrabajo.estado != 'Finalizado' %}
+                          <tr>
+                              <td>Orden Óptica</td>
+                              <td>{{ ordenTrabajo.id }}</td>
+                              <td>{{ ordenTrabajo.cliente }}</td>
+                              <td>{{ ordenTrabajo.comprobante }}</td>
+                              {% if ordenTrabajo.fechaRecepcion is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
+                              {% endif %}
+                              {% if ordenTrabajo.fechaEntrega is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
+                              {% endif %}
+                              <td>{{ ordenTrabajo.estado }}</td>
+                              <td>
+                                <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                {% if ordenTrabajo.activo %}
+                                    <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                    </a>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endif %}
+                      {% endfor %}
+                      {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                        {% if ordenTrabajoContactologia.estado != 'Pendiente' and ordenTrabajoContactologia.estado != 'Finalizado' %}
+                          <tr>
+                              <td>Contactología</td>
+                              <td>{{ ordenTrabajoContactologia.id }}</td>
+                              <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                              <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                              {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                              {% endif %}
+                              {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                              {% endif %}
+                              <td>{{ ordenTrabajoContactologia.estado }}</td>
+                              <td>
+                                <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                {% if ordenTrabajoContactologia.activo %}
+                                    <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                    </a>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endif %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Morris chart - Sales -->
+                  <div class="chart tab-pane" id="finalizadas-chart" style="position: relative; height: 300px;">
+                    <table class="table table-hover">
+                          <tr>
+                            <th>Tipo</th>
+                            <th>Nro.</th>
+                            <th>Cliente</th>
+                            <th>Comprobante</th>
+                            <th>Fecha</th>
+                            <th>Fecha Entrega</th>
+                            <th>Estado</th>
+                            <th style="width: 5%">Acciones</th>
+                        </tr>
+                      <tbody>
+                      {% for ordenTrabajo in ordenesTrabajo %}
+                        {% if ordenTrabajo.estado == 'Finalizado' %}
+                          <tr>
+                              <td>Orden Optica</td>
+                              <td>{{ ordenTrabajo.id }}</td>
+                              <td>{{ ordenTrabajo.cliente }}</td>
+                              <td>{{ ordenTrabajo.comprobante }}</td>
+                              {% if ordenTrabajo.fechaRecepcion is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
+                              {% endif %}
+                              {% if ordenTrabajo.fechaEntrega is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
+                              {% endif %}
+                              <td>{{ ordenTrabajo.estado }}</td>
+                              <td>
+                                <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                {% if ordenTrabajo.activo %}
+                                    <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                    </a>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endif %}
+                      {% endfor %}
+                      {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                        {% if ordenTrabajoContactologia.estado == 'Finalizado' %}
+                          <tr>
+                              <td>Contactología</td>
+                              <td>{{ ordenTrabajoContactologia.id }}</td>
+                              <td>{{ ordenTrabajoContactologia.cliente }}</td>
+                              <td>{{ ordenTrabajoContactologia.comprobante }}</td>
+                              {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                              {% endif %}
+                              {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                                <td></td>
+                              {% else %}
+                                <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                              {% endif %}
+                              <td>{{ ordenTrabajoContactologia.estado }}</td>
+                              <td>
+                                <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                {% if ordenTrabajoContactologia.activo %}
+                                    <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                    </a>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          {% endif %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="chart tab-pane" id="estadistica" style="position: relative">
+        <section class="content">
+          <div class="row">
+            <div class="col-lg-6 col-xs-12">
+              <div id="div_chart"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    {{ gc_draw(piechart, 'div_chart') }}
+</script>
+{% endblock %}              

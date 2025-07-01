@@ -1,0 +1,46 @@
+presupuesto_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Presupuesto:index" }
+    methods:  GET
+
+presupuesto_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Presupuesto:show" }
+    methods:  GET
+
+presupuesto_new:
+    path:     /{clienteId}/new
+    defaults: { _controller: "AppBundle:Presupuesto:new", clienteId:0 }
+    methods:  [GET, POST]
+
+presupuesto_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Presupuesto:edit" }
+    methods:  [GET, POST]
+
+presupuesto_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Presupuesto:delete" }
+    methods:  [GET, POST]
+
+presupuesto_imprimir:
+    path:     /{id}/presupuestoImprimir
+    defaults: { _controller: "AppBundle:Presupuesto:presupuestoImprimir" }
+    methods:  [GET, POST]
+
+presupuesto_cerrar:
+    path:     /{id}/cerrar
+    defaults: { _controller: "AppBundle:Presupuesto:cerrar" }
+    methods:  [GET, POST]
+
+presupuesto_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:Presupuesto:find" }
+
+presupuesto_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Presupuesto:findSelect2" }
+
+presupuesto_historial_cliente:
+    path:     /{clienteId}/historialPresupuesto
+    defaults: { _controller: "AppBundle:Presupuesto:historialPresupuesto" }

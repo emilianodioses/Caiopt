@@ -1,0 +1,28 @@
+medico_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Medico:index" }
+    methods:  GET
+
+medico_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Medico:show" }
+    methods:  GET
+
+medico_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Medico:new" }
+    methods:  [GET, POST]
+
+medico_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Medico:edit" }
+    methods:  [GET, POST]
+
+medico_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Medico:delete" }
+    methods:  [GET, POST]
+
+medico_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Medico:findSelect2" }

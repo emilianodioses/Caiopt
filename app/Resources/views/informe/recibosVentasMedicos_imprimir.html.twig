@@ -1,0 +1,80 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+  {% for pagina_nro in 1..1 %}
+  <table width="100%" cellspacing="0" border="0">
+      <tbody>
+          <tr>
+            <td width="50%" align="right" vertical-align="middle">
+              <b>Comprobantes Ventas por Médico</b>
+            </td>
+              <td width="50%" align="center">
+                  <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}">
+              </td>
+            </tr>
+        </tbody>
+  </table>
+
+  <br>
+  <hr>
+  &nbsp;<br>
+
+  <table width="100%" cellspacing="0" border="0">
+      <tbody>
+          <tr>
+              <td width="50%"><b>Fecha Desde: </b> {{fecha_desde}}</td>
+              <td width="50%"><b>Fecha Hasta: </b> {{fecha_hasta}}</td>
+          </tr>
+          <tr>
+            <td width="50%"><b>Cliente: </b> {{cliente}}</td>
+            <td width="50%"><b>Médico: </b> {{medico}}</td>
+          </tr>
+        </tbody>
+    </table>
+
+    <br>
+    &nbsp;<br>
+
+    <div class="box-default">
+
+        <table width="100%" cellspacing="0" align="center" border="0.5">
+            <tr>
+                      <th style="width: 7%">Pto. Venta</th>
+                      <th>Cliente</th>
+                      <th>Médico</th>
+                      <th>Fecha</th>
+                      <th>Total</th>
+                      <th>Cobrado</th>
+                      <th>Médico %</th>
+                  </tr>
+
+            <tbody>
+              {% set totalMed = 0%}
+              {% for reciboComprobante in recibosComprobantes %}
+                    {% set comprobante = reciboComprobante.comprobante %}
+                      <tr>
+                          <td>{{ comprobante.puntoVenta }}</td>
+                          <td>{{ comprobante.cliente }}</td>
+                          <td>{{ comprobante.medico }}</td>
+                          <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
+                          <td>{{ comprobante.total }}</td>
+                          <td>{{ reciboComprobante.sumaTotal }}</td>
+                          {% set iva = (reciboComprobante.sumaTotal*0.21)%}
+                          {% if comprobante.medico.porcentaje is empty %}
+                          {% set porcentajeMed = 0 %}
+                          <td> {{  porcentajeMed }}</td>
+                          {% else %}
+                          {% set porcentajeMed = (((reciboComprobante.sumaTotal - iva) * (comprobante.medico.porcentaje/100)) | number_format(2, '.', '')) %}
+                          <td>{{ porcentajeMed  }}</td>
+                          <!--Totalizador-->
+                          {% set totalMed = (totalMed + porcentajeMed) %}
+                          {% endif %}
+                      </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+      </form>
+    </div>
+        <div style="display: flex; justify-content: flex-end">
+        <div id="total" style="font-size: 11; bold: 1"> Total: {{totalMed}}</div>
+        </div>
+    {% endfor %}
+</body>

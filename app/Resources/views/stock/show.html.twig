@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Stock
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos de Stock</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th style="width:10%">Sucursal</th>
+                                <td>{{ stock.sucursal }}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:10%">Articulo</th>
+                                <td>{{ stock.articulo }}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:10%">Cantidad</th>
+                                <td>{{ stock.cantidad }}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:10%">Cantidad Minima</th>
+                                <td>{{ stock.cantidadMinima }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('stock_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('stock_edit', { 'id': stock.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div>
+{% endblock %}

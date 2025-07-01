@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Panel Principal
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<section class="content">
+  <div class="row">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-green"><i class="fa fa-building"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Sucursal</span>
+            <span class="info-box-number">{{ app.user.sucursal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Usuario</span>
+            <span class="info-box-number">{{ app.user.nombre }} {{ app.user.apellido }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-yellow"><i class="fa fa-calendar"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Fecha</span>
+            <span class="info-box-number">{{"now"| date('d-m-Y')}}</span>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+{% endblock %}              

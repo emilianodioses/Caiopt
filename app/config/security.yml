@@ -1,0 +1,72 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: 
+            algorithm: bcrypt
+            cost: 12
+        AppBundle\Entity\Usuario: bcrypt
+    role_hierarchy:
+        ROLE_ADMIN:         [ROLE_CLIENTE, ROLE_USER , ROLE_STOCK, ROLE_COMPRAS, ROLE_VENTAS, ROLE_PRODUCCION, ROLE_TESORERIA ]
+        ROLE_SUPER_ADMIN:   [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_CLIENTE:    [ROLE_USER]
+        ROLE_COMPRAS:    [ROLE_USER]
+        ROLE_STOCK:      [ROLE_USER]
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, user_db]
+        user_db:
+            entity: { class: AppBundle\Entity\Usuario, property: usuario}
+        in_memory:
+            memory:
+                users:
+                    fermin:
+                        password: $2y$13$oM7AEEqdxeVFnDViWcfJVeH52FePTyQR.caklKGDYY9nOK8ON8I2e
+                        roles: 'ROLE_USER'
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            anonymous: true
+            provider: chain_provider
+            security: true
+            switch_user: true
+
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            logout_on_user_change: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                always_use_default_target_path: true
+                default_target_path: /acceso/loading
+                csrf_token_generator: security.csrf.token_manager
+                login_path: load_login
+                check_path: load_login
+            logout:
+                path:   /acceso/logout
+                target: /
+            # activate different ways to authenticate
+           
+            # http_basic: ~
+            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+           
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/acceso/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/secure, roles: ROLE_USER }
+        - { path: ^/, roles: ROLE_USER}
+
+

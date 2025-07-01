@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Órdenes de Trabajo - Contactología
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('ordentrabajocontactologia_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value=""/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('ordentrabajocontactologia_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <!-- /.box-header -->
+      <div class="box box-danger">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-user"></i> Órdenes Pendientes </h3>
+        </div>
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+                <tr>
+                  <th>Nro.</th>
+                  <th>Cliente</th>
+
+                  <th>Fecha</th>
+                  <th>Fecha Entrega</th>
+                  <th>Estado</th>
+                  <th style="width: 5%">Acciones</th>
+              </tr>
+            <tbody>
+            {% for ordenTrabajoContactologia in pagination1 %}
+              {% if ordenTrabajoContactologia.estado != 'Finalizado' %}
+                <tr>
+                    <td>{{ ordenTrabajoContactologia.id }}</td>
+                    <td>{{ ordenTrabajoContactologia.cliente }}</td>
+
+                    {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                      <td></td>
+                    {% else %}
+                      <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                    {% endif %}
+                    {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                      <td></td>
+                    {% else %}
+                      <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                    {% endif %}
+                    <td>{{ ordenTrabajoContactologia.estado }}</td>
+                    <td>
+                      <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      {% if ordenTrabajoContactologia.activo %}
+                          <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+          </table>
+          {% block paginador1 %}
+              {{ knp_pagination_render(pagination1) }}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <!-- /.box-header -->
+      <div class="box box-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-user"></i> Órdenes Finalizadas </h3>
+        </div>
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+                <tr>
+                  <th>Nro.</th>
+                  <th>Cliente</th>
+
+                  <th>Fecha</th>
+                  <th>Fecha Entrega</th>
+                  <th>Estado</th>
+                  <th style="width: 5%">Acciones</th>
+              </tr>
+            <tbody>
+              {% for ordenTrabajoContactologia in pagination2 %}
+                {% if ordenTrabajoContactologia.estado == 'Finalizado' %}
+                  <tr>
+                    <td>{{ ordenTrabajoContactologia.id }}</td>
+                    <td>{{ ordenTrabajoContactologia.cliente }}</td>
+
+                    {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                      <td></td>
+                    {% else %}
+                      <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                    {% endif %}
+                    {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                      <td></td>
+                    {% else %}
+                      <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                    {% endif %}
+                    <td>{{ ordenTrabajoContactologia.estado }}</td>
+                    <td>
+                      <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      {% if ordenTrabajoContactologia.activo %}
+                          <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+          {% block paginador2 %}
+              {{ knp_pagination_render(pagination2) }}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

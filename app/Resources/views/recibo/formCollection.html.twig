@@ -1,0 +1,165 @@
+{% block ReciboType_widget %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Recibo</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Observaciones</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tabs-1"> 
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                {{ form_start(form) }}
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">           
+                            {# form_widget(form.saldo, { 'attr': {'class': 'hide'} }) #}
+                            {# form_widget(form.pendiente, { 'attr': {'class': 'hide'} }) #}
+                            
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.cliente)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.numero)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.fecha)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">           
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h1>$ {{recibo.cliente.saldo}}</h1>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">    
+            {% form_theme form.clientePagos 'clientepago/formCollection.html.twig' %}
+            {{ form_widget(form.clientePagos) }}
+
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table id="recibo_comprobantes" class="table table-hover">
+                            <thead>
+                                <th hidden>Comprobante ID</th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 12%">Pto. Venta</th>
+                                <th style="width: 12%">Nº Int.</th>
+                                <th style="width: 12%">Nº Fac.</th>
+                                <th style="width: 12%">Nº OT.</th>
+                                <th style="width: 20%">Tipo</th>
+                                <th>Total</th>
+                                <th>Pendiente</th>
+                                
+                            </thead>
+                            <tbody>
+                                {% for reciboComprobante in reciboComprobantes %}
+                                    {% set comprobante = reciboComprobante.comprobante %}
+                                    <tr class="item">
+                                        <td hidden>{{comprobante.id}}</td>
+                                        <td><input type="checkbox" id="{{ comprobante.id }}" name="{{ comprobante.id }}" onchange="comprobante_checked(this)"></td>
+                                        <td>{{ comprobante.puntoVenta }}</td>
+                                        <td>{{ comprobante.numero }}</td>
+                                        {% if comprobante.afipNumero is empty %}
+                                          <td></td>
+                                        {% else %}
+                                          <td>{{ comprobante.afipNumero }}</td>
+                                        {% endif %}
+                                        {% if comprobante.ordenTrabajo is empty %}
+                                          <td>-</td>
+                                        {% else %}
+                                          <td>{{ comprobante.ordenTrabajo.id }}</td>
+                                        {% endif %}
+                                        <td>{{ comprobante.tipo.descripcion }}</td>
+                                        <td>{{ comprobante.total }}</td>
+                                        <td class="pendiente">{{ comprobante.pendiente }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                    </div>
+                    <div class="box-body">                
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 
+                                <label class="control-label required" >Total Pendiente</label>   
+                                <input type="number" id="total_pendiente" name="total_pendiente" readonly="readonly" step="0.01" class="form-control" value="0.00">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.total)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.disponible)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="tabs-2">          
+        {{ form_row(form.observaciones)}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('recibo_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Recibos
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button class="btn btn-app pull-right" onclick="return submitform();" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

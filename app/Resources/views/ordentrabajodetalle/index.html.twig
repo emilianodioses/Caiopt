@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ordentrabajodetalles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Lejosojoderechoeje</th>
+                <th>Lejosojoizquieroeje</th>
+                <th>Lejosojoderechocilindro</th>
+                <th>Lejosojoizquierdocilindro</th>
+                <th>Lejosojoderechoesfera</th>
+                <th>Lejosojoizquierdoesfera</th>
+                <th>Cercaojoderechoeje</th>
+                <th>Cercaojoizquierdoeje</th>
+                <th>Cercaojoderechocilindro</th>
+                <th>Cercaojoizquierdocilindro</th>
+                <th>Cercaojoderechoesfera</th>
+                <th>Cercaojoizquierdoesfera</th>
+                <th>Ojoderechodnp</th>
+                <th>Ojoizquierdodnp</th>
+                <th>Fechaentrega</th>
+                <th>Diasestimados</th>
+                <th>Createdby</th>
+                <th>Createdat</th>
+                <th>Updatedby</th>
+                <th>Updatedat</th>
+                <th>Activo</th>
+                <th>Estado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ordenTrabajoDetalle in ordenTrabajoDetalles %}
+            <tr>
+                <td><a href="{{ path('ordentrabajodetalle_show', { 'id': ordenTrabajoDetalle.id }) }}">{{ ordenTrabajoDetalle.id }}</a></td>
+                <td>{{ ordenTrabajoDetalle.lejosOjoDerechoEje }}</td>
+                <td>{{ ordenTrabajoDetalle.lejosOjoIzquieroEje }}</td>
+                <td>{{ ordenTrabajoDetalle.lejosOjoDerechoCilindro }}</td>
+                <td>{{ ordenTrabajoDetalle.lejosOjoIzquierdoCilindro }}</td>
+                <td>{{ ordenTrabajoDetalle.lejosOjoDerechoEsfera }}</td>
+                <td>{{ ordenTrabajoDetalle.lejosOjoIzquierdoEsfera }}</td>
+                <td>{{ ordenTrabajoDetalle.cercaOjoDerechoEje }}</td>
+                <td>{{ ordenTrabajoDetalle.cercaOjoIzquierdoEje }}</td>
+                <td>{{ ordenTrabajoDetalle.cercaOjoDerechoCilindro }}</td>
+                <td>{{ ordenTrabajoDetalle.cercaOjoIzquierdoCilindro }}</td>
+                <td>{{ ordenTrabajoDetalle.cercaOjoDerechoEsfera }}</td>
+                <td>{{ ordenTrabajoDetalle.cercaOjoIzquierdoEsfera }}</td>
+                <td>{{ ordenTrabajoDetalle.ojoDerechoDnp }}</td>
+                <td>{{ ordenTrabajoDetalle.ojoIzquierdoDnp }}</td>
+                <td>{% if ordenTrabajoDetalle.fechaEntrega %}{{ ordenTrabajoDetalle.fechaEntrega|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ ordenTrabajoDetalle.diasEstimados }}</td>
+                <td>{{ ordenTrabajoDetalle.createdBy }}</td>
+                <td>{% if ordenTrabajoDetalle.createdAt %}{{ ordenTrabajoDetalle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ ordenTrabajoDetalle.updatedBy }}</td>
+                <td>{% if ordenTrabajoDetalle.updatedAt %}{{ ordenTrabajoDetalle.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if ordenTrabajoDetalle.activo %}Yes{% else %}No{% endif %}</td>
+                <td>{{ ordenTrabajoDetalle.estado }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ordentrabajodetalle_show', { 'id': ordenTrabajoDetalle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ordentrabajodetalle_edit', { 'id': ordenTrabajoDetalle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ordentrabajodetalle_new') }}">Create a new ordenTrabajoDetalle</a>
+        </li>
+    </ul>
+{% endblock %}

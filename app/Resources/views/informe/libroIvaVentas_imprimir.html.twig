@@ -1,0 +1,130 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+  {% for pagina_nro in 1..1 %}
+  <table width="100%" cellspacing="0" border="0">
+      <tbody>
+          <tr>
+            <td width="50%" align="right" vertical-align="middle">
+              <b>Informe Libro Iva Ventas</b>
+            </td>
+              <td width="50%" align="center">
+                  <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}">
+              </td>
+            </tr>
+        </tbody>
+  </table>
+
+  <br>
+  <hr>
+  &nbsp;<br>
+
+  <table width="100%" cellspacing="0" border="0">
+      <tbody>
+          <tr>
+              <td width="50%"><b>Fecha Desde: </b> {{fecha_desde}}</td>
+              <td width="50%"><b>Fecha Hasta: </b> {{fecha_hasta}}</td>
+          </tr>
+        </tbody>
+    </table>
+
+    <br>
+    &nbsp;<br>
+
+    <div class="box-default">
+
+        <table width="100%" cellspacing="0" align="center" border="0.5">
+            <tr>
+                <th style="width: 7%">Fecha</th>
+                <th>Cpte.</th>
+                <th>Nº Comp.</th>
+                <th>Cliente</th>
+                <th>CUIT o Doc.</th>
+                <th>Neto</th>
+                <th>Conc. No Grav.
+                    Ret./Perc./P.Cta
+                </th>
+                <th>Déb. Fiscal
+                    IVA Discrim.
+                </th>
+                <th>Acrecen.
+                    Op. Exentas
+                </th>
+                <th>Total Operac.
+                </th>
+            </tr>
+
+            <tbody>
+{#              {% set transporte = 0%}#}
+                {% set totalNeto = 0 %}
+                {% set NoGrav = 0 %}
+                {% set DebFiscal = 0 %}
+                {% set IvaDisc = 0 %}
+                {% set IvaExento = 0 %}
+                {% set TotalOps = 0 %}
+                {% set Alic = 21.000 %}
+                {% set Ret = 0 %}
+
+                {% for comprobante in informeIvaVentas %}
+{#                    {% set comprobante = reciboComprobante.comprobante %}#}
+                <tr>
+                    <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
+                    <td>{{ comprobante.descripcion }}</td>
+                    <td>{{ comprobante.nro_comprobante }}</td>
+                    <td>{{ comprobante.clienteRazonSocial }}</td>
+                    <td>{{ comprobante.documentoNumero }}</td>
+                    <td>{{ comprobante.totalNeto }}</td>
+                    <td>{{ comprobante.totalNoGravado }}</td>
+                    <td>{{ comprobante.importeIva }}</td>
+                    <td>{{ comprobante.importeIvaExento }}</td>
+                    <td>{{ comprobante.total }}</td>
+                    {#                    <td>#}
+                    {#                      <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>#}
+                    {#                      </a>#}
+                    {#                    </td>#}
+                    {% set totalNeto = totalNeto + comprobante.totalNeto %}
+                    {% set NoGrav = NoGrav + comprobante.totalNoGravado %}
+
+                    {% if comprobante.codigo == '6' %}
+                        {% set DebFiscal = DebFiscal + comprobante.importeIva %}
+                    {% else %}
+                        {% set IvaDisc = IvaDisc + comprobante.importeIva %}
+                    {% endif %}>
+
+                    {% set IvaExento = IvaExento + comprobante.importeIvaExento %}
+                    {% set TotalOps = TotalOps + comprobante.total %}
+
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+        <div style="display: flex; text-align: center">
+            <div>
+                Totales Mensuales: {{ totalNeto }} - {{ NoGrav }} - {{ DebFiscal }} - {{ IvaExento }} - {{ TotalOps }}
+            </div>
+            <div>
+                {{ Ret }} - {{ IvaDisc }} - {{ IvaExento }}
+            </div>
+            <div>
+                <div style="display: flex; text-align: left">
+                    Totales Mensuales
+                </div>
+
+                <div style="display: flex; text-align: left">
+                    -----------------------------
+                </div>
+                <div>
+                   <div style="display: flex; text-align: left">Neto: {{ totalNeto }}</div>
+                   <div style="display: flex; text-align: left">Déb. Fisc.: {{ DebFiscal }}</div>
+                   <div style="display: flex; text-align: left">Iva Acrec.: {{ IvaExento }}</div>
+                   <div style="display: flex; text-align: left">Alíc.: {{ Alic }}</div>
+                </div>
+
+            </div>
+        </div>
+
+{#                <div style="display: flex; justify-content: flex-end">#}
+{#        <div id="total" style="font-size: 11; bold: 1"> TRANSPORTE : {{transporte}}</div>#}
+{#        </div>#}
+
+    {% endfor %}
+
+</body>

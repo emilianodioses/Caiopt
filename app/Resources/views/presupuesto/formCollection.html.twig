@@ -1,0 +1,155 @@
+{% block PresupuestoType_widget %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_start(form) }}
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> General </h3>
+            </div>
+            <div class="box-body">
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.cliente) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.retiro) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.moneda) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.fechaPresup) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.plazoEntrega) }}
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.validezPresupuesto) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_row(form.observaciones) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_widget(form.presupuestoDetalles) }}
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.total)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.totalBonificacion)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.iva21)}}
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        {{ form_row(form.totalPresupuesto)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('presupuesto_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Presupuestos
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{# By default, collection uses the form_widget block to create its markup, but we want a table #}
+{% block collection_widget %}
+
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': form_widget(prototype)}) %}
+        {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+    {% endif %}
+    {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+    {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+    {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+
+    {{ form_errors(form) }}
+
+    {# Don't forget to add the collection attributes in your markup #}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
+                </div>
+
+                <div class="form-group ">
+                    <table {{ block('widget_attributes') }}>
+                        <thead>
+                            <th>Artículo</th>
+                            <th>Cantidad</th>
+                            <th>Forma de pago</th>
+                            <th>Porcentaje</th>
+                            <th>Bonificación</th>
+                            <th>Precio Venta</th>
+                            <th>Total</th>
+                        </thead>
+                        <tbody>
+                            {% for item in form %}
+                                {{ form_widget(item) }}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block PresupuestoDetalleType_widget %}
+
+    {# widget_attributes will generate class="item" from the DiscountCollectionType.entry_options configuration #}
+    <tr {{ block('widget_attributes') }}>
+        <td width="20%">{{ form_widget(form.articulo) }}</td>
+        <td width="10%">{{ form_widget(form.cantidad) }}</td>
+        <td width="15%">{{ form_widget(form.parametro) }}</td>
+        <td width="5%">{{ form_widget(form.valorNro) }}</td>
+        <td width="10%">{{ form_widget(form.importeBonificacion) }}</td>
+        <td width="10%">{{ form_widget(form.precioUnit) }}</td>
+        <td width="10%">{{ form_widget(form.totalDetalle) }}</td>
+        <td class="text-danger">
+            <a href="#" class="collection-remove btn btn-default" title="Delete element"><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="#" class="collection-add btn btn-default" title="Add element"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            <a href="#" class="collection-duplicate btn btn-default" title="Duplicate element"><span class="glyphicon glyphicon-th-large"></span></a>
+        </td>
+    </tr>
+
+{% endblock %}
+
+{% block PresupuestoDetalleType_label %}{% endblock %}

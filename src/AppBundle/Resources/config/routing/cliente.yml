@@ -1,0 +1,36 @@
+cliente_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Cliente:index" }
+    methods:  GET
+
+cliente_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Cliente:show" }
+    methods:  GET
+
+cliente_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Cliente:new" }
+    methods:  [GET, POST]
+
+cliente_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Cliente:edit" }
+    methods:  [GET, POST]
+
+cliente_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Cliente:delete" }
+    methods:  [GET, POST]
+
+cliente_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Cliente:findSelect2" }
+
+cliente_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:Cliente:find" }
+
+cliente_find_obra_social_plan:
+    path:     /findObraSocialPlan
+    defaults: { _controller: "AppBundle:Cliente:findObraSocialPlan" }    

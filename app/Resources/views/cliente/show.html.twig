@@ -1,0 +1,449 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Cliente
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Datos</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Ventas</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-3" data-toggle="tab">Recibos</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-4" data-toggle="tab">Órdenes de Trabajo</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-5" data-toggle="tab">Historial presupuesto</a>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Datos Cliente</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width:20%">Nombre</th>
+                                            <td>{{ cliente.nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tipo Documento</th>
+                                            <td>{{ cliente.documentoTipo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Número Documento</th>
+                                            <td>{{ cliente.documentoNumero }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Condición Iva</th>
+                                            <td>{{ cliente.ivaCondicion }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Obra Social - Plan</th>
+                                            <td>{{ cliente.obraSocialPlan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Localidad</th>
+                                            <td>{{ cliente.localidad }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dirección</th>
+                                            <td>{{ cliente.direccion }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Teléfono</th>
+                                            <td>{{ cliente.telefono }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ cliente.email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Contacto</th>
+                                            <td>{{ cliente.contacto }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>         
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                      <div class="box box-success">
+                          <div class="box-header with-border">
+                              <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                          </div>
+                          <div class="box-body">
+                              <div class="row">           
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                      <h1>$ {{cliente.saldo}}</h1>
+                                  </div>
+                              </div>  
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tabs-2">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Historial Cliente </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th style="width: 7%">Pto. Venta</th>
+                                        <th style="width: 7%">Nº Int.</th>
+                                        <th style="width: 7%">Nº Fac.</th>
+                                        <th style="width: 7%">Nº OT.</th>
+                                        <th>Tipo</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Pendiente</th>
+                                        <th>Observaciones</th>
+                                        <th style="width: 8%">Acciones</th>
+                                    </tr>
+                                <tbody>
+                                {% for comprobante in comprobantes %}
+                                    <tr>
+                                        <td>{{ comprobante.puntoVenta }}</td>
+                                        <td>{{ comprobante.numero }}</td>
+                                        {% if comprobante.afipNumero is empty %}
+                                          <td></td>
+                                        {% else %}
+                                          <td>{{ comprobante.afipNumero }}</td>
+                                        {% endif %}
+                                        {% if comprobante.ordenTrabajo is empty %}
+                                          <td>-</td>
+                                        {% else %}
+                                          <td><a href="{{ path('ordentrabajo_show', { 'id': comprobante.ordenTrabajo.Id }) }}">
+                                            {{ comprobante.ordenTrabajo.id }}</a></td>
+                                        {% endif %}
+                                        <td>{{ comprobante.tipo }}</td>
+                                        <td>{{ comprobante.cliente }}</td>
+                                        <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
+                                        <td>{{ comprobante.total }}</td>
+                                        <td>{{ comprobante.pendiente }}</td>
+                                        <td>{{ comprobante.observaciones }}</td> 
+                                        <td>
+                                          <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                          </a>
+                                          <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                          </a>
+                                          {% if comprobante.activo %}
+                                              <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                              </a>
+                                          {% else %}
+                                              <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                              </a>
+                                          {% endif %}
+                                          <a href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
+                                          </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>  
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tabs-3">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Historial Cliente </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th style="width: 10%">Nº Recibo</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Disponible</th>
+                                        <th>Observaciones</th>
+                                        <th style="width: 5%">Acciones</th>
+                                    </tr>
+                                <tbody>
+                                {% for recibo in recibos %}
+                                    <tr>
+                                        <td>{{ recibo.numero }}</td>
+                                        <td>{{ recibo.cliente }}</td>
+                                        <td>{{ recibo.fecha|date('d-m-Y') }}</td>
+                                        <td>{{ recibo.total }}</td>
+                                        <td>{{ recibo.disponible }}</td>
+                                        <td>{{ recibo.observaciones }}</td> 
+                                        <td>
+                                          <a href="{{ path('recibo_show', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                          </a>
+                                          {#
+                                          <a href="{{ path('recibo_edit', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                          </a>
+                                          #}
+                                          {% if recibo.activo %}
+                                              <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                              </a>
+                                          {% else %}
+                                              <a href="{{ path('recibo_delete', { 'id': recibo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                              </a>
+                                          {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tabs-4">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Ordenes de Cristales </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                      <th>Nro.</th>
+                                      <th>Cliente</th>
+                                      <th>Comprobante</th>
+                                      <th>Taller</th>
+                                      <th>Fecha</th>
+                                      <th>Fecha Entrega</th>
+                                      <th>Estado</th>
+                                      <th style="width: 5%">Acciones</th>
+                                  </tr>
+                                <tbody>
+                                {% for ordenTrabajo in ordenesTrabajo %}
+                                    <tr>
+                                        <td>{{ ordenTrabajo.id }}</td>
+                                        <td>{{ ordenTrabajo.cliente.nombre }}</td>
+                                        {% if ordenTrabajo.comprobante is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajo.comprobante.Id }) }}">{{ ordenTrabajo.comprobante }}</a></td>
+                                        {% endif %}
+                                        <td>{{ ordenTrabajo.taller }}</td>
+                                        {% if ordenTrabajo.fechaRecepcion is empty %}
+                                          <td></td>
+                                        {% else %}
+                                          <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                        {% if ordenTrabajo.fechaEntrega is empty %}
+                                          <td></td>
+                                        {% else %}
+                                          <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                        <td>{{ ordenTrabajo.estado }}</td>
+                                        <td>
+                                          <a href="{{ path('ordentrabajo_show', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                          </a>
+                                          <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                          </a>
+                                          {% if ordenTrabajo.activo %}
+                                              <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                              </a>
+                                          {% else %}
+                                              <a href="{{ path('ordentrabajo_delete', { 'id': ordenTrabajo.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                              </a>
+                                          {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>
+        
+
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Ordenes de Contactologia </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                      <th>Nro.</th>
+                                      <th>Cliente</th>
+                                      <th>Comprobante</th>
+                                      <th>Fecha</th>
+                                      <th>Fecha Entrega</th>
+                                      <th>Estado</th>
+                                      <th style="width: 5%">Acciones</th>
+                                  </tr>
+                                <tbody>
+                                {% for ordenTrabajoContactologia in ordenesTrabajoContactologia %}
+                                    <tr>
+                                        <td>{{ ordenTrabajoContactologia.id }}</td>
+                                        <td>{{ ordenTrabajoContactologia.cliente.nombre }}</td>
+                                        {% if ordenTrabajoContactologia.comprobante is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajoContactologia.comprobante.Id }) }}">{{ ordenTrabajoContactologia.comprobante }}</a></td>
+                                        {% endif %}
+                                        {% if ordenTrabajoContactologia.fechaRecepcion is empty %}
+                                          <td></td>
+                                        {% else %}
+                                          <td>{{ ordenTrabajoContactologia.fechaRecepcion | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                        {% if ordenTrabajoContactologia.fechaEntrega is empty %}
+                                          <td></td>
+                                        {% else %}
+                                          <td>{{ ordenTrabajoContactologia.fechaEntrega | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                        <td>{{ ordenTrabajoContactologia.estado }}</td>
+                                        <td>
+                                          <a href="{{ path('ordentrabajocontactologia_show', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                          </a>
+                                          <a href="{{ path('ordentrabajocontactologia_edit', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                          </a>
+                                          {% if ordenTrabajoContactologia.activo %}
+                                              <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                              </a>
+                                          {% else %}
+                                              <a href="{{ path('ordentrabajocontactologia_delete', { 'id': ordenTrabajoContactologia.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                              </a>
+                                          {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tabs-5">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Historial presupuestos </h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>Fecha Presupuesto</th>
+                                        <th>Plazo Entrega</th>
+                                        <th>Retiro</th>
+                                        <th>Cliente</th>
+                                        <th>Subtotal</th>
+                                        <th>Iva</th>
+                                        <th>Total Presupuesto</th>
+                                        <th style="width: 5%">Acciones</th>
+                                    </tr>
+                                <tbody>
+                                    {% for presupuesto in presupuestos %}
+                                        <tr>
+                                            {% if presupuesto.fechaPresup is empty %}
+                                                <td></td>
+                                            {% else %}
+                                                <td>{{ presupuesto.fechaPresup | date('d-m-Y') }}</td>
+                                            {% endif %}
+                                            <td>{{ presupuesto.plazoEntrega }}</td>
+                                            <td>{{ presupuesto.retiro }}</td>
+                                            <td>{{ presupuesto.cliente }}</td>
+                                            <td>{{ presupuesto.total }}</td>
+                                            <td>{{ presupuesto.iva21 }}</td>
+                                            <td>{{ presupuesto.totalPresupuesto }}</td>
+                                            <td>
+                                                <a href="{{ path('presupuesto_show', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                                                </a>
+                                                <a href="{{ path('presupuesto_edit', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                                                </a>
+                                                {% if presupuesto.activo %}
+                                                    <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ path('presupuesto_delete', { 'id': presupuesto.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                                                    </a>
+
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('cliente_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Clientes
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('cliente_edit', { 'id': cliente.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                        <a href="{{ path('ordentrabajo_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Orden Optica"><span class="glyphicon glyphicon-briefcase"></span>Orden Optica</a>
+                        <a href="{{ path('presupuesto_new', { 'clienteId': cliente.Id }) }}" class="btn btn-app pull-right" title="Crear Presupuesto"><span class="glyphicon glyphicon-list-alt"></span>Presupuesto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

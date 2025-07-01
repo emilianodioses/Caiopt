@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Usuarios
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('usuario_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Usuario/Nombre/Apellido" value="{{texto}}"/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('usuario_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+            <tbody>
+            {% for usuario in pagination %}
+                <tr>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.apellido }}</td>
+                    <td>{{ usuario.usuario }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{% if usuario.activo %}
+                        <span class="label label-success">Activo</span>
+                    {% else %}
+                        <span class="label label-danger">Inactivo</span>
+                    {% endif %}
+                    </td>  
+                    <td>{{ usuario.rol }}</td>
+                    <td>
+                        <a href="{{ path('usuario_show', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="{{ path('usuario_edit', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        {% if usuario.activo %}
+                          <a href="{{ path('usuario_delete', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                        {% else %}
+                          <a href="{{ path('usuario_delete', { 'id': usuario.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                        </a>
+
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

@@ -1,0 +1,269 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Artículo
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    {{ form_start(form) }}
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.codigo) }}                            
+                            </div>  
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.descripcion) }}
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.iva) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.precioCosto) }}
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.gananciaPorcentaje) }}
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.precioVenta) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.activo) }}
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.precioModifica) }}
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                {{ form_row(form.ordenTrabajo) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Características</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.categoria) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.marca) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.marco) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.tipoAro) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.colorMarco) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.colorCristal) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.ancho) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.alto) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.mayor_distancia) }}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.puente) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.forma) }}
+                                <label class="control-label">Forma</label>
+                                <div class="select-wrapper">
+                                    <div class="select">
+                                        <div class="select__trigger"><span>Seleccione</span>
+                                            <div class="arrow"></div>
+                                        </div>
+                                        <div class="custom-options">
+                                            <span class="custom-option" data-value="forma-1">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_1.png">
+                                                Forma 1
+                                            </span>
+                                            <span class="custom-option" data-value="forma-2">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_2.png">
+                                                Forma 2
+                                            </span>
+                                            <span class="custom-option" data-value="forma-3">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_3.png">
+                                                Forma 3
+                                            </span>
+                                            <span class="custom-option" data-value="forma-4">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_4.png">
+                                                Forma 4
+                                            </span>
+                                            <span class="custom-option" data-value="forma-5">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_5.png">
+                                                Forma 5
+                                            </span>
+                                            <span class="custom-option" data-value="forma-6">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_6.png">
+                                                Forma 6
+                                            </span>
+                                            <span class="custom-option" data-value="forma-7">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_7.png">
+                                                Forma 7
+                                            </span>
+                                            <span class="custom-option" data-value="forma-8">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_8.png">
+                                                Forma 8
+                                            </span>
+                                            <span class="custom-option" data-value="forma-9">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_9.png">
+                                                Forma 9
+                                            </span>
+                                            <span class="custom-option" data-value="forma-10">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_10.png">
+                                                Forma 10
+                                            </span>
+                                            <span class="custom-option" data-value="forma-11">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_11.png">
+                                                Forma 11
+                                            </span>
+                                            <span class="custom-option" data-value="forma-12">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_12.png">
+                                                Forma 12
+                                            </span>
+                                            <span class="custom-option" data-value="forma-13">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_13.png">
+                                                Forma 13
+                                            </span>
+                                            <span class="custom-option" data-value="forma-14">
+                                                <img height="100px" width="100px" src="/img/formas/Forma_14.png">
+                                                Forma 14
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('articulo_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Artículos
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<link rel="stylesheet" href="/css/select_list.css">
+<script type="text/javascript" src="/js/select_list.js"></script>
+<script type="text/javascript">
+
+$(document).ready( function() {
+
+    initSelect('#appbundle_articulo_forma');
+
+    $('#appbundle_articulo_precioCosto').change(function() {
+        fnCalcularPrecioVenta();
+    });
+
+    $('#appbundle_articulo_gananciaPorcentaje').change(function() {
+        fnCalcularPrecioVenta();
+    });
+
+    // $('#appbundle_articulo_precioVentaSinIva').change(function() {
+    //     fnCalcularPorcentajeGanancia();
+    // });
+
+    $('#appbundle_articulo_iva').change(function() {
+        fnCalcularPrecioVenta();
+    });
+
+    // function fnCalcularPorcentajeGanancia() {
+    //     var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
+    //     var r_precio_venta_sin_iva = $('#appbundle_articulo_precioVentaSinIva').val();
+    //
+    //     var porcentaje_ganancia = (((parseFloat(r_precio_venta_sin_iva) / parseFloat(r_precio_costo))-1) * 100) ;
+    //
+    //     $('#appbundle_articulo_gananciaPorcentaje').val(porcentaje_ganancia.toFixed(0));
+    //
+    //     return true;
+    // }
+
+    function fnCalcularPrecioVenta() {
+        var r_iva = $('#appbundle_articulo_iva :selected').text();
+        var r_precio_costo = $('#appbundle_articulo_precioCosto').val();
+        var r_porcentaje_ganancia = $('#appbundle_articulo_gananciaPorcentaje').val();
+
+        // var porcentajeTarjeta = 1.15; //porcentaje aplicado para guardar SIEMPRE el precio de tarjeta
+
+        // var precio_venta_sin_iva = parseFloat(r_precio_costo) * parseFloat(1+(r_porcentaje_ganancia/100));
+        // var precio_venta_sin_tarjeta = parseFloat(precio_venta_sin_iva) * parseFloat(1+(r_iva/100));
+
+        // var precio_venta = parseFloat(precio_venta_sin_tarjeta * porcentajeTarjeta);
+        var precio_venta = parseFloat((r_precio_costo * (1 + (r_iva/100))) * (1 + (r_porcentaje_ganancia/100)));
+
+        if (r_porcentaje_ganancia === '') {
+            //var precio_venta = 0;
+            $('#appbundle_articulo_gananciaPorcentaje').val(0);
+        }
+
+        if (r_precio_costo === '') {
+            // var precio_venta_sin_iva = 0;
+            $('#appbundle_articulo_precioCosto').val(0);
+        }
+
+        // $('#appbundle_articulo_precioVentaSinIva').val(precio_venta_sin_iva.toFixed(2));
+        $('#appbundle_articulo_precioVenta').val(precio_venta.toFixed(2));
+
+        return true;
+    }
+});
+
+</script>
+{% endblock %}
+
+
+

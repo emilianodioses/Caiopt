@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Marca
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-user"></i> Marcas</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Descripción</th>
+                            <td>{{ articulomarca.descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <th>Activo</th>
+                            <td>{% if articulomarca.activo %}
+                              <span class="label label-success">Activo</span>
+                            {% else %}
+                              <span class="label label-danger">Inactivo</span>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('articulomarca_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Marcas
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('articulomarca_edit', { 'id': articulomarca.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

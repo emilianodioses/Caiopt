@@ -1,0 +1,24 @@
+puntoventa_index:
+    path:     /
+    defaults: { _controller: "AppBundle:PuntoVenta:index" }
+    methods:  GET
+
+puntoventa_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:PuntoVenta:show" }
+    methods:  GET
+
+puntoventa_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:PuntoVenta:new" }
+    methods:  [GET, POST]
+
+puntoventa_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:PuntoVenta:edit" }
+    methods:  [GET, POST]
+
+puntoventa_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:PuntoVenta:delete" }
+    methods:  [GET, POST]

@@ -1,0 +1,83 @@
+informe_afipventasalicuotas:
+    path:     /afipventasalicuotas
+    defaults: { _controller: "AppBundle:Informe:afipventasalicuotas" }
+    methods:  [GET, POST]
+
+informe_afipventasalicuotasexportar:
+    path:     /afipventasalicuotasexportar
+    defaults: { _controller: "AppBundle:Informe:afipventasalicuotasexportar" }
+    methods:  [GET, POST]
+
+informe_ivadebitocredito:
+    path:     /ivadebitocredito
+    defaults: { _controller: "AppBundle:Informe:ivadebitocredito" }
+    methods:  [GET, POST]
+
+informe_gastos:
+    path:     /gastos
+    defaults: { _controller: "AppBundle:Informe:gastos" }
+    methods:  [GET, POST]
+
+informe_recibosVentasMedicos:
+    path:     /recibosVentasMedicos
+    defaults: { _controller: "AppBundle:Informe:recibosVentasMedicos" }
+    methods:  [GET, POST]
+
+informe_recibosVentasMedicos_imprimir:
+    path:    /recibosVentasMedicos_imprimir
+    defaults: { _controller: "AppBundle:Informe:recibosVentasMedicos_imprimir" }
+    methods:  [GET, POST]
+
+informe_libroIvaVentas:
+    path:     /libroIvaVentas
+    defaults: { _controller: "AppBundle:Informe:libroIvaVentas" }
+    methods:  [GET, POST]
+
+informe_libroIvaVentas_imprimir:
+    path:    /libroIvaVentas_imprimir
+    defaults: { _controller: "AppBundle:Informe:libroIvaVentas_imprimir" }
+    methods:  [GET, POST]
+
+informe_libroIvaVentas_imprimirexcel:
+    path:    /libroIvaVentas_imprimirExcel
+    defaults: { _controller: "AppBundle:Informe:libroIvaVentas_imprimirexcel" }
+    methods:  [GET, POST]
+
+informe_ventasEfectivo:
+    path:    /ventas_efectivo
+    defaults: { _controller: "AppBundle:Informe:ventasEfectivo" }
+    methods:  [GET, POST]
+
+informe_ventasEfectivo_imprimirExcel:
+    path:    /ventasEfectivo_imprimirexcel
+    defaults: { _controller: "AppBundle:Informe:ventasEfectivo_imprimirExcel" }
+
+informe_ventascredito:
+    path:    /ventas_credito
+    defaults: { _controller: "AppBundle:Informe:ventasCredito" }
+    methods:  [GET, POST]
+
+informe_ventascredito_imprimirExcel:
+    path:    /ventascredito_imprimirexcel
+    defaults: { _controller: "AppBundle:Informe:ventasCredito_imprimirExcel" }
+    methods:  [GET, POST]
+
+informe_colegioOpticoOT:
+    path:    /colegioOpticoOT
+    defaults: { _controller: "AppBundle:Informe:colegioOpticoOT" }
+    methods:  [GET, POST]
+
+informe_colegioOpticoOT_imprimir:
+    path:    /colegioOpticoOT_imprimir
+    defaults: { _controller: "AppBundle:Informe:colegioOpticoOT_imprimir" }
+    methods:  [GET, POST]
+
+informe_colegioOpticoOTcontactologia:
+    path:    /colegioOpticoOTcontactologia
+    defaults: { _controller: "AppBundle:Informe:colegioOpticoOTcontactologia" }
+    methods:  [GET, POST]
+
+informe_colegioOpticoOTcontactologia_imprimir:
+    path:    /colegioOpticoOTcontactologia_imprimir
+    defaults: { _controller: "AppBundle:Informe:colegioOpticoOTcontactologia_imprimir" }
+    methods:  [GET, POST]

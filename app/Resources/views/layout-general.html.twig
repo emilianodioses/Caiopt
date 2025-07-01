@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            {% block title %}
+                Beer App
+            {% endblock %}
+        </title>
+
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/font-awesome/css/font-awesome.min.css')}}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/Ionicons/css/ionicons.min.css')}}">
+
+        <link rel="stylesheet" href="{{ asset('AdminLTE/bower_components/select2/dist/css/select2.min.css')}}">
+
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/AdminLTE.min.css')}}">
+
+
+        <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+            page. However, you can choose any other skin. Make sure you
+            apply the skin class to the body tag so the changes take effect. -->
+        <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/skins/skin-blue.min.css')}}">
+
+        <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/iCheck/flat/blue.css')}}">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Font -->
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet" type="text/css">
+
+        <style>
+            .box-shadow {
+                box-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
+            }
+        </style>
+
+
+        {% block pre_javascripts %}
+            <!-- jQuery 3 -->
+            <script src="{{ asset('AdminLTE/bower_components/jquery/dist/jquery.min.js')}}"></script>
+
+            <!-- Bootstrap 3.3.7 -->
+            <script src="{{ asset('AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+
+            <script src="{{asset('AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+            <script src="{{asset('AdminLTE/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js')}}"></script>
+
+            <script src="{{asset('AdminLTE/bower_components/fastclick/lib/fastclick.js')}}"></script>
+
+            <!-- AdminLTE App -->
+            <script src="{{ asset('AdminLTE/dist/js/adminlte.min.js')}}"></script>
+
+            <script src="{{ asset('AdminLTE/bower_components/select2/dist/js/select2.min.js')}}"></script>
+            <script src="{{ asset('AdminLTE/plugins/input-mask/jquery.inputmask.js')}}"></script>
+        
+        {% endblock %}
+    </head>
+
+    <!--
+        BODY TAG OPTIONS:
+        =================
+        Apply one or more of the following classes to get the
+        desired effect
+        |---------------------------------------------------------|
+        | SKINS         | skin-blue                               |
+        |               | skin-black                              |
+        |               | skin-purple                             |
+        |               | skin-yellow                             |
+        |               | skin-red                                |
+        |               | skin-green                              |
+        |---------------------------------------------------------|
+        |LAYOUT OPTIONS | fixed                                   |
+        |               | layout-boxed                            |
+        |               | layout-top-nav                          |
+        |               | sidebar-collapse                        |
+        |               | sidebar-mini                            |
+        |---------------------------------------------------------|
+    -->
+    <body class="hold-transition skin-blue sidebar-min sidebar-collapse">
+        <div class="wrapper">
+
+
+            <header class="main-header">
+
+    <!-- Logo -->
+    <a href="{{path('homepage')}}" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini">C<b>OT</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">C A I O P T<b>Sistema de gestión</b></span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel">
+      </div>
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+        <li><a href="{{path('usuario_index')}}"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Articulos</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Marcos</a></li>
+            <li><a href="#">Cristales</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+            {% set currentPath = app.request.requestUri  %}
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" tyle="background-color:rgb(228, 228, 228);" >
+
+                {%if app.session.flashbag.has('errores')  %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-danger alert-dismissible" style="padding-bottom: 5px; border-radius: 0px;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4>
+                                    {% for flashMessage in app.session.flashbag.get('errores') %}
+                                        <i class="icon fa fa-times"></i>
+                                        {{ flashMessage }}
+                                    {% endfor %}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {%if app.session.flashbag.has('advertencias')  %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-warning alert-dismissible" style="padding-bottom: 5px; border-radius: 0px;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4>
+                                    {% for flashMessage in app.session.flashbag.get('advertencias') %}
+                                        <i class="icon fa fa-alert"></i>
+                                        {{ flashMessage }}
+                                    {% endfor %}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+                {%if app.session.flashbag.has('mensajes')  %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success alert-dismissible" style="padding-bottom: 5px; border-radius: 0px;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4>
+                                    {% for flashMessage in app.session.flashbag.get('mensajes') %}
+                                        <i class="icon fa fa-check"></i>
+                                        {{ flashMessage }}
+                                    {% endfor %}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+                {% block header %}
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        {% block titulo_row %}
+                            <h1>
+                                {% block titulo %} {%endblock%}
+                                <small>{% block subtitulo%} {% endblock %}</small>
+                            </h1>
+                            <ol class="breadcrumb">
+                            {% block breadcrumb %}
+                            {% endblock %}
+                            </ol>
+                        {% endblock %}
+                    </section>
+
+                {% endblock %}
+
+                <!-- Main content -->
+                <section class="content container-fluid">
+
+                    {% block body %}
+                    {% endblock %}
+
+
+                    <div class="modal fade" id="modal_confirmar">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Confirmar</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p id="confirmar_texto"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-default" data-dismiss="modal">Cancelar</button>
+                                    <a href="" type="button" class="btn btn-xs btn-primary" id="btn_confirmar">Sí, estoy seguro</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal_info">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Información</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p id="info_texto"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-default" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="modal_detalle_minimo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body" style="padding: 0px;">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <aside class="control-sidebar control-sidebar-dark"  style="position: fixed; overflow-y: auto; height: 100%">
+            {% block control_sidebar %}
+            {% endblock %}
+        </aside>
+        <div class="control-sidebar-bg"></div>
+
+
+
+    </div>
+    <!-- ./wrapper -->
+
+
+    <!-- REQUIRED JS SCRIPTS -->
+
+
+    <!-- Optionally, you can add Slimscroll and FastClick plugins.
+         Both of these plugins are recommended to enhance the
+         user experience. -->
+
+		{% block post_javascript %}
+            <script>
+                $(document).ready(function() {
+                    // you may need to change this code if you are not using Bootstrap Datepicker
+                    $('.js-datepicker').datepicker({
+                        format: 'dd/mm/yyyy',
+                        language: 'es',
+                        autoclose: true
+                    });
+                    $(".js-select").select2({
+                        minimumInputLength: '0',
+                    });
+
+                });
+            </script>
+            <script language="javascript" type="text/javascript">
+
+                // -->
+                    // jQuery plugin to prevent double submission of forms
+                    jQuery.fn.preventDoubleSubmission = function() {
+                      $(this).on('submit',function(e){
+                        var $form = $(this);
+                                                                                                                                                        
+                        if ($form.data('submitted') === true) {
+                          // Previously submitted - don't submit again
+                          e.preventDefault();
+                        } else {
+                          // Mark it so that the next submit can be ignored
+                          $form.data('submitted', true);
+                        }
+                      });
+    
+                      // Keep chainability
+                      return this;
+                    }           ; 
+
+                // -->
+
+
+                $(function () {
+                    $(".modal-confirmar").click(function (){
+                        var texto = $(this).data('texto');
+                        var href = $(this).data('href');
+                    
+                        $("#confirmar_texto").html(texto);
+                        $("#btn_confirmar").attr('href',href);
+                    
+                        $("#modal_confirmar").modal('show');
+                    }); 
+
+                    $(".modal-info").click(function (){
+                        var texto = $(this).data('texto');
+                    
+                        $("#info_texto").html(texto);
+                    
+                        $("#modal_info").modal('show');
+                    });                                                                                                                                           
+                });
+                {#
+                $("#modal_detalle_minimo").on("show.bs.modal", function(e) {
+                    var link = $(e.relatedTarget);
+                    $(this).find(".modal-body").html('');
+                    $(this).find(".modal-body").load(link.data("href"));
+                }); 
+                #}
+            </script>
+        {% endblock %}
+
+
+</body>
+</html>

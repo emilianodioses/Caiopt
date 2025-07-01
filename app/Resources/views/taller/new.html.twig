@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Taller
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{ form_start(form) }}
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                </div>
+                <div class="box-body">
+                    {{ form_errors(form) }}
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.nombre) }}                            
+                        </div>  
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(form.numero) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('taller_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

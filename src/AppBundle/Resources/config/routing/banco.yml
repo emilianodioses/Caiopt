@@ -1,0 +1,24 @@
+banco_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Banco:index" }
+    methods:  GET
+
+banco_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Banco:show" }
+    methods:  GET
+
+banco_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Banco:new" }
+    methods:  [GET, POST]
+
+banco_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Banco:edit" }
+    methods:  [GET, POST]
+
+banco_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Banco:delete" }
+    methods:  [GET, POST]

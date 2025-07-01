@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Comprobantes Cobrados por Médico
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('informe_recibosVentasMedicos')}}" method="GET">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="row">
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="input-group input-group-sm">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">F. Desde</span>
+                    <input name="fecha_desde" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Desde" value="{{fecha_desde}}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="input-group input-group-sm">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">F. Hasta</span>
+                    <input name="fecha_hasta" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Hasta" value="{{fecha_hasta}}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="input-group input-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">Cliente</span>
+                    <input name="cliente" type="text" class="form-control input-sm" placeholder="Nombre/Documento" value="{{cliente}}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="input-group input-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">Médico</span>
+                    <input name="medico" type="text" class="form-control input-sm" placeholder="Nombre/Matrpicula" value="{{medico}}">
+                  </div>
+
+                  <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+
+        <div class="box-body table-responsive no-padding">
+          <table id="informe_recibosVentasMedicos" class="table table-hover">
+                <tr>
+                    <th style="width: 7%">Nº OT.</th>
+                    <th>Tipo</th>
+                    <th>Cliente</th>
+                    <th>Médico</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Cobrado</th>
+                    <th>Médico %</th>
+                    <th style="width: 8%">Acciones</th>
+                </tr>
+            <tbody>
+            {% for reciboComprobante in recibosComprobantes %}
+              {% set comprobante = reciboComprobante.comprobante %}
+                <tr>                    
+                    {% if comprobante.ordenTrabajo is empty %}
+                      <td>-</td>
+                    {% else %}
+                      <td>{{ comprobante.ordenTrabajo.id }}</td>
+                    {% endif %}
+                    <td>{{ comprobante.tipo.descripcionCorta }}</td>
+                    <td>{{ comprobante.cliente }}</td>
+                    <td>{{ comprobante.medico }}</td>
+                    <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
+                    <td>{{ comprobante.total }}</td>
+                    <td>{{ reciboComprobante.sumaTotal }}</td>
+                    {% if comprobante.medico.porcentaje is empty %}
+                    <td>{{ ((reciboComprobante.sumaTotal - (reciboComprobante.sumaTotal*0.21)) * 0) | number_format(2, '.', '') }}</td>
+                    {% else %}
+                    <td>{{ ((reciboComprobante.sumaTotal - (reciboComprobante.sumaTotal*0.21)) * (comprobante.medico.porcentaje/100)) | number_format(2, '.', '') }}</td>
+                    {% endif %}
+                    <td>
+                      <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <div class="box-body table-responsive no-padding">
+
+          <a href="{{ path('informe_recibosVentasMedicos_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta,'cliente': cliente, 'medico': medico}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+
+          </a>
+
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,137 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..1 %}
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="40%" align="center">
+                        <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                        <b>OPTICA</b><br>
+                        <b>Razon Social:</b> {{ empresaRazonSocial}}<br>
+                        {{recibo.sucursal.direccion}} - {{recibo.sucursal.localidad.nombre}}, {{recibo.sucursal.localidad.provincia.nombre}}<br>
+                        {{empresaCondicion}}
+                    </td>
+                    <td width="20%" align="center">
+                        <span style="font-size:28pt"><b>X</b></span>
+                        <br>
+                        Documento No Válido<br>
+                        Como Factura
+                    </td>
+                    <td width="40%" align="left">
+                        {% if loop.index == 1 %}
+                            <b>ORIGINAL</b>
+                        {% else %}
+                            <b>DUPLICADO</b>
+                        {% endif %}
+                        <br>
+                        <br>
+                        <b>RECIBO</b><br>
+                        <b>{{ recibo.numero }}</b><br>
+                        <b>{{recibo.fecha | date('d-m-Y')}}</b><br>
+                        <br>
+                        <b>CUIT:</b> {{ empresaCuit }}<br>
+                        <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
+                        <b>Inicio Actividades:</b> {{ empresaInicioActividades }}<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%"><b>Cliente:</b> {{recibo.cliente.nombre}}</td>
+                    <td width="40%"><b>{{recibo.cliente.DocumentoTipo}}:</b> {{recibo.cliente.DocumentoNumero}}</td>
+                </tr>
+                <tr>
+                    <td><b>Domicilio:</b> {{recibo.cliente.Direccion}}</td>
+                    <td><b>Localidad:</b> {{recibo.cliente.Localidad}}</td>
+                </tr>
+                <tr>
+                    <td><b>Condición de IVA:</b> {{recibo.cliente.IvaCondicion}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        Recibí la cantidad de pesos: {{reciboTotalTexto}}<br>
+        <br>
+        En concepto de:<br>
+        
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <thead>
+                <tr>
+                    <th><b>Pto. Venta</b></th>
+                    <th><b>Nº Int.</b></th>
+                    <th><b>Nº Fac.</b></th>
+                    <th><b>Nº OT.</b></th>
+                    <th><b>Tipo</b></th>
+                    <th><b>Total</b></th>
+                    <th><b>Pagado</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reciboComprobante in reciboComprobantes %}
+                    {% set comprobante = reciboComprobante.comprobante %}
+                    <tr>
+                        <td>{{ comprobante.puntoVenta }}</td>
+                        <td>{{ comprobante.numero }}</td>
+                        {% if comprobante.afipNumero is empty %}
+                          <td></td>
+                        {% else %}
+                          <td>{{ comprobante.afipNumero }}</td>
+                        {% endif %}
+                        {% if comprobante.ordenTrabajo is empty %}
+                          <td>-</td>
+                        {% else %}
+                          <td>{{ comprobante.ordenTrabajo.id }}</td>
+                        {% endif %}
+                        <td>{{ comprobante.tipo.descripcion }}</td>
+                        <td>{{ comprobante.total }}</td>
+                        <td>{{ reciboComprobante.importe }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <thead>
+                <tr>
+                    <th><b>Tipo de Pago</b></th>
+                    <th><b>Importe</b></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for clientePago in clientePagos %}
+                <tr>
+                    <td>{{ clientePago.pagoTipo.nombre }}</td>
+                    <td>{{ clientePago.importe }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+        <b>Total:</b> $ {{recibo.total}}<br>
+        &nbsp;<br>
+
+        <b>Observaciones:</b> {% if not recibo.observaciones is empty %}{{recibo.observaciones}}{% endif %}<br>
+        <br>
+
+        {#
+        {% if loop.index < 2 %}
+            <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
+        {% endif %}
+        #}
+    {% endfor %}
+</body>

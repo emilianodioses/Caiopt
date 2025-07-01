@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Stock
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('stock_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Articulo/Codigo/Marca/Sucursal" value="{{texto}}"/>
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('stock_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+              </span>
+            </div>  
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
+                <th>Sucursal</th>
+                <th>Articulo</th>
+                <th>Codigo</th>
+                <th>Marca</th>
+                <th style="width: 10%">Cantidad</th>
+                <th style="width: 10%">Cantidad Minima</th>
+                <th style="width: 10%">Acciones</th>
+              </tr>
+            <tbody>
+            {% for stock in pagination %}
+                <tr>
+                    <td>{{ stock.sucursal }}</td>
+                    {% if rol == "Administrador" %}
+                      <td><a href="{{ path('articulo_show', { 'id': stock.articulo.id }) }}">{{ stock.articulo }}</a></td>
+                    {% else %}
+                      <td><a>{{ stock.articulo }}</a></td>
+                    {% endif %}
+                    <td>{{ stock.articulo.codigo }}</td>
+                    <td>{{ stock.articulo.marca }}</td>
+                    <td>{% if stock.cantidad < stock.cantidadMinima%}
+                            <span class="label label-danger">{{ stock.cantidad }}</span>
+                        {% else %}
+                            <span class="label label-success">{{ stock.cantidad }}</span>
+                        {% endif %}
+                    </td> 
+                    <td>{{ stock.cantidadMinima }}</td>
+                    <td>
+                      <a href="{{ path('stock_show', { 'id': stock.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      <a href="{{ path('stock_edit', { 'id': stock.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

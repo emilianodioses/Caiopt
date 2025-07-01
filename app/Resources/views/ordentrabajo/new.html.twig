@@ -1,0 +1,317 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Nueva Orden de Óptica
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>
+
+{% form_theme form 'ordentrabajo/formCollection.html.twig' %}
+{{ form(form) }}
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    window.onload = function() {
+        fnClienteChange($("#OrdenTrabajoType_cliente"));
+    }
+
+    $('.cliente').change(function() {
+        fnClienteChange($(this));
+    });
+
+    $('.medico').change(function() {
+        fnMedicoChange($(this));
+    });
+
+    $('.ordenTrabajoDetalle-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 1,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Agregar Artículo"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            parametro = element.find("select.parametro");
+            entrega = element.find("OrdenTrabajoType_entrega");
+
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
+
+            parametro.on('change', function(){
+                fnParametroChange($(this));
+            });
+
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
+
+        parametro.select2({
+                ajax: {
+                    delay: 250,
+                    url: "{{ url('parametro_find_select2') }}",//+"?page_limit=10",
+                    data: function (params) {
+                        var queryParameters = {
+                            q: params.term
+                        }
+
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                },
+                width: "100%",
+            });
+
+            entrega.on('change', function(){
+                fnCalcularSaldo();
+            });
+
+            return true;
+         },
+
+
+         after_remove: function(collection, element) {
+             //Recalculo todos los totales
+             fnCalcularTotales();
+
+             return true;
+         }
+
+    });
+
+    function fnClienteChange(cliente) {
+        if (!(cliente.val() > 0)) {
+            return true;
+        }
+
+        var data = { clienteId: cliente.val() };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('ordentrabajo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var ordentrabajo = $.parseJSON(resp.ordenTrabajo);
+
+                if (ordentrabajo != ""){
+                    $("#OrdenTrabajoType_antesLejosOjoDerechoEje").val(ordentrabajo.lejosOjoDerechoEje);
+                    $("#OrdenTrabajoType_antesLejosOjoIzquierdoEje").val(ordentrabajo.lejosOjoIzquierdoEje);
+                    $("#OrdenTrabajoType_antesLejosOjoDerechoCilindro").val(ordentrabajo.lejosOjoDerechoCilindro);
+                    $("#OrdenTrabajoType_antesLejosOjoIzquierdoCilindro").val(ordentrabajo.lejosOjoIzquierdoCilindro);
+                    $("#OrdenTrabajoType_antesLejosOjoDerechoEsfera").val(ordentrabajo.lejosOjoDerechoEsfera);
+                    $("#OrdenTrabajoType_antesLejosOjoIzquierdoEsfera").val(ordentrabajo.lejosOjoIzquierdoEsfera);
+                    $("#OrdenTrabajoType_antesCercaOjoDerechoEje").val(ordentrabajo.cercaOjoDerechoEje);
+                    $("#OrdenTrabajoType_antesCercaOjoIzquierdoEje").val(ordentrabajo.cercaOjoIzquierdoEje);
+                    $("#OrdenTrabajoType_antesCercaOjoDerechoCilindro").val(ordentrabajo.cercaOjoDerechoCilindro);
+                    $("#OrdenTrabajoType_antesCercaOjoIzquierdoCilindro").val(ordentrabajo.cercaOjoIzquierdoCilindro);
+                    $("#OrdenTrabajoType_antesCercaOjoDerechoEsfera").val(ordentrabajo.cercaOjoDerechoEsfera);
+                    $("#OrdenTrabajoType_antesCercaOjoIzquierdoEsfera").val(ordentrabajo.cercaOjoIzquierdoEsfera);
+                    $("#OrdenTrabajoType_antesOjoDerechoDnp").val(ordentrabajo.ojoDerechoDnp);
+                    $("#OrdenTrabajoType_antesOjoIzquierdoDnp").val(ordentrabajo.ojoIzquierdoDnp);
+                    $("#OrdenTrabajoType_antesOjoDerechoHp").val(ordentrabajo.ojoDerechoHp);
+                    $("#OrdenTrabajoType_antesOjoIzquierdoHp").val(ordentrabajo.ojoIzquierdoHp);
+                    $("#OrdenTrabajoType_antesOjoDerechoHpu").val(ordentrabajo.ojoDerechoHpu);
+                    $("#OrdenTrabajoType_antesOjoIzquierdoHpu").val(ordentrabajo.ojoIzquierdoHpu);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('cliente_find_obra_social_plan') }}" ,
+            data: data,
+            success: function(resp){
+
+                var obra_social_plan_id = $.parseJSON(resp.obra_social_plan_id);
+
+                $("#OrdenTrabajoType_obraSocialPlan").val(obra_social_plan_id);
+            }
+        });
+
+        return true;
+    }
+
+    function fnMedicoChange(medico) {
+        var data = {medicoId: medico.val()};
+    }
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+
+        var total = renglon.find("input.total");
+        var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
+        var importeBonificacion = renglon.find("input.importeBonificacion");
+        var precioVenta = renglon.find("input.precioVenta");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+
+                precioVenta.val(articulo.precioVenta);
+                total.val(articulo.precioVenta);
+                porcentajeBonificacion.val(0);
+                importeBonificacion.val(0);
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnParametroChange(parametro) {
+        var data = { parametroId: parametro.val() };
+        var renglon = parametro.closest("tr");
+        var valorNro = renglon.find("input.valorNro");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('parametro_find') }}" ,
+            data: data,
+            success: function(resp){
+                var parametro = $.parseJSON(resp.parametro);
+                valorNro.val(parametro.valorNro);
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var r_importeBonificacion = renglon.find("input.importeBonificacion");
+        var r_precioVenta = renglon.find("input.precioVenta");
+        var r_total = renglon.find("input.total");
+        var valorNro = renglon.find("input.valorNro");
+
+        var total = parseFloat((r_precioVenta.val() * (1+(valorNro.val()/100))) - r_importeBonificacion.val()).toFixed(2);
+
+        r_total.val(total);
+
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+
+        var total_bonificacion = 0;
+        var total = 0;
+
+        $("#OrdenTrabajoType_ordenTrabajoDetalles tr.item").each(function() {
+
+            var r_importeBonificacion = $(this).find("input.importeBonificacion");
+            var r_total = $(this).find("input.total");
+
+            total_bonificacion += parseFloat(r_importeBonificacion.val());
+            total += parseFloat(r_total.val());
+        });
+
+        $("#OrdenTrabajoType_totalBonificacion").val(total_bonificacion.toFixed(2));
+        $("#OrdenTrabajoType_total").val(total.toFixed(2));
+        $("#OrdenTrabajoType_saldo").val(total.toFixed(2));
+
+        fnCalcularSaldo();
+
+        return true;
+    }
+
+    function fnCalcularSaldo() {
+
+        total = $("#OrdenTrabajoType_total").val();
+        entrega = $("#OrdenTrabajoType_entrega").val();
+
+        var saldo = parseFloat(total - entrega);
+
+        $("#OrdenTrabajoType_saldo").val(saldo.toFixed(2));
+
+        return true;
+    }
+
+    $('#OrdenTrabajoType_entrega').change(function() {
+       fnCalcularSaldo();
+    });
+
+    function fnReplicarValor(original, nuevo, condicional)
+    {
+        $(original+","+condicional).change(function() {
+            if ($(condicional).val() != 0)
+                $(nuevo).val($(original).val());
+    });
+    }
+
+    var camposReplicables = [['#OrdenTrabajoType_antesLejosOjoDerechoCilindro','#OrdenTrabajoType_antesCercaOjoDerechoCilindro',
+          '#OrdenTrabajoType_antesCercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_antesLejosOjoIzquierdoCilindro','#OrdenTrabajoType_antesCercaOjoIzquierdoCilindro',
+          '#OrdenTrabajoType_antesCercaOjoIzquierdoEsfera'],
+         ['#OrdenTrabajoType_antesLejosOjoDerechoEje','#OrdenTrabajoType_antesCercaOjoDerechoEje',
+          '#OrdenTrabajoType_antesCercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_antesLejosOjoIzquierdoEje','#OrdenTrabajoType_antesCercaOjoIzquierdoEje',
+          '#OrdenTrabajoType_antesCercaOjoIzquierdoEsfera'],
+         //*NUEVA*//
+         ['#OrdenTrabajoType_lejosOjoDerechoCilindro','#OrdenTrabajoType_cercaOjoDerechoCilindro',
+          '#OrdenTrabajoType_cercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_lejosOjoIzquierdoCilindro','#OrdenTrabajoType_cercaOjoIzquierdoCilindro',
+          '#OrdenTrabajoType_cercaOjoIzquierdoEsfera'],
+         ['#OrdenTrabajoType_lejosOjoDerechoEje','#OrdenTrabajoType_cercaOjoDerechoEje',
+          '#OrdenTrabajoType_cercaOjoDerechoEsfera'],
+         ['#OrdenTrabajoType_lejosOjoIzquierdoEje','#OrdenTrabajoType_cercaOjoIzquierdoEje',
+          '#OrdenTrabajoType_cercaOjoIzquierdoEsfera']];
+
+    camposReplicables.forEach((element => fnReplicarValor(element[0],element[1],element[2])));
+</script>
+
+{% endblock %}

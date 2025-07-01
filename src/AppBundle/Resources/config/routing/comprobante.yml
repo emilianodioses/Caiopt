@@ -1,0 +1,24 @@
+comprobante_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Comprobante:index" }
+    methods:  GET
+
+comprobante_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Comprobante:show" }
+    methods:  GET
+
+comprobante_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Comprobante:new" }
+    methods:  [GET, POST]
+
+comprobante_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Comprobante:edit" }
+    methods:  [GET, POST]
+
+comprobante_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Comprobante:delete" }
+    methods:  [GET, POST] 

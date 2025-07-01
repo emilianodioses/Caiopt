@@ -1,0 +1,7 @@
+afip_test:
+    path:     /test
+    defaults: { _controller: "AppBundle:Afip:test" }
+
+afip_find_persona:
+    path:     /findPersona
+    defaults: { _controller: "AppBundle:Afip:findPersona" }

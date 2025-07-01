@@ -1,0 +1,28 @@
+pagotipo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:PagoTipo:index" }
+    methods:  GET
+
+pagotipo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:PagoTipo:show" }
+    methods:  GET
+
+pagotipo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:PagoTipo:new" }
+    methods:  [GET, POST]
+
+pagotipo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:PagoTipo:edit" }
+    methods:  [GET, POST]
+
+pagotipo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:PagoTipo:delete" }
+    methods:  DELETE
+
+pagotipo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:PagoTipo:findSelect2" }

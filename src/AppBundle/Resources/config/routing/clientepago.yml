@@ -1,0 +1,24 @@
+clientepago_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ClientePago:index" }
+    methods:  GET
+
+clientepago_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ClientePago:show" }
+    methods:  GET
+
+clientepago_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ClientePago:new" }
+    methods:  [GET, POST]
+
+clientepago_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ClientePago:edit" }
+    methods:  [GET, POST]
+
+clientepago_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ClientePago:delete" }
+    methods:  DELETE

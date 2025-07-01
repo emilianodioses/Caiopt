@@ -1,0 +1,44 @@
+ordenpago_index:
+    path:     /
+    defaults: { _controller: "AppBundle:OrdenPago:index" }
+    methods:  GET
+
+ordenpago_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:OrdenPago:show" }
+    methods:  GET
+
+ordenpago_new:
+    path:     /{comprobante}/new
+    defaults: { _controller: "AppBundle:OrdenPago:new" }
+    methods:  [GET, POST]
+
+ordenpago_proveedor_new:
+    path:     /{proveedor}/proveedorNew
+    defaults: { _controller: "AppBundle:OrdenPago:proveedorNew" }
+    methods:  [GET, POST]
+
+ordenpago_proveedor_edit:
+    path:     /{id}/proveedorEdit
+    defaults: { _controller: "AppBundle:OrdenPago:proveedorEdit" }
+    methods:  [GET, POST]
+
+ordenpago_proveedor_delete:
+    path:     /{ordenPagoComprobante}/proveedorDelete
+    defaults: { _controller: "AppBundle:OrdenPago:proveedorDelete" }
+    methods:  [GET, POST] 
+
+ordenpago_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:OrdenPago:edit" }
+    methods:  [GET, POST]
+
+ordenpago_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:OrdenPago:delete" }
+    methods:  [GET, POST] 
+
+ordenpago_imprimir:
+    path:     /{id}/imprimir
+    defaults: { _controller: "AppBundle:OrdenPago:imprimir" }
+    methods:  [GET, POST]

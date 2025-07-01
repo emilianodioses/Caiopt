@@ -1,0 +1,48 @@
+recibo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Recibo:index" }
+    methods:  GET
+
+recibo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Recibo:show" }
+    methods:  GET
+
+recibo_new:
+    path:     /{comprobante}/new
+    defaults: { _controller: "AppBundle:Recibo:new" }
+    methods:  [GET, POST]
+
+recibo_cliente_new:
+    path:     /{cliente}/clienteNew
+    defaults: { _controller: "AppBundle:Recibo:clienteNew" }
+    methods:  [GET, POST]
+
+recibo_cliente_edit:
+    path:     /{id}/clienteEdit
+    defaults: { _controller: "AppBundle:Recibo:clienteEdit" }
+    methods:  [GET, POST]
+
+recibo_cliente_delete:
+    path:     /{reciboComprobante}/clienteDelete
+    defaults: { _controller: "AppBundle:Recibo:clienteDelete" }
+    methods:  [GET, POST]
+
+recibo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Recibo:edit" }
+    methods:  [GET, POST]
+
+recibo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Recibo:delete" }
+    methods:  [GET, POST] 
+
+recibo_imprimir:
+    path:     /{id}/imprimir
+    defaults: { _controller: "AppBundle:Recibo:imprimir" }
+    methods:  [GET, POST]
+
+recibo_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:Recibo:findSelect2" }

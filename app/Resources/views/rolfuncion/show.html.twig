@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rolfuncion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rolFuncion.id }}</td>
+            </tr>
+            <tr>
+                <th>Modulo</th>
+                <td>{{ rolFuncion.modulo }}</td>
+            </tr>
+            <tr>
+                <th>Accion</th>
+                <td>{{ rolFuncion.accion }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ rolFuncion.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if rolFuncion.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ rolFuncion.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if rolFuncion.createdAt %}{{ rolFuncion.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ rolFuncion.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if rolFuncion.updatedAt %}{{ rolFuncion.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('rolfuncion_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Libro Recetario Digital Órdenes Óptica
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" action="{{ path('informe_colegioOpticoOT') }}" method="GET">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"></h3>
+                        <div class="box-tools">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon input-sm">Sucursal</span>
+                                                <select class="form-control" id="sucursal" name="sucursal">
+                                                        {% for sucursal in sucursales %}
+                                                            <option value="{{sucursal.id}}" {% if sucursal_id == sucursal.id %} selected {%endif%}> {{sucursal.nombre}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon input-sm">F. Desde</span>
+                                            <input name="fecha_desde" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Desde" value="{{ fecha_desde }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon input-sm">F. Hasta</span>
+                                            <input name="fecha_hasta" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Hasta" value="{{ fecha_hasta }}">
+                                        </div>
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body table-responsive no-padding">
+                        <table id="informe_ot" class="table table-hover">
+                            <tr>
+                                <th style="text-align:center">Nro. Interno</th>
+                                <th style="text-align:center">Cliente</th>
+                                <th style="text-align:center">Domicilio del Cliente</th>
+                                <th style="text-align:center">Fecha Receta</th>
+                                <th style="text-align:center">Médico</th>
+                            </tr>
+                            <tbody>
+                            {% for informeOT in informeOTs %}
+                                <tr>
+                                    <td style='text-align:center'>{{ informeOT.id_OrdenTrabajo }}</td>
+                                    <td style="text-align:center">{{ informeOT.nombreCliente }}</td>
+                                    <td style="text-align:center">{{ informeOT.direccion }}</td>
+                                    <td style="text-align:center">{{ informeOT.fechaReceta|date('d-m-Y') }}</td>
+                                    <td style="text-align:center">{{ informeOT.medicoNombre }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="box-body table-responsive no-padding">
+                        <a href="{{ path('informe_colegioOpticoOT_imprimir', {'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta, 'sucursal': sucursal_id ?: 1}) }}" class="btn btn-app pull-right" target="_blank" title="Impresión de Informe">
+                            <span class="glyphicon glyphicon-print"></span>Imprimir
+                        </a>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

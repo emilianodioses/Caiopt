@@ -1,0 +1,145 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+    {% for pagina_nro in 1..2 %}
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="40%" align="center">
+                        <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                        <b>OPTICA</b><br>
+                        <b>Razón Social:</b> {{ empresaRazonSocial}}<br>
+                        {{comprobante.sucursal.direccion}} - {{comprobante.sucursal.localidad.nombre}}, {{comprobante.sucursal.localidad.provincia.nombre}}<br>
+                        {{empresaCondicion}}
+                    </td>
+                    <td width="20%" align="center">
+                        <span style="font-size:28pt"><b>{{ comprobante.tipo.letra }}</b></span>
+                        <br>
+                        COD. {{"%02d"|format(comprobante.tipo.codigo )}}
+                    </td>
+                    <td width="40%" align="left">
+                        {% if loop.index == 1 %}
+                            <b>ORIGINAL</b>
+                        {% else %}
+                            <b>DUPLICADO</b>
+                        {% endif %}
+                        <br>
+                        <br>
+                        <b>{{comprobante.tipo}}</b><br>
+                        <b>N°: {{"%05d"|format(comprobante.puntoVenta)}}-{{"%08d"|format(comprobante.afipNumero)}}</b><br>
+                        <b>Fecha: {{comprobante.fecha | date('d-m-Y')}}</b><br>
+                        <br>
+                        <b>CUIT:</b> {{ empresaCuit }}<br>
+                        <b>Ingresos Brutos:</b> {{ empresaIngresosBrutos }}<br>
+                        <b>Inicio Actividades:</b> {{ empresaInicioActividades }}<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%"><b>Razón Social:</b> {{comprobante.clienteRazonSocial}}</td>
+                    <td width="40%"><b>{{comprobante.clienteDocumentoTipo}}:</b> {{comprobante.clienteDocumentoNumero}}</td>
+                </tr>
+                <tr>
+                    <td><b>Domicilio:</b> {{comprobante.clienteDomicilio}}</td>
+                    <td><b>Localidad:</b> {{comprobante.clienteLocalidad}}</td>
+                </tr>
+                <tr>
+                    <td><b>Condición de IVA:</b> {{comprobante.clienteIvaCondicion}}</td>
+                    {% if not comprobante.comprobanteAsociado is empty %}
+                        <td><b>Cbte Asociado:</b> {{comprobante.comprobanteAsociado.tipo.descripcion}}: {{comprobante.comprobanteAsociado.puntoVenta}}-{{comprobante.comprobanteAsociado.afipNumero}}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td><b>Condición de Venta:</b> Otra</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        &nbsp;<br>
+
+        <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+            <tbody>
+                <tr>
+                    <th width="8%"><b>Cod.</b></th>
+                    <th width="52%"><b>Descripción</b></th>
+                    <th width="10%"><b>Cantidad</b></th>
+                    <th width="10%"><b>Precio U.</b></th>
+                    <th width="10%"><b>Bonif. %</b></th>
+                    <th width="10%"><b>Subtotal</b></th>
+                </tr>
+                {% set renglones = 0 %}
+                {% for comprobanteDetalle in comprobanteDetalles %}
+                    <tr>
+                        <td>{{ comprobanteDetalle.articulo.codigo}}</td>
+                        <td>{{ comprobanteDetalle.articulo.descripcion }}</td>
+                        <td>{{ comprobanteDetalle.cantidad }}</td>
+                        <td>{{ (comprobanteDetalle.precioUnitario + comprobanteDetalle.importeIva ) | number_format(2, '.', '')}}</td>
+                        <td>{{ comprobanteDetalle.porcentajeBonificacion }}</td>
+                        <td>{{ comprobanteDetalle.total }}</td>
+                    </tr>
+
+                    {# Cada renglon admite hasta 59 caracteres #}
+                    {% set renglon_actual = (comprobanteDetalle.articulo.descripcion | length) %}
+                    {% set renglon_actual = (renglon_actual // 60) + 1 %}
+                    {% set renglones = renglones + renglon_actual %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+{#decia 21 lo cambio a 16 para que entre qr#}
+        {% if renglones < 16 %}
+            <table width="100%" cellspacing="0" cellpadding="5" border="0" style="font-size:7pt">
+                <tbody>
+                    {% for i in (renglones + 1)..16 %}
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        &nbsp;<br>
+
+        <table width="100%" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td width="60%">
+                        <img width="63" height="18" src="{{ asset('img/logoAFIP.jpeg')}}"><br>
+                        <span style="font-size:5pt"><i>La Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</i></span><br>
+                        <div id="qrcode">
+                          <img src="https://chart.googleapis.com/chart?chs=155x155&cht=qr&chl={{qrcode_string}}&choe=UTF-8" alt="Generador de Códigos QR Codes"/>
+                        <br/>
+                        </div>
+
+                    </td>
+                    <td width="40%">
+                        <b> </b><br>
+                        <b> </b> <br>
+                        <b> </b><br>
+                        <b> </b><br>
+                        <b> </b><br>
+                        <b>Subtotal:</b> $ {{(comprobante.total + comprobante.totalBonificacion) | number_format(2, '.', '')}}<br>
+                        <b>Bonificacion:</b> $ {{comprobante.totalBonificacion}}<br>
+                        <b> </b><br>
+                        <b>Total:</b> $ {{comprobante.total}}<br>
+                        <b> </b><br>
+                        <b>CAE Nro:</b> {{comprobante.caeNumero}}<br>
+                        <b>Fecha de Vto. de CAE:</b> {{comprobante.caeFechaVencimiento | date('d-m-Y')}}<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if loop.index < 2 %}
+            <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
+        {% endif %}
+    {% endfor %}
+</body>

@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Presupuesto
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Presupuesto</a>
+    </li>
+</ul>
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Presupuesto </h3>
+                            </div>
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>N° Presupuesto</th>
+                                        <td>{{ presupuesto.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <td><a href="{{ path('cliente_show', { 'id': presupuesto.cliente.Id }) }}">{{ presupuesto.cliente.nombre }}</a></td>
+                                    </tr>
+                                    <th>Fecha Presupuesto</th>
+                                    {% if presupuesto.fechaPresup is empty %}
+                                        <td></td>
+                                    {% else %}
+                                        <td>{{ presupuesto.fechaPresup | date('d-m-Y') }}</td>
+                                    {% endif %}
+                                    <tr>
+                                        <th>Validez Presupuesto</th>
+                                        <td>{{ presupuesto.validezPresupuesto }} días</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Plazo Entrega</th>
+                                        <td>{{ presupuesto.plazoEntrega }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Retiro</th>
+                                        <td>{{ presupuesto.retiro }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Moneda</th>
+                                        <td>{{ presupuesto.moneda }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <td>{{ presupuesto.usuario }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Observaciones</th>
+                                        <td>{{ presupuesto.observaciones }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
+                            </div>
+
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Importe Bonificación</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for presupuestoDetalle in presupuestodetalles %}
+                                <tr>
+                                    <td>{{ presupuestoDetalle.articulo.descripcion }}</td>
+                                    <td>{{ presupuestoDetalle.cantidad }}</td>
+                                    <td>{{ presupuestoDetalle.precioUnit }}</td>
+                                    <td>{{ presupuestoDetalle.importeBonificacion }}</td>
+                                    <td>{{ presupuestoDetalle.totalDetalle }}</td>
+                                </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+
+                            <div class="box-body">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <b>ATENCION:</b> Pasados los 30 días podrá ajustarse el precio por inflación
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-user"></i> $$$ </h3>
+                        </div>
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <th>Subtotal</th>
+                                <td>{{ presupuesto.total }}</td>
+                            </tr>
+                            <tr>
+                                <th>Iva</th>
+                                <td>{{ presupuesto.iva21 }}</td>
+                            </tr>
+                            <tr>
+                                <th>Total Presupuesto</th>
+                                <td>{{ presupuesto.totalPresupuesto }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <a href="{{ path('presupuesto_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Presupuesto
+                                    </a>
+                                    <a href="{{ path('presupuesto_edit', { 'id': presupuesto.Id }) }}"
+                                       class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                    </a>
+                                    <a href="{{ path('presupuesto_imprimir', { 'id': presupuesto.Id }) }}"
+                                       class="btn btn-app pull-right" target="_blank" title="Impresión Presupuesto">
+                                        <span class="glyphicon glyphicon-print"></span>Imprimir
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

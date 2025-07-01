@@ -1,0 +1,355 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Editar Orden de Pago
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}  
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>
+
+{% block OrdenPagoType_widget %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Orden de Pago</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Observaciones</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tabs-1"> 
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                {{ form_start(form) }}
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_errors(form) }}
+                        <div class="row">           
+                            {# form_widget(form.saldo, { 'attr': {'class': 'hide'} }) #}
+                            {# form_widget(form.pendiente, { 'attr': {'class': 'hide'} }) #}
+                            
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                {{ form_row(form.proveedor)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.numero)}}
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {{ form_row(form.fecha)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">           
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h1>$ {{ordenPago.proveedor.saldo}}</h1>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table id="orden_pago_comprobantes" class="table table-hover">
+                            <thead>
+                                <th hidden>Comprobante ID</th>
+                                <th hidden>OrdenPago Comprobante ID</th>
+                                <th style="width: 5%"></th>
+                                <th style="width: 12%">Pto. Venta</th>
+                                <th style="width: 12%">Nº Fac.</th>
+                                <th style="width: 20%">Tipo</th>
+                                <th>Total</th>
+                                <th>Pendiente</th>
+                                <th style="width: 5%">Acc</th>
+                            </thead>
+                            <tbody>
+                                {% for ordenPagoComprobante in ordenPagoComprobantes %}
+                                    {% set comprobante = ordenPagoComprobante.comprobante %}
+                                    <tr class="item">
+                                        {% if ordenPagoComprobante.id > 0 %}
+                                            <td hidden>{{ordenPagoComprobante.id}}</td>
+                                            <td hidden>{{comprobante.id}}</td>
+                                            <td></td>
+                                            <td>{{ comprobante.puntoVenta }}</td>
+                                            <td>{{ comprobante.numero }}</td>
+                                            <td>{{ comprobante.tipo.descripcion }}</td>
+                                            <td>{{ comprobante.total }}</td>
+                                            <td class="pendiente">{{ ordenPagoComprobante.importe }}</td>
+                                            <td>
+                                                <a href="{{ path('ordenpago_proveedor_delete', { 'ordenPagoComprobante': ordenPagoComprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                            </td>
+                                        {% else %}
+                                            <td hidden>0</td>
+                                            <td hidden>{{comprobante.id}}</td>
+                                            <td><input type="checkbox" id="{{ comprobante.id }}" name="{{ comprobante.id }}" onchange="comprobante_checked(this)"></td>
+                                            <td>{{ comprobante.puntoVenta }}</td>
+                                            <td>{{ comprobante.numero }}</td>
+                                            <td>{{ comprobante.tipo.descripcion }}</td>
+                                            <td>{{ comprobante.total }}</td>
+                                            <td class="pendiente">{{ comprobante.pendiente }}</td>
+                                            <td></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <div class="row">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <table class="table table-hover">
+                            <thead>
+                                <th width="20%">Tipo de Pago</th>
+                                <th width="20%">Banco</th>
+                                <th width="20%">Fecha</th>
+                                <th>Número</th>
+                                <th>Importe</th>
+                            </thead>
+                            <tbody>
+                                {% for proveedorPago in ordenPago.proveedorPagos %}
+                                    <tr>
+                                        <td>{{proveedorPago.pagoTipo.nombre}}</td>
+                                        {% if proveedorPago.banco is empty %}
+                                            <td>-</td>
+                                        {% else %}
+                                            <td>{{ proveedorPago.banco }}</td>
+                                        {% endif %}
+                                        {% if proveedorPago.fecha is empty %}
+                                            <td>-</td>
+                                        {% else %}
+                                            <td>{{ proveedorPago.fecha | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                        {% if proveedorPago.numero is empty %}
+                                            <td>-</td>
+                                        {% else %}
+                                            <td>{{ proveedorPago.numero }}</td>
+                                        {% endif %}
+                                        <td>{{proveedorPago.importe}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Totales </h3>
+                    </div>
+                    <div class="box-body">                
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 
+                                <label class="control-label required" >Total Pendiente</label>   
+                                <input type="number" id="total_pendiente" name="total_pendiente" readonly="readonly" step="0.01" class="form-control">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.total)}}
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">    
+                                {{ form_row(form.disponible)}}
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="tabs-2">          
+        {{ form_row(form.observaciones)}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('ordenpago_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Órdenes de Pago
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button class="btn btn-app pull-right" onclick="submitform()" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script type="text/javascript">
+    var COL_ORDENPAGO_COMPROBANTE_ID = 0;
+    var COL_COMPROBANTE_ID = 1;
+    var COL_CHECKBOX = 2
+    var COL_PUNTOVENTA = 3;
+    var COL_NRO_FACTURA = 4;
+    var COL_TIPO = 5;
+    var COL_TOTAL = 6;
+    var COL_PENDIENTE = 7;
+
+    function fnCalcularTotales() {
+        var total = $("#OrdenPagoType_total").val();
+        var pendiente = parseFloat($('#total_pendiente').val());
+
+        var disponible = total - pendiente;
+        if (disponible < 0) {
+            disponible = 0;
+        }
+
+        $("#OrdenPagoType_disponible").val(disponible.toFixed(2));
+
+        //$("#OrdenPagoType_totalCosto").val(total_costo.toFixed(2));
+        //$("#OrdenPagoType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
+
+        return true;
+    }
+
+    function comprobante_checked(argument) {
+        var total = 0;
+
+        $('#orden_pago_comprobantes tr').each(function(row, tr){
+            comprobante_id = $(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text();
+            ordenpago_comprobante_id = $(tr).find('td:eq('+COL_ORDENPAGO_COMPROBANTE_ID+')').text();
+            tipo = $(tr).find('td:eq('+COL_TIPO+')').text();
+            
+            if (ordenpago_comprobante_id == 0) {
+                var x = document.getElementById($(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text());
+
+                if (x !== null) {
+                    if (x.checked) {
+                        if (tipo == 'NOTA DE CREDITO A' ||
+                            tipo == 'NOTA DE CREDITO B' || 
+                            tipo == 'NOTA DE CREDITO C') {
+                            
+                            total -= parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                        }
+                        else {
+                            total += parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                        }
+                    }
+                }
+            }
+            else {
+                if (tipo == 'NOTA DE CREDITO A' ||
+                    tipo == 'NOTA DE CREDITO B' || 
+                    tipo == 'NOTA DE CREDITO C') {
+                    
+                    total -= parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                }
+                else {
+                    total += parseFloat($(tr).find('td:eq('+COL_PENDIENTE+')').text());
+                }
+            }
+        });
+
+        $('#total_pendiente').val(total.toFixed(2));
+        fnCalcularTotales();
+    };
+
+    function getComprobantes(){
+        var TableData = new Array();
+        var i = 0;
+        
+        $('#orden_pago_comprobantes tr').each(function(row, tr){
+            comprobante_id = $(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text();
+            ordenpago_comprobante_id = $(tr).find('td:eq('+COL_ORDENPAGO_COMPROBANTE_ID+')').text();
+            
+            if (ordenpago_comprobante_id == 0) {
+                var x = document.getElementById($(tr).find('td:eq('+COL_COMPROBANTE_ID+')').text());
+
+                if (x !== null) {
+                    if (x.checked) {
+                        TableData[i]={  "id": comprobante_id
+                                      , "ordenpago_comprobante_id": ordenpago_comprobante_id };
+
+                        i++;
+                    }
+                }
+            }
+            else {
+                TableData[i]={  "id": comprobante_id
+                              , "ordenpago_comprobante_id": ordenpago_comprobante_id };
+
+                        i++;
+            }
+        });
+
+        return TableData;
+    }
+
+    function submitform() {
+        var comprobantes = getComprobantes();
+        comprobantes = JSON.stringify(comprobantes);
+
+        var form = document.getElementsByName("OrdenPagoType")[0];
+
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "comprobantes")
+            .attr('value', comprobantes)
+            .appendTo(form);
+
+        return true;
+    };
+</script>          
+
+{% endblock %}

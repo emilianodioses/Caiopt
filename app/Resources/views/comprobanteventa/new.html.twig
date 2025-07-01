@@ -1,0 +1,252 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Nuevo Comprobante de Venta
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
+
+{% block body %}  
+
+<script>
+$(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+      $(this).tab('show');
+      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+      window.location.hash = this.hash;
+      $('html,body').scrollTop(scrollmem);
+    });
+  });
+</script>  
+
+{% form_theme form 'comprobanteventa/formCollection.html.twig' %}
+{{ form(form, {'op': 'New'}) }}
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    $('.clientePago-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 0,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Agregar Pago"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            //element.on('change', function(){
+            //    fnRenglonChange($(this));
+            //});
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            //fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    $('.comprobanteDetalle-collection').collection({
+        allow_duplicate: false,
+        allow_up: false,
+        allow_down: false,
+        init_with_n_elements: 1,
+        add_at_the_end: true,
+        add: '<a href="#" class="btn btn-default" title="Agregar Artículo"><span class="glyphicon glyphicon-plus-sign"></span></a>',
+        elements_selector: 'tr.item',
+        elements_parent_selector: '%id% tbody',
+        after_add: function(collection, element) {
+            articulo = element.find("select.articulo");
+            
+            articulo.on('change', function(){
+                fnArticuloChange($(this));
+            });
+
+            element.on('change', function(){
+                fnRenglonChange($(this));
+            });
+
+            articulo.select2({
+                ajax: {
+                  delay: 250,
+                  url: "{{ url('articulo_find_select2') }}",//+"?page_limit=10",
+                  data: function (params) {
+                    var queryParameters = {
+                      q: params.term
+                    }
+
+                    return queryParameters;
+                  },
+                  processResults: function (data) {
+                    return {
+                      results: data
+                    };
+                  },
+                },
+                width: "100%",
+            });
+
+            return true;
+         },
+         after_remove: function(collection, element) {
+            //Recalculo todos los totales
+            fnCalcularTotales();
+
+            return true;
+         }
+    });
+
+    //<< FUNCIONES PARA LOS ComprobanteDetalle YA EXISTENTES
+    $('.articulo').on('change', function(){
+        fnArticuloChange($(this));
+    });
+
+    $('.item').on('change', function(){
+        fnRenglonChange($(this));
+    });
+    //>> FIN FUNCIONES
+
+    window.onload = function() {
+        fnCalcularTotales();
+    }
+
+    function fnArticuloChange(articulo) {
+        var data = { articuloId: articulo.val() };
+        var renglon = articulo.closest("tr");
+        var cantidad = renglon.find("input.cantidad");
+        var precioVenta = renglon.find("input.precioVenta");
+        var porcentajeIva = renglon.find("select.porcentajeIva");
+        var porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('articulo_find') }}" ,
+            data: data,
+            success: function(resp){
+                var articulo = $.parseJSON(resp.articulo);
+                
+                cantidad.val(1);
+                precioVenta.val(articulo.precioVenta);
+                porcentajeBonificacion.val(0);
+                porcentajeIva.val(parseFloat(articulo.iva).toFixed(2));
+
+                fnRenglonChange(renglon);
+            }
+        });
+
+        return true;
+    }
+
+    function fnRenglonChange(renglon) {
+        var r_cantidad = renglon.find("input.cantidad");
+        var r_precioUnitario = renglon.find("input.precioUnitario");
+        var r_porcentajeBonificacion = renglon.find("input.porcentajeBonificacion");
+        var r_importeBonificacion = renglon.find("input.importeBonificacion");
+        var r_porcentajeIva = renglon.find("select.porcentajeIva");
+        var r_importeIva = renglon.find("input.importeIva");
+        var r_precioVenta = renglon.find("input.precioVenta");
+        var r_total = renglon.find("input.total");
+
+        //Dejo la bonificacion en cero hasta q veamos q hacemos
+        var importe_bonificacion = 0;//parseFloat(r_precioUnitario.val() * r_porcentajeBonificacion.val() / 100).toFixed(2);
+        r_porcentajeBonificacion.val(0);
+
+        var importe_iva = parseFloat(r_precioVenta.val() * r_porcentajeIva.val() / (parseFloat(100) + parseFloat(r_porcentajeIva.val()))).toFixed(2);
+
+        var precio_unitario = parseFloat(r_precioVenta.val() - importe_iva).toFixed(2);
+        var total = parseFloat(r_cantidad.val() * r_precioVenta.val()).toFixed(2);
+
+        r_importeBonificacion.val(importe_bonificacion);
+        r_precioUnitario.val(precio_unitario);
+        r_importeIva.val(importe_iva);
+        r_total.val(total);
+        
+        fnCalcularTotales();
+
+        return true;
+    }
+
+    function fnCalcularTotales() {
+        var total_costo = 0;
+        var importe_neto = 0;
+        var total_neto = 0;
+        var total_bonificacion = 0;
+        var total_iva = 0;
+        var total_importe_iva = 0;
+        var total = 0;
+        
+        $("#ComprobanteType_comprobanteDetalles tr.item").each(function() {
+            var r_cantidad = $(this).find("input.cantidad");
+            var r_precioUnitario = $(this).find("input.precioUnitario");
+            var r_porcentajeBonificacion = $(this).find("input.porcentajeBonificacion");
+            var r_importeBonificacion = $(this).find("input.importeBonificacion");
+            var r_porcentajeIva = $(this).find("select.porcentajeIva");
+            var r_importeIva = $(this).find("input.importeIva");
+            var r_precioVenta = $(this).find("input.precioVenta");
+            var r_total = $(this).find("input.total");
+
+            //total_costo += parseFloat(r_cantidad.val()) * parseFloat(r_precioCosto.val());
+
+            // Agrego este if por que se agrego la ejecucion de la funcion fnCalcularTotales
+            // en windows.onload y cuando la accion es un new action que no proviene de una orden
+            // el objeto dentro de detalle es nulo y sin esto los parseos fallaban y figuraba como warning en el
+            // console
+            if (r_cantidad.val() > 0)
+            {
+                importe_neto = parseFloat(r_precioUnitario.val() - r_importeBonificacion.val());
+                total_neto += parseFloat(r_cantidad.val()) * parseFloat(importe_neto).toFixed(2);
+                total_bonificacion += r_cantidad.val() * parseFloat(r_importeBonificacion.val());
+                
+                total_iva += r_cantidad.val() * parseFloat(r_importeIva.val());
+                total += parseFloat(r_total.val());
+            }
+            
+            //total += parseFloat(importe_iva);
+        });
+
+        $("#ComprobanteType_totalNeto").val(total_neto.toFixed(2));
+        $("#ComprobanteType_importeIva").val(total_iva.toFixed(2));
+        $("#ComprobanteType_totalBonificacion").val(total_bonificacion.toFixed(2));
+        $("#ComprobanteType_total").val(total.toFixed(2));
+
+        //$("#ComprobanteType_totalCosto").val(total_costo.toFixed(2));
+        //$("#ComprobanteType_totalGanancia").val(total.toFixed(2)-total_costo.toFixed(2));
+
+        return true;
+    };
+
+    $('.cliente').change(function() {
+        fnClienteChange($(this));
+
+    });
+
+    function fnClienteChange(cliente) {
+        var data = { clienteId: cliente.val() };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('cliente_find_obra_social_plan') }}" ,
+            data: data,
+            success: function(resp){
+
+                var obra_social_plan_id = $.parseJSON(resp.obra_social_plan_id);
+
+                $("#ComprobanteType_obraSocialPlan").val(obra_social_plan_id);
+            }
+        });
+
+        return true;
+    };
+</script>          
+
+{% endblock %}

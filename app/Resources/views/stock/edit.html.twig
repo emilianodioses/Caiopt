@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Stock
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        {{ form_start(edit_form) }}
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                </div>
+                <div class="box-body">
+                    {{ form_errors(edit_form) }}
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            {{ form_row(edit_form.sucursal, { 'attr': { 'readonly': true } }) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            {{ form_row(edit_form.articulo, { 'attr': { 'readonly': true } }) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            {{ form_row(edit_form.cantidad) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            {{ form_row(edit_form.cantidadMinima) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="glyphicon glyphicon-transfer"></i> Mover Stock</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        {{ form_row(edit_form.sucursaldestino) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        {{ form_row(edit_form.moverstock) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-history"></i> Historial</h3>
+            </div>
+            <div class="box-body">
+                EN DESARROLLO ... <i class="glyphicon glyphicon-hourglass"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <a href="{{ path('stock_index') }}" class="btn btn-app">
+                            <i class="fa fa-arrow-left"></i> Stock
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+{% endblock %}
+

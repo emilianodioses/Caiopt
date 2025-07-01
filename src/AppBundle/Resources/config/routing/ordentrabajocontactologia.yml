@@ -1,0 +1,41 @@
+ordentrabajocontactologia_index:
+    path:     /
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:index" }
+    methods:  GET
+
+ordentrabajocontactologia_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:show" }
+    methods:  GET
+
+ordentrabajocontactologia_new:
+    path:     /{clienteId}/new
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:new" , clienteId:0 }
+    methods:  [GET, POST]
+
+ordentrabajocontactologia_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:edit" }
+    methods:  [GET, POST]
+
+ordentrabajocontactologia_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:delete" }
+    methods:  [GET, POST] 
+
+ordentrabajocontactologia_orden_imprimir:
+    path:     /{id}/ordenImprimir
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:ordenImprimir" }
+    methods:  [GET, POST]    
+
+ordentrabajocontactologia_cerrar:
+    path:     /{id}/cerrar
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:cerrar" }
+    methods:  [GET, POST]    
+
+ordentrabajocontactologia_find:
+    path:     /find
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:find" }
+ordentrabajocontactologia_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:OrdenTrabajoContactologia:findSelect2" }

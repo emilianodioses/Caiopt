@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Órdenes de Pago
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('ordenpago_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 500px;">
+              <input id="btn-input" type="text" class="form-control input-sm" 
+                 name="texto" placeholder="Buscar por Nombre/Documento/Email/Contacto" value="{{texto}}"/>
+
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  {#
+                  <a type="button" class="btn btn-primary btn-md" href="{{ path('ordenpago_new', { 'comprobante': 0 }) }}"><i class="fa fa-plus"></i> Nuevo</a>
+                  #}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+                <tr>
+                    <th style="width: 10%">Nº Orden Pago</th>
+                    <th>Proveedor</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Disponible</th>
+                    <th>Observaciones</th>
+                    <th style="width: 5%">Acciones</th>
+                </tr>
+            <tbody>
+            {% for ordenPago in pagination %}
+                <tr>
+                    <td>{{ ordenPago.numero }}</td>
+                    <td>{{ ordenPago.proveedor }}</td>
+                    <td>{{ ordenPago.fecha|date('d-m-Y') }}</td>
+                    <td>{{ ordenPago.total }}</td>
+                    <td>{{ ordenPago.disponible }}</td>
+                    <td>{{ ordenPago.observaciones }}</td> 
+                    <td>
+                      <a href="{{ path('ordenpago_show', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      {#
+                      <a href="{{ path('ordenpago_edit', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      #}
+                      {% if ordenPago.activo %}
+                          <a href="{{ path('ordenpago_delete', { 'id': ordenPago.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('ordenpago_delete', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                      {% if ordenPago.disponible > 0%}
+                        <a href="{{ path('ordenpago_proveedor_edit', { 'id': ordenPago.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
+                      {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

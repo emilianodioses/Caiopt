@@ -1,0 +1,140 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: es_AR
+    afip_parameters:
+        CUIT: 30715288075  #este es el cuit que toma la factura
+        production: true
+        res_folder: 'src/afip_res/'
+        ta_folder: 'src/afip_res/'
+        cert: 'CONTINIFE_7e2a58ad39a2f304.crt'
+        key: 'private_key'
+        passphrase: ''
+
+framework:
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        cookie_lifetime: 0
+#        gc_divisor: 100
+#        gc_maxlifetime: 200000 # change this if you want
+#        gc_probability: 1
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+    translator: { fallbacks: ['%locale%'] }
+
+# Twig Configuration
+twig:
+    date:
+        format: d-m-Y
+        interval_format: '%%d days'
+    number_format:
+        decimals: 2
+        decimal_point: ','
+        thousands_separator: '.'
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form_themes:
+        - 'forms/fields.html.twig'
+        - 'tetranz_fields.html.twig'
+        - 'bootstrap_3_layout_custom.html.twig'
+        #- 'comprobanteventa/formCollection.html.twig'
+#        - '@BsTypes/Form/fields.html.twig'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        dql:
+            datetime_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                DAY: DoctrineExtensions\Query\Mysql\Day
+                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+            string_functions:
+                LPAD: DoctrineExtensions\Query\Mysql\Lpad
+                RPAD: DoctrineExtensions\Query\Mysql\Rpad
+                group_concat: DoctrineExtensions\Query\Mysql\GroupConcat
+
+                
+# Swiftmailer Configuration
+swiftmailer:
+    transport:  '%mailer_transport%'
+    host:       '%mailer_host%'
+    port:       '%mailer_port%'
+    encryption: '%mailer_encryption%'
+    auth_mode:  '%mailer_auth_mode%'
+    username:   '%mailer_user%'
+    password:   '%mailer_password%'
+    sender_address: '%mailer_user%'
+    spool:      { type: memory }
+
+sensio_framework_extra:
+   router:
+        annotations: false
+
+knp_paginator:
+    page_range: 3                       # number of links showed in the pagination menu (e.g: you have 10 pages, a page_range of 3, on the 5th page you'll see links to page 4, 5, 6)
+    default_options:
+        page_name: page                 # page query parameter name
+        sort_field_name: sort           # sort field query parameter name
+        sort_direction_name: direction  # sort direction query parameter name
+        distinct: true                  # ensure distinct results, useful when ORM queries are using GROUP BY statements
+        filter_field_name: filterField  # filter field query parameter name
+        filter_value_name: filterValue  # filter value query parameter name
+    template:
+        pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v3_pagination.html.twig'     # sliding pagination controls template
+        sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template
+        filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
+
+cmen_google_charts:
+    version: "current"
+    language: "es"
+
+#afip:
+#    parameters:
+#        CUIT: 20313311938
+#        production: false
+#        res_folder: 'src/afip_res/'
+#        ta_folder: 'src/afip_res/'
+#        cert: 'cert'
+#        key: 'key'
+#        passphrase: ''

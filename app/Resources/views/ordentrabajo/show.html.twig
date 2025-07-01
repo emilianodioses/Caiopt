@@ -1,0 +1,473 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Orden de Óptica
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Orden de Trabajo</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Detalle Artículo</a>
+    </li>
+</ul>
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Orden </h3>
+                            </div>
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>N° Orden</th>
+                                        <td>{{ ordenTrabajo.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <td><a href="{{ path('cliente_show', { 'id': ordenTrabajo.cliente.Id }) }}">{{ ordenTrabajo.cliente.nombre }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Obra Social - Plan</th>
+                                        <td>{{ ordenTrabajo.obraSocialPlan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comprobante</th>
+                                        {% if ordenTrabajo.comprobante is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td><a href="{{ path('comprobanteventa_show', { 'id': ordenTrabajo.comprobante.Id }) }}">{{ordenTrabajo.comprobante}}</a></td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Observaciones</th>
+                                        <td>{{ ordenTrabajo.observaciones }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Médico</th>
+                                        {% if ordenTrabajo.medico is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td><a href="{{ path('medico_show', { 'id': ordenTrabajo.medico.Id }) }}">{{ordenTrabajo.medico}}</a></td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Fecha Receta</th>
+                                        {% if ordenTrabajo.fechaReceta is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td>{{ ordenTrabajo.fechaReceta | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Vendedor</th>
+                                        <td>{{ ordenTrabajo.usuario }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sucursal</th>
+                                        <td>{{ ordenTrabajo.sucursal }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Laboratorio </h3>
+                            </div>
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>Laboratorio</th>
+                                        <td>{{ ordenTrabajo.taller }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fecha Pedido</th>
+                                        {% if ordenTrabajo.fechaTallerPedido is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td>{{ ordenTrabajo.fechaTallerPedido | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Fecha Entrega</th>
+                                        {% if ordenTrabajo.fechaTallerEntrega is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td>{{ ordenTrabajo.fechaTallerEntrega | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Número</th>
+                                        <td>{{ ordenTrabajo.numeroTaller }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Necesita Armado</th>
+                                        <td>{{ ordenTrabajo.armado }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Armazon Propio</th>
+                                        <td>{{ ordenTrabajo.armazonpropio }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Otros Trabajos</th>
+                                        <td>{{ ordenTrabajo.otrosTrabajos }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Fechas </h3>
+                            </div>
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>Fecha Recepción</th>
+                                        {% if ordenTrabajo.fechaRecepcion is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td>{{ ordenTrabajo.fechaRecepcion | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Fecha Entrega</th>
+                                        {% if ordenTrabajo.fechaEntrega is empty %}
+                                            <td></td>
+                                        {% else %}
+                                            <td>{{ ordenTrabajo.fechaEntrega | date('d-m-Y') }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Estado</th>
+                                        <td>{{ ordenTrabajo.estado }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="box-body">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <b>ATENCIÓN:</b> Los trabajos recibidos tienen validez por 90 diás, de lo contrario pierde todo derecho sobre los mismos. (Art. 873-875 del Codígo Civil). Pasados los 30 días podrá ajustarse el precio por inflación
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> $$$ </h3>
+                            </div>
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>Total</th>
+                                        <td>{{ ordenTrabajo.total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Bonificación</th>
+                                        <td>{{ ordenTrabajo.totalBonificacion }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Entrega</th>
+                                        <td>{{ ordenTrabajo.entrega }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Saldo</th>
+                                        <td>{{ ordenTrabajo.saldo }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Cliente </h3>
+                            </div>
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <th>Nombre y Apellido</th>
+                                        <td>{{ ordenTrabajo.Cliente.Nombre }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Teléfono</th>
+                                        <td>{{ ordenTrabajo.Cliente.Telefono }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dirección</th>
+                                        <td>{{ ordenTrabajo.Cliente.Direccion }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Localidad</th>
+                                        <td>{{ ordenTrabajo.Cliente.Localidad }}</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Vision ACTUAL</h3>
+                            </div>
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th colspan="2" style="text-align: center"><b>VISIÓN</b></th>
+                                        <th style="text-align: center"><b>ESF.</b></th>
+                                        <th style="text-align: center"><b>CIL.</b></th>
+                                        <th style="text-align: center"><b>EJE.</b></th>
+                                        <th style="text-align: center"><b>DNP.</b></th>
+                                        <th style="text-align: center"><b>HP.</b></th>
+                                        <th style="text-align: center"><b>HPU.</b></th>
+                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                            <td><b>OD</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoDerechoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesOjoDerechoDnp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesOjoDerechoHp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesOjoDerechoHpu }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>OI</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesLejosOjoIzquierdoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesOjoIzquierdoDnp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesOjoIzquierdoHp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesOjoIzquierdoHpu }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center" rowspan="2"><b>CERCA</b></td>
+                                            <td><b>OD</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoDerechoEje }}</td>
+                                            <td style="text-align: center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>OI</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.antesCercaOjoIzquierdoEje }}</td>
+                                            <td style="text-align: center"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Visión NUEVA</h3>
+                            </div>
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th colspan="2" style="text-align: center"><b>VISIÓN</b></th>
+                                        <th style="text-align: center"><b>ESF.</b></th>
+                                        <th style="text-align: center"><b>CIL.</b></th>
+                                        <th style="text-align: center"><b>EJE.</b></th>
+                                        <th style="text-align: center"><b>DNP.</b></th>
+                                        <th style="text-align: center"><b>HP.</b></th>
+                                        <th style="text-align: center"><b>HPU.</b></th>
+                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align: center" rowspan="2"><b>LEJOS</b></td>
+                                            <td><b>OD</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.lejosOjoDerechoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.ojoDerechoDnp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.ojoDerechoHp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.ojoDerechoHpu }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>OI</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.lejosOjoIzquierdoEje }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.ojoIzquierdoDnp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.ojoIzquierdoHp }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.ojoIzquierdoHpu }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center" rowspan="2"><b>CERCA</b></td>
+                                            <td><b>OD</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoDerechoEje }}</td>
+                                            <td style="text-align: center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>OI</b></td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEsfera }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoCilindro }}</td>
+                                            <td style="text-align: center">{{ ordenTrabajo.cercaOjoIzquierdoEje }}</td>
+                                            <td style="text-align: center"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <a href="{{ path('ordentrabajo_index') }}" class="btn btn-app">
+                                            <i class="fa fa-arrow-left"></i> Órdenes Óptica
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        {% if ordenTrabajo.estado != "Finalizado" %}
+                                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                        </a>
+                                        {% endif %}
+                                        <a href="{{ path('ordentrabajo_orden_imprimir', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Orden de Trabajo"><span class="glyphicon glyphicon-print"></span>Imprimir
+                                        </a>
+                                        {% if ordenTrabajo.comprobante is empty %}
+                                            <a href="{{ path('comprobanteventa_new', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right" title="Crear Comprobante de Venta"><span class="glyphicon glyphicon-file"></span>Comprobante Venta
+                                            </a>
+                                        {% else %}
+                                            {% if ordenTrabajo.comprobante.pendiente == 0 and ordenTrabajo.estado != "Finalizado" %}
+                                            <a href="{{ path('ordentrabajo_cerrar', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Cerrar orden de Trabajo"><span class="glyphicon glyphicon-saved"></span>Cerrar Orden
+                                            </a>
+                                            {% endif %}
+                                            {% if ordenTrabajo.estado != "Finalizado" and ordenTrabajo.comprobante.pendiente != 0 %}
+                                            <a href="{{ path('recibo_new', { 'comprobante': ordenTrabajo.comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Ingresar Nuevo Recibo Pago Pendiente"><span class="glyphicon glyphicon-usd"><b>{{ordenTrabajo.comprobante.pendiente}}</b></span>Saldo Pendiente
+                                            </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tabs-2">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Articulos </h3>
+                                <table class="table table-condensed table-hover input-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Artículo</th>
+                                            <th>Marca</th>
+                                            <th>Forma</th>
+                                            <th>Tipo Aro</th>
+                                            <th>Color Marco</th>
+                                            <th>Color Cristal</th>
+                                            <th>Forma Pago</th>
+                                            <th>Bonificación</th>
+                                            <th>P. Venta</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for ordenTrabajoDetalle in ordentrabajodetalles %}
+                                        <tr>
+                                            <td>{{ ordenTrabajoDetalle.articulo.descripcion }}</td>
+                                            <td>{{ ordenTrabajoDetalle.articulo.marca }}</td>
+                                            <td>{{ ordenTrabajoDetalle.articulo.forma }}</td>
+                                            <td>{{ ordenTrabajoDetalle.articulo.tipoAro }}</td>
+                                            <td>{{ ordenTrabajoDetalle.articulo.colorMarco }}</td>
+                                            <td>{{ ordenTrabajoDetalle.articulo.colorCristal }}</td>
+
+                                            {% if ordenTrabajoDetalle.parametro is not null %}
+                                                <td>{{ ordenTrabajoDetalle.parametro.valorTexto }}</td>
+                                            {% else %}
+                                                <td> - <td>
+                                            {% endif %} 
+
+                                            <td>{{ ordenTrabajoDetalle.importeBonificacion }}</td>
+                                            <td>{{ ordenTrabajoDetalle.precioVenta }}</td>
+                                            <td>{{ ordenTrabajoDetalle.total }}</td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        {% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
+                                        <a href="{{ path('ordentrabajo_index') }}" class="btn btn-app">
+                                            <i class="fa fa-arrow-left"></i> Ordenes Cristales
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <a href="{{ path('ordentrabajo_edit', { 'id': ordenTrabajo.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                         </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

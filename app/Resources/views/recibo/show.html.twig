@@ -1,0 +1,258 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Recibo
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Recibo</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Recibo Detalles</a>
+    </li>
+</ul>
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Recibo</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th>N° Recibo</th>
+                                            <td>{{ recibo.numero }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:30%">Cliente</th>
+                                            <td><a href="{{ path('cliente_show', { 'id': recibo.cliente.Id }) }}">{{ recibo.cliente.nombre }}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <td>{% if recibo.fecha %}{{ recibo.fecha|date('d-m-Y') }}{% endif %}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Observaciones</th>
+                                            <td>{{ recibo.observaciones }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sucursal</th>
+                                            <td>{{ recibo.sucursal }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Totales</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td>{{ recibo.total }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:30%">Disponible</th>
+                                            <td>{{ recibo.disponible }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Saldo Actual</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width:30%">Saldo Actual</th>
+                                            <td>{{ recibo.cliente.saldo }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('recibo_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Recibos
+                                    </a>
+                                </div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <a href="{{ path('recibo_imprimir', { 'id': recibo.Id }) }}" class="btn btn-app pull-right pull-right" target="_blank" title="Imprimir Recibo"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+                                </div>
+                                {#
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    {%if not comprobante.caeNumero is empty%}
+                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Factura Electrónica"><span class="glyphicon glyphicon-print"></span>Imprimir FE</a>
+                                    {%else%}
+                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Comprobante Interno"><span class="glyphicon glyphicon-print"></span>Imprimir CI</a>
+                                        <a href="{{ path('comprobanteventa_facturar', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-hdd"></span> Facturar</a>
+                                    {%endif%}
+                                    <a type="button" class="btn btn-primary btn-md" href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}"><i class="fa fa-plus"></i> Nuevo</a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                     </a>
+                                </div>
+                                #}
+                            </div>
+                        </div>
+                    </div>            
+                </div> 
+            </div> 
+        </div>
+
+        <div class="tab-pane" id="tabs-2">  
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Pagos</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-condensed table-hover input-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de Pago</th>
+                                            <th>Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for clientePago in clientePagos %}
+                                        <tr>
+                                            <td>{{ clientePago.pagoTipo.nombre }}</td>
+                                            <td>{{ clientePago.importe }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Comprobantes</h3>
+                            </div>
+                            <div class="box-body">
+                               <table class="table table-condensed table-hover input-sm">
+                                    <thead>
+                                        <th style="width: 10%">Pto. Venta</th>
+                                        <th style="width: 8%">Nº Int.</th>
+                                        <th style="width: 8%">Nº Fac.</th>
+                                        <th style="width: 8%">Nº OT.</th>
+                                        <th style="width: 20%">Tipo</th>
+                                        <th>Total</th>
+                                        <th>Pagado</th>
+                                        <th>Pendiente</th>
+                                        <th>Acc</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for reciboComprobante in reciboComprobantes %}
+                                            {% set comprobante = reciboComprobante.comprobante %}
+                                            <tr class="item">
+                                                <td>{{ comprobante.puntoVenta }}</td>
+                                                <td>{{ comprobante.numero }}</td>
+                                                {% if comprobante.afipNumero is empty %}
+                                                  <td></td>
+                                                {% else %}
+                                                  <td>{{ comprobante.afipNumero }}</td>
+                                                {% endif %}
+                                                {% if comprobante.ordenTrabajo is empty %}
+                                                  <td>-</td>
+                                                {% else %}
+                                                  <td>{{ comprobante.ordenTrabajo.id }}</td>
+                                                {% endif %}
+                                                <td>{{ comprobante.tipo.descripcion }}</td>
+                                                <td>{{ comprobante.total }}</td>
+                                                <td>{{ reciboComprobante.importe }}</td>
+                                                <td>{{ comprobante.pendiente }}</td>
+                                                <td>
+                                                    <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    <a href="{{ path('recibo_cliente_delete', { 'reciboComprobante': reciboComprobante.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">    
+                    <div class="box box-success">
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('recibo_index') }}" class="btn btn-app">
+                                        <i class="fa fa-arrow-left"></i> Recibos
+                                    </a>
+                                </div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <a href="{{ path('recibo_imprimir', { 'id': recibo.Id }) }}" class="btn btn-app pull-right pull-right" target="_blank" title="Imprimir Recibo"><span class="glyphicon glyphicon-print"></span>Imprimir</a>
+                                </div>
+                                {#
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    {%if not comprobante.caeNumero is empty%}
+                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Factura Electrónica"><span class="glyphicon glyphicon-print"></span>Imprimir FE</a>
+                                    {%else%}
+                                        <a href="{{ path('comprobanteventa_factura_imprimir', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right" target="_blank" title="Impresión Comprobante Interno"><span class="glyphicon glyphicon-print"></span>Imprimir CI</a>
+                                        <a href="{{ path('comprobanteventa_facturar', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-hdd"></span> Facturar</a>
+                                    {%endif%}
+                                    <a type="button" class="btn btn-primary btn-md" href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}"><i class="fa fa-plus"></i> Nuevo</a>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                                     </a>
+                                </div>
+                                #}
+                            </div>
+                        </div>
+                    </div>            
+                </div> 
+            </div>
+        </div>
+    </div>
+</div> 
+{% endblock %}
+
+

@@ -1,0 +1,56 @@
+{% extends 'layout-unsafe.html.twig' %}
+
+{% block titulo %}
+Acceso restringido
+{% endblock %}  
+{% block title %}
+{{ parent() }}
+{% endblock %}
+{% block pre_javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () { 
+            $("#email").focus();
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <!-- Contact -->
+    <section id="contact" > <!--style="position: absolute; top: -5%; left:17%">-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="xcontactForm" name="sentMessage" novalidate="novalidate" action="{{ path('load_login') }}" method='POST'>
+                        <div class="row">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="form-control" id="email" type="text" placeholder="Usuario *" required="required"  value="{{ last_username }}"
+                                           name="_username" data-validation-required-message="Por favor ingrese su dirección de email.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="password" type="password" placeholder="Contraseña *" required="required" 
+                                           name="_password" data-validation-required-message="Por favor ingrese su contraseña.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                {% if error %}
+                                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+                                <div id="success"></div>
+                                <button class="btn btn-warning btn-xl text-uppercase" type="submit"><i class="fa fa-sign-in"></i> Acceder al sistema</button>
+                            </div>
+                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

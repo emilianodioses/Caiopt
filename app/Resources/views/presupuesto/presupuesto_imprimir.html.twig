@@ -1,0 +1,113 @@
+<body style="font-family:Verdana, 'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, Geneva, Arial, Sans-serif;font-size:8pt">
+{% for pagina_nro in 1..1 %}
+    <h2 align="center">PRESUPUESTO</h2>
+    <br>
+    <table width="100%" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+                <td width="40%" align="center">
+                    <img width="60" height="60" src="{{ asset('img/logooptica.jpg')}}"><br>
+                    <b>OPTICA</b><br>
+                    <br>
+                    <b> Mas de 70 años a la vista </b>
+                </td>
+                <td align="right">
+                    <h4>
+                        {{ sucursalActual.telefono }} <br> {{ sucursalActual.nombre }}, {{ sucursalActual.localidad }}
+                    </h4>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <hr>
+    &nbsp;<br>
+
+    <table width="100%" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td width="60%"><b>Cliente:</b> {{presupuesto.cliente.nombre}}</td>
+            <td width="60%"><b>Telefono:</b> {{presupuesto.cliente.telefono}}</td>
+
+        </tr>
+        <tr>
+            <td width="60%"><b>Fecha Presupuesto:</b> {{ presupuesto.fechaPresup  | date('d-m-Y')}}</td>
+            <td width="60%"><b>Retiro:</b> {{ presupuesto.retiro}}</td>
+            <td width="60%"><b>Plazo Entrega:</b> {{ presupuesto.plazoEntrega}}</td>
+        </tr>
+        <tr>
+            <td width="60%"><b>Validez Presupuesto:</b> {{ presupuesto.validezPresupuesto }} días</td>
+            <td width="60%"><b>Moneda:</b> {{ presupuesto.moneda}}</td>
+        </tr>
+        {#
+        <tr>
+            <td width="60%"><b>Forma Pago:</b> {{ presupuesto.formaPago}}</td>
+        </tr>#}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <table width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+        <tbody>
+        <tr>
+            <td style="text-align: center" width="40%"><b>Artículo</b></td>
+            <td style="text-align: center" width="12%"><b>Cantidad</b></td>
+            <td style="text-align: center" width="12%"><b>P. Unitario</b></td>
+            <td style="text-align: center" width="12%"><b>Forma de pago</b></td>
+            <td style="text-align: center" width="12%"><b>Bonificación</b></td>
+            <td style="text-align: center" width="12%"><b>Total Detalle</b></td>
+        </tr>
+        {% for presupuestoDetalle in presupuestodetalles %}
+            <tr>
+                <td style="text-align: center">{{ presupuestoDetalle.articulo.descripcion}}</td>
+                <td style="text-align: center">{{ presupuestoDetalle.cantidad }}</td>
+                <td style="text-align: center">{{ presupuestoDetalle.precioUnit }}</td>
+                <td style="text-align: center">{{ presupuestoDetalle.parametro.descripcion }}</td>
+                <td style="text-align: center">{{ presupuestoDetalle.importeBonificacion }}</td>
+                <td style="text-align: center">{{ presupuestoDetalle.totalDetalle }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <table align="left"  width="100%" cellspacing="0" cellpadding="5" border="1" style="font-size:7pt">
+        <tr>
+            <td align="right" width="85%">
+                Subtotal
+            </td>
+            <td style="text-align: right" width="15%">
+                {{ presupuesto.total }}
+            </td>
+        </tr>
+        <tr>
+            <td align="right" width="85%">
+                Iva {{ presupuesto.iva21 }}%
+            </td>
+            <td style="text-align: right" width="15%">
+                {{ iva }}
+            </td>
+        </tr>
+        <tr>
+            <td align="right" width="85%">
+                Total Presupuesto
+            </td>
+            <td style="text-align: right" width="15%">
+                {{ presupuesto.totalPresupuesto }}
+            </td>
+        </tr>
+        <tr>
+            <td width="100%">
+                <b>Observaciones: </b> {{ presupuesto.observaciones }}
+            </td>
+        </tr>
+    </table>
+    <br>
+    &nbsp;<br>
+    {#
+    {% if loop.index < 2 %}
+        <p style="page-break-after: always; text-align: right;font-size:10pt;">_</p>
+    {% endif %}
+    #}
+{% endfor %}
+</body>

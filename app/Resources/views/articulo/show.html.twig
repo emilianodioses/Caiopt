@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Artículo
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <td>{{ articulo.codigo }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Descripcion</th>
+                                    <td>{{ articulo.descripcion }}</td>
+                                </tr>
+                                <tr>
+                                    <th>IVA</th>
+                                    <td>{{ articulo.iva }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Precio Costo</th>
+                                    <td>{{ articulo.precioCosto }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ganancia %</th>
+                                    <td>{{ articulo.gananciaPorcentaje }}</td>
+                                </tr>
+{#                                <tr>#}
+{#                                    <th>Precio Venta Sin IVA</th>#}
+{#                                    <td>{{ articulo.precioVentaSinIva }}</td>#}
+{#                                </tr>#}
+                                <tr>
+                                    <th>Precio Venta</th>
+                                    <td>{{ articulo.precioVenta }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Precio Modificable</th>
+                                    <td>
+                                        {% if articulo.precioModifica %}
+                                          <span class="label label-success">Si</span>
+                                        {% else %}
+                                          <span class="label label-danger">No</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Orden Trabajo</th>
+                                    <td>
+                                        {% if articulo.ordenTrabajo %}
+                                          <span class="label label-success">Si</span>
+                                        {% else %}
+                                          <span class="label label-danger">No</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Activo</th>
+                                    <td>
+                                        {% if articulo.activo %}
+                                          <span class="label label-success">Activo</span>
+                                        {% else %}
+                                          <span class="label label-danger">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Características</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <td>{{ articulo.categoria }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Marca</th>
+                                    <td>{{ articulo.marca }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Marco</th>
+                                    <td>{{ articulo.marco }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipo Aro</th>
+                                    <td>{{ articulo.tipoAro }}<td>
+                                </tr>
+                                <tr>
+                                    <th>Color Marco</th>
+                                    <td>{{ articulo.colorMarco }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Color Cristal</th>
+                                    <td>{{ articulo.colorCristal }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Alto</th>
+                                    <td>{{ articulo.alto }}<td>
+                                </tr>
+                                <tr>
+                                    <th>Ancho</th>
+                                    <td>{{ articulo.ancho }}<td>
+                                </tr>
+                                <tr>
+                                    <th>Distancia Mayor</th>
+                                    <td>{{ articulo.mayorDistancia }}<td>
+                                </tr>
+                                <tr>
+                                    <th>Puente</th>
+                                    <td>{{ articulo.puente }}<td>
+                                </tr>
+                                <tr>
+                                    <th>Forma</th>
+                                    <td>{{ articulo.forma }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+                    <div class="info-box-content">
+                    <span class="info-box-text">Stock</span>
+                    <span class="info-box-number">{{stock}}</span>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 50%"></div>
+                    </div>
+                    <span class="progress-description">
+                        Stock total
+                    </span>
+                    </div>
+                </div>
+                <div class="info-box bg-green">
+                    <span class="info-box-icon"><i class="ion ion-ios-cart-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Ventas</span>
+                        <span class="info-box-number">{{ventas}}</span>
+
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 50%"></div>
+                        </div>
+                        <span class="progress-description">
+                            Total Historico
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-center">
+                        <strong>Stock en Sucursal</strong>
+                    </p>
+                    {% if stockSucursales == [] %}
+                        <p class="text-center">
+                            <strong>SIN STOCK</strong>
+                        </p>
+                    {% endif %}
+                    {% for stockSucursal in stockSucursales %}
+			            {% set color = ['progress-bar-yellow','progress-bar-green','progress-bar-red', 'progress-bar-aqua', 'progress-bar-navy', 'progress-bar-purple'] %}
+
+                        <div class="progress-group">
+                        <span class="progress-text">{{stockSucursal.Sucursal}}</span>
+                        <span class="progress-number"><b>{{stockSucursal.Cantidad}}</b></span>
+
+                        <div class="progress sm">
+                        {% if stockSucursal.cantidadMinima < stockSucursal.Cantidad %}
+                            <div class="progress-bar progress-bar-green" style="width: 100%"></div>
+                        {% else %}
+                            <div class="progress-bar progress-bar-red" style="width: {{stockSucursal.Cantidad / stockSucursal.cantidadMinima * 100}}%"></div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>    
+        <div class="row">    
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('articulo_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Artículos
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('articulo_edit', { 'id': articulo.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-edit"></span> Editar
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div> 
+    </div> 
+</div> 
+{% endblock %}
+

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    Tipo Aro
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('articuloestilo_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+              <div class="input-group input-group-sm" style="width: 500px;">
+                  <input id="btn-input" type="text" class="form-control input-sm"
+                         name="texto" placeholder="Buscar por Descripcion" value="{{texto}}"/>
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    <a type="button" class="btn btn-primary btn-md" href="{{ path('articuloestilo_new') }}"><i class="fa fa-plus"></i> Nueva </a>
+              </span>
+            </div>  
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+              <tr>
+                <th>ID</th>
+                <th>Descripcion</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+              </tr>
+            <tbody>
+            {% for articulo_estilo in pagination %}
+                <tr>
+                    <td>{{ articulo_estilo.id }}</td>
+                    <td>{{ articulo_estilo.descripcion }}</td>
+                    <td>{% if articulo_estilo.activo %}
+                      <span class="label label-success">Activo</span>
+                      {% else %}
+                        <span class="label label-danger">Inactivo</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <a href="{{ path('articuloestilo_show', { 'id': articulo_estilo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('articuloestilo_edit', { 'id': articulo_estilo.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      <a href="{{ path('articuloestilo_delete', { 'id': articulo_estilo.Id }) }}" onclick="return confirm('¿Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

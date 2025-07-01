@@ -1,0 +1,28 @@
+comprobantecompra_index:
+    path:     /
+    defaults: { _controller: "AppBundle:ComprobanteCompra:index" }
+    methods:  GET
+
+comprobantecompra_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:ComprobanteCompra:show" }
+    methods:  GET
+
+comprobantecompra_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:ComprobanteCompra:new" }
+    methods:  [GET, POST]
+
+comprobantecompra_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:ComprobanteCompra:edit" }
+    methods:  [GET, POST]
+
+comprobantecompra_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:ComprobanteCompra:delete" }
+    methods:  [GET, POST] 
+
+comprobantecompra_find_select2:
+    path:     /findSelect2
+    defaults: { _controller: "AppBundle:ComprobanteCompra:findSelect2" }

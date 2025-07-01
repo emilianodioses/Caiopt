@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Comprobantes de Ventas
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" action="{{path('comprobanteventa_index')}}" method="GET">
+  <div class="row"> 
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <div class="row">
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="input-group input-group-sm">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">F. Desde</span>
+                    <input name="fecha_desde" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Desde" value="{{fecha_desde}}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="input-group input-group-sm">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">F. Hasta</span>
+                    <input name="fecha_hasta" type="text" class="form-control input-sm js-datepicker" autocomplete="off" placeholder="Hasta" value="{{fecha_hasta}}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="input-group input-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">Cliente</span>
+                    <input name="cliente" type="text" class="form-control input-sm" placeholder="Nombre/Documento" value="{{cliente}}">
+                  </div>
+                </div>
+              </div>              
+
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="input-group input-group-sm">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon input-sm">Pagado</span>
+                    <select name="pagado" class="form-control">
+                      <option value=""></option>
+                      <option value="SI" {% if pagado == "SI" %} selected {% endif %}>SI</option>
+                      <option value="NO" {% if pagado == "NO" %} selected {% endif %}>NO</option>
+                    </select>
+                  </div>
+
+                  <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                      <a type="button" class="btn btn-primary btn-md" href="{{ path('comprobanteventa_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+                <tr>
+                    <th style="width: 7%">Pto. Venta</th>
+                    <th style="width: 7%">Nº Int.</th>
+                    <th style="width: 7%">Nº Fac.</th>
+                    <th style="width: 7%">Nº OT.</th>
+                    <th>Tipo</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Pendiente</th>
+                    <th>Observaciones</th>
+                    <th style="width: 8%">Acciones</th>
+                </tr>
+            <tbody>
+            {% for comprobante in pagination %}
+                <tr>
+                    <td>{{ comprobante.puntoVenta }}</td>
+                    <td>{{ comprobante.numero }}</td>
+                    {% if comprobante.afipNumero is empty %}
+                      <td></td>
+                    {% else %}
+                      <td>{{ comprobante.afipNumero }}</td>
+                    {% endif %}
+                    {% if comprobante.ordenTrabajo is empty %}
+                      <td>-</td>
+                    {% else %}
+                      <td>{{ comprobante.ordenTrabajo.id }}</td>
+                    {% endif %}
+                    <td>{{ comprobante.tipo }}</td>
+                    <td>{{ comprobante.cliente }}</td>
+                    <td>{{ comprobante.fecha|date('d-m-Y') }}</td>
+                    <td>{{ comprobante.total }}</td>
+                    <td>{{ comprobante.pendiente }}</td>
+                    <td>{{ comprobante.observaciones }}</td> 
+                    <td>
+                      <a href="{{ path('comprobanteventa_show', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span>
+                      </a>
+                      <a href="{{ path('comprobanteventa_edit', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                      {% if comprobante.activo %}
+                          <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}" onclick="return confirm('¿Está Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span>
+                          </a>
+                      {% else %}
+                          <a href="{{ path('comprobanteventa_delete', { 'id': comprobante.Id }) }}"><span class="glyphicon glyphicon-ok-circle"></span>
+                          </a>
+                      {% endif %}
+                      <a href="{{ path('recibo_new', { 'comprobante': comprobante.Id }) }}"><span class="glyphicon glyphicon-usd"></span>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block paginador %}
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

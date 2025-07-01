@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1.0">
+    <header>
+        <source>CN=wsaa, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</source>
+        <destination>SERIALNUMBER=CUIT 30715288075, CN=continife</destination>
+        <uniqueId>2495160207</uniqueId>
+        <generationTime>2020-04-24T11:06:25.028-03:00</generationTime>
+        <expirationTime>2020-04-24T23:06:25.028-03:00</expirationTime>
+    </header>
+    <credentials>
+        <token>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8c3NvIHZlcnNpb249IjIuMCI+CiAgICA8aWQgc3JjPSJDTj13c2FhLCBPPUFGSVAsIEM9QVIsIFNFUklBTE5VTUJFUj1DVUlUIDMzNjkzNDUwMjM5IiB1bmlxdWVfaWQ9IjY4MzMxNDAxMSIgZ2VuX3RpbWU9IjE1ODc3MzcxMjUiIGV4cF90aW1lPSIxNTg3NzgwMzg1Ii8+CiAgICA8b3BlcmF0aW9uIHR5cGU9ImxvZ2luIiB2YWx1ZT0iZ3JhbnRlZCI+CiAgICAgICAgPGxvZ2luIGVudGl0eT0iMzM2OTM0NTAyMzkiIHNlcnZpY2U9IndzX3NyX3BhZHJvbl9hMTMiIHVpZD0iU0VSSUFMTlVNQkVSPUNVSVQgMzA3MTUyODgwNzUsIENOPWNvbnRpbmlmZSIgYXV0aG1ldGhvZD0iY21zIiByZWdtZXRob2Q9IjIyIj4KICAgICAgICAgICAgPHJlbGF0aW9ucz4KICAgICAgICAgICAgICAgIDxyZWxhdGlvbiBrZXk9IjMwNzE1Mjg4MDc1IiByZWx0eXBlPSI0Ii8+CiAgICAgICAgICAgIDwvcmVsYXRpb25zPgogICAgICAgIDwvbG9naW4+CiAgICA8L29wZXJhdGlvbj4KPC9zc28+Cg==</token>
+        <sign>TF1XpGM+s+qp2Xg6Axkatd8W4IlOZH423dy7SPgQDk4gUxVQ2P+/ZGV2WJYx0DHrcsIHdjE+jn0ezMWD6UTKHQWHbbqwtDrIcqXzzzAX/FEAA58i6dHtxP13TwkyCNotIv93M/YELPEHocsgzNImbM6Z8P970X66I56wdj3WXT4=</sign>
+    </credentials>
+</loginTicketResponse>

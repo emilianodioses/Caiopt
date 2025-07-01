@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Recibocomprobante</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reciboComprobante.id }}</td>
+            </tr>
+            <tr>
+                <th>Importe</th>
+                <td>{{ reciboComprobante.importe }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if reciboComprobante.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdby</th>
+                <td>{{ reciboComprobante.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if reciboComprobante.createdAt %}{{ reciboComprobante.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedby</th>
+                <td>{{ reciboComprobante.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if reciboComprobante.updatedAt %}{{ reciboComprobante.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('recibocomprobante_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('recibocomprobante_edit', { 'id': reciboComprobante.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

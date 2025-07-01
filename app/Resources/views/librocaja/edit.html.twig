@@ -1,0 +1,277 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+Libro Caja
+{% endblock %}
+
+{% block header_description %}
+{% endblock %}
+
+{% block body %}
+<script>
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+        });
+      });
+</script>
+<ul class="nav nav-tabs">
+    <li class="nav active">
+        <a href="#tabs-1" data-toggle="tab">Datos</a>
+    </li>
+    <li class="nav">
+        <a href="#tabs-2" data-toggle="tab">Detalle de Movimientos</a>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabs-1">    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        {{ form_start(edit_form) }}
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Datos Generales</h3>
+                            </div>
+                            <div class="box-body">
+                                {{ form_errors(edit_form) }}
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        {{ form_row(edit_form.fecha) }}                            
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        {{ form_row(edit_form.saldoInicial) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        {{ form_row(edit_form.saldoFinal) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        {{ form_row(edit_form.caja) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        {{ form_row(edit_form.diferencia) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Ingresos</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <!--The calendar -->
+                                <div id="calendar" style="width: 100%"></div>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer text-black">
+                                <div class="row">
+                                    {% for cd in ingresos %}
+                                        <div class="col-sm-12">
+                                            <!-- Progress bars -->
+                                            <div class="clearfix">
+                                              <span class="pull-left">{{cd['descripcion']}} $ {{cd['total']}}</span>
+                                              <small class="pull-right">{{cd['porcentaje']}}%</small>
+                                            </div>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-green" style="width: {{cd['porcentaje']}}%;"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Egresos</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <!--The calendar -->
+                                <div id="calendar" style="width: 100%"></div>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer text-black">
+                                <div class="row">
+                                    {% for cd in egresos %}
+                                        <div class="col-sm-12">
+                                            <!-- Progress bars -->
+                                            <div class="clearfix">
+                                              <span class="pull-left">{{cd['descripcion']}} $ {{cd['total']}}</span>
+                                              <small class="pull-right">{{cd['porcentaje']}}%</small>
+                                            </div>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-red" style="width: {{cd['porcentaje']}}%;"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tabs-2">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Detalle de Movimientos</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                      <th>Origen</th>
+                                      <th>Descripción</th>
+                                      <th>Tipo de Pago</th>
+                                      <th>Categoría</th>
+                                      <th>Ingreso</th>
+                                      <th>Egreso</th>
+                                      <th style="width: 5%">Acciones</th>
+                                  </tr>
+                                <tbody>
+                                    {% for libroCajaDetalle in libroCajaDetalles %}
+                                    <tr>
+                                        <tr>
+                                        {% if libroCajaDetalle.origen == 'Manual' %}
+                                            <td>{{ libroCajaDetalle.origen}}</td>
+                                            <td>{{ libroCajaDetalle.descripcion }}</td>
+                                            <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
+                                            {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                                <td></td>
+                                            {% else %}
+                                                <td></td>
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                            {% endif %}
+                                            <td>
+                                                {% if not loop.first %}
+                                                    <a href="{{ path('librocajadetalle_edit', { 'id': libroCajaDetalle.Id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                                                    <a href="{{ path('librocajadetalle_delete', { 'id': libroCajaDetalle.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% endif %}
+
+                                            </td>
+                                        {% elseif libroCajaDetalle.origen == 'Recibo' %}
+                                            <td>{{ libroCajaDetalle.origen}}</td>
+                                            <td>Recibo N° {{ libroCajaDetalle.descripcion }}</td>
+                                            <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
+                                            {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                                <td></td>
+                                            {% else %}
+                                                <td></td>
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                            {% endif %}
+                                            <td>
+                                                {% if libroCajaDetalle.clientePago != null %}
+                                                    <a href="{{ path('recibo_show', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    <a href="{{ path('recibo_delete', { 'id': libroCajaDetalle.clientePago.recibo.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% endif %}
+                                            </td>
+                                        {% elseif libroCajaDetalle.origen == 'Movimiento Interno'%}
+                                            <td>{{ libroCajaDetalle.origen}}</td>
+                                            <td>Movimiento Interno N° {{ libroCajaDetalle.descripcion }}</td>
+                                            <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
+                                            {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                                <td></td>
+                                            {% else %}
+                                                <td></td>
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                            {% endif %}
+                                            <td>
+                                                {% if libroCajaDetalle.movimientoInterno != null %}
+                                                    <a href="{{ path('movimientointerno_show', { 'id': libroCajaDetalle.movimientoInterno.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                {% endif %}
+                                            </td>
+                                        {% else %}
+                                            <td>{{ libroCajaDetalle.origen}}</td>
+                                            <td>Orden de Pago N° {{ libroCajaDetalle.descripcion }}</td>
+                                            <td>{{ libroCajaDetalle.pagoTipo.nombre }}</td>
+                                            <td>{{ libroCajaDetalle.movimientoCategoria.nombre }}</td>
+                                            {% if libroCajaDetalle.tipo == 'Ingreso a Caja' %}
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                                <td></td>
+                                            {% else %}
+                                                <td></td>
+                                                <td>{{libroCajaDetalle.importe}}</td>
+                                            {% endif %}
+                                            <td>
+                                                {% if libroCajaDetalle.proveedorPago != null %}
+                                                    <a href="{{ path('ordenpago_show', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    <a href="{{ path('ordenpago_delete', { 'id': libroCajaDetalle.proveedorPago.ordenPago.Id }) }}" onclick="return confirm('Esta Seguro?')"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box box-success">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a href="{{ path('librocaja_index') }}" class="btn btn-app">
+                                <i class="fa fa-arrow-left"></i> Libro Caja
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-app pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+                            <a href="{{ path('librocajadetalle_new', { 'libroCaja': libroCaja.Id }) }}" class="btn btn-app pull-right"><span class="glyphicon glyphicon-sort"></span> Nuevo Movimiento</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(edit_form) }}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#appbundle_librocaja_caja').change(function() {
+        var saldo_final = $('#appbundle_librocaja_saldoFinal').val();
+        var caja = $('#appbundle_librocaja_caja').val();
+
+        var diferencia = (parseFloat(caja) - parseFloat(saldo_final)) ;
+
+        $('#appbundle_librocaja_diferencia').val(diferencia.toFixed(2));
+
+        return true;
+    });
+</script>
+{% endblock %}
