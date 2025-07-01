@@ -28,3 +28,4 @@
 .idea/jsLinters/jshint.xml
 composer.json
 composer.lock
+/config/
